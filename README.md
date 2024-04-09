@@ -36,8 +36,8 @@
 ![图片](https://images.scyanzu.com/open_source/qr_code.jpg?imageView2/2/format/webp/w/240)
 
 ### 详细的文档教程
-![图片](https://images.scyanzu.com/open_source/word.png?imageView2/2/format/webp/w/240)
-![图片](https://images.scyanzu.com/open_source/word2.png?imageView2/2/format/webp/w/240)
+![图片](https://images.scyanzu.com/open_source/word.png?imageView2/2/format/webp/w/960)
+![图片](https://images.scyanzu.com/open_source/word2.png?imageView2/2/format/webp/w/960)
 
 ### 视频教程的地址
 
