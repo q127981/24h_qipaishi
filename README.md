@@ -8,12 +8,12 @@
 #### 适合做这个行业的公司，技术团队，或者准备开很多连锁店的客户。
 #### 多门店、多租户，可以一套系统，搭建N个小程序，每个小程序创建N个门店。
 #### 多套模板可选，可以自己在后台随意更换UI，也可以根据自己喜好设计模板进行替换。
-<img src=".\images\t0.jpg" width="25%" height="25%"> 
-<img src=".\images\t1.jpg" width="25%" height="25%"> 
-<img src=".\images\t2.jpg" width="25%" height="25%"> 
-<img src=".\images\t3.jpg" width="25%" height="25%"> 
-<img src=".\images\t4.jpg" width="25%" height="25%"> 
-<img src=".\images\t5.jpg" width="25%" height="25%">
+<img src="https://images.scyanzu.com/open_source/t0.jpg" width="25%" height="25%"> 
+<img src="https://images.scyanzu.com/open_source/t1.jpg" width="25%" height="25%"> 
+<img src="https://images.scyanzu.com/open_source/t2.jpg" width="25%" height="25%"> 
+<img src="https://images.scyanzu.com/open_source/t3.jpg" width="25%" height="25%"> 
+<img src="https://images.scyanzu.com/open_source/t4.jpg" width="25%" height="25%"> 
+<img src="https://images.scyanzu.com/open_source/t5.jpg" width="25%" height="25%">
 
 ## 源码说明
 #### 开发语言为微信原生JS开发，使用微信开发者工具进行开发和调试。
@@ -28,47 +28,49 @@
 #### 智能断电控制器*1 + 智能语音提醒喇叭*1 + 智能灯光控制器*1 + 智能门禁控制器*1 + 厂家价，300元一套
 #### 升级为智能密码锁 每套+200元。 厂家价，500一套。
 #### 量大的客户可以详谈
-<img src=".\images\device.png" width="30%" height="30%"> 
+<img src="https://images.scyanzu.com/open_source/device.png" width="30%" height="30%"> 
 
 
 ## 功能体验
 ### 扫码打开小程序进行体验 
-<img src=".\images\qr_code.jpg" width="200" height="200"> 
+<img src="https://images.scyanzu.com/open_source/qr_code.jpg" width="200" height="200"> 
 
 ### 详细的文档教程
-<img src=".\images\word.png" width="1000"> 
-<img src=".\images\word2.png" width="1000"> 
+<img src="https://images.scyanzu.com/open_source/word.png" width="80%"> 
+<img src="https://images.scyanzu.com/open_source/word2.png" width="80%"> 
 
 ### 视频教程的地址
 
-<img src=".\images\video.png" width="200" height="200"> 
+<img src="https://images.scyanzu.com/open_source/video.png" width="200" height="200"> 
 
 ## 部分功能截图  建议自己扫码体验
-<img src=".\images\view\1.jpg" width="20%" height="20%"> 
-<img src=".\images\view\2.jpg" width="20%" height="20%"> 
-<img src=".\images\view\3.jpg" width="20%" height="20%"> 
-<img src=".\images\view\4.jpg" width="20%" height="20%"> 
-<img src=".\images\view\5.jpg" width="20%" height="20%"> 
-<img src=".\images\view\6.jpg" width="20%" height="20%"> 
-<img src=".\images\view\7.jpg" width="20%" height="20%"> 
-<img src=".\images\view\8.jpg" width="20%" height="20%"> 
-<img src=".\images\view\9.jpg" width="20%" height="20%"> 
-<img src=".\images\view\10.jpg" width="20%" height="20%"> 
-<img src=".\images\view\11.jpg" width="20%" height="20%"> 
-<img src=".\images\view\12.jpg" width="20%" height="20%"> 
-<img src=".\images\view\13.jpg" width="20%" height="20%"> 
-<img src=".\images\view\14.jpg" width="20%" height="20%"> 
-<img src=".\images\view\15.jpg" width="20%" height="20%"> 
-<img src=".\images\view\16.jpg" width="20%" height="20%"> 
-<img src=".\images\view\17.jpg" width="20%" height="20%"> 
-<img src=".\images\view\18.jpg" width="20%" height="20%"> 
-<img src=".\images\view\19.jpg" width="20%" height="20%"> 
-<img src=".\images\view\20.jpg" width="20%" height="20%"> 
+<img src="https://images.scyanzu.com/open_source/view/1.jpg" width="20%" height="20%"> 
+<img src="https://images.scyanzu.com/open_source/view/2.jpg" width="20%" height="20%"> 
+<img src="https://images.scyanzu.com/open_source/view/3.jpg" width="20%" height="20%"> 
+<img src="https://images.scyanzu.com/open_source/view/4.jpg" width="20%" height="20%"> 
+<img src="https://images.scyanzu.com/open_source/view/5.jpg" width="20%" height="20%"> 
+<img src="https://images.scyanzu.com/open_source/view/6.jpg" width="20%" height="20%"> 
+<img src="https://images.scyanzu.com/open_source/view/7.jpg" width="20%" height="20%"> 
+<img src="https://images.scyanzu.com/open_source/view/8.jpg" width="20%" height="20%"> 
+<img src="https://images.scyanzu.com/open_source/view/9.jpg" width="20%" height="20%"> 
+<img src="https://images.scyanzu.com/open_source/view/10.jpg" width="20%" height="20%"> 
+<img src="https://images.scyanzu.com/open_source/view/11.jpg" width="20%" height="20%"> 
+<img src="https://images.scyanzu.com/open_source/view/12.jpg" width="20%" height="20%"> 
+<img src="https://images.scyanzu.com/open_source/view/13.jpg" width="20%" height="20%"> 
+<img src="https://images.scyanzu.com/open_source/view/14.jpg" width="20%" height="20%"> 
+<img src="https://images.scyanzu.com/open_source/view/15.jpg" width="20%" height="20%"> 
+<img src="https://images.scyanzu.com/open_source/view/16.jpg" width="20%" height="20%"> 
+<img src="https://images.scyanzu.com/open_source/view/17.jpg" width="20%" height="20%"> 
+<img src="https://images.scyanzu.com/open_source/view/18.jpg" width="20%" height="20%"> 
+<img src="https://images.scyanzu.com/open_source/view/19.jpg" width="20%" height="20%"> 
+<img src="https://images.scyanzu.com/open_source/view/20.jpg" width="20%" height="20%"> 
 
 
 
 ## 联系我们
 #### 电话：15675555180 (微信同号，注明来意)
 
-<img src=".\images\wx_code.jpg" width="200" height="200"> 
+<img src="https://images.scyanzu.com/open_source/wx_code.jpg" width="200" height="300"> 
 
+## 完整功能导图 可能没有更新 以实际功能为准
+<img src="https://images.scyanzu.com/open_source/daotu.png" width="80%"> 
