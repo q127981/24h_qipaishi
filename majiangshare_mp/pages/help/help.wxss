@@ -1,0 +1,20 @@
+/* pages/help/help.wxss */
+
+.container{
+  padding: 30rpx;
+  background-color: #fff;
+}
+.section{
+  margin-bottom: 40rpx;
+}
+.section .title{
+  font-size: 32rpx;
+  margin-bottom: 30rpx;
+  font-weight: bold;
+}
+.section .item{
+  text-indent:2em;
+}
+.section .red{
+  color: var(--main-red);
+}

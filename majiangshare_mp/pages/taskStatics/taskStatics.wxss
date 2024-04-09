@@ -1,0 +1,59 @@
+/* pages/tasksection .box/tasksection .box.wxss */
+@import "../myBalance/myBalance.wxss";
+.container{
+  padding: 40rpx 30rpx 30rpx;
+}
+.section{
+  margin-bottom: 40rpx;
+}
+.section .title{
+  line-height: 1;
+  font-size: 30rpx;
+  font-weight: 600;
+  display: flex;
+  border-width: 0;
+  border-left-width: 6rpx;
+  border-style: solid;
+  line-height: 1;
+  padding-left: 10rpx;
+  margin-bottom: 30rpx;
+}
+.section .box{
+  display: flex;
+  justify-content: space-between;
+  border-radius: 10rpx;
+  padding: 20rpx 30rpx;
+  color: #000;
+  background: #fff;
+}
+
+.section .box .item text{
+  font-size: 48rpx;
+  font-weight: 600;
+  margin-right: 6rpx;
+}
+.section .box .item .blue2{
+  color: var(--main-blue);
+}
+.section .box .item .red{
+  color: var(--main-red);
+}
+.section .box .item .blue{
+  color: var(--main-blue);
+}
+.section .box .item .yellow{
+  color: var(--main-orange);
+}
+.section .box .item .gray{
+  color: var(--main-gray);
+}
+.section .box .item .green{
+  color: var(--main-green);
+}
+.list{
+  min-height: 400rpx;
+  position: relative;
+}
+.list .item{
+  padding-bottom: 10rpx;
+}

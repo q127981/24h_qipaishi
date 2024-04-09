@@ -1,0 +1,67 @@
+<wxs src="../../utils/magic.wxs" module="magic" />
+
+<view class="container">
+  <!-- <view class="container" > -->
+  <!-- banner -->
+  <block wx:if="{{storeEnvImg.length}}">
+    <view class="banner">
+      <swiper autoplay indicator-dots>
+        <block wx:for="{{bannerImg}}" wx:key="bannerImg">
+          <swiper-item>
+            <image src="{{item}}" mode="scaleToFill"></image>
+          </swiper-item>
+        </block>
+      </swiper>
+    </view>
+  </block>
+  <!-- 地点 -->
+  <view class="intro">
+    <view class="address" bindtap="goDoorDetail">
+      <view class="iconfont icon-dingwei"></view>
+      {{doorinfodata.address}}
+    </view>
+    <view class="btns">
+      <view class="iconfont icon-weizhi btn" bindtap="goTencentMap" data-info="{{doorinfodata}}"></view>
+    </view>
+  </view>
+  <!-- 快捷入口 -->
+  <view class="toolbar" id="toolbar">
+    <view class="line1">
+      <!-- 预约 -->
+      <view hover-class="button-click" class="yuyue" bind:tap="goYuyue" style="background-image: url({{doorinfodata.btnImg}})"></view>
+      <view class="right-box">
+        <!-- 切换门店 -->
+        <view class="storename sub-item" bindtap="goIndexPage" style="background-image: url({{doorinfodata.qhImg}})"></view>
+         <!-- 团购验券 -->
+         <view hover-class="button-click" class="group-buying sub-item" bind:tap="gototuangou" style="background-image: url({{doorinfodata.tgImg}})"></view>
+      </view>
+    </view>
+    <view class="line2">
+      <!-- 余额充值 -->
+      <view hover-class="button-click" class="slim sub-item margin-t-26" bind:tap="goRecharge" style="background-image: url({{doorinfodata.czImg}})"></view>
+      <view hover-class="button-click" class="sub-item margin-t-26 slim" bind:tap="openDoor" style="background-image: url({{doorinfodata.openImg}})"></view>
+      <view hover-class="button-click" class="sub-item margin-t-26 slim" bind:tap="showWifi" style="background-image: url({{doorinfodata.wifiImg}})"></view>
+      <view hover-class="button-click" class="sub-item margin-t-26 slim" bind:tap="call" style="background-image: url({{doorinfodata.kfImg}})"></view>
+    </view>
+  </view>
+  <view class="section">
+    <block wx:if="{{storeEnvImg.length}}">
+      <view class="title">门店介绍</view>
+      <view class="content">
+        <block wx:for="{{storeEnvImg}}" wx:key="storeEnvImg">
+          <image src="{{item}}" mode="widthFix"></image>
+        </block>
+      </view>
+    </block>
+  </view>
+</view>
+<!-- 弹出层提示 -->
+<van-popup round show="{{ popshow }}">
+  <view class="pop">
+    <view class="head bg-primary">门店公告</view>
+    <view class="content">
+      <rich-text nodes="{{doorinfodata.notice}}"></rich-text>
+    </view>
+    <view class="foot border-primary" bind:tap="popClose">我已仔细阅读</view>
+  </view>
+</van-popup>

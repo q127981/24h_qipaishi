@@ -1,0 +1,70 @@
+<!--pages/taskStatics/taskStatics.wxml-->
+<view class="container">
+  <!-- 统计 -->
+  <view class="section">
+    <view class="title border-primary"><view class="bg-primary"></view>今日</view>
+    <view class="box">
+      <view class="item" bindtap="golist" data-time="today" data-status="1">
+        <view><text>{{info.todayJiedan}}</text>单</view>
+        <view class="blue2">已接单</view>
+      </view>
+      <view class="item" bindtap="golist" data-time="today" data-status="2">
+        <view><text>{{info.todayStart}}</text>单</view>
+        <view class="red">进行中</view>
+      </view>
+      <view class="item" bindtap="golist" data-time="today" data-status="3">
+        <view><text>{{info.todayFinish}}</text>单</view>
+        <view class="green">已完成</view>
+      </view>
+    </view>
+  </view>
+  <view class="section">
+    <view class="title border-primary"><view class="bg-primary"></view>本月</view>
+    <view class="box">
+      <view class="item" bindtap="golist" data-time="month" data-status="6">
+        <view><text>{{info.tomonthJiesuan}}</text>单</view>
+        <view class="blue2">已结算</view>
+      </view>
+      <view class="item" bindtap="golist" data-time="month" data-status="3">
+        <view><text>{{info.tomonthFinish}}</text>单</view>
+        <view class="green">已完成</view>
+      </view>
+      <view class="item" bindtap="golist" data-time="month" data-status="5">
+        <view><text>{{info.tomonthBohui}}</text>单</view>
+        <view class="yellow">已驳回</view>
+      </view>
+    </view>
+  </view>
+  <view class="section">
+    <view class="title border-primary"><view class="bg-primary"></view>总收入统计</view>
+    <view class="box">
+      <view class="item" bindtap="golist" data-time="" data-status="3">
+        <view><text>{{info.totalFinish}}</text>单</view>
+        <view class="green">已完成</view>
+      </view>
+      <view class="item" bindtap="golist" data-time="" data-status="6">
+        <view><text>{{info.totalSettlementt}}</text>单</view>
+        <view class="blue">已结算</view>
+      </view>
+      <view class="item">
+        <view><text>{{info.totalMoney}}</text>元</view>
+        <view class="green">总收入</view>
+      </view>
+    </view>
+  </view>
+  <!-- 明细 -->
+  <view class="list">
+    <view class="title"><view class="border bg-primary"></view>结算记录</view>
+    <block wx:if="{{list.length}}">
+      <view class="item" wx:for="{{list}}" wx:key="item" bindtap="golist" data-time="" data-status="6">
+        <view class="line"><label>结算时间：</label>{{item.createTime}}</view>
+        <view class="line"><label>结算数量：</label>{{item.orderNum}}单</view>
+        <view class="total color-primary">
+          <view class="price">+{{item.money}}元</view>
+        </view>
+      </view>
+      <view class="noteMore">下拉查看更多...</view>
+    </block>
+    <block wx:else><view class="nodata">暂无数据</view></block>
+  </view>
+</view>

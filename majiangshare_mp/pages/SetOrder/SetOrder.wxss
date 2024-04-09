@@ -1,0 +1,2 @@
+/* pages/SetOrder/SetOrder.wxss */
+@import '../orderList/orderList.wxss';

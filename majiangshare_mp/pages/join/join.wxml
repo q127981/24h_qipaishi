@@ -1,0 +1,34 @@
+<!--pages/join/join.wxml-->
+<view class="container">
+  <view class="form" wx:if="{{!success}}">
+    <van-cell-group>
+      <van-cell title="所属城市" is-link>
+        <picker mode="region" level="city" bindchange="bindRegionChange" value="{{region}}">
+          <view class="{{region?'picker':''}}">{{region?region:'请选择意向开店城市'}}</view>
+        </picker>
+      </van-cell>
+    </van-cell-group>
+    <van-cell-group>
+      <van-field label="您的姓名" model:value="{{ name }}" placeholder="请填写您的姓名" maxlength="5"/>
+    </van-cell-group>
+    <van-cell-group>
+      <van-field label="您的电话" model:value="{{ phone }}" placeholder="请填写您的电话" maxlength="11"/>
+    </van-cell-group>
+    <van-cell-group>
+      <van-field label="留言建议" model:value="{{ message }}" placeholder="选填"/>
+    </van-cell-group>
+    <view class="note">一个电话解决您的开店疑惑：{{tele}}</view>
+  </view>
+  <!-- 提交成功 -->
+  <view class="success" wx:if="{{success}}">
+    <icon type="success" size="150rpx"></icon>
+    <view class="text">提交成功</view>
+    <view class="info">
+      您的申请已提交，请等待官方人员与您联系!您也可以主动拨打{{tele}}咨询!
+    </view>
+  </view>
+  <view class="btns">
+    <button hover-class="button-click"  class="btn tel border-primary color-primary" bindtap="call">电话咨询</button>
+    <button hover-class="button-click"  wx:if="{{!success}}" class="btn submit bg-primary" bindtap="submit">提交申请</button>
+  </view>
+</view>

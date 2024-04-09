@@ -1,0 +1,97 @@
+/* pages/taskDetail/taskDetail.wxss */
+@import "../task/task.wxss";
+page{
+  /* background: #fff; */
+}
+.container{
+  padding: 0 16rpx;
+}
+.lists{
+  padding-top: 16rpx;
+}
+
+.lists .info label{
+  font-weight: 500;
+}
+
+.imgs{
+  margin-top: 10rpx;
+}
+
+.imgs .title{
+  border-width: 0;
+  border-left-width: 6rpx;
+  border-style: solid;
+  padding-left: 10rpx;
+  line-height: 1;
+  margin-bottom: 30rpx;
+  font-size: 32rpx;
+}
+.imgs .box {
+  padding: 16rpx;
+  background: #fff;
+  border-radius: 12rpx;
+}
+
+.result{
+  font-size: 28rpx;
+  margin-top: 30rpx;
+  display: flex;
+}
+.result textarea{
+  border: 1rpx solid #ddd;
+  padding: 10rpx 20rpx;
+  width: 450rpx;
+  height: 200rpx;
+  font-size: 28rpx;
+}
+.btns{
+  margin-top: 30rpx;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.btns .btn{
+  border-radius: 10rpx;
+  color: #fff;
+  text-align: center;
+  font-size: 40rpx;
+  margin-bottom: 20rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+.btns .btn .iconfont{
+  font-size: 40rpx;
+  margin-right: 10rpx;
+}
+.btns .left{
+  width: 336rpx;
+}
+.btns .left .btn{
+  height: 80rpx;
+  font-size: 30rpx;
+}
+.btns .open{
+  border: 1rpx solid var(--main-color);
+  color: var(--main-color);
+}
+.btns .finish{
+  width: 360rpx;
+  background: var(--main-green);
+}
+.btns .back{
+  width: 100%;
+  border:1px solid #05b3cc;
+  color: #05b3cc;
+  height: 90rpx;
+}
+.admin {
+  justify-content: space-around;
+}
+
+.admin .btn{
+  width: 46%;
+  font-size: 32rpx !important;
+}

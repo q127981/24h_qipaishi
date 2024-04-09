@@ -1,0 +1,85 @@
+<!--pages/myBalance/myBalance.wxml-->
+<view class="container" style="{{isIpx?'padding-bottom:168rpx':'padding-bottom:120rpx'}}">
+<!-- 日期搜索 -->
+  <view class="search" bindtap="goSearch">
+    <view class="iconfont icon-date"></view>
+    <input type="text" placeholder="开始时间" disabled value="{{sdt}}" />
+    <text>至</text>
+    <input type="text" placeholder="结束时间" disabled value="{{edt}}" />
+  </view>
+  <!-- 账户金额 -->
+  <!-- <view class="account">
+    <view class="item">通用余额:<text>{{userinfo.balance}}</text>元</view>
+    <view class="item">赠送余额:<text>{{userinfo.giftBalance}}</text>元</view>
+  </view> -->
+  <!-- 明细 -->
+  <view class="list">
+    <view class="title"><view class="border bg-primary"></view>余额使用明细</view>
+    <block wx:if="{{MainList.length}}">
+      <view class="item" wx:for="{{MainList}}" wx:key="MainList">
+        <view class="line"><label>门店：</label><label wx:if="{{item.storeName}}">{{item.storeName}}</label></view>
+        <view class="line"><label>时间：</label>{{item.createTime}}</view>
+        <view class="line"><label>类型：</label>
+        <block wx:if="{{item.type==5}}">
+          管理员赠送
+        </block>
+        <block wx:elif="{{item.type==4}}">
+          订单退款
+        </block>
+        <block wx:elif="{{item.type==3}}">
+          订单支付
+        </block>
+        <block wx:elif="{{item.type==2}}">
+          充值赠送
+        </block>
+        <block wx:elif="{{item.type==1}}">
+          在线充值
+        </block>
+        <block wx:else> 
+          {{item.moneyType===1?'账户余额':'赠送余额'}}
+        </block>
+        </view>
+        <view class="line"><label>备注：</label>{{item.remark}}</view>
+        <view class="tip">
+          <text wx:if="{{item.moneyType===1}}">门店账户余额：{{item.totalMoney?item.totalMoney:0}}元</text>
+          <text wx:else>门店赠送余额：{{item.totalGiftMoney?item.totalGiftMoney:0}}元</text>
+        </view>
+        <view class="total {{item.type===3?'':'color-primary'}}">
+          <view class="price">{{item.type===3?'-':'+'}}{{item.money}}元</view>
+          <view>{{item.moneyType===1?'账户余额':'赠送余额'}}</view>
+        </view>
+      </view>
+      <!-- <view class="item">
+        <view class="line"><label>时间：</label>2023年12月12日 11:31:31</view>
+        <view class="line"><label>类型：</label>赠送余额</view>
+        <view class="line"><label>备注：</label>充值赠送，充300元，送50元</view>
+        <view class="tip">
+          <text>账户余额：20元</text>
+          <text>赠送余额：20元</text>
+        </view>
+        <view class="total color-primary">
+          <view class="price">+50元</view>
+          <view>赠送余额</view>
+        </view>
+      </view> -->
+      <view class="noteMore" wx:if="{{canLoadMore}}">上拉查看更多...</view>
+    </block>
+    <block wx:else>
+      <view class="nodata">暂无数据</view>
+    </block>
+  </view>
+  <view class="submit {{isIpx?'fix-iphonex-button':''}}">
+    <navigator url="../recharge/recharge" class="btn bg-primary">充值</navigator>
+  </view>
+  <view class="footer"></view>
+</view>
+<!-- 日期选择弹窗 -->
+<van-calendar
+  show="{{ show }}"
+  type="range"
+  bind:close="onClose"
+  bind:confirm="onConfirm"
+  show-confirm="{{ false }}"
+  allow-same-day
+  min-date="{{ minDate }}"
+/>

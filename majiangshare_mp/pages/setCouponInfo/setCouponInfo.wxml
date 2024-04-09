@@ -1,0 +1,107 @@
+<!--pages/setCouponInfo/setCouponInfo.wxml-->
+<view class="container" style="{{isIpx?'padding-bottom:168rpx':'padding-bottom:120rpx'}}">
+  <view class="form">
+    <view class="line">
+      <label>优惠券名称：</label>
+      <view class="right">
+        <input model:value="{{couponName}}" type="text" placeholder="必填"/>
+      </view>
+    </view>
+    <view class="line">
+      <label>优惠券类型：</label>
+      <view class="right">
+        <view class="city">
+          <picker bindchange="bindTypeChange" range-key="name" range="{{types}}">
+            <view class="picker">
+              <input type="text" disabled placeholder="请选择类型" placeholder-class="plh" value="{{types[type-1].name}}"/>
+              <view class="iconfont icon-xuanzex"></view>
+            </view>
+          </picker>
+        </view>
+      </view>
+    </view>
+    <!-- 单选门店 -->
+    <view class="line">
+      <label>适用门店：</label>
+      <view class="right">
+        <view class="tags">
+          <view class="city store">
+            <picker bindchange="bindStoreChange" range-key="name" range="{{stores}}">
+              <view class="picker">
+                <input type="text" disabled placeholder="请选择" placeholder-class="plh" value="{{stores[storeIndex].name}}"/>
+                <view class="iconfont icon-xuanzex"></view>
+              </view>
+            </picker>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="line">
+      <label>包间限制：</label>
+      <view class="right">
+        <view class="city">
+          <picker bindchange="bindDoorChange" value="{{doorIndex}}" range-key="name" range="{{rooms}}">
+            <view class="picker">
+              <input type="text" disabled placeholder="请选择类型" placeholder-class="plh" value="{{rooms[doorIndex].name}}"/>
+              <view class="iconfont icon-xuanzex"></view>
+            </view>
+          </picker>
+        </view>
+      </view>
+    </view>
+    <view class="line">
+      <label>使用门槛：</label>
+      <!-- 抵扣券 -->
+      <view class="right" wx:if="{{type==1}}">
+        <view class="city">
+          <picker bindchange="bindRuleChange" value="{{ruleIndex}}" range="{{rules}}">
+            <view class="picker">
+              <input type="text" disabled placeholder="请选择" placeholder-class="plh" value="{{rules[ruleIndex]}}"/>
+              <view class="iconfont icon-xuanzex"></view>
+            </view>
+          </picker>
+        </view>
+      </view>
+      <!-- 满减券 -->
+      <view class="right" wx:if="{{type==2}}">
+        <view class="step">
+          <van-stepper model:value="{{ minUsePrice }}" min="0" max="999" bind:change="minUseChange" />元
+        </view>
+      </view>
+    </view>
+    <view class="line">
+      <label>抵扣额度：</label>
+      <!-- 抵扣券 -->
+      <view class="right" wx:if="{{type==1}}">
+        <view class="city">
+          <picker bindchange="bindLimitChange" value="{{limitIndex}}" range="{{limits}}">
+            <view class="picker">
+              <input type="text" disabled placeholder="请选择" placeholder-class="plh" value="{{limits[limitIndex]}}"/>
+              <view class="iconfont icon-xuanzex"></view>
+            </view>
+          </picker>
+        </view>
+      </view>
+      <!-- 满减券 -->
+      <view class="right" wx:if="{{type==2}}">
+        <view class="step">
+          <van-stepper model:value="{{ price }}" min="0" max="999" bind:change="priceChange" />元
+        </view>
+      </view>
+    </view>
+    <view class="line">
+      <label>过期时间：</label>
+      <view class="right">
+        <picker style="width: 100%;" mode="date" value="{{expriceTime}}" bindchange="selectDateSecondChange">
+          <input type="text" disabled placeholder="请选择时间" placeholder-class="plh" model:value="{{expriceTime}}"/>
+        </picker>
+      </view>
+    </view>
+  </view>
+  <!-- 底部按钮 -->
+  <view class="submit border-primary {{isIpx?'fix-iphonex-button':''}}">
+    <button hover-class="button-click"  class="color-primary cancel" bind:tap="cancel">取消</button>
+    <button hover-class="button-click"  class="bg-primary" bind:tap="submit">保存</button>
+  </view>
+</view>
+

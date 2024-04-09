@@ -1,0 +1,240 @@
+<!--pages/SetOrder/SetOrder.wxml-->
+<wxs src="../../utils/magic.wxs" module="magic" />
+
+<!-- <view class="navigtor" style="padding-top:{{statusBarHeight}}px;height:{{titleBarHeight}}px;line-height:{{titleBarHeight}}px;">
+  <navigator class="left iconfont icon-help" url="../help/help"></navigator>
+  <view class="title">订单管理</view>
+</view> -->
+<block wx:if="{{isLogin}}">
+  <!-- <view class="tabs" style="top:{{statusBarHeight+titleBarHeight}}px"> -->
+  <view class="tabs">
+    <van-dropdown-menu active-color="{{mainColor}}">
+      <van-dropdown-item value="{{ storeId }}" options="{{ stores }}"  bind:change="storeDropdown" />
+      <van-dropdown-item value="{{ value1 }}" options="{{ option1 }}" bind:change="OrderStatusDropdown" />
+      <van-dropdown-item value="{{ value2 }}" options="{{ option2 }}" bind:change="orderColumnDropdown" />
+    </van-dropdown-menu>
+  </view>
+</block>
+
+<!-- <view class="container" style="padding-top: {{statusBarHeight+titleBarHeight+45}}px;"> -->
+<view class="container" style="padding-top: 45px;">
+  <block wx:if="{{isLogin}}">
+    <block wx:if="{{orderlist.length>0}}">
+      <view class="lists" wx:for="{{orderlist}}" wx:key="orderlist">
+        <view class="item">
+          <view class="orderNo icon iconfont icon-quanbudingdan color-primary"> {{item.orderNo}}</view>
+           <block wx:if="{{item.status == 0}}">
+            <view class="tag blue">未开始</view>
+          </block>
+          <block wx:elif="{{item.status == 1}}">
+            <view class="tag yellow">进行中</view>
+          </block>
+          <block wx:elif="{{item.status == 2}}">
+            <view class="tag finish">已完成</view>
+          </block>
+          <block wx:elif="{{item.status == 3}}">
+            <view class="tag gray">已取消</view>
+          </block>
+          <ul class="info">
+          <li>
+            <image class="roomImg" src="{{item.roomImg}}"></image>
+          </li>
+          <li class="li">
+              <view class="title">{{item.roomName}}({{item.roomType===1?'小包':item.roomType===2?'中包':'大包'}}) 
+              </view>
+              <view><span class="name">{{item.storeName}}</span></view>
+            <!-- <view class="name">{{item.storeName}}</view> -->
+          </li>
+          </ul>
+          <!-- 时间段 -->
+          <view class="timeBox">
+            <view class="time">
+              <view class="hour">{{magic.splittime(item.startTime)[0]}}:{{magic.splittime(item.startTime)[1]}}</view>
+              <view class="date">{{magic.splitkongge(item.startTime)[0]}}</view>
+            </view>
+            <view class="total border-primary">{{item.orderHour}}小时</view>
+            <view class="time">
+              <view class="hour">{{magic.splittime(item.endTime)[0]}}:{{magic.splittime(item.endTime)[1]}}</view>
+              <view class="date">{{magic.splitkongge(item.endTime)[0]}}</view>
+            </view>
+          </view>
+          <!-- 底部操作 -->
+          <view class="bottom">
+            <view>
+              <view class="info">创建时间：{{item.createTime}}</view>
+              <view class="info" wx:if="{{item.couponName}}">使用卡券：<label>{{item.couponName}}</label></view>
+              <!-- 管理员端 -->
+              <block wx:if="{{userinfo.userType == 12 || userinfo.userType == 13}}">
+                <view class="info">预订用户：{{item.nickname}}</view>
+              </block>
+            </view>
+            <view>
+              <view>支付方式：<text>{{item.payType===1?'微信':item.payType===2?'余额':'团购'}}</text></view>
+              <view>实际支付：<text class="price">￥{{item.payPrice}}</text></view>
+               <block wx:if="{{item.status == 3}}">
+                <view>订单退款：<text class="color-attention">￥{{item.refundPrice}}</text></view>
+              </block>
+            </view>
+          </view>
+          <view class="btns">
+            <block wx:if="{{item.status == 0 || item.status == 1}}">
+              <button hover-class="button-click"  class="btn cancel" catchtap="cancelOrder" data-info="{{item}}">取消订单</button>
+              <button hover-class="button-click"  class="btn bg-warning" catchtap="changeOrderUser" data-info="{{item}}">订单转移</button>
+              <!-- <button hover-class="button-click"  class="btn bg-primary1" catchtap="changeOrderTime" data-info="{{item}}">订单修改</button> -->
+          </block>
+            <block wx:if="{{item.renewBtn}}">
+              <button hover-class="button-click"  class="btn bg-primary" catchtap="renewClick" data-info="{{item}}">续时</button>
+            </block>
+          </view>
+        </view>
+      </view>
+    </block>
+    <block wx:else>
+      <!-- 无订单和未登录 -->
+      <view class="nodata">暂无订单列表</view>
+    </block>
+  </block>
+  <block wx:else>
+    <view class="containerlogin">
+      <view class="photo">
+        <view class="img">
+          <image src="{{userinfo.avatar?userinfo.avatar:'../static/img/logo.png'}}" mode="widthFix" />
+        </view>
+        <view class="name">{{appName}}</view>
+      </view>
+      <button hover-class="button-click"  class="loginBtn bg-primary" bindgetphonenumber="phone" open-type="getPhoneNumber">一键登录</button>
+    </view>
+  </block>
+</view>
+<!-- 续单弹窗 -->
+<van-dialog use-slot title="订单续费" show="{{ renewShow }}" show-cancel-button 
+  before-close="{{beforeCloseFunction}}">
+  <view class="dialog">
+    <view class="item" style="align-items: center;">
+      <label>请选择增加的时间：</label>
+      <van-stepper value="{{ addTime }}" step="0.5" min="-8" max="8" disable-input  bind:change="onChange" /> 时
+    </view>
+    <view class="item">
+      <label>订单原结束时间：</label><text>{{orderInfo.endTime}}</text>
+    </view>
+    <view class="item">
+      <label>增加后结束时间：</label><text>{{newTime}}</text>
+    </view>
+    <view class="item">
+      <label>订单单价：</label><text class="color-attention">{{orderInfo.price}}元</text>/小时
+    </view>
+    <view class="item">
+      <label>支付总价：</label><text class="color-attention">{{totalPay}}</text>元
+    </view>
+    <!-- <view class="item">
+      <label>支付方式：</label>
+      <radio-group class="pays" bindchange="radioChange">
+        <label class="pay" wx:for="{{payTypes}}" wx:key="{{item.value}}">
+            <radio value="{{item.value}}" checked="{{item.checked}}"/>{{item.name}}
+            <block wx:if="{{item.value === 2}}">
+              <view class="info">通用余额: {{userinfo.balance}}元</view>
+              <view class="info">赠送余额: {{giftBalance}}元</view>
+            </block>
+        </label>
+      </radio-group>
+    </view> -->
+  </view>
+</van-dialog>
+<!-- 订单转移弹窗 -->
+<van-dialog use-slot title="订单转移" show="{{ changeOrderUserShow }}" show-cancel-button cancel-button-text="取消" confirm-button-text="确认转移" bind:confirm="cancelChangeUser">
+  <view class="dialog">
+    <view class="item">
+      <label>门店名称：</label>
+      <text>{{orderInfo.storeName}} </text>
+    </view>
+    <view class="item">
+      <label>当前房间：</label>
+      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':'大包'}}）</text>
+    </view>
+    <view class="item">
+      <label>开始时间：</label><text>{{orderInfo.startTime}}</text>
+    </view>
+    <view class="item">
+      <label>结束时间：</label><text>{{orderInfo.endTime}}</text>
+    </view>
+    <view class="item">
+      <label>会员手机：</label>
+      <input model:value="{{mobile}}" type="text" placeholder="请输入目标手机号" maxlength="11"/>
+    </view>
+  </view>
+</van-dialog>
+<!-- 订单修改弹窗 -->
+<!-- <van-dialog use-slot title="订单修改" show="{{ changeOrderTimeShow }}" show-cancel-button cancel-button-text="取消" confirm-button-text="确认修改" bind:confirm="cancelChangeTime">
+  <view class="dialog">
+    <view class="item">
+      <label>门店名称：</label>
+      <text>{{orderInfo.storeName}} </text>
+    </view>
+    <view class="item">
+      <label>当前房间：</label>
+      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':'大包'}}）</text>
+    </view>
+    <view class="item">
+      <label>开始时间：</label><text>{{orderInfo.startTime}}</text>
+    </view>
+    <view class="item">
+      <label>结束时间：</label><text>{{orderInfo.endTime}}</text>
+    </view>
+    <view class="item">
+      <label>新更换房间：</label>
+      <text>{{orderInfo.roomName}}</text>
+    </view>
+    <view class="item">
+      <label>新开始时间：</label><picker mode="datetime"  end="{{checkMaxDate}}" value="{{startDateIndex}}" bindchange="bindCheckinDateChange">
+      <view class="picker-item">点击修改时间 {{startDateIndex}}</view>
+    </picker>
+    </view>
+    <view class="item">
+      <label>新结束时间：</label><text>{{orderInfo.endTime}}</text>
+    </view>
+  </view>
+</van-dialog> -->
+<!-- 取消订单弹窗 -->
+<van-dialog use-slot title="取消订单" show="{{ cancelOrderShow }}" show-cancel-button cancel-button-text="暂不取消" confirm-button-text="确认取消" bind:confirm="cancelConfirm">
+  <view class="dialog">
+    <view class="item">
+      <label>门店名称：</label>
+      <text>{{orderInfo.storeName}} </text>
+    </view>
+    <view class="item">
+      <label>当前房间：</label>
+      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':'大包'}}）</text>
+    </view>
+    <view class="item">
+      <label>开始时间：</label><text>{{orderInfo.startTime}}</text>
+    </view>
+    <view class="item">
+      <label>结束时间：</label><text>{{orderInfo.endTime}}</text>
+    </view>
+    <view class="item">
+      <label>取消提示：</label>
+      <text style="color: red;word-wrap: break-word;">管理员取消，团购支付的订单不退还团购券.是否确认取消订单？</text>
+    </view>
+  </view>
+</van-dialog>
+<!-- 取消订单成功弹窗 -->
+<van-dialog use-slot title="订单取消成功" show="{{ cancelOrderSuccess }}" confirm-button-text="好的" bind:confirm="cancelSuccessConfirm">
+  <view class="dialog">
+    <view class="item">
+      <label>已为您成功取消下列订单</label>
+    </view>
+    <view class="item">
+      <label>当前位置：</label>
+      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':'大包'}}）</text>
+    </view>
+    <view class="item">
+      <label>开始时间：</label><text>{{orderInfo.startTime}}</text>
+    </view>
+    <view class="item">
+      <label>结束时间：</label><text>{{orderInfo.endTime}}</text>
+    </view>
+    <view class="item">
+      <view class="color-attention note">订单所消耗的卡券次数/卡券小时/金额已返还</view>
+    </view>
+  </view>
+</van-dialog>

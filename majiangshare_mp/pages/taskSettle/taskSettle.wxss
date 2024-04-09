@@ -1,0 +1,70 @@
+/* pages/taskSettle/taskSettle.wxss */
+@import "../task/task.wxss";
+page{
+  background: #f5f5f5;
+}
+.container{
+  padding: 0;
+}
+.tabs{
+  position: static;
+  height: auto;
+  background: #fff;
+  padding: 16rpx 16rpx;
+  box-sizing: border-box;
+}
+.search{ 
+  display: flex;
+  border: 1rpx solid #ddd;
+  border-radius: 10rpx;
+  align-items: center;
+  padding: 0 32rpx;
+  font-size: 32rpx;
+  background: #fff;
+}
+.search input{
+  width: auto;
+  text-align: center;
+  font-size: 30rpx;
+  height: 66rpx;
+}
+.bar{
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center; */
+  padding: 20rpx 16rpx;
+  background: #fff;
+}
+.bar .line{
+  display: flex;
+  align-items: center;
+  line-height: 50rpx;
+  color: #000;
+}
+.bar .line input{
+  border: 1rpx solid #ddd;
+  width: 160rpx;
+  height: 60rpx;
+  padding: 0 10rpx;
+  margin-right: 10rpx;
+}
+.bar .line text{
+  margin-right: 10rpx;
+}
+.bar .line label{
+  color: #333;
+}
+.btn{
+  width: 430rpx;
+  height: 90rpx;
+  text-align: center;
+  line-height: 90rpx;
+  position: fixed;
+  bottom: 30rpx;
+  left: 160rpx;
+  border-radius: 50rpx;
+  font-size: 36rpx;
+}
+.lists{
+  padding: 30rpx 16rpx;
+}

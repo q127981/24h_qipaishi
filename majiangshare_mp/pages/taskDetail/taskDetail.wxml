@@ -1,0 +1,77 @@
+<!--pages/taskDetail/taskDetail.wxml-->
+<view class="container">
+  <view class="lists">
+    <view class="item">
+      <view class="{{info.status==1?'tag blue2':info.status==2?'tag blue2':info.status==3?'tag green':info.status==4?'tag gray':info.status==5?'tag yellow':info.status==6?'tag blue':'tag red'}}">{{info.status==1?'已接单':info.status==2?'已开始':info.status==3?'已完成':info.status==4?'已取消':info.status==5?'被驳回':info.status==6?'已结算':'待接单'}}</view>
+      <view class="info">
+        <label>订单编号：</label>
+        <text>{{info.orderNo}}</text>
+      </view>
+      <view class="info">
+        <label>门店名称：</label>
+        <text>{{info.storeName}}</text>
+      </view>
+      <view class="info">
+        <label>房间名称：</label>
+        <text>{{info.roomName}}</text>
+      </view>
+      <view class="info">
+        <label>预计时间：</label>
+        <text wx:if="{{info.orderEndTime}}">{{info.orderEndTime}}</text>
+      </view>
+      <view class="info">
+        <label>完成人员：</label>
+        <text wx:if="{{info.userName}}">{{info.userName}}</text>
+      </view>
+      <view class="info">
+        <label>接单时间：</label>
+        <text wx:if="{{info.createTime}}">{{info.createTime}}</text>
+      </view>
+      <view class="info">
+        <label>完成时间：</label>
+        <text wx:if="{{info.finishTime}}">{{info.finishTime}}</text>
+      </view>
+      <view class="info">
+        <label>结算时间：</label>
+        <text wx:if="{{info.settlementTime}}">{{info.settlementTime}}</text>
+      </view>
+    </view>
+  </view>
+  <!-- 图片上传 -->
+  <view class="imgs">
+    <view class="title border-primary">图片上传</view>
+    <view class="box">
+      <van-uploader file-list="{{ fileList }}" bind:after-read="afterRead" bind:delete="delete" preview-size="210rpx" />
+    </view>
+  </view>
+  <!-- 驳回原因 -->
+   <!-- 管理员端 -->
+  <view class="result" wx:if="{{(userinfo.userType === 12||userinfo.userType === 13) && info.status===3}}">
+    <view class="color-attention">备注：</view>
+    <view>
+      <textarea  model:value="{{complaintDesc}}" placeholder="请输入"/>
+    </view>
+  </view>
+  <!-- 保洁端 -->
+  <view class="result" wx:if="{{info.complaintDesc}}">
+    <view class="color-attention">备注：</view>
+    <view>
+      <text class="color-attention">{{info.complaintDesc}}</text>
+    </view>
+  </view>
+  <!-- 管理员端按钮 -->
+  <view class="btns admin" wx:if="{{userinfo.userType === 12||userinfo.userType === 13}}">
+    <view class="btn bg-primary" wx:if="{{info.status==3}}" bindtap="complaint">驳回</view>
+    <view class="btn bg-primary" wx:if="{{info.status==5}}" bindtap="complaint">撤销驳回</view>
+    <view class="btn back" bindtap="back">返回</view>
+  </view>
+  <!-- 保洁端按钮 -->
+  <view class="btns" wx:else>
+    <view class="left">
+      <view wx:if="{{info.status==2}}" class="btn open" bindtap="open"><view class="iconfont icon-damen"></view>开大门</view>
+      <view wx:if="{{info.status==2}}" class="btn bg-primary" bindtap="openDoor"><view class="iconfont icon-fangjian"></view>开房间门</view>
+    </view>
+    <view wx:if="{{info.status==2}}" class="btn finish" bindtap="finish">完成任务</view>
+    <view class="btn back" bindtap="back">返回</view>
+  </view>
+</view>

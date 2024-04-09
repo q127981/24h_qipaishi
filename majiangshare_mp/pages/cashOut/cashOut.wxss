@@ -1,0 +1,16 @@
+/* pages/cashOut/cashOut.wxss */
+@import "../myBalance/myBalance.wxss";
+.container{
+  padding-bottom: 0;
+}
+.list .item .top{
+  font-size: 32rpx;
+  font-weight: 700;
+  margin-bottom: 20rpx;
+}
+.list .item .status{
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}

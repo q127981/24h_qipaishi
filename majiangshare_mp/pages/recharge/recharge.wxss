@@ -1,0 +1,99 @@
+/* pages/recharge/recharge.wxss */
+page{
+  background: #f5f5f5;
+}
+.container{
+  padding: 30rpx;
+}
+.section{
+  background: #fff;
+  padding: 30rpx;
+  border-radius: 20rpx;
+  margin-bottom: 30rpx;
+}
+.section .top{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40rpx;
+}
+.section .top .item{
+  font-size: 30rpx;
+  line-height: 1;
+}
+.section .top .item text{
+  margin: 0 10rpx;
+  font-size: 40rpx;
+  color: rgb(221, 15, 15);
+}
+.section .name{
+  display: flex;
+  align-items: center;
+  margin-bottom: 40rpx;
+}
+.section .name text{
+  font-size: 32rpx;
+}
+.section .name .picker{
+  font-size: 40rpx;
+}
+.section .label{
+  font-size: 32rpx;
+  font-weight: 700;
+}
+.section .list{
+  display: flex;
+  flex-wrap: wrap;
+}
+.section .list .item{
+  width: 185rpx;
+  margin-top: 30rpx;
+  margin-right: 32rpx;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 8rpx;
+  text-align: center;
+  padding: 24rpx 0;
+}
+.section .list .active{
+  background: #568df388;
+}
+.section .list .item:nth-child(3n){
+  margin-right: 0;
+}
+.section .list .item .price{
+  line-height: 1;
+  color: #000;
+}
+.section .list .item .price text{
+  font-weight: 700;
+  font-size: 30rpx;
+  margin-right: 5rpx;
+}
+.section .list .item .add{
+  line-height: 1;
+  margin-top: 10rpx;
+  font-size: 24rpx;
+}
+.section .title{
+  text-align: center;
+  font-size: 32rpx;
+  margin-bottom: 20rpx;
+  font-weight: 600;
+}
+.section .line{
+  line-height: 40rpx;
+  font-size: 26rpx;
+}
+.section .linered{
+  line-height: 40rpx;
+  font-size: 26rpx;
+  color:crimson;
+}
+.paybtn{
+  width: 690rpx;
+  height: 95rpx;
+  text-align: center;
+  line-height: 95rpx;
+  border-radius: 60rpx;
+  font-size: 32rpx;
+}

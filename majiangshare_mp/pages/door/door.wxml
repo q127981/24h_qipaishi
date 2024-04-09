@@ -1,0 +1,83 @@
+<!--pages/door/door.wxml-->
+<wxs src="../../utils/magic.wxs" module="magic" />
+<block wx:if="{{isLogin}}">
+  <view class="tabs">
+    <van-dropdown-menu active-color="{{mainColor}}">
+      <van-dropdown-item value="{{ cityName }}" options="{{ citylist}}" bind:change="cityDropdown" />
+      <van-dropdown-item value="{{ storeId }}" options="{{ stores }}" bind:change="storeDropdown" />
+      <van-dropdown-item value="{{ status }}" options="{{ statuslist }}" bind:change="statusDropdown" />
+    </van-dropdown-menu>
+  </view>
+</block>
+
+<view class="container">
+  <block wx:if="{{isLogin}}">
+    <block wx:if="{{MainList.length}}">
+      <view class="lists">
+        <view class="item" wx:for="{{MainList}}" wx:key="item">
+          <view class="tag yellow" class="{{item.status==0?'tag blue':item.status==1?'tag yellow':item.status==2?'tag green':'tag gray'}}">{{item.status==0?'组局中':item.status==1?'已组局':item.status==2?'已支付':item.status==3?'已失效':'房主已解散'}}</view>
+          <!-- <view class="time color-attention">
+            <view class="date">{{item.startTime}}</view>
+          </view> -->
+          <view class="door" bindtap="goTencentMap" data-info="{{item}}">
+            <view class="name">门店：{{item.storeName}}</view>
+            <view class="iconfont icon-dingwei"></view>
+          </view>
+         
+          <view class="info">
+            <label>包间：</label>
+            <text>{{item.roomName}}</text>
+          </view>
+          <view class="info">
+            <label>时间：</label>
+            <view class="date">{{item.startTime}}</view>
+          </view>
+          <view class="info">
+            <label>规则：</label>
+            <text>{{item.ruleDesc}}</text>
+          </view>
+          <view class="info userInfo">
+            <label>玩家：</label>
+            <view class="users">
+              <view class="user" wx:for="{{item.playUserList}}" wx:for-item="user" wx:key="user">
+                <!-- <view class="iconfont icon-wangguan" wx:if="{{user.userId == item.userId}}"></view> -->
+                <view class="iconfont icon-del" wx:if="{{userinfo.id == item.userId && userinfo.id != user.userId}}" bindtap="delUser" data-gameId="{{item.gameId}}" data-userId="{{user.userId}}"></view>
+                <view class="photo">
+                  <image src="{{user.avatar}}" mode="widthFix"></image>
+                </view>
+                <view class="name">{{user.nickname}}</view>
+              </view>
+            </view>
+          </view>
+          <view class="btns">
+            <button hover-class="button-click"  wx:if="{{item.status!=3 || item.status!=4}}" class="btn share" open-type="share"><text class="iconfont icon-zhuanfa"></text>转发好友</button>
+            <button hover-class="button-click"  class="btn bg-primary" wx:if="{{item.status===0 && !magic.includes(item.playUserIds,userinfo.id)}}" bindtap="joinExitGame" data-info="{{item}}">立即加入</button>
+            <button hover-class="button-click"  class="btn exit" wx:if="{{item.status===0 && magic.includes(item.playUserIds,userinfo.id)}}" bindtap="joinExitGame" data-info="{{item}}">退出对局</button>
+            <button hover-class="button-click"  class="btn full" wx:if="{{item.status===1 && !magic.includes(item.playUserIds,userinfo.id)}}">对局已满</button>
+            <button hover-class="button-click"  class="btn pay" wx:if="{{item.status===1 && magic.includes(item.playUserIds,userinfo.id)}}" bindtap="goOrder" data-info="{{item}}">立即支付</button>
+            <button hover-class="button-click"  class="btn payed" wx:if="{{item.status===2 && magic.includes(item.playUserIds,userinfo.id)}}" bindtap="goOrderDetail">已支付</button>
+          </view>
+        </view>
+      </view>
+    </block>
+    <block wx:else>
+      <!-- 暂无信息 -->
+      <view class="nodata">暂无拼场信息</view>
+    </block>
+  </block>
+  <block wx:else>
+    <view class="containerlogin">
+      <view class="photo">
+        <view class="img">
+          <image src="../static/img/logo.png" mode="widthFix" />
+        </view>
+        <view class="name">{{appName}}</view>
+      </view>
+      <button hover-class="button-click"  class="loginBtn bg-primary" bindgetphonenumber="phone" open-type="getPhoneNumber">一键登录</button>
+    </view>
+  </block>
+</view>
+<!-- 底部按钮 -->
+<block wx:if="{{isLogin}}">
+  <view class="bottom bg-primary" bindtap="addGame">发起组局</view>
+</block>

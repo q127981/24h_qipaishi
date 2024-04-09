@@ -1,0 +1,50 @@
+// magic.wxs
+var split = function (tag) {
+  if(tag){
+    var a = tag.split(",");//我这里请求到的数据是以','分隔的，需要根据业务需求改成你自己的分隔符
+    return a;
+  }else{
+    return
+  }
+}
+var splitkongge = function (tag) {
+  if(tag){
+    var a = tag.split(" ");//我这里请求到的数据是以','分隔的，需要根据业务需求改成你自己的分隔符
+    return a;
+  }else{
+    return
+  }
+}
+
+var splittime = function (tag) {
+  if(tag){
+    var atime = tag.split(" ");//我这里请求到的数据是以','分隔的，需要根据业务需求改成你自己的分隔符
+    var atime2=[];
+    if(atime.length){
+      var atime1 = atime[1];
+      atime2 = atime1.split(":");
+    }
+    return atime2;
+  }else{
+    return
+  }
+}
+
+var includes = function(arr,string){
+  var is = false
+  if (arr !== undefined) { 
+    if(arr.indexOf(string)>-1){
+      is = true
+    }else{
+      is = false
+    }
+  } 
+  return is
+}
+
+module.exports = {
+  split: split,
+  splitkongge:splitkongge,
+  splittime:splittime,
+  includes: includes
+}

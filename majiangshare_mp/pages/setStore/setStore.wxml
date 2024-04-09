@@ -1,0 +1,68 @@
+<!-- pages/store/store.wxml -->
+<view class="search">
+  <van-search model:value="{{ name }}" placeholder="请输入搜索关键词" use-action-slot>
+    <view slot="action" bindtap="search">搜索</view>
+  </van-search>
+</view>
+<view class="container" style="{{isIpx?'padding-bottom:168rpx':'padding-bottom:120rpx'}}">
+  <block wx:if="{{MainList.length}}">
+    <!-- 列表 -->
+    <view class="list">
+      <view class="item" wx:for="{{MainList}}" wx:key="item">
+        <view class="top">
+          <view class="img" bindtap="previewImage" data-info="{{item}}">
+            <image src="{{item.headImg}}" preview-size="200rpx" mode="widthFix"></image>
+            <view class="{{item.status===0?'status green':item.status===1?'status yellow':'status gray'}}">
+              {{item.status===0?'开业':item.status===1?'审核中':'停用中'}}
+            </view>
+          </view>
+          <view class="right">
+            <view class="flex-space-between">
+              <view class="name">{{item.storeName}}</view>
+              <view class="about">
+                <view class="info">
+                  <view class="line">包间数量：{{item.roomNum}}</view>
+                </view>
+              </view>
+            </view>
+            <view class="address">
+              {{item.address}}
+              <!-- <text class="link color-primary" bindtap="goTencentMap" data-info="{{item}}">查看地图</text> -->
+            </view>
+          </view>
+        </view>
+        <van-divider class="divider" contentPosition="center" customStyle="color: #108ee9;" bind:tap="foldTap" data-index="{{item.storeId}}">
+          {{foldIndex === item.storeId ? "隐藏":"显示管理功能"}}
+        </van-divider>
+        <view class="btns {{foldIndex === item.storeId ? 'show': ''}}">
+          <navigator class="btn orage" url="../setStoreInfo/setStoreInfo?storeId={{item.storeId}}">
+            信息修改
+          </navigator>
+          <navigator class="btn orage" bind:tap="meituanScope" data-info="{{item.meituanScope}}">
+            美团授权
+          </navigator>
+          <navigator class="btn orage" bind:tap="enableWorkPrice" data-info="{{item.storeId}}">
+            <block wx:if="{{item.workPrice}}">禁用限时价</block>
+            <block wx:else>启用限时价</block>
+          </navigator>
+          <navigator class="btn yellow" url="../setDiscount/setDiscount?storeId={{item.storeId}}">
+            充值优惠
+          </navigator>
+          <navigator class="btn yellow" url="../setDoorList/setDoorList?storeId={{item.storeId}}">
+            房间管理
+          </navigator>
+          <navigator class="btn yellow" bind:tap="openStoreDoor" data-info="{{item.storeId}}">
+            开大门
+          </navigator>
+        </view>
+      </view>
+    </view>
+  </block>
+  <block wx:else>
+    <view class="nodata">暂无数据</view>
+  </block>
+</view>
+<!-- 底部按钮 -->
+<navigator url="../setStoreInfo/setStoreInfo" class="bottom bg-primary {{isIpx?'fix-iphonex-button':''}}">
+  新增门店
+</navigator>

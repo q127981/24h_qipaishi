@@ -1,0 +1,153 @@
+<!-- pages/doorList/doorList.wxml -->
+<wxs src="../../utils/magic.wxs" module="magic" />
+<view class="logo-top" style="padding-top:{{statusBarHeight+10}}px">
+  <view class="logo-name">
+    <view class="back iconfont icon-back" bind:tap="goBack"></view>
+    <image class="logo" src="../static/img/logo.png"></image>
+    <text class="name">{{doorinfodata.storeName}}</text>
+  </view>
+</view>
+<view class="container" style="padding-top:{{statusBarHeight+126}}rpx">
+  <image class="topNotice" mode="widthFix" style="width: 100%;" src="../static/img/notice.png"></image>
+  <view class="top-waring-container">
+      <view class="top-waring">
+      <image class="img" src="../static/icon/caution.png" mode="widthFix"/>
+      <rich-text class="info">
+      下单5分钟内可以取消订单，开始订单前可更换房间。迟到消费，订单按原预定时间开始计费。</rich-text>
+    </view>
+  </view>
+  <view class="top-tabs-container">
+    <!-- <view class="top-tabs" >
+      <view data-index="0" class="tab {{tabIndex === 0 && 'active'}}" bind:tap="tabChange">棋牌</view>
+      <view data-index="1" class="tab {{tabIndex === 1 && 'active'}}" bind:tap="tabChange">台球</view>
+      <view data-index="2" class="tab {{tabIndex === 2 && 'active'}}" bind:tap="tabChange">自习室</view>
+    </view> -->
+  </view>
+  <!-- 房间列表 -->
+  <view class="lists" wx:for="{{doorlistArr}}" wx:key="doorlistArr" id="roomList">
+    <view class="item">
+      <view class="top">
+        <view class="left">
+          <block wx:if="{{item.imageUrls.length>0}}">
+            <image class="img" src="{{magic.split(item.imageUrls)[0]}}" catchtap="imgYu" data-index="{{index}}"></image>
+          </block>
+          <block wx:else>
+            <image class="img" src="../static/img/logo.png"></image>
+          </block>
+          <block wx:if="{{item.status == 0}}">
+            <view class="flag disabled">禁用</view>
+          </block>
+          <block wx:elif="{{item.status == 1}}">
+            <view class="flag undo">空闲中</view>
+          </block>
+          <block wx:elif="{{item.status == 2}}">
+            <view class="flag daiqingjie">待清洁</view>
+          </block>
+          <block wx:elif="{{item.status == 3}}">
+            <view class="flag doing">使用中</view>
+          </block>
+          <block wx:else>
+            <view class="flag bukeyong">已预约</view>
+          </block>
+        </view>
+        <view class="right">
+          <view class="info">
+            <view class="name">
+              {{item.roomName}}
+              <block wx:if="{{item.type == 0}}">
+                <text class="type">（特价包）</text>
+              </block>
+              <block wx:elif="{{item.type == 1}}">
+                <text class="type">（小包）</text>
+              </block>
+              <block wx:elif="{{item.type == 2}}">
+                <text class="type">（中包）</text>
+              </block>
+              <block wx:else>
+                <text class="type">（大包）</text>
+              </block>
+            </view>
+            <view class="tags">
+              <block wx:for="{{magic.split(item.label)}}" wx:for-item="labelitem" wx:key="label">
+                <view class="tag">{{labelitem}}</view>
+              </block>
+            </view>
+          </view>
+          <view class="line2">
+            <view class="priceLabel">
+              <view class="price">
+                每小时
+                <label class="color-attention">￥{{item.price}}元</label>
+              </view>
+              <block wx:if="{{item.price!=item.workPrice}}">
+                <view class="price">
+                  闲时价
+                  <label class="color-attention">￥{{item.workPrice}}元</label>
+                </view>
+              </block>
+              <block wx:if="{{doorinfodata.showTxPrice}}">
+                <view class="price">
+                  通宵场
+                  <label class="color-attention">￥{{item.tongxiaoPrice}}元</label>
+                </view>
+              </block>
+            </view>
+            <view class="bottom">
+              <block wx:if="{{item.status == 0}}">
+                <!-- 禁用状态 -->
+                <view class="btn disabled">预约</view>
+              </block>
+              <block wx:else="">
+                <block wx:if="{{isLogin}}">
+                  <view class="btn bg-primary" bind:tap="goOrder" data-status="{{item.status}}" data-index="{{index}}" data-info="{{item.roomId}}">
+                    预约
+                  </view>
+                </block>
+                <block wx:else>
+                  <button hover-class="button-click" class="btn bg-primary" bindgetphonenumber="phone" open-type="getPhoneNumber" data-type="1" data-status="{{item.status}}" data-index="{{index}}" data-info="{{item.roomId}}">
+                    预约
+                  </button>
+                </block>
+              </block>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="foot">
+        <view class="foot-top">
+          <view class="labels">
+            <view class="label disabled">不可用</view>
+            <view class="label">可预约</view>
+          </view>
+          <block wx:if="{{item.status == 3}}">
+            <view class="tip color-attention" wx:if="{{item.endTime}}">
+              使用中 | {{item.endTime}}结束
+            </view>
+          </block>
+          <block wx:elif="{{item.status == 4}}">
+            <view class="tip color-attention" wx:if="{{item.endTime}}">
+              已预订 | {{item.startTime}}开始
+            </view>
+          </block>
+        </view>
+        <view class="times">
+          <block wx:for="{{timeHourAllArr[index]}}" wx:for-item="houritem2">
+            <view class="time {{houritem2.disable?'disabled':''}}">{{houritem2.hour}}</view>
+          </block>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- 温馨提示 -->
+  <view class="notes">
+    <view class="title border-primary">温馨提示</view>
+    <view class="line">1.下单5分钟内可以取消订单或更换房间，超时将无法取消！</view>
+    <view class="line">2.订单可以提前开始消费，提前开始提前结束。</view>
+    <view class="line">3.消费时间不足时，我们进行提醒。若房间后续时间已被他人预定，将无法续费！请您留意消费时长！</view>
+    <view class="line">4.预约时间结束后，房间将断电，灯光会自动熄灭。为了不影响下一位朋友使用，请您及时收拾物品离席。</view>
+    <view class="line">5.严禁黄、赌、毒打架斗殴等一切违法活动！</view>
+    <view class="line">6.破坏或带走本场所提供的设备设施请照价赔偿！</view>
+    <view class="line">7.请自行保管好私人物品，如有遗失概不负责！</view>
+    <view class="line">8.特殊情况，或需要帮助，请联系客服处理！</view>
+  </view>
+</view>

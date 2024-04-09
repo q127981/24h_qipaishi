@@ -1,0 +1,29 @@
+<!--pages/changeDoor/changeDoor.wxml-->
+<view class="container">
+  <van-cell-group>
+    <van-cell title="所属门店" value="{{orderInfo.storeName}}" />
+    <van-cell title="当前房间" value="{{orderInfo.roomName}}"/>
+    <van-cell title="开始时间" value="{{orderInfo.startTime}}" />
+    <van-cell title="结束时间" value="{{orderInfo.endTime}}" />
+
+  </van-cell-group>
+  <view class="lists">
+    <view class="title border-primary">房间</view>
+    <view class="doors" wx:if="{{doorList.length}}">
+      <!-- 禁用状态无法更换 -->
+      <view class="door {{roomType>=item.type || item.status ==0 || item.type>orderInfo.type?'disabled':''}} {{item.roomId === roomId?'bg-primary':''}}" wx:for="{{doorList}}" wx:key="doorList" bind:tap="choose" data-info="{{item}}">
+        <view class="name">{{item.roomName}}（{{item.type===1?'小包':item.type===2?'中包':'大包'}}）</view>
+        <block wx:if="{{item.roomId === orderInfo.roomId}}">
+          <view class="current"><image src="{{userinfo.avatar}}" mode="widthFix" /></view>
+        </block>
+        <block wx:else>
+          <view class="status" wx:if="{{item.roomId === roomId}}">当前选中</view>
+          <view class="status" wx:else>{{item.status==1?'空闲':item.status==2?'待清洁':item.status==3?'使用中':item.status==4?'已预约':'禁用'}}</view>
+        </block>
+      </view>
+    </view>
+  </view>
+  <view class="note"  bind:tap="call"><view class="iconfont icon-kefu"></view><text>如有疑问请点击联系客服</text></view>
+  <view class="submit bg-primary theme-color-shadow" bind:tap="submit">确定更换</view>
+</view>
+ 

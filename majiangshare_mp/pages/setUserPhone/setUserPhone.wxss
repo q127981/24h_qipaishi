@@ -1,0 +1,2 @@
+/* pages/setUserPhone/setUserPhone.wxss */
+@import '../setUserName/setUserName.wxss';

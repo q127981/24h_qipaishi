@@ -1,0 +1,66 @@
+/* pages/task/task.wxss */
+@import "../door/door.wxss";
+.container{
+  padding: 45px 16rpx 120rpx 16rpx;
+}
+.lists .item .info{
+  font-size: 28rpx;
+}
+.lists .item .tag{
+  font-size: 28rpx;
+  width: 130rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  right: 30rpx;
+  top: 30rpx;
+}
+.lists .item .red{
+  border: 1px solid var(--main-red);
+  color: var(--main-red);
+  border-radius: 12rpx;
+}
+.lists .item .blue2{
+  border: 1px solid var(--main-blue);
+  color: var(--main-blue);
+  border-radius: 12rpx;
+}
+.lists .item .tag.blue{
+  border: 1px solid var(--main-blue);
+  color: var(--main-blue);
+  border-radius: 12rpx;
+  background: #fff;
+}
+.lists .item .tag.gray{
+  border: 1px solid var(--main-gray);
+  color: var(--main-gray);
+  border-radius: 12rpx;
+  background: #fff;
+}
+.lists .item .btns .btn{
+  width: 260rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 30rpx;
+  border-radius: 12rpx;
+}
+.lists .item .btns .finish{
+  width: 560rpx;
+  margin-top: 20rpx;
+}
+.lists .item .btns .cancel{
+  background: var(--main-orange);
+}
+
+.lists .item .btns .cancel{
+  border: 1px solid var(--main-orange);
+  color: var(--main-orange);
+  border-radius: 12rpx;
+  background: #fff;
+}
+
+.lists .item .tag.green{
+  border: 1px solid var(--main-green);
+  color: var(--main-green);
+  border-radius: 12rpx;
+  background: #fff;
+}

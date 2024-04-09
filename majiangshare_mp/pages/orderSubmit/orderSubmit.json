@@ -1,0 +1,4 @@
+{
+  "navigationBarTitleText": "提交订单",
+  "usingComponents": {"van-datetime-picker": "@vant/weapp/datetime-picker/index"}
+}

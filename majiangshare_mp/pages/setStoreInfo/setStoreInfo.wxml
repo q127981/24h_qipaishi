@@ -1,0 +1,96 @@
+<!-- pages/setStoreInfo/setStoreInfo.wxml -->
+<view class="container" style="{{isIpx?'padding-bottom:168rpx':'padding-bottom:120rpx'}}">
+  <view class="form">
+    <van-cell-group>
+      <van-field model:value="{{ storeName }}" placeholder="请输入门店名称" label="门店名称" />
+    </van-cell-group>
+    <van-cell-group>
+      <van-field model:value="{{ cityName }}" placeholder="请输入所在城市" border="{{ false }}" label="所在城市" />
+    </van-cell-group>
+    <van-cell-group>
+      <van-field model:value="{{ address }}" autosize type="textarea" placeholder="请输入详细地址" border="{{ false }}" label="详细地址" />
+    </van-cell-group>
+    <van-cell-group>
+      <van-field model:value="{{ lat }}" placeholder="请输入经度" border="{{ false }}" label="经度" />
+    </van-cell-group>
+    <van-cell-group>
+      <van-field model:value="{{ lon }}" placeholder="请输入纬度" border="{{ false }}" label="纬度" />
+    </van-cell-group>
+    <van-cell-group>
+      <van-cell center title="显示通宵价格">
+        <switch checked="{{ showTxPrice }}" data-tag="showTxPrice" bindchange="onChangeSwitch"/>
+      </van-cell>
+    </van-cell-group>
+    <van-cell-group>
+      <van-field model:value="{{ txStartHour }}" placeholder="请输入18-23的数字,默认23" border="{{ false }}" label="通宵开始小时" />
+    </van-cell-group>
+    <van-cell-group>
+      <van-field model:value="{{ txHour }}" placeholder="请输入8-12的数字,默认8" border="{{ false }}" label="通宵时长(时)" />
+    </van-cell-group>
+    <van-cell-group>
+      <van-cell center title="延时5分钟灯光">
+        <switch checked="{{ delayLight }}"  data-tag="delayLight" bindchange="onChangeSwitch"/>
+      </van-cell>
+    </van-cell-group>
+    <van-cell-group>
+      <van-field model:value="{{ clearTime }}" placeholder="请输入5-30的数字,默认5" border="{{ false }}" label="清洁时间(分)" />
+    </van-cell-group>
+    <van-cell-group>
+      <van-cell center title="清洁时开放房间">
+        <switch checked="{{ clearOpen }}" data-tag="clearOpen" bindchange="onChangeSwitch"/>
+      </van-cell>
+    </van-cell-group>
+    <van-cell-group>
+      <van-field model:value="{{ kefuPhone }}" placeholder="请输入" border="{{ false }}" label="客服电话" />
+    </van-cell-group>
+    <van-cell-group>
+      <van-field model:value="{{ wifiInfo }}" placeholder="请输入" border="{{ false }}" label="WIFI信息" />
+    </van-cell-group>
+    <van-cell-group>
+      <van-field model:value="{{ notice }}" autosize type="textarea" maxlength="2000" placeholder="请输入" border="{{ false }}" label="门店公告" />
+    </van-cell-group>
+    <view class="line">
+      <label>门店小程序码</label>
+      <view class="right">
+        <image style="width:200rpx;height:200rpx;" data-src="{{qrCode}}" src="{{qrCode}}" bind:tap="previewImage"></image>
+      </view>
+    </view>
+    <view class="line">
+      <label>列表封面图</label>
+      <view class="right">
+        <van-uploader file-list="{{ fileList1 }}" bind:after-read="afterRead" data-info="1" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" />
+      </view>
+    </view>
+    <view class="line">
+      <label>门店轮播图</label>
+      <view class="right">
+        <van-uploader class="img" file-list="{{ fileList2 }}" bind:after-read="afterRead" data-info="2" bind:delete="delete" max-count="9" image-fit="aspectFit" preview-size="200rpx" />
+      </view>
+    </view>
+    <view class="line">
+      <label>首页按钮图</label>
+      <view class="right">
+        <view>
+          <van-uploader file-list="{{ btnfileList }}" bind:after-read="afterRead" data-info="10" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="立即预约按钮图" />
+        </view>
+        <van-uploader file-list="{{ qhfileList }}" bind:after-read="afterRead" data-info="11" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="切换门店按钮图" />
+        <van-uploader file-list="{{ tgfileList }}" bind:after-read="afterRead" data-info="12" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="团购兑换按钮图" />
+        <van-uploader file-list="{{ czfileList }}" bind:after-read="afterRead" data-info="13" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="会员充值按钮图" />
+        <van-uploader file-list="{{ openfileList }}" bind:after-read="afterRead" data-info="14" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="一键开门按钮图" />
+        <van-uploader file-list="{{ wififileList }}" bind:after-read="afterRead" data-info="15" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="WIFI信息按钮图" />
+        <van-uploader file-list="{{ kffileList }}" bind:after-read="afterRead" data-info="16" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="联系客服按钮图" />
+      </view>
+    </view>
+    <view class="line">
+      <label>门店风采</label>
+      <view class="right">
+        <van-uploader class="img" file-list="{{ fileList3 }}" bind:after-read="afterRead" data-info="3" bind:delete="delete" max-count="9" preview-size="200rpx" />
+      </view>
+    </view>
+  </view>
+  <!-- 底部按钮 -->
+  <view class="submit {{isIpx?'fix-iphonex-button':''}}">
+    <button hover-class="button-click" class="border-primary color-primary cancel" bindtap="cancel">取消</button>
+    <button hover-class="button-click" class="bg-primary" bindtap="submit">保存</button>
+  </view>
+</view>

@@ -1,0 +1,133 @@
+/* pages/setDoorList/setDoorList.wxss */
+.container{
+  padding: 16rpx 16rpx 120rpx 16rpx;
+}
+.list .item{
+  margin-bottom: 20rpx;
+  padding: 20rpx 30rpx;
+  background-image: linear-gradient(181.2deg, rgb(181, 239, 249) 10.5%, rgb(247, 206, 187) 86.8%);
+  border-radius: 30rpx;
+}
+.list .doing{
+  background: #fde3a6;
+}
+.list .undo{
+  background: #b2e2f9;
+}
+.list .clean{
+  background: #c4faab;
+}
+.list .disabled{
+  background: #bebebe;
+}
+.list .yuyue{
+  background: #6df77f;
+}
+.list .item .top{
+  display: flex;
+  justify-content: space-between;
+}
+.list .item .top .name{
+  font-size: 32rpx;
+  line-height: 40rpx;
+  color: #000;
+}
+.list .item .top .price{
+  font-size: 32rpx;
+}
+.list .item .tags{
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 20rpx;
+}
+@keyframes heightAnimation {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 110rpx;
+  }
+}
+.btns {
+  height: 0;
+  overflow: hidden;
+  transition: height 0.8s;
+}
+.btns.show {
+  height: 260rpx;
+}
+.list .item .tags .tag{
+  margin: 0 10rpx 10rpx 0;
+  border: 1px solid var(--main-color);
+  border-radius: 8rpx;
+  padding: 0 10rpx;
+  color: var(--main-color);
+  font-size: 22rpx;
+  line-height: 36rpx;
+}
+.list .item .info{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10rpx;
+  /* font-size: 26rpx; */
+}
+.list .item .info .line{
+  width: 50%;
+}
+.list .item .btns .line1{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20rpx;
+}
+.list .item .btns .line2{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20rpx;
+}
+.list .item .btns .btn{
+  padding: 0;
+  width: 30%;
+  text-align: center;
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 30rpx;
+  border-radius: 10rpx;
+  background: transparent;
+  color: #fff;
+  /* border: 1px solid var(--main-color); */
+}
+.list .item .btns .warning{
+  /* border: solid 1px #ff0000 ; */
+
+  /* color: #ff0000; */
+  background-color: rgba(231, 56, 32, 0.781);
+}
+.list .item .btns .red{
+  /* border: solid 1px #de868f; */
+  /* color: #de868f; */
+  background-color: #3ea7fd;
+}
+.list .item .btns .yellow{
+  /* border: solid 1px #e09047; */
+  /* color: #e09047; */
+  background-color: #34bb28;
+}
+.list .item .btns .primary{
+  border: solid 1px var(--main-color);
+  color: var(--main-color);
+}
+.bottom{
+  width: 430rpx;
+  height: 90rpx;
+  text-align: center;
+  line-height: 90rpx;
+  position: fixed;
+  bottom: 30rpx;
+  left: 160rpx;
+  border-radius: 50rpx;
+  font-size: 36rpx;
+}
+.van-divider{
+  margin: 0 !important;
+  line-height: normal !important;
+}

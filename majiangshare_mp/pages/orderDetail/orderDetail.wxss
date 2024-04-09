@@ -1,0 +1,331 @@
+/* pages/orderDetail/orderDetail.wxss */
+.top-container {
+  /* background-color: var(--main-color); */
+  padding: 30rpx 30rpx 20rpx 30rpx;
+  /* margin: 15rpx 15rpx; */
+  /* border-radius: 20rpx; */
+  /* background-color: rgb(255, 255, 255); */
+  box-sizing: border-box;
+  /* box-shadow: 0rpx 1rpx 10rpx 0rpx var(--main-color); */
+  background: radial-gradient(circle at 20% 10%, rgb(224, 245, 255) 0%, rgb(247, 246, 234) 90%);
+  /* border: 0.5rpx solid #fff; */
+  /* border-color: var(--main-color); */
+}
+.top .share{
+  margin-right: 10rpx;
+  font-size: 24rpx;
+  width: 120rpx;
+  height: 50rpx;
+  text-align: center;
+  line-height: 50rpx;
+  border-radius: 30rpx;
+  display: flex;
+  justify-content: center;
+}
+.top .share .iconfont{
+  margin-left: 10rpx;
+}
+.top .info {
+  display: flex;
+}
+.top .name{
+  font-size: 36rpx;
+  color: var(--main-color);
+  text-align: left;
+  font-weight: 600;
+  padding-top: 40rpx;
+  margin-left: 50rpx;
+}
+.top .share{
+  position: absolute;
+  right: 10rpx;
+}
+.top .roomImg{
+  margin-left: 20rpx;
+  width: 130rpx;
+  height: 130rpx;
+  border-radius: 10rpx;
+}
+.top .logo{
+  font-size: 30rpx;
+}
+.top .logo .link{
+  margin-left: 10rpx;
+  text-decoration: underline;
+}
+.timeBox{
+  margin: 10rpx 5rpx 10rpx;
+  /* background: #f5f6f9; */
+  /* border: 5rpx solid var(--main-color); */
+  border-radius: 20rpx;
+  padding: 10rpx 26rpx;
+  background-color: rgba(255, 255, 255, 0.295);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--main-color);
+}
+.timeBox .time .hour{
+  font-size: 36rpx;
+  margin-bottom: 20rpx;
+  font-weight: 600;
+}
+.timeBox .time .date{
+  font-size: 24rpx;
+}
+.timeBox .total{
+  width: 150rpx;
+  text-align: center;
+  border-width: 0;
+  border-bottom: 4rpx;
+  border-style: solid;
+  font-size: 36rpx;
+  padding-bottom: 20rpx;
+}
+
+.order-container {
+  padding: 5rpx 6rpx;
+  background-color: #fff;
+  margin: 20rpx 15rpx;
+  border-radius: 20rpx;
+  box-shadow: 0rpx 3rpx 10rpx 0rpx var(--main-color);
+  background: radial-gradient(circle at 20% 10%, rgb(218, 240, 250) 0%, rgb(248, 247, 235) 90%);
+}
+
+.orderInfo{
+  padding: 10rpx 20rpx 10rpx 10rpx;
+  /* color: rgb(97, 92, 92); */
+  border-radius: 16rpx;
+  /* position: relative; */
+  /* top: -46rpx; */
+}
+.orderInfo .item{
+  display: flex;
+  margin-bottom: 10rpx;
+}
+.orderInfo .item .title {
+  font-weight: 600;
+}
+
+.wifi{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 26rpx;
+  line-height: 30rpx;
+}
+.wifi .iconfont{
+  font-size: 32rpx;
+  line-height: 30rpx;
+  margin-top: 10rpx;
+}
+.btns{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 20rpx;
+  margin-top: 10rpx;
+}
+.btns .btnLarge{
+  width: 90%;
+  margin-bottom: 10rpx;
+  font-size: 36rpx;
+}
+.bar_btns {
+  display: flex;
+  justify-content: center;
+}
+.bar_btns .btnSmall{
+  height: 60rpx;
+  margin: 0rpx 60rpx;
+  /* line-height: 80rpx; */
+  border-radius: 10rpx;
+  padding: 10rpx 30rpx;
+  /* border: 1rpx solid var(--main-color); */
+  /* width: 200rpx; */
+  text-align: center;
+  box-sizing: border-box;
+  font-size: 30rpx;
+  background: #fc3131d8;
+  color: #fff;
+}
+.doors{
+  display: flex;
+  justify-content: space-around;
+  padding: 10rpx 10rpx;
+  padding-bottom: 25rpx;
+  border-radius: 12rpx;
+  margin-top: 20rpx;
+  flex-wrap: wrap;
+}
+.doors .door{
+  width: 200rpx;
+  border-radius: 15rpx;
+  text-align: center;
+  box-sizing: border-box;
+  font-size: 28rpx;
+  height: 88rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.doors .door.color-primary{
+  border: 2rpx solid var(--main-color);
+  background-color: var(--main-color);
+  opacity: 0.8;
+  color: rgb(255, 255, 255);
+}
+.doors .door.disabled{
+  background-color: #88898a;
+  opacity: 0.5;
+  color: rgb(24, 36, 44);
+}
+
+.doors .door.m-b-20{
+  margin-bottom: 26rpx;
+}
+.doors .door .action{
+  display: flex;
+  align-items: center;
+}
+
+.doors .tip {
+  width: 100%;
+  padding-left: 14rpx;
+  margin-top: 14rpx;
+  margin-bottom: 14rpx;
+  font-size: 22rpx;
+}
+.doors .share{
+  margin: 0;
+}
+.tip{
+  font-size: 18rpx;
+  color: #999;
+}
+/* .doors .door .iconfont.icon-fenxiang {
+  font-size: 20rpx;
+} */
+.doors .door .iconfont{
+  font-size: 40rpx;
+}
+
+.doors .door .text{
+  font-weight: 700;
+  width: 120rpx;
+  text-align: center;
+}
+
+switch {
+  zoom: .7;
+}
+.otherBtns{
+  display: flex;
+  justify-content: space-between;
+  padding: 10rpx 80rpx;
+}
+.otherBtns .btn{
+  width: 280rpx;
+  border-radius: 30rpx;
+  border: 5rpx solid #108ee9;
+  box-shadow: 0rpx 10rpx 10rpx #108fe9;
+  padding: 30rpx;
+  box-sizing: border-box;
+  text-align: left;
+  margin: 0;
+  line-height: 1;
+  /* background: linear-gradient(to right, #8f4c1f, #7eb4e7); */
+  /* background-image: linear-gradient(181.2deg, rgba(110, 204, 248, 0.445) 10.5%, rgb(254, 254, 254) 86.8%); */
+}
+
+.otherBtns .bt .text{
+  width: 170rpx;
+  text-align: center;
+}
+.otherBtns .bt:first-child{
+  margin-bottom: 30rpx;
+}
+.notes{
+  padding: 30rpx;
+  /* border-top: 1rpx solid #ddd; */
+}
+.notes .title{
+  border-width: 0;
+  border-left-width: 6rpx;
+  border-style: solid;
+  padding-left: 10rpx;
+  font-size: 32rpx;
+  margin-bottom: 10rpx;
+}
+.notes .line{
+  line-height: 48rpx;
+  font-size: 24rpx;
+  color: #666;
+}
+.van-stepper__input--disabled {
+  color: #333 !important;
+}
+.dialog{
+  padding: 30rpx;
+  width: 700rpx;
+}
+.dialog .item{
+  display: flex;
+  font-size: 28rpx;
+  line-height: 60rpx;
+}
+.dialog .item label{
+  color: #666;
+}
+
+.dialog .item .pays{
+  display: flex;
+  flex-direction: column;
+}
+
+.dialog .pay-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.dialog .pay {
+  width: 80%;
+  display: flex;
+  align-items: left;
+  justify-content: space-between;
+}
+
+.iconfont {
+  margin-right: 16rpx;
+}
+
+.wallet-info {
+  margin-left: -100rpx;
+}
+
+.dialog .pay .left{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.dialog label {
+  font-weight: 500;
+}
+.dialog .item .pay .info{
+  line-height: 30rpx;
+  font-size: 20rpx;
+  color: #666;
+  margin-left: 12rpx;
+}
+.dialog .item .pay:first-child{
+  margin-right: 20rpx;
+}
+.dialog .item .pay radio{
+  width: 100rpx;
+  zoom: .8;
+}
+.dialog .item .note{
+  word-wrap: break-word;
+  font-size: 24rpx;
+}

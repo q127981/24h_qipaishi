@@ -1,0 +1,21 @@
+/* pages/setUserName/setUserName.wxss */
+page{
+  background: #f5f5f5;
+}
+.input{
+  padding: 0 30rpx;
+  height: 100rpx;
+  background: #fff;
+  border-top: 1rpx solid #ddd;
+}
+.input input{
+  width: 100%;
+  height: 100%;
+  line-height: 100rpx;
+}
+.btn{
+  margin: 30rpx;
+  text-align: center;
+  line-height: 90rpx;
+  border-radius: 10rpx;
+}

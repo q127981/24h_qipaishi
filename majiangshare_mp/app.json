@@ -1,0 +1,117 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/doorList/doorList",
+    "pages/cleaner/cleaner",
+    "pages/admin/admin",
+    "pages/taskSettle/taskSettle",
+    "pages/statics/statics",
+    "pages/cashOut/cashOut",
+    "pages/SetOrder/SetOrder",
+    "pages/scanQr/scanQr",
+    "pages/setVip/setVip",
+    "pages/setCoupon/setCoupon",
+    "pages/setCouponInfo/setCouponInfo",
+    "pages/setStore/setStore",
+    "pages/setStoreInfo/setStoreInfo",
+    "pages/setDiscount/setDiscount",
+    "pages/setDoorList/setDoorList",
+    "pages/setDoorInfo/setDoorInfo",
+    "pages/task/task",
+    "pages/taskManager/taskManager",
+    "pages/taskDetail/taskDetail",
+    "pages/taskStatics/taskStatics",
+    "pages/doorSubmit/doorSubmit",
+    "pages/door/door",
+    "pages/doorSelect/doorSelect",
+    "pages/user/user",
+    "pages/join/join",
+    "pages/setUserInfo/setUserInfo",
+    "pages/setUserName/setUserName",
+    "pages/setUserPhone/setUserPhone",
+    "pages/tuangou/tuangou",
+    "pages/myBalance/myBalance",
+    "pages/getBalance/getBalance",
+    "pages/orderDetail/orderDetail",
+    "pages/changeDoor/changeDoor",
+    "pages/orderSubmit/orderSubmit",
+    "pages/coupon/coupon",
+    "pages/doorDetail/doorDetail",
+    "pages/tencentMap/tencentMap",
+    "pages/help/help",
+    "pages/recharge/recharge",
+    "pages/orderList/orderList",
+    "pages/logs/logs",
+    "pages/location/location",
+    "pages/login/login",
+    "pages/booking/booking"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "麻总监24H自助棋牌茶室",
+    "navigationBarTextStyle": "black"
+  },
+  "plugins": {
+    "myPlugin": {
+      "version": "2.9.4",
+      "provider": "wx43d5971c94455481"
+    }
+  },
+  "tabBar": {
+    "selectedColor": "#1684fc",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "pages/static/icon/home.png",
+        "selectedIconPath": "pages/static/icon/home-in.png"
+      },
+      {
+        "pagePath": "pages/orderList/orderList",
+        "text": "我的订单",
+        "iconPath": "pages/static/icon/order.png",
+        "selectedIconPath": "pages/static/icon/order-in.png"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "text": "个人中心",
+        "iconPath": "pages/static/icon/my.png",
+        "selectedIconPath": "pages/static/icon/my-in.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "usingComponents": {
+    "van-button": "@vant/weapp/button/index",
+    "van-dialog": "@vant/weapp/dialog/index",
+    "van-stepper": "@vant/weapp/stepper/index",
+    "van-cell": "@vant/weapp/cell/index",
+    "van-cell-group": "@vant/weapp/cell-group/index",
+    "van-action-sheet": "@vant/weapp/action-sheet/index",
+    "van-calendar": "@vant/weapp/calendar/index",
+    "van-field": "@vant/weapp/field/index",
+    "van-picker": "@vant/weapp/picker/index",
+    "van-dropdown-menu": "@vant/weapp/dropdown-menu/index",
+    "van-dropdown-item": "@vant/weapp/dropdown-item/index",
+    "van-uploader": "@vant/weapp/uploader/index",
+    "van-search": "@vant/weapp/search/index",
+    "van-tag": "@vant/weapp/tag/index",
+    "van-datetime-picker": "@vant/weapp/datetime-picker/index",
+    "van-tab": "@vant/weapp/tab/index",
+    "van-tabs": "@vant/weapp/tabs/index",
+    "van-popup": "@vant/weapp/popup/index",
+    "van-icon": "@vant/weapp/icon/index",
+    "van-divider": "@vant/weapp/divider/index"
+  },
+  "requiredPrivateInfos": ["getLocation", "chooseLocation"],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "小程序需要使用定位功能"
+    },
+    "scope.writePhotosAlbum": {
+      "desc": "小程序需要保存图片至你的相册"
+    }
+  }
+}

@@ -1,0 +1,77 @@
+/* pages/changeDoor/changeDoor.wxss */
+.container{
+  padding-bottom: 100rpx;
+}
+.lists{
+  padding: 30rpx 30rpx 0;
+}
+.lists .title{
+  border-width: 0;
+  border-left-width: 6rpx;
+  border-style: solid;
+  padding-left: 10rpx;
+  font-size: 30rpx;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 30rpx;
+}
+.lists .doors{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.lists .doors .door{
+  width: 330rpx;
+  border: 1rpx solid rgb(59, 58, 58);
+  border-radius: 20rpx;
+  padding: 20rpx;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+.lists .doors .door .name{
+  margin-bottom: 10rpx;
+  font-size: 32rpx;
+  
+}
+.lists .doors .door .current{
+  width: 50rpx;
+  height: 50rpx;
+  border-radius: 100%;
+  border: 1rpx solid #ddd;
+  overflow: hidden;
+}
+.lists .doors .door .current image{
+  width: 100%;
+}
+.lists .doors .door .status{
+  line-height: 50rpx;
+}
+.lists .doors .disabled{
+  background: #f5f5f5;
+  color: #999;
+}
+.note{
+  padding: 0 30rpx;
+  display: flex;
+  font-size: 24rpx;
+}
+.note text{
+  margin-left: 10rpx;
+  color: #999;
+  text-decoration: underline;
+}
+.submit{
+  position: fixed;
+  bottom: 120rpx;
+  left: 3%;
+  height: 100rpx;
+  width: 94%;
+  text-align: center;
+  line-height: 100rpx;
+  font-size: 30rpx;
+  border-radius: 20rpx;
+}

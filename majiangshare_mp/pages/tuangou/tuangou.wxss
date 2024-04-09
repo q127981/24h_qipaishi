@@ -1,0 +1,4 @@
+/* pages/tuangou/tuangou.wxss */
+image{
+  width: 100%;
+}

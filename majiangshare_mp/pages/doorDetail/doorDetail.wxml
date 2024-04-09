@@ -1,0 +1,32 @@
+<!--pages/doorDetail/doorDetail.wxml-->
+<view class="container">
+  <view class="section">
+    <view class="border-primary title">门店风采</view>
+    <block wx:if="{{storeEnvImg.length}}">
+      <view class="content">
+        <block wx:for="{{storeEnvImg}}" wx:key="storeEnvImg">
+          <image src="{{item}}" mode="widthFix"></image>
+        </block>
+      </view>
+    </block>
+  </view>
+  <view class="section">
+    <view class="border-primary title">空间介绍</view>
+    <view class="content">
+      <rich-text nodes="{{doorinfodata.content}}">
+      </rich-text>
+    </view>
+  </view>
+  <view class="section">
+    <view class="title border-primary">温馨提示</view>
+    <view class="line">1.下单5分钟内可以取消订单或更换房间，超时将无法取消！</view>
+    <view class="line">2.订单无法暂停，迟到消费，按原预订时间开始计费！</view>
+    <view class="line">3.订单可以提前开始消费，提前开始提前结束。</view>
+    <view class="line">4.消费时间不足时，我们进行提醒。若房间后续时间已被他人预定，将无法续费！请您留意消费时长！</view>
+    <view class="line">5.预约时间结束后，房间将断电，灯光会自动熄灭。为了不影响下一位朋友使用，请您及时收拾物品离席。</view>
+    <view class="line">6.严禁黄、赌、毒打架斗殴等一切违法活动！</view>
+    <view class="line">7.破坏或带走本场所提供的设备设施请照价赔偿！</view>
+    <view class="line">8.请自行保管好私人物品，如有遗失概不负责！</view>
+    <view class="line">9.特殊情况，或需要帮助，请联系客服处理！</view>
+  </view>
+</view>

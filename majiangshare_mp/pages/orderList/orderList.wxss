@@ -1,0 +1,238 @@
+/* pages/orderList/orderList.wxss */
+page{
+  background: #ececec;
+}
+.navigtor{
+  position: fixed;
+  z-index: 1;
+  background: #fff;
+  width: 100%;
+}
+.navigtor .title{
+  text-align: center;
+}
+.navigtor .left{
+  position: absolute;
+  left: 30rpx;
+}
+.navigtor .iconfont{
+  font-size: 40rpx;
+}
+.tabs{
+  position: fixed;
+  z-index: 9;
+  width: 100%;
+  height: 45px;
+}
+.tabs .van-dropdown-menu{
+  border-bottom: 1rpx solid #ddd;
+  height: 45px;
+}
+.tabs .van-dropdown-menu__title{
+  font-size: 30rpx !important;
+}
+.tabs .van-dropdown-menu{
+  box-shadow: none !important;
+}
+.lists{
+  padding: 15rpx 20rpx;
+}
+.lists .item{
+  /* background: #fff; */
+  background: radial-gradient(circle at 20% 10%, rgb(210, 247, 250) 0%, rgb(238, 245, 235) 86.8%);
+  border-radius: 20rpx;
+  /* border: 4rpx solid #b1d1f7; */
+  padding: 15rpx 26rpx;
+  margin: 0rpx 10rpx;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 10rpx 10rpx 10rpx rgba(0, 0, 0, .1);
+}
+.lists .item:last-child{
+  margin-bottom: 0;
+}
+.lists .item .orderNo{
+  font-weight: 550;
+  color: #45c1faea;
+}
+.lists .item .info {
+  font-weight: 400;
+  display: flex;
+  justify-content: flex-start;
+}
+.lists .item .info .li {
+  margin: 25rpx;
+}
+
+.lists .item .roomImg{
+  margin: 15rpx;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 10rpx;
+}
+.lists .item .tag{
+  position: absolute;
+  right: 35rpx;
+  top: 80rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  width: 130rpx;
+  height: 48rpx;
+  text-align: center;
+  line-height: 48rpx;
+  /* color: #fff; */
+  border-radius: 10rpx;
+}
+.lists .item .tag.blue{
+  color: var(--main-color);
+  border: 4rpx solid var(--main-color);
+}
+.lists .item .tag.yellow{
+  color: var(--main-orange);
+  border: 4rpx solid var(--main-orange);
+}
+.lists .item .tag.gray{
+  color: var(--main-gray);
+  border: 4rpx solid var(--main-gray);
+}
+.lists .item .tag.finish{
+  color: #da4848;
+  border: 4rpx solid #da4848;
+}
+.lists .item .title{
+  font-weight: 600;
+  font-size: 30rpx;
+}
+.lists .item .name{
+  color: #999;
+  font-size: 28rpx;
+}
+.timeBox{
+  margin: 5rpx 0;
+  /* background: #dddedf; */
+  border-radius: 10rpx;
+  padding: 10rpx 30rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #108ae0bd;
+}
+.timeBox .time .hour{
+  font-size: 32rpx;
+  text-align: center;
+  margin-bottom: 10rpx;
+  font-weight: 600;
+}
+.timeBox .time .date{
+  font-size: 28rpx;
+}
+.timeBox .total{
+  width: 150rpx;
+  text-align: center;
+  border-width: 0;
+  border-bottom: 4rpx;
+  border-style: solid;
+  font-size: 30rpx;
+  padding-bottom: 20rpx;
+}
+.lists .item .bottom{
+  display: flex;
+  justify-content: space-between;
+  font-size: 24rpx;
+}
+.lists .item .bottom .info{
+  font-size: 24rpx;
+  line-height: 40rpx;
+}
+.lists .item .bottom .price{
+  font-size: 24rpx;
+  color: red;
+}
+.lists .item .btns{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 5rpx;
+  margin-bottom: 5rpx;
+}
+.lists .item .btns .btn{
+  margin: 0 0 0 20rpx;
+  padding: 0;
+  width: 160rpx;
+  height: 60rpx;
+  line-height: 58rpx;
+  font-size: 28rpx;
+  border-radius: 30rpx;
+  background: transparent;
+}
+.lists .item .btns .share{
+  border-width: 1rpx;
+  border-style: solid;
+}
+.lists .item .btns .cancel{
+  background: #999;
+  color: #fff;
+}
+.dialog{
+  padding: 30rpx;
+}
+.dialog .item{
+  display: flex;
+  font-size: 28rpx;
+  line-height: 40rpx;
+  padding: 10rpx 0;
+}
+.dialog .item label{
+  color: #666;
+  flex-shrink: 0;
+}
+.dialog .item text{
+  font-weight: 600;
+  font-size: 26rpx;
+}
+.dialog .item .pays{
+  display: flex;
+}
+.dialog .item .pay .info{
+  line-height: 40rpx;
+  font-size: 24rpx;
+  color: #666;
+}
+.dialog .item .pay:first-child{
+  margin-right: 20rpx;
+}
+.dialog .item .pay radio{
+  zoom: .8;
+}
+.dialog .item .note{
+  font-size: 24rpx;
+}
+
+/* 未登录 */
+.containerlogin{
+  padding: 0 60rpx;
+}
+.photo{
+  padding: 60rpx 0;
+  text-align: center;
+}
+.photo .img{
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.photo .img image{
+  width: 100%;
+  height: 100%;
+}
+.photo .name{
+  margin-top: 20rpx;
+}
+.loginBtn{
+  margin-top: 60rpx;
+  border-radius: 50rpx;
+  font-size: 28rpx;
+  height: 90rpx;
+  line-height: 90rpx;
+}

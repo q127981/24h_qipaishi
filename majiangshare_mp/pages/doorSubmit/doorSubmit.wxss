@@ -1,0 +1,37 @@
+/* pages/doorSubmit/doorSubmit.wxss */
+@import "../orderSubmit/orderSubmit.wxss";
+.plays .item .left label{
+  font-weight: 600;
+}
+.plays .item .left .iconfont{
+  font-size: 40rpx;
+  margin-right: 20rpx;
+}
+.plays .play{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10rpx;
+}
+.plays .item textarea{
+  border: 1rpx solid #ddd;
+  padding: 20rpx;
+  margin-top: 20rpx;
+  height: 200rpx;
+}
+.submit{
+  width: 200rpx;
+  height: 90rpx;
+  width: 360rpx;
+  border-radius: 50rpx;
+  text-align: center;
+  line-height: 90rpx;
+  font-size: 30rpx;
+  position: fixed;
+  bottom: 20rpx;
+  left: 50%;
+  margin-left: -180rpx;
+}
+.container{
+  padding-bottom: 120rpx;
+}

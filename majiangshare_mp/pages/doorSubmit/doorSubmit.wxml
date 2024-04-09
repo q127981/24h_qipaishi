@@ -1,0 +1,117 @@
+<!--pages/orderSubmit/orderSubmit.wxml-->
+<wxs src="../../utils/magic.wxs" module="magic" />
+<view class="container" style="{{isIpx?'padding-bottom:168rpx':'padding-bottom:120rpx'}}">
+  <view class="section top">
+    <view class="logo"><span class="doorname">{{doorname}}</span></view>
+    <view class="topInfo">
+      <view class="left" bind:tap="imgYu">
+        <block wx:if="{{roomInfo.imageUrls.length>0}}">
+          <image class="img" src="{{magic.split(roomInfo.imageUrls)[0]}}" catchtap="imgYu" data-index="{{index}}"></image>
+        </block>
+        <block wx:else>
+          <image class="img" src="../static/img/logo.png"></image>
+        </block>
+          <block wx:if="{{item.status == 0}}">
+            <view class="flag disabled">禁用</view>
+          </block>
+          <block wx:elif="{{item.status == 1}}">
+            <view class="flag undo">空闲中</view>
+          </block>
+          <block wx:elif="{{item.status == 2}}">
+            <view class="flag daiqingjie">待清洁</view>
+          </block>
+          <block wx:elif="{{item.status == 3}}">
+            <view class="flag doing">使用中</view>
+          </block>
+          <block wx:else>
+            <view class="flag bukeyong">已预约</view>
+          </block>
+      </view>
+      <view class="right">
+        <view class="info">
+          <view class="name"><span class="doorname">{{roomInfo.roomName}}</span>
+            <block wx:if="{{roomInfo.type == 0}}">
+              <text class="type">（特价包）</text>
+            </block>
+            <block wx:elif="{{roomInfo.type == 1}}">
+              <text class="type">（小包）</text>
+            </block>
+            <block wx:elif="{{roomInfo.type == 2}}">
+              <text class="type">（中包）</text>
+            </block>
+            <block wx:else>
+              <text class="type">（大包）</text>
+            </block>
+          </view>
+          <view class="tags">
+            <block wx:for="{{magic.split(roomInfo.label)}}" wx:for-item="labelitem" wx:key="label">
+              <view class="tag">{{labelitem}}</view>
+            </block>
+          </view>
+        </view>
+        <view class="bottom">
+          <view class="price color-attention">￥{{roomInfo.price}}/小时</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="section">
+    <view class="times">
+      <text class="text">开始时间：</text>
+      <view class="item">
+        <view class="date">{{begin_month_day_time}}</view>
+        <view mode="time" bind:tap="setshowSelectHour">
+          <view class="time">{{begin_hour_minute_time}}<icon class="iconfont icon-editor"></icon>
+          </view>
+        </view>
+      </view>
+      <text class="text tap">至</text>
+      <view class="item">
+        <view class="date">{{end_month_day_time}}</view>
+        <view mode="time">
+          <view class="timeno">{{end_hour_minute_time}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="times-quick">
+      <view class="item {{select_time_index == 0?'active':''}}" bind:tap="selectTimeHour" data-index="0">4小时</view>
+      <view class="item {{select_time_index == 1?'active':''}}" bind:tap="selectTimeHour" data-index="1">5小时</view>
+      <view class="item {{select_time_index == 2?'active':''}}" bind:tap="selectTimeHour" data-index="2">6小时</view>
+      <view class="item {{select_time_index == 3?'active':''}}" bind:tap="selectTimeHour" data-index="3">通宵场</view>
+      <view class="item {{select_time_index == 4?'active':''}}" bind:tap="otherTime" data-index="4">其他</view>
+    </view>
+    <view class="times-total">
+      <text class="label">预订时间</text>
+      <text>{{submit_begin_time}}至{{submit_end_time}}</text>
+    </view>
+  </view>
+  <view class="section plays">
+    <view class="item play">
+      <view class="left">
+        <text class="iconfont icon-duoren color-primary"></text>
+        <label>拼场人数</label>
+      </view>
+      <view><van-stepper value="{{ userNum }}" bind:change="onChange" min="2" max="4" /></view>
+    </view>
+    <view class="item">
+      <view class="left">
+        <text class="iconfont icon-wanle color-primary"></text>
+        <label>拼场玩法</label>
+      </view>
+      <view><textarea model:value="{{ruleDesc}}" maxlength="40" placeholder="输入玩法规则，最多30个字，必填"></textarea></view>
+    </view>
+  </view>
+  <view class="submit bg-primary {{isIpx?'fix-iphonex-button':''}}" bind:tap="submit">提交</view>
+</view>
+<!-- 其他时间弹窗 -->
+<van-popup show="{{ show }}"  position="bottom">
+  <van-picker show-toolbar columns="{{ columns }}" bind:confirm="onTimeConfirm" bind:cancel="onTimeCancel" />
+</van-popup>
+
+<van-popup show="{{ showtimefalge }}" position="bottom"
+  custom-style="height: 60%">
+  <van-datetime-picker type="time" value="{{currentDate}}"  filter="{{filter}}" bind:confirm="timeChange" bind:cancel="timeCancel" min-hour="{{minHour}}">
+  </van-datetime-picker>
+</van-popup>
+
+

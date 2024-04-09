@@ -1,0 +1,30 @@
+<!--pages/help/help.wxml-->
+<view class="container">
+  <image src="../static/img/help.jpg" mode="widthFix" style="height: auto;width: 100%;"></image>
+  <view class="section">
+    <view class="title">怎么下单？</view>
+        <view>1、确定门店和消费房间，点击预约按钮</view>
+        <view>2、选择消费开始时间以及时长</view>
+        <view>3、使用微信或余额支付，或者粘贴团购券进行下单</view>
+        <view>4、在我的订单-订单详情可以看到订单的信息</view>
+        <view>5、店内贴有下单流程或视频教程，可参考进行操作</view>
+  </view>
+  <view class="section">
+    <view class="title">购买的团购券如何消费？</view>
+        <view>1、首先在团购平台，复制购买的团购券码</view>
+        <view>2、进入小程序下单页面，选择消费开始时间以及时长</view>
+        <view>3、确认房间类型和时长与团购券是否匹配</view>
+        <view>4、粘贴团购券码到团购兑换输入框</view>
+        <view>5、点击提交即可自动验券下单</view>
+  </view>
+  <view class="section">
+    <view class="title">怎么取消订单和更换房间？</view>
+        <view>1、订单下单5分钟内都可以取消，超过5分钟仍需要取消，请联系客服处理</view>
+        <view>2、订单开始前，都可以更换同等级别或以下的房间</view>
+        <view>3、客服上班时间一般为10：00 ~ 23：00，如果客服下班了，您确实没有实际消费，次日客服上班核实后，也是可以退款的！</view>
+  </view>
+  <view class="section">
+    <view class="title">预定的房间没有清洁怎么办？</view>
+    <view class="item">尊敬的顾客，保洁时间一般为：10:00~20:00，如您消费时预定了未清洁的门店，可以选择取消订单重新预定，或赠送您半小时使用时长，请添加门店的客服微信进行处理。</view>
+  </view>
+</view>

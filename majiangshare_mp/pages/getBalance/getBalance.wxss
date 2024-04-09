@@ -1,0 +1,64 @@
+/* pages/getBalance/getBalance.wxss */
+.container{
+  padding: 0rpx 20rpx;
+}
+.account{
+  display: flex;
+  background: linear-gradient(to bottom right, var(--main-color) , #c3ddfa);
+  justify-content: space-between;
+  padding: 20rpx 30rpx;
+  color: #fff;
+  border-radius: 10rpx;
+  margin-top: 30rpx;
+  font-size: 30rpx;
+}
+.account text{
+  font-size: 30rpx;
+  font-weight: 600;
+  margin-left: 10rpx;
+}
+.list{
+  margin-top: 10rpx;
+  border-top: 1rpx solid #ddd;
+}
+.list .item{
+  border-bottom: 1rpx solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5rpx 40rpx 10rpx 10rpx;
+  font-size: 32rpx;
+  text-align: center;
+}
+.list .item .name{
+  width: 50%;
+}
+.list .item .price{
+  width: 200rpx;
+  text-align: right; 
+}
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 32rpx;
+  text-align: center;
+  padding: 5rpx 40rpx 10rpx 10rpx;
+  background: linear-gradient(to bottom right, var(--main-color) , #8ebcf1);
+  justify-content: space-between;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 20rpx;
+}
+.cell1 {
+  width: 40%;
+  padding: 10rpx 0 0 0;
+  box-sizing: border-box;
+}
+.cell2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10rpx;
+}

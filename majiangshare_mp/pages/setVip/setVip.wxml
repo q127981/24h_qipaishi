@@ -1,0 +1,80 @@
+<!-- pages/setVip/setVip.wxml -->
+<view class="search">
+  <van-search model:value="{{ name }}" placeholder="请输入昵称、手机号" use-action-slot>
+    <view slot="action" bind:tap="search">搜索</view>
+  </van-search>
+  <view class="sorts">
+    <view class="sort border-primary color-primary" bind:tap="search" data-info="createTime">
+      <text>注册时间</text>
+      <view class="iconfont icon-paixu"></view>
+    </view>
+    <view class="sort border-primary color-primary" bind:tap="search" data-info="orderTime">
+      <text>下单时间</text>
+      <view class="iconfont icon-paixu"></view>
+    </view>
+    <view class="sort border-primary color-primary" bind:tap="search" data-info="orderCount">
+      <text>订单数量</text>
+      <view class="iconfont icon-paixu"></view>
+    </view>
+  </view>
+</view>
+<view class="container">
+  <block wx:if="{{MainList.length}}">
+    <!-- 列表 -->
+    <view class="list">
+      <view class="item" wx:for="{{MainList}}" wx:key="item">
+        <view class="top">
+          <view class="left">
+            <view class="img">
+              <image src="{{item.avatar}}" mode="widthFix"></image>
+            </view>
+            <view class="nick">{{item.nickname}}</view>
+            <view>
+              <!-- 选择会员 -->
+              <view class="btns" wx:if="{{isSelect}}">
+                <button hover-class="button-click" class="btn bg-primary" bindtap="select" data-info="{{item.id}}">
+                  选择
+                </button>
+              </view>
+              <!-- 会员管理 -->
+              <view class="btns" wx:else>
+                <!-- <navigator class="btn red" url="../recharge/recharge?userId={{item.id}}">赠送余额</navigator> -->
+                <!-- <navigator class="btn bg-primary" url="../index/index?userId={{item.id}}" open-type="switchTab">代下单</navigator> -->
+                <navigator class="btn green" url="../setCoupon/setCoupon?isSelect=1&&userId={{item.id}}">
+                  赠送优惠券
+                </navigator>
+              </view>
+            </view>
+          </view>
+          <view class="right">
+            <view class="info">
+              手机号 ：{{item.mobile}}
+              <text class="link color-primary" wx:if="{{!isSelect}}" bindtap="copy" data-info="{{item.mobile}}">点击复制</text>
+            </view>
+            <view class="info">注册时间：{{item.createTime}}</view>
+            <view class="info">最近下单：{{item.orderTime?item.orderTime:''}}</view>
+            <view class="info">
+              总订单数：
+              <text>{{item.orderCount}}</text>
+              单
+            </view>
+            <view class="info" wx:if="{{!isSelect}}">
+              账户余额：
+              <text>{{item.balance}}</text>
+              元
+            </view>
+            <view class="info" wx:if="{{!isSelect}}">
+              赠送余额：
+              <text>{{item.giftBalance}}</text>
+              元
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{canLoadMore}}" class="noteMore">下拉刷新查看更多...</view>
+  </block>
+  <block wx:else>
+    <view class="nodata">暂无数据</view>
+  </block>
+</view>

@@ -1,0 +1,195 @@
+/**app.wxss**/
+@import './style/iconfont/iconfont.wxss';
+@import './style/common.wxss';
+page {
+  background: #f4f4f4;
+}
+.container {
+  box-sizing: border-box;
+  font-size: 28rpx;
+  color: #333;
+} 
+button::after{
+  display: none;
+}
+/* 主题色 */
+.color-primary{
+  color: var(--main-color);
+}
+.border-primary{
+  border-color: var(--main-color);
+}
+/* 设置点点的样式 */
+swiper .wx-swiper-dot {
+  display:none;
+}
+
+/* 加强颜色 */
+.color-attention{
+  color: #ea4e4e;
+}
+.bg-attention{
+  background: #ea4e4e;
+  color: #fff;
+}
+/* 主题标签 */
+.tag-primary{
+  color: var(--main-color);
+  background: #f4f7ff;
+  border: 1rpx solid #d6e3ff;
+  padding: 0 10rpx;
+  height: 44rpx;
+  line-height: 44rpx;
+  font-size: 24rpx;
+}
+/* 主题背景色 */
+.bg-primary{
+  background: var(--main-color) !important;
+  color: #fff !important;
+}
+.bg-warning{
+  background: #ff0000 !important;
+  color: #fff !important;
+}
+.bg-primary1{
+  background:rgb(247, 127, 47) !important;
+  color: #fff !important;
+}
+.bg-primary2{
+  background:var(--main-color) !important;
+  color: #fff !important;
+}
+button[disabled]:not([type]) {
+  background-color: #ddd !important;
+  color: rgba(0,0,0,.3) !important;
+}
+
+.button-click {
+  opacity: 0.6;
+}
+
+/* logo头部 */
+.logo-top{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20rpx 30rpx;
+  background-color: #fff;
+  z-index: 1;
+}
+.logo-top .back{
+  margin-left: -10rpx;
+  margin-right: 10rpx;
+  font-size: 40rpx;
+}
+/* logo和名称 */
+.logo-name{
+  display: flex;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+.logo-name .logo{
+  font-size: 30rpx;
+  width: 50rpx;
+  height: 50rpx;
+  margin-right: 10rpx;
+}
+.logo-name .name{
+  font-size: 36rpx;
+  color: #000;
+  font-weight: 700;
+}
+/* 暂无数据 */
+.nodata{
+  text-align: center;
+  color: #999;
+  font-size: 24rpx;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+}
+/* 下拉查看更多 */
+.noteMore{
+  text-align: center;
+  color: #999;
+  font-size: 24rpx;
+  padding: 20rpx 0;
+}
+/* 未登录 */
+.nologin{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-top: 50rpx;
+  margin-left: -100rpx;
+}
+.nologin button{
+  width: 200rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  font-size: 28rpx;
+  background: #fff;
+}
+/* 下拉多选 */
+.pickerMult{
+  width: 96%;
+  min-height: 70rpx;
+  border: 1rpx solid #eee;
+  padding: 0 20rpx;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+}
+.pickerMult .icon-xuanzex{
+  font-size: 30rpx;
+  color: #aaa;
+  position: absolute;
+  right: 20rpx;
+  top: 50%;
+  margin-top: -15rpx;
+}
+.pickerMult .mult{
+  display: flex;
+  align-items: center;
+  background: #f0f2f5;
+  vertical-align: top;
+  margin: 10rpx 20rpx 10rpx 0;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  padding: 0 10rpx 0 20rpx;
+}
+.pickerMult .mult .iconfont{
+  color: #c6cad1;
+  padding: 10rpx;
+  font-size: 32rpx;
+}
+.fix-iphonex-button {
+  bottom:68rpx!important;
+}
+.fix-iphonex-button::after {
+  content: ' ';
+  position: fixed;
+  bottom: 0!important;
+  height: 68rpx!important;
+  width: 100%;
+  left: 0;
+  background: #f4f4f4;
+}
+
+.fix-iphonex-button.transparent::after {
+  content: ' ';
+  position: fixed;
+  bottom: 0!important;
+  height: 68rpx!important;
+  width: 100%;
+  left: 0;
+  background: none;
+}
+
+.flex-space-between {
+  display: flex;
+  justify-content: space-between;
+}

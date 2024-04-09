@@ -1,0 +1,31 @@
+/* pages/login/login.wxss */
+page {
+  background: #fff;
+}
+.container{
+  padding: 0 60rpx;
+}
+.photo{
+  padding: 60rpx 0;
+  text-align: center;
+}
+.photo .img{
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 100%;
+  margin: 0 auto;
+}
+.photo .img image{
+  width: 100%;
+  height: 100%;
+}
+.photo .name{
+  margin-top: 20rpx;
+}
+.loginBtn{
+  margin-top: 60rpx;
+  border-radius: 50rpx;
+  font-size: 28rpx;
+  height: 90rpx;
+  line-height: 90rpx;
+}

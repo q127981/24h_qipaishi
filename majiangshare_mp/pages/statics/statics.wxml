@@ -1,0 +1,261 @@
+<!--pages/statics/statics.wxml-->
+<view class="container">
+  <view class="search">
+      <van-dropdown-menu active-color="{{mainColor}}">
+        <van-dropdown-item value="{{ storeId }}" options="{{ stores }}"  bind:change="storeDropdown"/>
+      </van-dropdown-menu>
+    </view>
+  <view class="section top">
+    <view class="box">
+      <view class="item">
+        <view class="color-primary">总收入(元)</view>
+        <view class="price">{{topinfo.totalMoney}}</view>
+      </view>
+      <view class="item">
+        <view class="color-primary">总订单数</view>
+        <view class="price">{{topinfo.totalOrder}}</view>
+      </view>
+      <!-- <view class="item">
+        <view class="color-primary">已提现(元)</view>
+        <view class="price">{{topinfo.withdrawalMoney}}</view>
+      </view> -->
+    </view>
+    <!-- <view class="btns">
+      <button hover-class="button-click"  class="btn bg-primary" bindtap="cashOut">申请提现</button>
+      <navigator class="btn record" url="../cashOut/cashOut">提现记录</navigator>
+    </view> -->
+   
+  </view>
+  <view class="section total">
+    <view class="box">
+      <view class="item">
+        <view class="label color-primary">总收入</view>
+        <view class="price2">{{businfo.total}}</view>
+      </view>
+      <view class="item">
+        <view class="label color-primary">微信</view>
+        <view class="price2">{{businfo.money}}</view>
+      </view>
+      <view class="item">
+        <view class="label color-primary">团购</view>
+        <view class="price2">{{businfo.tgMoney}}</view>
+      </view>
+      <view class="item">
+        <view class="label color-primary">订单数</view>
+        <view class="price2">{{businfo.orderCount}}</view>
+      </view>
+      <!-- <view class="item">
+        <view class="label">下单人数</view>
+        <view class="price">{{businfo.memberCount}}</view>
+      </view> -->
+    </view>
+    <view class="times">
+      <view class="{{!isDefine && sdt==date?'item active':'item'}}">
+        <view class="time" bindtap="changeDate" data-info="1" data-type="bus">今日</view>
+        <view class="tip">{{date_2}}</view>
+      </view>
+      <view class="{{!isDefine && sdt==date7?'item active':'item'}}">
+        <view class="time" bindtap="changeDate" data-info="7" data-type="bus">7日</view>
+        <view class="tip">{{date7_2}}至{{date_2}}</view>
+      </view>
+      <view class="{{!isDefine && sdt==date30?'item active':'item'}}">
+        <view class="time" bindtap="changeDate" data-info="30" data-type="bus">30日</view>
+        <view class="tip">{{date30_2}}至{{date_2}}</view>
+      </view>
+      <view class="{{isDefine && type=='bus'?'item active':'item'}}">
+        <view class="time" bindtap="define" data-type="bus">自定义</view>
+        <view class="tip"></view>
+      </view>
+    </view>
+  </view>
+  <!-- 经营概况 -->
+  <view class="section">
+    <view class="title">经营概况</view>
+    <van-tabs active="{{ active1 }}" bind:change="onChange" data-type="1" title-active-color="{{mainColor}}" color="{{mainColor}}" title-inactive-color="#333">
+      <van-tab title="收益统计">
+        <view class="charts" wx:if="{{active1===0}}">
+          <block wx:if="{{ininfo_y.length}}">
+            <ec-canvas id="in-domm" canvas-id="ininfo" ec="{{ ec_ininfo }}" wx:if="{{!show}}"></ec-canvas>
+          </block>
+          <block wx:else>
+            <view class="nodata">暂无数据</view>
+          </block>
+        </view>
+        <view class="times">
+          <view class="{{!isDefine1 && sdt1==date?'item active':'item'}}">
+            <view class="time" bindtap="changeDate" data-info="1" data-type="in">今日</view>
+            <view class="tip">{{date_2}}</view>
+          </view>
+          <view class="{{!isDefine1 && sdt1==date7?'item active':'item'}}">
+            <view class="time" bindtap="changeDate" data-info="7" data-type="in">7日</view>
+            <view class="tip">{{date7_2}}至{{date_2}}</view>
+          </view>
+          <view class="{{!isDefine1 && sdt1==date30?'item active':'item'}}">
+            <view class="time" bindtap="changeDate" data-info="30" data-type="in">30日</view>
+            <view class="tip">{{date30_2}}至{{date_2}}</view>
+          </view>
+          <view class="{{isDefine1 && type=='in'?'item active':'item'}}">
+            <view class="time" bindtap="define" data-type="in">自定义</view>
+            <view class="tip"></view>
+          </view>
+        </view>
+      </van-tab>
+      <van-tab title="订单统计">
+        <view class="charts" wx:if="{{active1===1}}">
+          <block wx:if="{{inorder.length}}">
+            <ec-canvas id="inorder-domm" canvas-id="inorder" ec="{{ ec_inorder }}" wx:if="{{!show}}"></ec-canvas>
+          </block>
+          <block wx:else>
+            <view class="nodata">暂无数据</view>
+          </block>
+        </view>
+        <view class="times">
+          <view class="{{!isDefine1 && sdt1==date?'item active':'item'}}">
+            <view class="time" bindtap="changeDate" data-info="1" data-type="in">今日</view>
+            <view class="tip">{{date_2}}</view>
+          </view>
+          <view class="{{!isDefine1 && sdt1==date7?'item active':'item'}}">
+            <view class="time" bindtap="changeDate" data-info="7" data-type="in">7日</view>
+            <view class="tip">{{date7_2}}至{{date_2}}</view>
+          </view>
+          <view class="{{!isDefine1 && sdt1==date30?'item active':'item'}}">
+            <view class="time" bindtap="changeDate" data-info="30" data-type="in">30日</view>
+            <view class="tip">{{date30_2}}至{{date_2}}</view>
+          </view>
+          <view class="{{isDefine1 && type=='in'?'item active':'item'}}">
+            <view class="time" bindtap="define" data-type="in">自定义</view>
+            <view class="tip"></view>
+          </view>
+        </view>
+      </van-tab>
+      <van-tab title="人数统计">
+        <view class="charts" wx:if="{{active1===2}}">
+          <block wx:if="{{inpeople_y.length}}">
+            <ec-canvas id="inpeople-domm" canvas-id="inpeople" ec="{{ ec_inpeople }}" wx:if="{{!show}}"></ec-canvas>
+          </block>
+          <block wx:else>
+            <view class="nodata">暂无数据</view>
+          </block>
+        </view>
+        <view class="times">
+          <view class="{{!isDefine1 && sdt1==date?'item active':'item'}}">
+            <view class="time" bindtap="changeDate" data-info="1" data-type="in">今日</view>
+            <view class="tip">{{date_2}}</view>
+          </view>
+          <view class="{{!isDefine1 && sdt1==date7?'item active':'item'}}">
+            <view class="time" bindtap="changeDate" data-info="7" data-type="in">7日</view>
+            <view class="tip">{{date7_2}}至{{date_2}}</view>
+          </view>
+          <view class="{{!isDefine1 && sdt1==date30?'item active':'item'}}">
+            <view class="time" bindtap="changeDate" data-info="30" data-type="in">30日</view>
+            <view class="tip">{{date30_2}}至{{date_2}}</view>
+          </view>
+          <view class="{{isDefine1 && type=='in'?'item active':'item'}}">
+            <view class="time" bindtap="define" data-type="in">自定义</view>
+            <view class="tip"></view>
+          </view>
+        </view>
+      </van-tab>
+    </van-tabs>
+  </view>
+  <!-- 房间使用情况 -->
+  <view class="section">
+    <view class="title">房间使用情况</view>
+    <van-tabs active="{{ active2 }}" bind:change="onChange" data-type="2" title-active-color="{{mainColor}}" color="{{mainColor}}" title-inactive-color="#333">
+      <van-tab title="使用率">
+        <view class="charts" wx:if="{{active2===0}}">
+          <block wx:if="{{roominfo_y.length}}">
+            <ec-canvas id="mychart-doom3" canvas-id="mychart3" ec="{{ ec_roominfo }}" wx:if="{{!show}}"></ec-canvas>
+          </block>
+          <block wx:else>
+            <view class="nodata">暂无数据</view>
+          </block>
+        </view>
+        <view class="times">
+          <view class="{{!isDefine2 && sdt2==date?'item active':'item'}}">
+            <view class="time" bindtap="changeDate" data-info="1" data-type="room">今日</view>
+            <view class="tip">{{date_2}}</view>
+          </view>
+          <view class="{{!isDefine2 && sdt2==date7?'item active':'item'}}">
+            <view class="time" bindtap="changeDate" data-info="7" data-type="room">7日</view>
+            <view class="tip">{{date7_2}}至{{date_2}}</view>
+          </view>
+          <view class="{{!isDefine2 && sdt2==date30?'item active':'item'}}">
+            <view class="time" bindtap="changeDate" data-info="30" data-type="room">30日</view>
+            <view class="tip">{{date30_2}}至{{date_2}}</view>
+          </view>
+          <view class="{{isDefine2 && type=='room'?'item active':'item'}}">
+            <view class="time" bindtap="define" data-type="room">自定义</view>
+            <view class="tip"></view>
+          </view>
+        </view>
+      </van-tab>
+      <van-tab title="使用时长">
+        <view class="charts" wx:if="{{active2===1}}">
+          <block wx:if="{{roomtime.length}}">
+            <view class="roomtime">
+              <!-- <view class="title">单位：小时</view> -->
+              <view class="box">
+                <view class="item table-header">
+                  <view class="table-left">时间</view>
+                  <view class="table-right">时长(小时)</view>
+                </view>
+                <view class="item table-line" wx:for="{{roomtime}}" wx:key="item">
+                  <view class="table-left">{{item.key}}</view>
+                  <view class="table-right">{{item.value}}</view>
+                </view>
+              </view>
+            </view>
+          </block>
+          <block wx:else>
+            <view class="nodata">暂无数据</view>
+          </block>
+        </view>
+        <view class="times">
+          <view class="{{!isDefine2 && sdt2==date?'item active':'item'}}">
+            <view class="time" bindtap="changeDate" data-info="1" data-type="room">今日</view>
+            <view class="tip">{{date_2}}</view>
+          </view>
+          <view class="{{!isDefine2 && sdt2==date7?'item active':'item'}}">
+            <view class="time" bindtap="changeDate" data-info="7" data-type="room">7日</view>
+            <view class="tip">{{date7_2}}至{{date_2}}</view>
+          </view>
+          <view class="{{!isDefine2 && sdt2==date30?'item active':'item'}}">
+            <view class="time" bindtap="changeDate" data-info="30" data-type="room">30日</view>
+            <view class="tip">{{date30_2}}至{{date_2}}</view>
+          </view>
+          <view class="{{isDefine2 && type=='room'?'item active':'item'}}">
+            <view class="time" bindtap="define" data-type="room">自定义</view>
+            <view class="tip"></view>
+          </view>
+        </view>
+      </van-tab>
+    </van-tabs>
+  </view>
+</view>
+<!-- 自定义弹窗 -->
+<van-dialog
+  use-slot
+  title="自定义"
+  show="{{ show }}"
+  zIndex="99"
+  bind:confirm="onConfirm2"
+  before-close="{{beforeCloseFunction}}"
+>
+  <view class="dialog" bindtap="goSearch">
+    <view class="iconfont icon-date"></view>
+    <input type="text" placeholder="开始时间" disabled value="{{start}}" />
+    <text>至</text>
+    <input type="text" placeholder="结束时间" disabled value="{{end}}" />
+  </view>
+</van-dialog>
+<!-- 日期选择弹窗 -->
+<van-calendar
+  show="{{ dateShow }}"
+  type="range"
+  bind:close="onClose"
+  bind:confirm="onConfirm"
+  show-confirm="{{ false }}"
+  allow-same-day
+  min-date="{{ minDate }}"
+/>

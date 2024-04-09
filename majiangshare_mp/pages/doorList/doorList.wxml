@@ -1,0 +1,99 @@
+<!--index.wxml-->
+<view class="top">
+  <view class="banner">
+      <swiper autoplay indicator-dots>
+        <block wx:for="{{bannershowlist}}" wx:key="banner">
+          <swiper-item>
+            <image src="{{item.imgUrl}}" mode="widthFix"></image>
+          </swiper-item>
+        </block>
+      </swiper>
+    </view>
+</view>
+<view class="top-search">
+    <view class="left">
+      <view class="label" bindtap="goLocation"><text>{{cityName}}</text>
+        <icon></icon>
+      </view>
+      <input class="input" type="text" placeholder="{{isMap?'搜索位置查找附近门店':'搜索门店'}}" value="{{name}}"  bindinput="onInputChange"/>
+    </view>
+    <view wx:if="{{isMap}}" class="right" bindtap="goListSeach">
+      <view class="iconfont icon-list"></view><text>列表</text>
+    </view>
+    <view wx:else class="right" bindtap="goMapSeach">
+      <!-- <button hover-class="button-click"  class="iconfont icon-map" bindgetphonenumber="phone" open-type="getPhoneNumber">地图</button> -->
+      <view class="iconfont icon-map"></view><text>地图</text>
+    </view>
+  </view>
+<view class="container">
+   <!-- 地图 -->
+   <view class="mapPage" wx:if="{{isMap}}">
+   
+      <!-- 点击marker展示门店 -->
+    <view class="list" wx:if="{{store}}">
+      <view class="item" bind:tap="goStore" data-storeid="{{store.storeId}}">
+        <view>
+            <image class="img"src="{{store.headImg}}" mode="scaleToFill"></image>
+          </view>
+          <view class="info">
+            <view class="name">{{store.storeName}}</view>
+            <view class="tag-primary"><text class="distance">{{store.distance}}</text>km</view>
+              <view class="iconfont icon-weizhi btn" catchtap="goTencentMap" data-info="{{store}}"></view>
+              <view class="iconfont icon-phone btn" catchtap="call" data-info="{{store.kefuPhone}}"></view>
+          </view>
+          <view class="address">
+              {{store.address}}
+            </view>
+      </view>
+    </view>
+    <map class="map" id="map" longitude="{{lon}}" latitude="{{lat}}" scale="10" show-location="true"
+      markers="{{markers}}" bindmarkertap="makertap"></map>
+  </view>
+  <!-- 列表 -->
+  <view class="lists" wx:else="">
+    <view class="list">
+      <view class="item" bind:tap="goStore" data-storeid="{{item.storeId}}" wx:for="{{MainStorelist}}" wx:key="MainStorelist">
+          <view >
+            <image class="img"src="{{item.headImg}}" mode="scaleToFill"></image>
+          </view>
+          <view class="info">
+            <view class="name">{{item.storeName}}</view>
+            <view class="tag-primary"><text class="distance">{{item.distance}}</text>km</view>
+            <view class="iconfont icon-weizhi btn" catchtap="goTencentMap" data-info="{{item}}"></view>
+            <view class="iconfont icon-phone btn" catchtap="call" data-info="{{item.kefuPhone}}"></view>
+          </view>
+          <view class="address">
+              {{item.address}}
+            </view>
+        
+      </view>
+    </view>
+  </view>
+</view>
+<!-- 右侧快捷入口 -->
+<view class="quickBtns">
+  <view class="btn bg-primary door" bind:tap="openDoor">
+    <view class="item">
+      <view class="iconfont icon-door-open"></view>
+      <view class="text">开门</view>
+    </view>
+  </view>
+  <navigator class="btn color-primary help" url="../help/help">
+    <view class="item">
+      <view class="iconfont icon-help"></view>
+      <view class="text">帮助</view>
+    </view>
+  </navigator>
+</view>
+<!-- 底部按钮 -->
+<view wx:if="{{isMap}}" class="bg-primary enterBtn" bindtap="goListSeach">预定房间</view>
+<view class="bt"></view>
+<!-- <view class="banner">
+      <swiper autoplay indicator-dots>
+        <block wx:for="{{bannershowlist}}" wx:key="banner">
+          <swiper-item>
+            <image src="{{item.imgUrl}}" mode="widthFix"></image>
+          </swiper-item>
+        </block>
+      </swiper>
+    </view> -->

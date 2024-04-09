@@ -1,0 +1,68 @@
+/* pages/join/join.wxss */
+page{
+  background: #fff;
+}
+.container{
+  padding: 100rpx 30rpx 30rpx 30rpx; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.container image{
+  width: 70%;
+  height: 180rpx;
+  margin-bottom: 40rpx;
+}
+.picker{
+  color: #000;
+}
+.form{
+  background: #fff;
+  border-radius: 30rpx;
+  overflow: hidden;
+  width: 100%;
+}
+.form .note{
+  background: #fdf6ec;
+  padding: 0 20rpx;
+  line-height: 60rpx;
+  font-size: 24rpx;
+  color: #999;
+  margin: 30rpx;
+}
+.btns{
+  display: flex;
+  margin-top: 150rpx;
+}
+.btns .btn{
+  width: 460rpx;
+  height: 90rpx;
+  line-height: 90rpx;
+  box-sizing: border-box;
+  font-size: 28rpx;
+  border-radius: 60rpx;
+}
+.van-button--primary {
+  background: #fff !important;
+  border: none !important;
+  width: 40rpx !important;
+} 
+.iconfont {
+  color: #565656 !important;
+}
+.btns .tel{
+  border-width: 1rpx;
+  border-style: solid;
+}
+.success{
+  width: 600rpx;
+  text-align: center;
+  margin: 100rpx auto;
+}
+.success .text{
+  font-size: 40rpx;
+  margin: 10rpx 0 50rpx;
+}
+.success .info{
+  text-align: left;
+}

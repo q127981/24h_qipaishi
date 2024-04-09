@@ -1,0 +1,8 @@
+<!--pages/login/login.wxml-->
+<view class="container">
+  <view class="photo">
+    <view class="img"><image src="{{userinfo.avatar?userinfo.avatar:'../static/img/logo.png'}}" mode="widthFix" /></view>
+    <view class="name">{{appName}}</view>
+  </view>
+  <button hover-class="button-click"  class="loginBtn bg-primary theme-color-shadow" bindgetphonenumber="phone" open-type="getPhoneNumber">一键登录</button>
+</view>

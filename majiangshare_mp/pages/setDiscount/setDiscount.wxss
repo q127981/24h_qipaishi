@@ -1,0 +1,88 @@
+/* pages/setDiscount/setDiscount.wxss */
+page{
+  background: #f5f5f5;
+}
+.tabs{
+  position: fixed;
+  top: 0;
+  z-index: 9;
+  width: 100%;
+  height: 45px;
+}
+.tabs .van-dropdown-menu{
+  border-bottom: 1rpx solid #ddd;
+  height: 45px;
+}
+.tabs .van-dropdown-menu__title{
+  font-size: 28rpx !important;
+}
+.tabs .van-dropdown-menu{
+  box-shadow: none !important;
+}
+.container{
+  padding: 45px 16rpx 120rpx;
+}
+.list {
+  padding-top: 30rpx;
+}
+.list .item{
+  margin-bottom: 20rpx;
+  padding: 20rpx 30rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.list .disabled{
+  background: #ddd;
+}
+.list .item .info .line{
+  display: flex;
+  margin-bottom: 10rpx;
+}
+.list .item .info .line:last-child{
+  margin-bottom: 0;
+}
+.list .item .info .line label{
+  flex-shrink: 0;
+  font-size: 28rpx;
+}
+.list .item .info .line text{
+  font-size: 24rpx;
+}
+.list .item .btns .btn{
+  margin: 20rpx 0;
+  padding: 0;
+  width: 180rpx;
+  text-align: center;
+  height: 70rpx;
+  line-height: 70rpx;
+  font-size: 28rpx;
+  border-radius: 16rpx;
+  background: transparent;
+  color: #fff;
+}
+.list .item .btns .red{
+  background: var(--main-red);
+}
+.list .item .btns .green{
+  background: var(--main-green);
+}
+.bottom{
+  width: 530rpx;
+  height: 90rpx;
+  text-align: center;
+  line-height: 90rpx;
+  position: fixed;
+  bottom: 30rpx;
+  left: 115rpx;
+  border-radius: 50rpx;
+  font-size: 36rpx;
+}
+picker{
+  width: 100%;
+}
+.plh{
+  color: #bababa;
+}

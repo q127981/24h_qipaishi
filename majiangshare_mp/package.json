@@ -1,0 +1,23 @@
+{
+  "name": "majiang",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/weiproject/majiangshare_mp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vant/weapp": "^1.10.22"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "devDependencies": {},
+  "keywords": [],
+  "description": ""
+}

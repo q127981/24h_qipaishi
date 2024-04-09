@@ -1,0 +1,7 @@
+<!--pages/setUserName/setUserName.wxml-->
+<view class="container">
+  <view class="input">
+    <input type="text" placeholder="请填写昵称" value="{{name}}"  bindinput="onInputChange"/>
+  </view>
+  <view class="btn bg-primary" bindtap="submit">确定</view>
+</view>

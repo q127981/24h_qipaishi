@@ -1,0 +1,34 @@
+/* pages/setCouponInfo/setCouponInfo.wxss */
+@import "../setDoorInfo/setDoorInfo.wxss";
+
+.form {
+  padding-bottom: 20rpx;
+}
+
+.form .line label{
+  width: 180rpx
+}
+.form .line input{
+  width: 90%;
+}
+.form .line .tags{
+  width: 100%;
+}
+.form .line .city{
+  margin-bottom: 10rpx;
+  width: 90%;
+}
+.city .picker,
+.form .line .store .picker,
+.form .line picker{
+  width: 100%;
+}
+.form .line .step{
+  display: flex;
+  align-items: center;
+}
+
+.van-stepper__minus, .van-stepper__plus {
+  width: 70rpx !important;
+  height: 70rpx !important;
+}

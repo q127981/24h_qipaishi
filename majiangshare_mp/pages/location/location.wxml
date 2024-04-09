@@ -1,0 +1,12 @@
+<!--pages/location/location.wxml-->
+<view class="container">
+  <view class="section">
+    <view class="title">已开通城市</view>
+    <view class="box">
+      <text class="item" bind:tap="onclickcity" data-info="选择城市">全部城市</text>
+      <block wx:for="{{citylist}}" wx:key="citylist">
+        <text class="item" bind:tap="onclickcity" data-info="{{item}}">{{item}}</text>
+      </block>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,8 @@
+<!--pages/setUserPhone/setUserPhone.wxml-->
+<view class="container">
+  <view class="input">
+    <input type="text" placeholder="请填写手机号" value="{{phone}}"  bindinput="onInputChange" maxlength="11"/>
+  </view>
+  <view class="btn bg-primary" bindtap="submit">确定</view>
+</view>
+

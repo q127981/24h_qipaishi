@@ -1,0 +1,37 @@
+<!--pages/cashOut/cashOut.wxml-->
+
+<view class="container">
+<!-- 日期搜索 -->
+  <view class="search" bindtap="goSearch">
+    <view class="iconfont icon-date"></view>
+    <input type="text" placeholder="开始时间" disabled value="{{sdt}}" />
+    <text>至</text>
+    <input type="text" placeholder="结束时间" disabled value="{{edt}}" />
+  </view>
+  <block wx:if="{{list.length}}">
+    <!-- 明细 -->
+    <view class="list">
+      <view class="item" wx:for="{{list}}" wx:key="item">
+        <view class="line top"><label>提现金额：</label>{{item.money}}元</view>
+        <view class="line"><label>申请编号：</label>{{item.no}}</view>
+        <view class="line"><label>申请时间：</label>{{item.createTime}}</view>
+        <view class="line"><label>完成时间：</label>{{item.finishTime}}</view>
+        <view class="status color-primary">{{item.status==1?'已完成':'已提交'}}</view>
+      </view>
+      <view class="noteMore" wx:if="{{canLoadMore}}">下拉查看更多...</view>
+    </view>
+  </block>
+  <block wx:else>
+    <view class="nodata">暂无数据</view>
+  </block>
+</view>
+<!-- 日期选择弹窗 -->
+<van-calendar
+  show="{{ show }}"
+  type="range"
+  bind:close="onClose"
+  bind:confirm="onConfirm"
+  show-confirm="{{ false }}"
+  allow-same-day
+  min-date="{{ minDate }}"
+/>

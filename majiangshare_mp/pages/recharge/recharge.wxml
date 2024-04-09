@@ -1,0 +1,35 @@
+<!--pages/recharge/recharge.wxml-->
+<view class="container">
+  <view class="section">
+    <view class="top">
+      <view class="item">账户余额:<text>{{balance}}</text>元</view>
+      <view class="item">赠送余额:<text>{{giftBalance}}</text>元</view>
+    </view>
+    <view class="name">
+      <text>充值门店：</text>
+      <picker bindchange="bindStoreChange" range-key="key" value="{{index}}" range="{{stores}}">
+        <view class="picker">{{stores[index].key}}<text class="iconfont icon-xuanzex"></text></view>
+      </picker>
+    </view>
+    <view class="color-primary label">充值金额</view>
+    <view class="list">
+      <view class="{{payMoney==item.payMoney?'border-primary item active':'border-primary item'}}" wx:for="{{discount}}" wx:key="item" bindtap="choose" data-info="{{item.payMoney}}">
+        <view class="price"><text>{{item.payMoney}}</text>元</view>
+        <view class="color-primary add">加赠{{item.giftMoney}}元</view>
+      </view>
+      <!-- <view class="border-primary item">
+        <view class="price"><text>150</text>元</view>
+        <view class="color-primary add">加赠40元</view>
+      </view> -->
+    </view>
+  </view>
+  <view class="section">
+    <view class="title">温馨提示</view>
+    <view class="line">1. 余额终身有效!可以下单时支付、续费。</view>
+    <view class="linered">2. 余额按门店独立结算，仅充值时选中的门店可使用,请仔细确认充值的门店是否正确！</view>
+    <view class="linered">3. 您下单时系统会优先扣除账户余额，扣除完毕后再扣除赠送余额。</view>
+    <view class="line">4. 充值实时到账，如出现已扣费但未到账的情况，请您联系客服处理。</view>
+    <view class="line">5. 充值赠送活动以页面实时显示为准！</view>
+  </view>
+<button class="bg-primary paybtn" disabled="{{payMoney==''}}" bind:tap="submitpay">立即支付</button>
+</view>

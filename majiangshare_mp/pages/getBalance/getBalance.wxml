@@ -1,0 +1,25 @@
+<!--pages/getBalance/getBalance.wxml-->
+<view class="container">
+  <!-- 账户金额 -->
+  <!-- <view class="account">
+    <view class="item">总通用余额:<text>{{userinfo.balance}}</text>元</view>
+    <view class="item">总赠送余额:<text>{{userinfo.giftBalance}}</text>元</view>
+  </view> -->
+  <view class="head">
+    <view class="cell1">门店名称</view>
+    <view class="cell2">账户余额</view>
+    <view class="cell2">赠送余额</view>
+</view>
+  <view class="list">
+  <block wx:if="{{MainList.length>0}}">
+    <view class="item" wx:for="{{MainList}}" wx:key="item">
+      <view class="name">{{item.storeName}}</view>
+      <view class="price"><text class="color-attention">{{item.balance}}</text></view>元
+      <view class="price"><text class="color-attention">{{item.giftBalance}}</text></view>元
+    </view>
+  </block>
+  <block wx:else>
+    <view class="nodata">暂无数据</view>
+  </block>
+  </view>
+</view>

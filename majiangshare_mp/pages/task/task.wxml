@@ -1,0 +1,46 @@
+<!--pages/task/task.wxml-->
+<view class="tabs">
+  <van-dropdown-menu active-color="{{mainColor}}">
+      <van-dropdown-item value="{{ status }}" options="{{ option2 }}"  bind:change="statusDropdown"/>
+      <van-dropdown-item value="{{ storeId }}" options="{{ stores }}"  bind:change="storeDropdown" />
+  </van-dropdown-menu>
+</view>
+<view class="container">
+<block wx:if="{{list.length}}">
+  <view class="lists">
+    <view class="item" wx:for="{{list}}" wx:key="item">
+      <view class="{{item.status==1?'tag blue2':item.status==2?'tag blue2':item.status==3?'tag green':item.status==4?'tag gray':item.status==5?'tag yellow':item.status==6?'tag blue':'tag red'}}">{{item.status==1?'已接单':item.status==2?'已开始':item.status==3?'已完成':item.status==4?'已取消':item.status==5?'被驳回':item.status==6?'已结算':'待接单'}}</view>
+      <view class="info">
+        <label>订单编号：</label>
+        <text>{{item.orderNo}}</text>
+      </view>
+      <view class="info">
+        <label>门店名称：</label>
+        <text>{{item.storeName}}</text>
+      </view>
+      <view class="info">
+        <label>房间名称：</label>
+        <text>{{item.roomName}}</text>
+      </view>
+      <view class="info">
+        <label>预计时间：</label>
+        <text wx:if="{{item.orderEndTime}}">{{item.orderEndTime}}</text>
+      </view>
+      <view class="btns" wx:if="{{userinfo.userType === 14}}">
+        <button hover-class="button-click"  class="btn bg-primary" wx:if="{{item.status==0}}" bindtap="take" data-info="{{item.clearId}}">接单</button>
+        <button hover-class="button-click"  class="btn cancel" wx:if="{{item.status==1}}" bindtap="cancelTake" data-info="{{item.clearId}}">取消接单</button>
+        <button hover-class="button-click"  class="btn bg-primary" wx:if="{{item.status==1}}" bindtap="begin" data-info="{{item.clearId}}">开始任务</button>
+        <button hover-class="button-click"  class="btn share" wx:if="{{item.status==2}}" bindtap="open" data-info="{{item.clearId}}">开大门</button>
+        <button hover-class="button-click"  class="btn bg-primary" wx:if="{{item.status==2}}" bindtap="openDoor" data-info="{{item.clearId}}">开房间门</button>
+        <button hover-class="button-click"  class="btn bg-primary finish" wx:if="{{item.status==2}}" bindtap="goTaskDetail" data-info="{{item.clearId}}">完成任务</button>
+        <button hover-class="button-click"  class="btn bg-primary" wx:if="{{item.status==3||item.status==5||item.status==6}}" bindtap="goTaskDetail" data-info="{{item.clearId}}">查看详情</button>
+      </view>
+      <view class="btns" wx:if="{{userinfo.userType === 12}}">
+        <button hover-class="button-click"  class="btn bg-primary" wx:if="{{item.status==3||item.status==5||item.status==6}}"  bindtap="goTaskDetail" data-info="{{item.clearId}}">查看详情</button>
+      </view>
+    </view>
+  </view>
+  <view wx:if="canLoadMore" class="noteMore">下拉加载更多...</view>
+</block>
+<block wx:else><view class="nodata">暂无任务...</view></block>
+</view>

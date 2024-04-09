@@ -1,0 +1,80 @@
+/* pages/setDoorInfo/setDoorInfo.wxss */
+@import "../setStoreInfo/setStoreInfo.wxss";
+.price{
+  display: flex;
+  align-items: center;
+}
+.form {
+  background-color: #fff;
+}
+.form .line {
+  align-items: center;
+}
+.form .line .right {
+  display: flex;
+  align-items: center;
+}
+.form .line .picker {
+  border: 1rpx solid #eee;
+}
+
+.form .line input{
+  width: 76%;
+  height: 70rpx;
+  border: 1rpx solid #eee;
+  padding: 0 20rpx;
+  box-sizing: border-box;
+  border-radius: 10rpx;
+}
+.form .line .picker input {
+  border: none;
+
+}
+.form .line .price input{
+  width: 300rpx;
+}
+
+/* .form .line .price input{
+  width: 260rpx;
+} */
+
+.price text{
+  margin-left: 10rpx;
+}
+.form .line .search{ 
+  width: 86%;
+  box-sizing: border-box;
+  display: flex;
+  border: 1rpx solid #eee;
+  align-items: center;
+  padding-left: 10rpx;
+}
+.form .line .search input{
+  height: 70rpx;
+  line-height: 70rpx;
+  width: 200rpx;
+  text-align: center;
+  border: 0;
+}
+.form .tips {
+  font-size: 22rpx;
+  padding-left: 26rpx;
+  color: #aaa;
+}
+.form .line .tags{
+  width: 100%;
+}
+.form .line .tags .van-tag{
+  margin-right: 20rpx !important;
+  margin-top: 10rpx;
+}
+.checkbox{
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20rpx;
+}
+.label{
+  margin-bottom: 20rpx;
+  margin-right: 30rpx;
+  font-size: 28rpx;
+}

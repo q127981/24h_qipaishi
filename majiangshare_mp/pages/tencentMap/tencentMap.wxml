@@ -1,0 +1,5 @@
+<!--pages/tencentMap/tencentMap.wxml-->
+<view class="container">
+  <map class="map" id="map" longitude="{{store.lon}}" latitude="{{store.lat}}" scale="14" show-location="true"
+      markers="{{markers}}"></map>
+</view>
