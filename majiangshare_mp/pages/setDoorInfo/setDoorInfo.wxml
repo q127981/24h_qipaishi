@@ -56,7 +56,7 @@
       <view class="right">
         <view class="price">
           <input model:value="{{tongxiaoPrice}}" type="digit" placeholder="请输入"/>
-          <text>元(23:00-08:00)</text>
+          <text>元/场</text>
         </view>
       </view>
     </view>

@@ -500,6 +500,7 @@ Page({
             txHour: info.data.txHour,
             txPrice: info.data.tongxiaoPrice,
             clearTime: info.data.clearTime,
+            workPrice: info.data.workPrice,
             enableWorkPrice: info.data.enableWorkPrice,
             hour_options:hour_options,
             storeId: info.data.storeId,
@@ -1079,7 +1080,7 @@ Page({
       case 3:
       case 4:
         //如果门店禁用了工作日价格  就还是返回正常价格
-        if(that.enableWorkPrice){
+        if(that.data.enableWorkPrice){
           return that.data.workPrice;
         }
         return that.data.price;

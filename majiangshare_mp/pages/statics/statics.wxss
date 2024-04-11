@@ -123,10 +123,11 @@ page{
   font-size: 32rpx !important;
   text-align: right;
 }
-.total .box{
+.total .box .line {
   display: flex;
   justify-content: space-between;
   position: relative;
+  margin-bottom: 20rpx;
 }
 .table-header {
   width: 100%;
