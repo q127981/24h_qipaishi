@@ -220,7 +220,7 @@ Page({
                 markers: allMarkers,
                 store: list[0]
               });
-            }else{
+            }else if (that.data.cityName=='选择城市'){
               wx.switchTab({
                 url: '/pages/user/user',
               })
