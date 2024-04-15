@@ -27,35 +27,41 @@
    
   </view>
   <view class="section total">
-     <view class="box">
-        <view class="line">
-          <view class="item">
-            <view class="label color-primary">总收入</view>
-            <view class="price2">{{businfo.total}}</view>
-          </view>
-          <view class="item">
-            <view class="label color-primary">订单数</view>
-            <view class="price2">{{businfo.orderCount}}</view>
-          </view>
-          <view class="item">
-            <view class="label color-primary">下单用户数</view>
-            <view class="price2">{{businfo.userCount}}</view>
-          </view>
-        </view>
-        <view class="line">
-          <view class="item">
-            <view class="label color-primary">微信</view>
-            <view class="price2">{{businfo.money}}</view>
-          </view>
-          <view class="item">
-            <view class="label color-primary">美团</view>
-            <view class="price2">{{businfo.mtMoney}}</view>
-          </view>
-          <view class="item">
-            <view class="label color-primary">抖音</view>
-            <view class="price2">{{businfo.dyMoney}}</view>
-          </view>
-        </view>
+    <view class="box">
+    <view class="line">
+      <view class="item">
+        <view class="label color-primary">总收入</view>
+        <view class="price2">{{businfo.total}}</view>
+      </view>
+      <view class="item">
+        <view class="label color-primary">订单数</view>
+        <view class="price2">{{businfo.orderCount}}</view>
+      </view>
+      <view class="item">
+        <view class="label color-primary">下单用户数</view>
+        <view class="price2">{{businfo.userCount}}</view>
+      </view>
+    </view>
+    <view class="line">
+      <view class="item">
+        <view class="label color-primary">微信</view>
+        <view class="price2">{{businfo.money}}</view>
+      </view>
+      <view class="item">
+        <view class="label color-primary">美团</view>
+        <view class="price2">{{businfo.mtMoney}}</view>
+      </view>
+      <view class="item">
+        <view class="label color-primary">抖音</view>
+        <view class="price2">{{businfo.dyMoney}}</view>
+      </view>
+    </view>
+     
+     
+      <!-- <view class="item">
+        <view class="label">下单人数</view>
+        <view class="price">{{businfo.memberCount}}</view>
+      </view> -->
     </view>
     <view class="times">
       <view class="{{!isDefine && sdt==date?'item active':'item'}}">

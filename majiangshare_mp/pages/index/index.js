@@ -35,10 +35,11 @@ Page({
     var that = this;
     that.getTap();
     if(options.storeId){
-      //onLoad是直接扫码进来的 肯定有门店id
+      //扫码进来的 肯定有门店id 
       that.setData({
         storeId: options.storeId
       });
+      wx.setStorageSync('global_store_id',storeId);
     }
   },
   
@@ -64,29 +65,29 @@ Page({
     var storeId_2 = that.data.storeId;//页面的
     console.log('storeId_1='+storeId_1)
     console.log('storeId_2='+storeId_2)
-    //如果页面有,但缓存没有,或者缓存有 页面没有,说明是扫码进来的 要展示提示信息
-    if((!storeId_1&&storeId_2)||(storeId_1&&!storeId_2)){
-      popshow=true
-    }else if(storeId_1&&storeId_2){ //如果两个都有
-      //如果两个不相等,说明切换了门店
-      if(storeId_1!=storeId_2){
-          popshow=true
-      }
-    }else{ //两个都没有  就让用户去选门店
+    //如果两个都是空的，让用户去选择门店
+    if(!storeId_1&&!storeId_2){
       console.log("未获取到门店id")
       wx.navigateTo({
         url: "../doorList/doorList",
       })
-    }
-    if(storeId_1){
-      //优先缓存的门店id
-      that.setData({
-        storeId: storeId_1
-      })
-    } else{
-      that.setData({
-        storeId: storeId_2
-      })
+    }else{
+      //至少有一个不为空
+      //只处理不相等的情况，控制显示公告弹窗，相等的情况说明停留在当前门店
+      if(storeId_1!=storeId_2){
+        popshow=true
+        if(!storeId_1){
+          //如果缓存为空，可能是用户第一次扫码那就以扫码的为准
+          that.setData({
+            storeId: storeId_2
+          })
+        }else{
+          //缓存有  页面也有 优先缓存
+          that.setData({
+            storeId: storeId_1
+          })
+        }
+      }
     }
     console.log('最终的门店id:'+that.data.storeId)
     that.loadingtime();

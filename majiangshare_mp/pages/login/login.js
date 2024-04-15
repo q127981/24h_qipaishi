@@ -67,7 +67,7 @@ Page({
 
   },
   phone:function(e){
-    //console.log("授权用户手机号");
+    console.log("授权用户手机号");
     var that = this;
     if(e.detail.errMsg=="getPhoneNumber:fail user deny"){
       wx.showToast({title: '已取消授权'})
@@ -120,10 +120,12 @@ Page({
                 }
               )
             } else {
-              //console.log('登录失败！' + res.errMsg)
+              console.log('登录失败！' + res.errMsg)
             }
           }
         })
+    }else{
+      console.log(e.detail.errMsg);
     }
   },
 })

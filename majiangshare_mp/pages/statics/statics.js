@@ -73,7 +73,7 @@ function chartIninfo(canvas, width, height, dpr) {
       },
     }]
   };
-  if (ininfo_y.length > 7) {
+  if (ininfo_y.length > 15) {
     option.series[0].label = {}
     option.series[0].emphasis = {
       focus: 'series',
@@ -200,7 +200,7 @@ function chartInpeople(canvas, width, height, dpr) {
       }
     }]
   };
-  if (inpeople_y.length > 7) {
+  if (inpeople_y.length > 15) {
     option.series[0].label = {}
     option.series[0].emphasis = {
       focus: 'series',

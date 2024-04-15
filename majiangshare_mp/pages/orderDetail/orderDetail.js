@@ -766,7 +766,8 @@ Page({
   //开密码门
   openRoomLock:function() {
     let that = this;
-     if(null!=this.data.OrderInfodata.gatewayId){
+    console.log(that.data.OrderInfodata);
+     if(that.data.OrderInfodata.gatewayId){
        //支持远程开锁
         http.request(
           "/member/order/openRoomLock",
@@ -778,13 +779,16 @@ Page({
           "提交中...",
           function success(info) {
             if (info.code == 0) {
-            wx.showToast({
-              title: '操作成功',
-              icon: 'success'
-            })
+              wx.showToast({
+                title: '操作成功',
+                icon: 'success'
+              })
             }else{
               //失败了 尝试一下本地开锁
-              lock.blueDoorOpen(this.data.OrderInfodata.lockData);
+              if(null!= this.data.OrderInfodata.lockData){
+                //本地蓝牙开锁
+                lock.blueDoorOpen(this.data.OrderInfodata.lockData);
+              }
             }
           },
           function fail(info) {

@@ -88,9 +88,10 @@ Page({
       isLogin:app.globalData.isLogin,
       storeId: options.storeId,
       roomId: options.roomId,
-      daytime: options.daytime,
+      // daytime: options.daytime,
       timeselectindex: options.timeselectindex
     });
+    wx.setStorageSync('global_store_id',that.data.storeId);
     if (app.globalData.isLogin) {
       that.getroomInfodata(options.roomId).then(res=>{
       });
@@ -1072,8 +1073,10 @@ Page({
   getPrice:function(startDate){
     //根据日期是否为工作日 返回对应的价格
     var that=this;
-    // console.log(that.data);
     var day= startDate.getDay();
+    console.log(that.data.enableWorkPrice);
+    console.log(that.data.workPrice);
+    console.log(that.data.price);
     switch (day) {
       case 1:
       case 2:
@@ -1082,8 +1085,9 @@ Page({
         //如果门店禁用了工作日价格  就还是返回正常价格
         if(that.data.enableWorkPrice){
           return that.data.workPrice;
+        }else{
+          return that.data.price;
         }
-        return that.data.price;
       case 0:
       case 5:
       case 6:
