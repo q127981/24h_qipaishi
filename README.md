@@ -23,23 +23,23 @@
 
 | biu                                                                                 | biu                                                                    | biu                                                                    |
 |-------------------------------------------------------------------------------------|------------------------------------------------------------------------|------------------------------------------------------------------------|
-| ![图片](https://images.scyanzu.com/open_source/t0.jpg?imageView2/2/format/webp/h/240) |![图片](https://images.scyanzu.com/open_source/t1.jpg?imageView2/2/format/webp/h/240)     |![图片](https://images.scyanzu.com/open_source/t2.jpg?imageView2/2/format/webp/h/240)     | 
-| ![图片](https://images.scyanzu.com/open_source/t3.jpg?imageView2/2/format/webp/h/240) |![图片](https://images.scyanzu.com/open_source/t4.jpg?imageView2/2/format/webp/h/240)     |![图片](https://images.scyanzu.com/open_source/t5.jpg?imageView2/2/format/webp/h/240)     | 
+| ![图片](https://images.scyanzu.com/open_source/t0.jpg?imageView2/2/format/webp/w/240) |![图片](https://images.scyanzu.com/open_source/t1.jpg?imageView2/2/format/webp/w/240)     |![图片](https://images.scyanzu.com/open_source/t2.jpg?imageView2/2/format/webp/w/240)     | 
+| ![图片](https://images.scyanzu.com/open_source/t3.jpg?imageView2/2/format/webp/w/240) |![图片](https://images.scyanzu.com/open_source/t4.jpg?imageView2/2/format/webp/w/240)     |![图片](https://images.scyanzu.com/open_source/t5.jpg?imageView2/2/format/webp/w/240)     | 
 
 
 
 ## 完整功能清单
-![图片](https://images.scyanzu.com/function_20240414110134.png?imageView2/2/format/webp/h/480)
+![图片](https://images.scyanzu.com/function_20240414110134.png?imageView2/2/format/webp/w/480)
 
 ## 硬件设备说明
 ### 本系统已经对接好了所有硬件，硬件买回来，把编号添加进系统就能用。
 ### 硬件可提供API文档，支持二次开发，接入到自己的系统。
-![图片](https://images.scyanzu.com/device_list_asd123124.jpg?imageView2/2/format/webp/h/480)
+![图片](https://images.scyanzu.com/device_list_asd123124.jpg?imageView2/2/format/webp/w/480)
 
 
 ## 功能体验
 ### 扫码打开小程序进行体验 
-![图片](https://images.scyanzu.com/open_source/qr_code.jpg?imageView2/2/format/webp/h/240)
+![图片](https://images.scyanzu.com/open_source/qr_code.jpg?imageView2/2/format/webp/w/240)
 
 ### 详细的文档教程
 ![图片](https://images.scyanzu.com/open_source/word.png?imageView2/2/format/webp/w/960)
@@ -47,23 +47,23 @@
 
 ### 小程序端部署视频教程的地址
 
-![图片](https://images.scyanzu.com/open_source/video.png?imageView2/2/format/webp/h/240)
+![图片](https://images.scyanzu.com/open_source/video.png?imageView2/2/format/webp/w/240)
 
 ## 部分功能截图  建议自己扫码体验
 | biu                                                                                      | biu                                                                                    | biu                                                                    |
 |------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|------------------------------------------------------------------------|
-| ![图片](https://images.scyanzu.com/open_source/view/1.jpg?imageView2/2/format/webp/h/240)  |![图片](https://images.scyanzu.com/open_source/view/2.jpg?imageView2/2/format/webp/h/240) |![图片](https://images.scyanzu.com/open_source/view/3.jpg?imageView2/2/format/webp/h/240) |
-|![图片](https://images.scyanzu.com/open_source/view/4.jpg?imageView2/2/format/webp/h/240)  |![图片](https://images.scyanzu.com/open_source/view/5.jpg?imageView2/2/format/webp/h/240)  |![图片](https://images.scyanzu.com/open_source/view/6.jpg?imageView2/2/format/webp/h/240)  |
-| ![图片](https://images.scyanzu.com/open_source/view/7.jpg?imageView2/2/format/webp/h/240)  |![图片](https://images.scyanzu.com/open_source/view/8.jpg?imageView2/2/format/webp/h/240)  | ![图片](https://images.scyanzu.com/open_source/view/9.jpg?imageView2/2/format/webp/h/240) |
-|![图片](https://images.scyanzu.com/open_source/view/10.jpg?imageView2/2/format/webp/h/240) | ![图片](https://images.scyanzu.com/open_source/view/11.jpg?imageView2/2/format/webp/h/240) |![图片](https://images.scyanzu.com/open_source/view/12.jpg?imageView2/2/format/webp/h/240) |
-| ![图片](https://images.scyanzu.com/open_source/view/13.jpg?imageView2/2/format/webp/h/240) |![图片](https://images.scyanzu.com/open_source/view/14.jpg?imageView2/2/format/webp/h/240) |![图片](https://images.scyanzu.com/open_source/view/15.jpg?imageView2/2/format/webp/h/240) |
-| ![图片](https://images.scyanzu.com/open_source/view/16.jpg?imageView2/2/format/webp/h/240) |![图片](https://images.scyanzu.com/open_source/view/17.jpg?imageView2/2/format/webp/h/240) |![图片](https://images.scyanzu.com/open_source/view/18.jpg?imageView2/2/format/webp/h/240) |
-| ![图片](https://images.scyanzu.com/open_source/view/19.jpg?imageView2/2/format/webp/h/240) |![图片](https://images.scyanzu.com/open_source/view/20.jpg?imageView2/2/format/webp/h/240) |
+| ![图片](https://images.scyanzu.com/open_source/view/1.jpg?imageView2/2/format/webp/w/240)  |![图片](https://images.scyanzu.com/open_source/view/2.jpg?imageView2/2/format/webp/w/240) |![图片](https://images.scyanzu.com/open_source/view/3.jpg?imageView2/2/format/webp/w/240) |
+|![图片](https://images.scyanzu.com/open_source/view/4.jpg?imageView2/2/format/webp/w/240)  |![图片](https://images.scyanzu.com/open_source/view/5.jpg?imageView2/2/format/webp/w/240)  |![图片](https://images.scyanzu.com/open_source/view/6.jpg?imageView2/2/format/webp/w/240)  |
+| ![图片](https://images.scyanzu.com/open_source/view/7.jpg?imageView2/2/format/webp/w/240)  |![图片](https://images.scyanzu.com/open_source/view/8.jpg?imageView2/2/format/webp/w/240)  | ![图片](https://images.scyanzu.com/open_source/view/9.jpg?imageView2/2/format/webp/w/240) |
+|![图片](https://images.scyanzu.com/open_source/view/10.jpg?imageView2/2/format/webp/w/240) | ![图片](https://images.scyanzu.com/open_source/view/11.jpg?imageView2/2/format/webp/w/240) |![图片](https://images.scyanzu.com/open_source/view/12.jpg?imageView2/2/format/webp/w/240) |
+| ![图片](https://images.scyanzu.com/open_source/view/13.jpg?imageView2/2/format/webp/w/240) |![图片](https://images.scyanzu.com/open_source/view/14.jpg?imageView2/2/format/webp/w/240) |![图片](https://images.scyanzu.com/open_source/view/15.jpg?imageView2/2/format/webp/w/240) |
+| ![图片](https://images.scyanzu.com/open_source/view/16.jpg?imageView2/2/format/webp/w/240) |![图片](https://images.scyanzu.com/open_source/view/17.jpg?imageView2/2/format/webp/w/240) |![图片](https://images.scyanzu.com/open_source/view/18.jpg?imageView2/2/format/webp/w/240) |
+| ![图片](https://images.scyanzu.com/open_source/view/19.jpg?imageView2/2/format/webp/w/240) |![图片](https://images.scyanzu.com/open_source/view/20.jpg?imageView2/2/format/webp/w/240) |
 
 
 
 ## 联系我们
 #### 电话：15675555180 (微信同号，注明来意)
 
-![图片](https://images.scyanzu.com/open_source/wx_code.jpg?imageView2/2/format/webp/h/240)
+![图片](https://images.scyanzu.com/open_source/wx_code.jpg?imageView2/2/format/webp/w/240)
 
