@@ -235,6 +235,12 @@ Page({
     }else if(null!= lockData){
       //本地蓝牙开锁
      lock.blueDoorOpen(lockData);
+   }else{
+      wx.showModal({
+        title: '提示',
+        content: '该房间未使用密码锁',
+        showCancel: false
+      })
    }
   },
   disableRoom: function(e){

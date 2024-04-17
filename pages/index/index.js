@@ -90,11 +90,13 @@ Page({
       }
     }
     console.log('最终的门店id:'+that.data.storeId)
-    that.loadingtime();
-    that.getDoorInfodata();
-    that.setData({
-      popshow: popshow
-    })
+    if(that.data.storeId){
+      that.loadingtime();
+      that.getDoorInfodata();
+      that.setData({
+        popshow: popshow
+      })
+    }
     // this.getDoorListdata();
   },
   popClose:function(){

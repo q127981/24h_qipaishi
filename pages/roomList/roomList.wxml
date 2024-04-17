@@ -1,0 +1,36 @@
+<!--pages/roomList/roomList.wxml-->
+<view class="tabs">
+  <van-dropdown-menu active-color="{{mainColor}}">
+      <van-dropdown-item value="{{ storeId }}" options="{{ stores }}"  bind:change="storeDropdown" />
+  </van-dropdown-menu>
+</view>
+<view class="container">
+  <view class="list">
+    <view class="item" wx:for="{{doorList}}" wx:key="item">
+      <view class="left">
+        <view class="info">
+          <text class="name">{{item.roomName}}（{{item.type===1?'小包':item.type===2?'中包':'大包'}}）</text>
+        </view>
+        <view class="info">
+          <label>门店：</label>
+          <text>{{item.storeName}}</text>
+        </view>
+        <view class="info">
+          <label>状态：</label>
+          <text>{{item.status==1?'空闲':item.status==2?'待清洁':item.status==3?'使用中':item.status==4?'已预约':'禁用'}}</text>
+        </view>
+        <view class="info" wx:if="{{item.startTime}}">
+          <label>时间：</label>
+          <text>{{item.startTime}} ~ {{item.endTime}}</text>
+        </view>
+      </view>
+      <view class="right">
+          <view class="btn red" bindtap="openBlueDoor" data-lockdata="{{item.lockData}}" data-gatewayid="{{item.gatewayId}}">
+            密码锁
+          </view>
+          <view class="btn red" bindtap="closeDoor" data-roomid="{{item.roomId}}">关电</view>
+          <view class="btn red" bindtap="openDoor" data-roomid="{{item.roomId}}">开电</view>
+      </view>
+    </view>
+  </view>
+</view>

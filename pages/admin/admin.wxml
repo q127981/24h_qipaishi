@@ -11,7 +11,8 @@
     <view class="item" wx:for="{{list}}" wx:key="item">
       <view class="top">
         <view class="left">
-          <view class="img"><image src="{{item.avatar}}" mode="widthFix"></image></view>
+          <view class="img">
+          <image src="{{item.avatar?item.avatar:'../static/img/logo.png'}}" mode="widthFix"></image></view>
           <!-- <view class="nick">{{item.nickname}}</view> -->
           <!-- <view class="del color-attention" bindtap="delete" data-info="{{item}}">删除</view> -->
         </view>

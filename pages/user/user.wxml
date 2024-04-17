@@ -6,7 +6,7 @@
       <button hover-class="button-click" class="userInfo" bind:tap="gotosetuserinfo">
         <view class="left">
           <view class="photo">
-            <image src="{{userinfo.avatar.length>0?userinfo.avatar:'../static/img/logo.png'}}" mode="widthFix"></image>
+            <image src="{{userinfo.avatar?userinfo.avatar:'../static/img/logo.png'}}" mode="widthFix"></image>
           </view>
           <view class="info">
             <view class="name">昵称：{{userinfo.nickname.length?userinfo.nickname:"暂无"}}</view>
@@ -101,21 +101,25 @@
           <view class="iconfont icon-mendianguanli color-primary"></view>
           <view>门店管理</view>
         </navigator>
-        <navigator class="item" url="../setCoupon/setCoupon">
-          <view class="iconfont icon-diyongquan color-primary"></view>
-          <view>优惠卡券</view>
+        <navigator class="item" url="../roomList/roomList">
+          <view class="iconfont icon-renwu color-primary"></view>
+          <view>房间控制</view>
         </navigator>
         <navigator class="item" url="../SetOrder/SetOrder">
           <view class="iconfont icon-dingdan color-primary"></view>
           <view>订单管理</view>
         </navigator>
-        <navigator class="item" url="../scanQr/scanQr">
-          <view class="iconfont icon-qr-code color-primary"></view>
-          <view>团购验券</view>
-        </navigator>
         <navigator class="item" url="../setVip/setVip">
           <view class="iconfont icon-huiyuan color-primary"></view>
           <view>会员管理</view>
+        </navigator>
+        <navigator class="item" url="../setCoupon/setCoupon">
+          <view class="iconfont icon-diyongquan color-primary"></view>
+          <view>优惠卡券</view>
+        </navigator>
+        <navigator class="item" url="../scanQr/scanQr">
+          <view class="iconfont icon-qr-code color-primary"></view>
+          <view>团购验券</view>
         </navigator>
         <navigator class="item" url="../admin/admin">
           <view class="iconfont icon-employee color-primary"></view>
@@ -133,12 +137,17 @@
           <view class="iconfont icon-dingdan2 color-primary"></view>
           <view>保洁订单</view>
         </navigator>
+        
       </view>
       <view class="box" wx:else>
         <!-- 保洁端 -->
         <navigator class="item" url="../task/task">
           <view class="iconfont icon-renwu color-primary"></view>
           <view>任务大厅</view>
+        </navigator>
+        <navigator class="item" url="../roomList/roomList">
+          <view class="iconfont icon-renwu color-primary"></view>
+          <view>房间控制</view>
         </navigator>
         <navigator class="item" url="../taskStatics/taskStatics">
           <view class="iconfont icon-tongji color-primary"></view>

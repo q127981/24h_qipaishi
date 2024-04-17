@@ -44,7 +44,8 @@
     "pages/logs/logs",
     "pages/location/location",
     "pages/login/login",
-    "pages/booking/booking"
+    "pages/booking/booking",
+    "pages/roomList/roomList"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -54,7 +55,7 @@
   },
   "plugins": {
     "myPlugin": {
-      "version": "3.0.0",
+      "version": "3.0.1",
       "provider": "wx43d5971c94455481"
     }
   },
@@ -105,7 +106,10 @@
     "van-icon": "@vant/weapp/icon/index",
     "van-divider": "@vant/weapp/divider/index"
   },
-  "requiredPrivateInfos": ["getLocation", "chooseLocation"],
+  "requiredPrivateInfos": [
+    "getLocation",
+    "chooseLocation"
+  ],
   "permission": {
     "scope.userLocation": {
       "desc": "小程序需要使用定位功能"
