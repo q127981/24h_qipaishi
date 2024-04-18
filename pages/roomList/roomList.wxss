@@ -2,6 +2,26 @@
 page{
   /* background: #fff; */
 }
+.tabs {
+  background-color: #fff;
+  display: flex;
+  justify-content:space-around;
+}
+.tabs .item .van-dropdown-menu{
+  box-shadow: unset !important;
+}
+
+.tabs .item .btn{
+  /* margin-bottom: 10rpx; */
+  border-radius: 20rpx;
+  width: 200rpx;
+  text-align: center;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 36rpx;
+  color: #fff;
+  background-color: #3ea7fd;
+}
 .container{
 }
 .list{

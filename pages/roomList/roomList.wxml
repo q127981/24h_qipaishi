@@ -1,8 +1,13 @@
 <!--pages/roomList/roomList.wxml-->
 <view class="tabs">
-  <van-dropdown-menu active-color="{{mainColor}}">
+  <view class="item">
+    <van-dropdown-menu active-color="{{mainColor}}">
       <van-dropdown-item value="{{ storeId }}" options="{{ stores }}"  bind:change="storeDropdown" />
   </van-dropdown-menu>
+  </view>
+  <view class="item">
+    <view class="btn red" bindtap="openStoreDoor">开大门</view>
+  </view>
 </view>
 <view class="container">
   <view class="list">
@@ -34,14 +39,15 @@
               已预订 | {{item.startTime}}开始
           </view>
         </block>
-      
       </view>
       <view class="right">
-          <view class="btn red" bindtap="openBlueDoor" data-lockdata="{{item.lockData}}" data-gatewayid="{{item.gatewayId}}">
+      <block wx:if="{{userinfo.type==12||userinfo.type==13}}">
+        <view class="btn red" bindtap="openBlueDoor" data-lockdata="{{item.lockData}}" data-gatewayid="{{item.gatewayId}}">
             密码锁
-          </view>
-          <view class="btn red" bindtap="closeDoor" data-roomid="{{item.roomId}}">关电</view>
-          <view class="btn red" bindtap="openDoor" data-roomid="{{item.roomId}}">开电</view>
+            </view>
+            <view class="btn red" bindtap="openDoor" data-roomid="{{item.roomId}}">开电</view>
+            <view class="btn red" bindtap="closeDoor" data-roomid="{{item.roomId}}">关电</view>
+      </block>
       </view>
     </view>
   </view>

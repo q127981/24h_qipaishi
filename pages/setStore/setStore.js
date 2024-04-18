@@ -240,7 +240,7 @@ Page({
         if (info.code == 0) {
           wx.showToast({
             title: "操作成功",
-            icon: 'none'
+            icon: 'success'
           })
         }else{
           wx.showModal({

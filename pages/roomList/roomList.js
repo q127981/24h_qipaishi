@@ -10,6 +10,7 @@ Page({
   data: {
     storeId: '', //列表搜索门店id
     stores: [],
+    userinfo:{},
     doorList: [],
     pageNo: 1,
     pageSize: 10,
@@ -23,6 +24,7 @@ Page({
    */
   onLoad(options) {
     this.getXiaLaListAdmin()
+    this.getuserinfo();
   },
 
   /**
@@ -294,5 +296,70 @@ Page({
         }
       }
     })
+  },
+  getuserinfo:function(){
+    var that = this;
+    if (app.globalData.isLogin) {
+      http.request(
+        "/member/user/get",
+        "1",
+        "get", {
+        },
+        app.globalData.userDatatoken.accessToken,
+        "",
+        function success(info) {
+          console.info('我的信息===');
+          console.info(info);
+          if (info.code == 0) {
+            that.setData({
+              userinfo:info.data,
+            })
+          }
+        },
+        function fail(info) {
+          
+        }
+      )
+    } else {
+      //console.log('未登录失败！')
+    }
+  },
+  // 打开大门
+  openStoreDoor:function(){
+    var that = this;
+    if(!that.data.storeId){
+      wx.showModal({
+        content: '请选择需要开门的门店',
+        showCancel: false,
+      })
+    }else{
+      http.request(
+        "/member/store/openStoreDoor/"+that.data.storeId,
+        "1",
+        "post", {
+        },
+        app.globalData.userDatatoken.accessToken,
+        "",
+        function success(info) {
+          console.info(info);
+          if (info.code == 0) {
+            wx.showToast({
+              title: "操作成功",
+              icon: 'success'
+            })
+          }else{
+            wx.showModal({
+              content: info.msg,
+              showCancel: false,
+            })
+          }
+        },
+        function fail(info) {
+          
+        }
+      )
+    }
+    // console.info(id);
+   
   },
 })

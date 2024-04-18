@@ -102,7 +102,7 @@
           <view>门店管理</view>
         </navigator>
         <navigator class="item" url="../roomList/roomList">
-          <view class="iconfont icon-renwu color-primary"></view>
+          <view class="iconfont icon-wanle color-primary"></view>
           <view>房间控制</view>
         </navigator>
         <navigator class="item" url="../SetOrder/SetOrder">
@@ -145,7 +145,7 @@
           <view>任务大厅</view>
         </navigator>
         <navigator class="item" url="../roomList/roomList">
-          <view class="iconfont icon-renwu color-primary"></view>
+          <view class="iconfont icon-wanle color-primary"></view>
           <view>房间控制</view>
         </navigator>
         <navigator class="item" url="../taskStatics/taskStatics">
