@@ -41,12 +41,12 @@
         </block>
       </view>
       <view class="right">
-      <block wx:if="{{userinfo.type==12||userinfo.type==13}}">
+      <block wx:if="{{userinfo.userType==12||userinfo.userType==13}}">
         <view class="btn red" bindtap="openBlueDoor" data-lockdata="{{item.lockData}}" data-gatewayid="{{item.gatewayId}}">
             密码锁
-            </view>
-            <view class="btn red" bindtap="openDoor" data-roomid="{{item.roomId}}">开电</view>
-            <view class="btn red" bindtap="closeDoor" data-roomid="{{item.roomId}}">关电</view>
+        </view>
+        <view class="btn red" bindtap="openDoor" data-roomid="{{item.roomId}}">开电</view>
+        <view class="btn red" bindtap="closeDoor" data-roomid="{{item.roomId}}">关电</view>
       </block>
       </view>
     </view>
