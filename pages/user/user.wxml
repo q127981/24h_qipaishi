@@ -125,10 +125,6 @@
           <view class="iconfont icon-employee color-primary"></view>
           <view>员工管理</view>
         </navigator>
-        <navigator class="item" url="../statics/statics">
-          <view class="iconfont icon-tongji color-primary"></view>
-          <view>数据统计</view>
-        </navigator>
         <navigator class="item" url="../cleaner/cleaner">
           <view class="iconfont icon-renyuanguanli color-primary"></view>
           <view>保洁员管理</view>
@@ -137,7 +133,10 @@
           <view class="iconfont icon-dingdan2 color-primary"></view>
           <view>保洁订单</view>
         </navigator>
-        
+        <navigator class="item" url="../statics/statics">
+          <view class="iconfont icon-tongji color-primary"></view>
+          <view>数据统计</view>
+        </navigator>
       </view>
       <view class="box" wx:else>
         <!-- 保洁端 -->

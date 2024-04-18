@@ -43,7 +43,7 @@
 .account{
   display: flex;
   justify-content: center;
-  padding: 10rpx 0 10rpx;
+  padding: 20rpx 0 10rpx;
 }
 .account .item{
   width: 240rpx;
@@ -52,10 +52,10 @@
   position: relative;
 }
 .account .item .num{
-  font-size: 40rpx;
+  font-size: 36rpx;
   margin-bottom: 10rpx;
 }
-.account .item::after{
+/* .account .item::after{
   content: "";
   display: block;
   width: 4rpx;
@@ -68,7 +68,7 @@
 }
 .account .item:last-child::after{
   display: none;
-}
+} */
 .list-container {
   padding: 0 14rpx;
   position: relative;

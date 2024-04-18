@@ -11,12 +11,13 @@ page{
   border-radius: 20rpx;
   margin: 0rpx 20rpx;
   padding: 20rpx;
-  background-image: linear-gradient(181.2deg, rgb(181, 227, 249) 10.5%, rgb(141, 241, 186) 86.8%);
+  background-image: linear-gradient(181.2deg, rgb(204, 235, 250) 10.5%, rgba(169, 232, 243, 0.678) 86.8%);
   height: 150rpx;
   margin-bottom: 20rpx;
   display: flex;
   justify-content: space-between;
 }
+
 .list .item .left {
     font-size: 28rpx;
     color:#222e2b;
@@ -24,6 +25,11 @@ page{
 .list .item .left .name{
   font-size: 32rpx;
   font-weight: 600;
+  color:#222e2b;
+}
+.list .item .left .time{
+  font-size: 26rpx;
+  /* font-weight: 600; */
   color:#222e2b;
 }
 .list .item .right .btn{
@@ -36,4 +42,12 @@ page{
   border-radius: 10rpx;
   color: #fff;
   background-color: #3ea7fd;
+}
+
+
+.container .buttom{
+  margin-top: 20rpx;
+  padding-bottom: 100rpx;
+  text-align: center;
+
 }

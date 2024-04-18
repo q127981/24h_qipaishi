@@ -19,10 +19,22 @@
           <label>状态：</label>
           <text>{{item.status==1?'空闲':item.status==2?'待清洁':item.status==3?'使用中':item.status==4?'已预约':'禁用'}}</text>
         </view>
-        <view class="info" wx:if="{{item.startTime}}">
-          <label>时间：</label>
-          <text>{{item.startTime}} ~ {{item.endTime}}</text>
-        </view>
+        <block wx:if="{{item.status == 2}}">
+          <view class="tip color-attention" wx:if="{{item.endTime}}">
+             待清洁 | {{item.startTime}}开始
+          </view>
+        </block>
+        <block wx:if="{{item.status == 3}}">
+          <view class="tip color-attention" wx:if="{{item.endTime}}">
+              使用中 | {{item.endTime}}结束
+          </view>
+        </block>
+        <block wx:if="{{item.status == 4}}">
+          <view class="tip color-attention" wx:if="{{item.endTime}}">
+              已预订 | {{item.startTime}}开始
+          </view>
+        </block>
+      
       </view>
       <view class="right">
           <view class="btn red" bindtap="openBlueDoor" data-lockdata="{{item.lockData}}" data-gatewayid="{{item.gatewayId}}">
@@ -33,4 +45,5 @@
       </view>
     </view>
   </view>
+  <view class="buttom">- 加载完毕 -</view>
 </view>
