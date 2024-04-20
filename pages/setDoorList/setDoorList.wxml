@@ -59,7 +59,7 @@
             </view>
           </view>
           <view class="line2">
-            <view class="btn red" bindtap="openBlueDoor" data-lockdata="{{item.lockData}}" data-gatewayid="{{item.gatewayId}}">
+            <view class="btn red" bindtap="openBlueDoor" data-lockdata="{{item.lockData}}" data-gatewayid="{{item.gatewayId}}" data-roomid="{{item.roomId}}">
               密码锁
             </view>
             <view class="btn red" bindtap="closeDoor" data-roomid="{{item.roomId}}">关电</view>

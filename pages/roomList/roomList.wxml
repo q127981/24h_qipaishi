@@ -42,7 +42,7 @@
       </view>
       <view class="right">
       <block wx:if="{{userinfo.userType==12||userinfo.userType==13}}">
-        <view class="btn red" bindtap="openBlueDoor" data-lockdata="{{item.lockData}}" data-gatewayid="{{item.gatewayId}}">
+        <view class="btn red" bindtap="openBlueDoor" data-lockdata="{{item.lockData}}" data-gatewayid="{{item.gatewayId}}"  data-roomid="{{item.roomId}}">
             密码锁
         </view>
         <view class="btn red" bindtap="openDoor" data-roomid="{{item.roomId}}">开电</view>

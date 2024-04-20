@@ -174,7 +174,6 @@ page{
 .table-right {
   border-right: 1rpx solid #ececec;
 }
-
 .box .table2 {
   width: 150rpx;
 }

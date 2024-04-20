@@ -205,15 +205,15 @@ Page({
     let that = this;
     let lockData = e.currentTarget.dataset.lockdata;
     let gatewayId = e.currentTarget.dataset.gatewayid;
+    let roomId = e.currentTarget.dataset.roomid;
     if(null!=gatewayId){
       //支持远程开锁
       if (app.globalData.isLogin) 
       {
           http.request(
-            "/member/store/openRoomLock/"+that.data.OrderNo,
+            "/member/store/openRoomLock/"+roomId,
             "1",
             "post", {
-             //  "orderId":that.data.OrderNo
             },
             app.globalData.userDatatoken.accessToken,
             "提交中...",

@@ -169,15 +169,15 @@ Page({
     let that = this;
     let lockData = e.currentTarget.dataset.lockdata;
     let gatewayId = e.currentTarget.dataset.gatewayid;
-    if(null!= gatewayId){
+    let roomId = e.currentTarget.dataset.roomid;
+    if(gatewayId){
       //支持远程开锁
       if (app.globalData.isLogin) 
       {
           http.request(
-            "/member/store/openRoomLock/"+that.data.OrderNo,
+            "/member/store/openRoomLock/"+roomId,
             "1",
             "post", {
-             //  "orderId":that.data.OrderNo
             },
             app.globalData.userDatatoken.accessToken,
             "提交中...",
@@ -196,16 +196,16 @@ Page({
             }
           )
        }
-    }else if(null!= lockData){
+    }else if(lockData){
       //本地蓝牙开锁
      lock.blueDoorOpen(lockData);
-   }else{
-    wx.showModal({
-      title: '提示',
-      content: '该房间未使用密码锁',
-      showCancel: false
-    })
-   }
+    }else{
+      wx.showModal({
+        title: '提示',
+        content: '该房间未使用密码锁',
+        showCancel: false
+      })
+    }
   },
   // 开房间门
   openDoor: function(e){
