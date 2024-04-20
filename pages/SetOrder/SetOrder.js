@@ -32,9 +32,11 @@ Page({
     canLoadMore: true,//是否还能加载更多
     renewShow: false, //续费弹窗
     cancelOrderShow: false, //订单取消弹窗
+    refundOrderShow: false, //订单退款弹窗
     changeOrderUserShow: false, //订单转移弹窗
-    changeOrderTimeShow: false, //订单修改弹窗
+    changeOrderShow: false, //订单修改弹窗
     cancelOrderSucShow: false, //取消成功弹窗
+    refundOrderSucShow: false, //退款成功弹窗
     status:"",//订单状态筛选
     orderColumn:"",//排序
     orderlist:[],//订单列表数组
@@ -42,9 +44,13 @@ Page({
     userinfo:{},//用户信息
     orderInfo: '', //选择操作的订单
     addTime: 0, //续费时长
+    changeTime:0,//修改时长
     newTime:'',//增加后的时间
     totalPay: 0, //增加后支付价格
     beforeCloseFunction:null,
+    changeRoomId: "",//修改的房间Id
+    changeStartTime:"",//修改的开始时间
+    changeEndTime:"",//修改的结束时间
     // payTypes: [{name:'微信支付',value: 1,checked:true},{name:'钱包余额',value: 2}],
     payType: 2,
     storeId:'',
@@ -244,6 +250,14 @@ Page({
       orderInfo: orderInfo
     })
   },
+  // 退款弹窗
+  refundOrder(e){
+    var orderInfo = e.currentTarget.dataset.info
+    this.setData({
+      refundOrderShow:true,
+      orderInfo: orderInfo
+    })
+  },
   // 修改用户弹窗
   changeOrderUser(e){
     var orderInfo = e.currentTarget.dataset.info
@@ -253,12 +267,15 @@ Page({
       orderInfo: orderInfo
     })
   },
-   // 修改时间弹窗
-   changeOrderTime(e){
+   // 修改订单弹窗
+   changeOrder(e){
     var orderInfo = e.currentTarget.dataset.info
     this.setData({
-      changeOrderTimeShow:true,
-      mobile:"",
+      changeOrderShow:true,
+      changeTime: "",
+      changeRoomId:"",
+      changeStartTime:"",
+      changeEndTime:"",
       orderInfo: orderInfo
     })
   },
@@ -298,7 +315,42 @@ Page({
     )
   } 
 },
-
+ // 确认修改
+ cancelChangeOrder(){
+  var that = this
+  if (app.globalData.isLogin) 
+  {
+    http.request(
+      "/member/manager/changeOrder",
+      "1",
+      "post", {
+        "orderId": that.data.orderInfo.orderId,
+        "startTime": that.data.changeStartTime,
+      },
+      app.globalData.userDatatoken.accessToken,
+      "",
+      function success(info) {
+        console.info('返回111===');
+        console.info(info);
+        if (info.code == 0) {
+          wx.showModal({
+            content: "订单修改成功",
+            showCancel: false,
+          })
+          that.getOrderListdata('refresh')
+        }else{
+          wx.showModal({
+            content: info.msg,
+            showCancel: false,
+          })
+        }
+      },
+      function fail(info) {
+        
+      }
+    )
+  } 
+},
   // 确认取消
   cancelConfirm(){
     var that = this
@@ -337,6 +389,44 @@ Page({
   cancelSuccessConfirm(){
     this.setData({cancelOrderSucShow: false})
   },
+  // 确认退款
+  refundConfirm(){
+    var that = this
+    if (app.globalData.isLogin) 
+    {
+      http.request(
+        "/member/manager/refundOrder/"+that.data.orderInfo.orderId,
+        "1",
+        "post", {
+          "orderId": that.data.orderInfo.orderId,
+        },
+        app.globalData.userDatatoken.accessToken,
+        "",
+        function success(info) {
+          console.info('返回111===');
+          console.info(info);
+          if (info.code == 0) {
+            that.setData({
+              refundOrderSuccess: true
+            })
+            that.getOrderListdata('refresh')
+          }else{
+            wx.showModal({
+              content: info.msg,
+              showCancel: false,
+            })
+          }
+        },
+        function fail(info) {
+          
+        }
+      )
+    } 
+  },
+  // 退款成功关闭弹窗
+  refundSuccessConfirm(){
+    this.setData({refundOrderSucShow: false})
+  },
   // 续费弹窗
   renewClick(e){
     var orderInfo = e.currentTarget.dataset.info
@@ -372,6 +462,19 @@ Page({
       addTime: addTime,
       newTime: newTime,
       totalPay: (addTime * that.data.orderInfo.price).toFixed(2)
+    })
+  },
+  // 修改订单时间
+  onChangeTime:function(event){
+    var that = this
+    var changeTime = event.detail
+    var newTime = Moment(that.data.orderInfo.startTime).add(changeTime, "hours").format("YYYY/MM/DD HH:mm")
+    var newEndTime = Moment(that.data.orderInfo.endTime).add(changeTime, "hours").format("YYYY/MM/DD HH:mm")
+    //console.log(`newtime:${newTime}`)
+    this.setData({
+      changeTime: changeTime,
+      changeStartTime: newTime,
+      changeEndTime: newEndTime
     })
   },
   // 支付方式选择
@@ -629,5 +732,17 @@ Page({
     } else {
       //console.log('未登录失败！')
     }
+  },
+  callMobile:function (e) {
+    var mobile = e.currentTarget.dataset.mobile
+    wx.makePhoneCall({
+        phoneNumber: mobile,
+        success:function () {
+          //console.log("拨打电话成功！")
+        },
+        fail:function () {
+          //console.log("拨打电话失败！")
+        }
+    })
   },
 })

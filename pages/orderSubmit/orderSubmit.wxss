@@ -29,8 +29,8 @@ page{
 }
 .top .topInfo .left .img{
   width: 100%;
-  height: 200rpx;
-  /* height: 100%; */
+  /* height: 200rpx; */
+  height: 100%;
 }
 .top .topInfo .left .flag{
   position: absolute;

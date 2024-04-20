@@ -146,7 +146,7 @@
         </navigator>
         <navigator class="item" url="../roomList/roomList">
           <view class="iconfont icon-wanle color-primary"></view>
-          <view>房间控制</view>
+          <view>房间状态</view>
         </navigator>
         <navigator class="item" url="../taskStatics/taskStatics">
           <view class="iconfont icon-tongji color-primary"></view>

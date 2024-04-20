@@ -16,7 +16,6 @@ page{
 }
 .section .title{
   font-size: 32rpx;
-  margin-bottom: 20rpx;
   color: #000;
 }
 .section .tabs{
@@ -65,7 +64,7 @@ page{
   position: absolute;
   right: 2rpx;
   top: 50%;
-  margin-top: -35rpx;
+  /* margin-top: -35rpx; */
 }
 .top .box .item:last-child::after{
   display: none;
@@ -138,6 +137,7 @@ page{
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 1;
 }
 .table-header view {
   width: 50%;
@@ -150,8 +150,9 @@ page{
   display: flex;
   justify-content: space-between;
 }
-.table-line:first-of-type {
-  margin-top: 65rpx;
+
+.table-line:first-child{
+  margin-top: 60rpx;
 }
 .table-line:nth-of-type(odd) {
   background: #ededed;
@@ -173,6 +174,14 @@ page{
 .table-right {
   border-right: 1rpx solid #ececec;
 }
+
+.box .table2 {
+  width: 150rpx;
+}
+.box .table3 {
+  width: 100rpx;
+}
+
 .total .box .item{
   width: 33.33%;
   text-align: center;
@@ -229,6 +238,7 @@ page{
   text-align: center;
 }
 .charts{
+  margin-top: 10rpx;
   width: 100%;
   height: 400rpx;
   position: relative;

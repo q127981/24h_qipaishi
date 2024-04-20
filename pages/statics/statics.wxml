@@ -172,8 +172,98 @@
       </van-tab>
     </van-tabs>
   </view>
-  <!-- 房间使用情况 -->
+  <!-- 收入统计 -->
   <view class="section">
+    <view class="title">收入统计</view>
+    <van-tabs active="{{ active3 }}" bind:change="onChange" data-type="3" title-active-color="{{mainColor}}" color="{{mainColor}}" title-inactive-color="#333">
+      <van-tab title="收入明细">
+      <view class="charts">
+          <block wx:if="{{income.length}}">
+            <view class="roomtime">
+              <view class="item table-header">
+                  <view class="table1">门店名称</view>
+                  <view class="table2">金额(元)</view>
+                  <view class="table3">类型</view>
+                  <view class="table4">时间</view>
+                </view>
+              <view class="box">
+                <view class="item table-line" wx:for="{{income}}" wx:key="item">
+                  <view class="table1">{{item.storeName}}</view>
+                  <view class="table2">{{item.price}}</view>
+                  <view class="table3">{{item.payType}}</view>
+                  <view class="table4">{{item.createTime}}</view>
+                </view>
+              </view>
+            </view>
+          </block>
+          <block wx:else>
+            <view class="nodata">暂无数据</view>
+          </block>
+        </view>
+        <view class="times">
+          <view class="{{!isDefine3 && sdt3==date?'item active':'item'}}">
+            <view class="time" bindtap="changeDate" data-info="1" data-type="price">今日</view>
+            <view class="tip">{{date_3}}</view>
+          </view>
+          <view class="{{!isDefine3 && sdt3==date7?'item active':'item'}}">
+            <view class="time" bindtap="changeDate" data-info="7" data-type="price">7日</view>
+            <view class="tip">{{date7_3}}至{{date_3}}</view>
+          </view>
+          <view class="{{!isDefine3 && sdt3==date30?'item active':'item'}}">
+            <view class="time" bindtap="changeDate" data-info="30" data-type="price">30日</view>
+            <view class="tip">{{date30_3}}至{{date_3}}</view>
+          </view>
+          <view class="{{isDefine3 && type=='price'?'item active':'item'}}">
+            <view class="time" bindtap="define" data-type="price">自定义</view>
+            <view class="tip"></view>
+          </view>
+        </view>
+      </van-tab>
+      <van-tab title="充值明细">
+      <view class="charts">
+          <block wx:if="{{recharge.length}}">
+            <view class="roomtime">
+              <view class="item table-header">
+                  <view class="table1">门店名称</view>
+                  <view class="table2">金额(元)</view>
+                  <view class="table4">时间</view>
+                </view>
+              <view class="box">
+                <view class="item table-line" wx:for="{{recharge}}" wx:key="item">
+                  <view class="table1">{{item.storeName}}</view>
+                  <view class="table2">{{item.price}}</view>
+                  <view class="table4">{{item.createTime}}</view>
+                </view>
+              </view>
+            </view>
+          </block>
+          <block wx:else>
+            <view class="nodata">暂无数据</view>
+          </block>
+        </view>
+        <view class="times">
+          <view class="{{!isDefine3 && sdt3==date?'item active':'item'}}">
+            <view class="time" bindtap="changeDate" data-info="1" data-type="price">今日</view>
+            <view class="tip">{{date_3}}</view>
+          </view>
+          <view class="{{!isDefine3 && sdt3==date7?'item active':'item'}}">
+            <view class="time" bindtap="changeDate" data-info="7" data-type="price">7日</view>
+            <view class="tip">{{date7_3}}至{{date_3}}</view>
+          </view>
+          <view class="{{!isDefine3 && sdt3==date30?'item active':'item'}}">
+            <view class="time" bindtap="changeDate" data-info="30" data-type="price">30日</view>
+            <view class="tip">{{date30_3}}至{{date_3}}</view>
+          </view>
+          <view class="{{isDefine3 && type=='price'?'item active':'item'}}">
+            <view class="time" bindtap="define" data-type="price">自定义</view>
+            <view class="tip"></view>
+          </view>
+        </view>
+      </van-tab>
+    </van-tabs>
+  </view>
+   <!-- 房间使用情况 -->
+   <view class="section">
     <view class="title">房间使用情况</view>
     <van-tabs active="{{ active2 }}" bind:change="onChange" data-type="2" title-active-color="{{mainColor}}" color="{{mainColor}}" title-inactive-color="#333">
       <van-tab title="使用率">
@@ -208,12 +298,11 @@
         <view class="charts" wx:if="{{active2===1}}">
           <block wx:if="{{roomtime.length}}">
             <view class="roomtime">
-              <!-- <view class="title">单位：小时</view> -->
-              <view class="box">
-                <view class="item table-header">
-                  <view class="table-left">时间</view>
+              <view class="item table-header">
+                  <view class="table-left">日期</view>
                   <view class="table-right">时长(小时)</view>
                 </view>
+              <view class="box">
                 <view class="item table-line" wx:for="{{roomtime}}" wx:key="item">
                   <view class="table-left">{{item.key}}</view>
                   <view class="table-right">{{item.value}}</view>

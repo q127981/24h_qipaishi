@@ -14,6 +14,8 @@ var inpeople_y = []
 var roominfo_x = []
 var roominfo_y = []
 var roomtime = []
+var income = []
+var recharge = []
 // 收益统计
 function chartIninfo(canvas, width, height, dpr) {
   let that = this
@@ -305,6 +307,7 @@ Page({
     show: false,
     active1: 0,
     active2: 0,
+    active3: 0,
     sdt: '',
     edt: '',
     dateShow: false, //日期控件
@@ -328,22 +331,30 @@ Page({
     sdt1: '',
     edt1: '',
     sdt2: '',
+    sdt3: '',
     edt2: '',
+    edt3: '',
     date: '',
     date_2: '',
+    date_3: '',
     date7: '',
     date7_2: '',
+    date7_3: '',
     date30: '',
     date30_2: '',
+    date30_3: '',
     isDefine: false,
     isDefine1: false,
     isDefine2: false,
+    isDefine3: false,
     type: '',
     ininfo_y: [],
     inorder: [],
     inpeople_y: [],
     roominfo_y: [],
     roomtime: [],
+    income: [],
+    recharge: [],
     beforeCloseFunction:null,
     mainColor: app.globalData.mainColor
   },
@@ -354,10 +365,13 @@ Page({
   onLoad(options) {
     var date = Moment().format('YYYY-MM-DD'); //获取当前时间并格式化输出
     var date_2 = Moment().format('MM-DD');
+    var date_3 = Moment().format('MM-DD');
     var date7 = Moment().subtract(6, 'days').format('YYYY-MM-DD');
     var date7_2 = Moment().subtract(6, 'days').format('MM-DD');
+    var date7_3 = Moment().subtract(6, 'days').format('MM-DD');
     var date30 = Moment().subtract(30, 'days').format('YYYY-MM-DD');
     var date30_2 = Moment().subtract(30, 'days').format('MM-DD');
+    var date30_3 = Moment().subtract(30, 'days').format('MM-DD');
     this.setData({
       date: date,
       sdt: date,
@@ -365,12 +379,17 @@ Page({
       sdt1: date,
       edt1: date,
       sdt2: date,
+      sdt3: date,
       edt2: date,
+      edt3: date,
       date7: date7,
       date30: date30,
       date_2: date_2,
       date7_2: date7_2,
       date30_2: date30_2,
+      date_3: date_3,
+      date7_3: date7_3,
+      date30_3: date30_3,
     })
     this.getXiaLaListAdmin()
     this.getTop()
@@ -380,6 +399,8 @@ Page({
     this.getInpeople()
     this.getRoom()
     this.getRoomtime()
+    this.getIncome()
+    this.getRecharge()
     this.setData({beforeCloseFunction: this.beforeClose()})
   },
 
@@ -486,6 +507,8 @@ Page({
     this.getInpeople()
     this.getRoom()
     this.getRoomtime()
+    this.getIncome()
+    this.getRecharge()
   },
   // 获取营业额数据 （收入、提现、待提现）
   getTop: function(){
@@ -606,7 +629,17 @@ Page({
       })
       this.getRoom()
       this.getRoomtime()
+    }else if(type == 'price'){
+      this.setData({
+        sdt3: sdt,
+        edt3: edt,
+        type: type,
+        isDefine3:false
+      })
+      this.getIncome()
+      this.getRecharge()
     }
+
   },
   // 自定义
   define(e){
@@ -682,6 +715,14 @@ Page({
       this.getRoom()
       this.getRoomtime()
     }
+    else if(type == 'price'){
+      this.setData({
+        sdt3: this.data.start,
+        edt3: this.data.end
+      })
+      this.getIncome()
+      this.getRecharge()
+    }
   },
   // tab切换
   onChange(event){
@@ -694,6 +735,11 @@ Page({
     if(type == 2){
       this.setData({
         active2: event.detail.name
+      })
+    }
+    if(type == 3){
+      this.setData({
+        active3: event.detail.name
       })
     }
   },
@@ -922,6 +968,76 @@ Page({
             roomtime = info.data
             that.setData({
               roomtime: roomtime
+            })
+          }else{
+            wx.showModal({
+              content: info.msg,
+              showCancel: false,
+            })
+          }
+        },
+        function fail(info) {
+          
+        }
+      )
+    } 
+  },
+   // 获取收入明细
+  getIncome: function(){
+    let that = this
+    if (app.globalData.isLogin) 
+    {
+      http.request(
+        "/member/chart/getIncomeStatistics",
+        "1",
+        "post", {
+          "storeId": that.data.storeId,
+          "startTime": that.data.sdt3,
+          "endTime": that.data.edt3
+        },
+        app.globalData.userDatatoken.accessToken,
+        "",
+        function success(info) {
+          console.info('返回111===');
+          console.info(that.data);
+          if (info.code == 0) {
+            that.setData({
+              income: info.data
+            })
+          }else{
+            wx.showModal({
+              content: info.msg,
+              showCancel: false,
+            })
+          }
+        },
+        function fail(info) {
+          
+        }
+      )
+    } 
+  },
+   // 获取充值明细
+   getRecharge: function(){
+    let that = this
+    if (app.globalData.isLogin) 
+    {
+      http.request(
+        "/member/chart/getRechargeStatistics",
+        "1",
+        "post", {
+          "storeId": that.data.storeId,
+          "startTime": that.data.sdt3,
+          "endTime": that.data.edt3
+        },
+        app.globalData.userDatatoken.accessToken,
+        "",
+        function success(info) {
+          console.info('返回111===');
+          console.info(that.data);
+          if (info.code == 0) {
+            that.setData({
+              recharge: info.data
             })
           }else{
             wx.showModal({

@@ -160,7 +160,7 @@ page{
   width: 160rpx;
   height: 60rpx;
   line-height: 58rpx;
-  font-size: 28rpx;
+  font-size: 26rpx;
   border-radius: 30rpx;
   background: transparent;
 }
