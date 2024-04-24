@@ -2,7 +2,7 @@ const plugin = requirePlugin("myPlugin");
 
 function blueDoorOpen(lockData){
    if(lockData==null||lockData.length < 50){
-    this.showModel("门锁配置异常");
+     wx.showToast({ icon: "none", title: "电子钥匙错误" });
    }else{
       wx.showToast({ 
         icon: "loading", 
@@ -10,21 +10,21 @@ function blueDoorOpen(lockData){
         duration: 10000,
         mask: true  // 遮罩层，防止点击
       });
-      var deviceId="";
-      plugin.controlLock(plugin.ControlAction.OPEN, lockData, res => {
-        console.log("控制智能锁时设备连接已断开", res);
-      }, null, deviceId).then(res => {
-        console.log(res)
-        if (res.deviceId) deviceId = res.deviceId;
-        if (res.errorCode === 0) {
-            wx.hideToast();
-            wx.showToast({ icon: "success", title: "开锁成功" });
-        } else {
-          wx.hideToast();
-          this.showModel(res.errorMsg);
-        }
-    })
-   }
+      // 控制智能锁
+      plugin.controlLock({
+        /* 控制智能锁方式 3 -开锁, 6 -闭锁 */
+        controlAction: 3,
+        lockData: lockData,
+        serverTime: Date.now(),
+      }).then(res => {
+          if (res.errorCode == 0) {
+              wx.showToast({ icon: "success", title: "已开锁" });
+          } else {
+              wx.hideLoading();
+              wx.showToast({ icon: "none", title: "开锁失败" });
+          }
+      })
+  }
 }
 
 module.exports = {
