@@ -255,7 +255,9 @@ page{
 }
 .orderPrice .item .right .price-coupon{
   color: #ea4e4e;
+  text-align: right;
   font-size: 26rpx;
+  line-height: 0rpx;
 }
 .orderPrice .item .right .no-coupon{
   background-color: #ea4e4e;

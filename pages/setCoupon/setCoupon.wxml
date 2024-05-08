@@ -15,15 +15,20 @@
       <block wx:if="{{item.type===2}}">
         <image class="img" src="../static/img/coupon_yellow.png" mode="scaleToFill"></image>
       </block>
+      <block wx:if="{{item.type===3}}">
+        <image class="img" src="../static/img/order_blue.png" mode="scaleToFill"></image>
+      </block>
       <view class="info">
         <view class="left">
           <view class="name">{{item.couponName}}</view>
           <view class="text">适用门店：{{item.storeName}}</view>
           <view class="text">包间限制：{{item.roomType===1?'小包':item.roomType===2?'中包':item.roomType===3?'大包':'不限制'}}</view>
-          <view class="text">抵扣额度：<text wx:if="{{item.type===1}}">{{item.price}}小时</text>
-              <text wx:else>{{item.price}}元</text></view>
-          <view class="text">使用门槛：<text wx:if="{{item.type===1}}">满{{item.minUsePrice}}小时可用</text>
-              <text wx:else>满{{item.minUsePrice}}元可用</text></view>
+          <view class="text">抵扣额度：
+              <text wx:if="{{item.type===2}}">{{item.price}}元</text>
+              <text wx:else>{{item.price}}小时</text></view>
+          <view class="text">使用门槛：
+              <text wx:if="{{item.type===2}}">满{{item.minUsePrice}}元可用</text>
+              <text wx:else>满{{item.minUsePrice}}小时可用</text></view>
           <view class="text">过期时间：{{item.expriceTime}}</view>
           <view class="text">状态：<text class="{{item.status===0?'normal':'expired'}}">{{item.status===0?'待使用':item.status===1?'已使用':'已过期'}}</text></view>
         </view>

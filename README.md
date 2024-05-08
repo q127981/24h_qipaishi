@@ -35,7 +35,7 @@
 ## 硬件设备说明
 ### 本系统已经对接好了所有硬件，硬件买回来，把编号添加进系统就能用。
 ### 硬件可提供API文档，支持二次开发，接入到自己的系统。
-![图片](https://images.scyanzu.com/device_list_asd123124.jpg?imageView2/2/format/webp/w/480)
+![图片](https://images.scyanzu.com/yingjianlist2040508-1.jpg?imageView2/2/format/webp/w/480)
 
 
 ## 功能体验

@@ -80,7 +80,7 @@
   </view>
   <view class="section">
     <view class="times">
-      <image class="img" src="../static/icon/time.png" mode="widthFix" style="width: 60rpx;"/>
+      <image class="img" src="../static/icon/time.png" mode="widthFix" style="width: 60rpx;height: 60rpx;"/>
       <view class="item">
         <view mode="time" bind:tap="setshowSelectHour">
           <view class="time">
@@ -129,14 +129,20 @@
         <block wx:if="{{submit_couponInfo.couponName}}">
           <block wx:if="{{submit_couponInfo.type == 1}}">
             <text class="price-coupon">
-              {{submit_couponInfo.couponName}}(时长卡)-抵扣{{submit_couponInfo.price}}小时
+              {{submit_couponInfo.couponName}}(抵扣{{submit_couponInfo.price}}小时)
             </text>
           </block>
-          <block wx:else>
+          <block wx:if="{{submit_couponInfo.type == 2}}">
             <text class="price-coupon">
-              {{submit_couponInfo.couponName}}(满减卡)-抵扣{{submit_couponInfo.price}}元
+              {{submit_couponInfo.couponName}}(满减{{submit_couponInfo.price}}元)
             </text>
           </block>
+          <block wx:if="{{submit_couponInfo.type == 3}}">
+            <text class="price-coupon">
+              {{submit_couponInfo.couponName}}(延长{{submit_couponInfo.price}}小时)
+            </text>
+          </block>
+         
         </block>
         <block wx:else>
           <block wx:if="{{couponCount>0}}">

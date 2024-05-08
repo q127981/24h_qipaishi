@@ -52,7 +52,7 @@
     <view class="line">
       <label>使用门槛：</label>
       <!-- 抵扣券 -->
-      <view class="right" wx:if="{{type==1}}">
+      <view class="right" wx:if="{{type==1||type==3}}">
         <view class="city">
           <picker bindchange="bindRuleChange" value="{{ruleIndex}}" range="{{rules}}">
             <view class="picker">
@@ -72,7 +72,7 @@
     <view class="line">
       <label>抵扣额度：</label>
       <!-- 抵扣券 -->
-      <view class="right" wx:if="{{type==1}}">
+      <view class="right" wx:if="{{type==1||type==3}}">
         <view class="city">
           <picker bindchange="bindLimitChange" value="{{limitIndex}}" range="{{limits}}">
             <view class="picker">

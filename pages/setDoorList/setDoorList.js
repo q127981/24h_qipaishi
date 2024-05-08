@@ -377,39 +377,12 @@ Page({
       }
     })
   },
-  showQrCode: function(e){
-    let qrcode = e.currentTarget.dataset.qrcode;
-    wx.downloadFile({
-      url: qrcode,
-      success: function(res) {
-        // 下载成功后将图片保存到本地
-        wx.saveImageToPhotosAlbum({
-          filePath: res.tempFilePath,
-          success: function() {
-            wx.showToast({
-              title: '保存成功',
-              icon: 'success',
-              duration: 2000
-            });
-          },
-          fail: function() {
-            wx.showToast({
-              title: '保存失败',
-              icon: 'none',
-              duration: 2000
-            });
-          }
-        });
-      },
-      fail: function() {
-        wx.showToast({
-          title: '下载失败',
-          icon: 'none',
-          duration: 2000
-        });
-      }
-    });
-  },
+  previewImage(e){
+    var currentUrl = e.currentTarget.dataset.src //获取当前点击图片链接
+    wx.previewImage({
+      urls: [currentUrl]
+    })
+},
    // 结单
    finishOrder: function(e){
     let roomId = e.currentTarget.dataset.roomid;

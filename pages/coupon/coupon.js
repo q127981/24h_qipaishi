@@ -269,6 +269,15 @@ Page({
           //不可用
           acouponbool = false;
         }
+      }else if(atype == 3){
+        //加时优惠券
+        if(that.data.submit_order_hour >= aboj.minUsePrice){
+            //优惠券可用
+            acouponbool = true;
+        }else{
+            //不可用
+            acouponbool = false;
+        }
       }
     }else{
       acouponbool = true;

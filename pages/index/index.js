@@ -31,13 +31,15 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    console.log("onLoad index")
     var that = this;
     that.getTap();
-    if(options.storeId){
+    console.log("onLoad index");
+    var query=wx.getLaunchOptionsSync().query;
+    if(query&&query.storeId){
+      var storeId=query.storeId;
       //扫码进来的 肯定有门店id 
       that.setData({
-        storeId: options.storeId
+        storeId: storeId
       });
       wx.setStorageSync('global_store_id',storeId);
     }

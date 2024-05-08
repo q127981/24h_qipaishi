@@ -51,6 +51,7 @@ Page({
     // coupon_old_price:0,//优惠后的金额
     ///////////////
     couponCount:0,
+    couponInfo: '',
     currentDate: '',
     showtimefalge:false,
     show: false,
@@ -84,14 +85,31 @@ Page({
    */
   onLoad(options) {
     var that = this;
+    var storeId=options.storeId;
+    var roomId=options.roomId;
+    var timeselectindex=options.timeselectindex;
+    var query=wx.getLaunchOptionsSync().query;
+    console.log('query');
+    console.log(query);
+    if(query){
+      if(query.storeId){
+        storeId=query.storeId;
+      }
+      if(query.roomId){
+        roomId=query.roomId;
+      }
+      if(query.timeselectindex){
+        timeselectindex=query.timeselectindex;
+      }
+    }
     that.setData({
       isLogin:app.globalData.isLogin,
-      storeId: options.storeId,
-      roomId: options.roomId,
+      storeId: storeId,
+      roomId: roomId,
       // daytime: options.daytime,
-      timeselectindex: options.timeselectindex
+      timeselectindex: timeselectindex
     });
-    wx.setStorageSync('global_store_id',that.data.storeId);
+    wx.setStorageSync('global_store_id',storeId);
     if (app.globalData.isLogin) {
       that.getroomInfodata(options.roomId).then(res=>{
       });
@@ -242,10 +260,12 @@ Page({
   },
   //计算订单价格
   MathPrice:function(){
-    console.log("MathPrice")
+    console.log("MathPrice");
     var that = this;
+    console.log(that.data.couponInfo);
     var startDate=new Date(that.data.submit_begin_time);
     var timeIndex=that.data.select_time_index;
+    var price=that.getPrice(startDate);
     console.log(that.data.order_hour)
     if(null==that.data.order_hour){
       that.setData({
@@ -262,7 +282,20 @@ Page({
     }else if(timeIndex==4){
        oldPrice=that.data.txPrice;
     }else{
-       oldPrice=(that.data.order_hour*that.getPrice(startDate)).toFixed(2);
+       oldPrice=(that.data.order_hour*price).toFixed(2);
+    }
+    if(that.data.couponInfo){
+      const acoupon=that.data.couponInfo;
+      if(acoupon.type == 1){
+        //减去时间对应费用
+        oldPrice =  (oldPrice-acoupon.price*price).toFixed(2);
+      }else if(acoupon.type == 2){
+        //直接减去费用
+        oldPrice = oldPrice-acoupon.price;
+      }  
+    }
+    if(oldPrice<0){
+      oldPrice = 0.0;
     }
     console.log('价格:'+that.getPrice(startDate))
     that.setData({
@@ -974,38 +1007,10 @@ Page({
   //设置支付价格显示
   setshowpayMoney:function(acoupon){
     var that = this;
-    var startDate=new Date(that.data.submit_begin_time);
-    var price=this.getPrice(startDate);
-    console.log('优惠券信息===');
-    console.log(acoupon);
-    if(acoupon){
-      if(acoupon.type == 1){
-        //减去时间对应费用
-        var amoney =  (that.data.showprice-acoupon.price*price).toFixed(2);
-        if(amoney<0){
-          amoney = 0.0;
-        }
-        that.setData({
-          showprice: amoney,
-          pricestring: amoney
-        });
-      }else if(acoupon.type == 2){
-        //直接减去费用
-        var amoney = that.data.showprice-acoupon.price;
-        if(amoney<0){
-          amoney = 0.0;
-        }
-        that.setData({
-          showprice: amoney,
-          pricestring: amoney
-        });
-      }  
-    }else{
-      that.setData({
-        showprice:(that.data.order_hour*price).toFixed(2),
-        pricestring: (that.data.order_hour*price).toFixed(2)
-      });
-    }
+    that.setData({
+      couponInfo: acoupon
+    })
+    that.MathPrice();
   },
   MathDate:function(startDate){
     var that=this;

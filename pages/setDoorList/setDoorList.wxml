@@ -54,7 +54,7 @@
             <view class="btn yellow" bindtap="testYunlaba" data-roomid="{{item.roomId}}">
               测试喇叭
             </view>
-            <view class="btn yellow" bindtap="showQrCode" data-qrcode="{{item.qrCode}}">
+            <view class="btn yellow" data-src="{{item.qrCode}}" bind:tap="previewImage">
               房间预定码
             </view>
           </view>
