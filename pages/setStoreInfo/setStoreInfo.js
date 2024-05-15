@@ -37,6 +37,7 @@ Page({
     showTxPrice: '',
     txStartHour: '',
     delayLight: '',
+    orderDoorOpen: '',
     txHour: '',
     citylist: [], //城市列表
     ritem: [
@@ -172,6 +173,7 @@ Page({
               txStartHour: info.data.txStartHour,
               delayLight: info.data.delayLight,
               txHour: info.data.txHour,
+              orderDoorOpen: info.data.orderDoorOpen,
             })
           }else{
             wx.showModal({
@@ -378,6 +380,7 @@ Page({
             "txStartHour": that.data.txStartHour,
             "delayLight": that.data.delayLight,
             "txHour": that.data.txHour,
+            "orderDoorOpen": that.data.orderDoorOpen,
           },
           app.globalData.userDatatoken.accessToken,
           "",

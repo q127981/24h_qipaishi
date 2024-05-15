@@ -45,7 +45,8 @@
     "pages/location/location",
     "pages/login/login",
     "pages/booking/booking",
-    "pages/roomList/roomList"
+    "pages/roomList/roomList",
+    "pages/placeOrder/placeOrder"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -113,9 +114,6 @@
   "permission": {
     "scope.userLocation": {
       "desc": "小程序需要使用定位功能"
-    },
-    "scope.writePhotosAlbum": {
-      "desc": "小程序需要保存图片至你的相册"
     }
   }
 }

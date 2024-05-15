@@ -66,6 +66,9 @@
               <!-- 管理员端 -->
               <block wx:if="{{userinfo.userType == 12 || userinfo.userType == 13}}">
                 <view class="info">预订用户：{{item.nickname}}</view>
+                <view class="info">手机号码：{{item.mobile}}
+                <text  class="copyMobile" bindtap='copyText' data-text="{{item.mobile}}">复制</text>
+                </view>
               </block>
             </view>
             <view>
@@ -180,7 +183,11 @@
     </view>
     <view class="item">
       <label>房间名称：</label>
-      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':'大包'}}）</text>
+      <picker mode="selector" bindchange="bindPickerChange" value="{{index}}" range="{{values}}" data-ids="{{key}}">
+        <view class="picker">
+          {{values[index] || "请选择"}}
+        </view>
+      </picker>
     </view>
     <view class="item">
       <label>原开始时间：</label><text>{{orderInfo.startTime}}</text>

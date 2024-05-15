@@ -1,0 +1,51 @@
+/* pages/join/join.wxss */
+page{
+  background: #f5f5f5;
+}
+.container{
+  padding: 30rpx;
+}
+.picker{
+  color: #000;
+}
+.form{
+  background: #fff;
+  border-radius: 30rpx;
+  overflow: hidden;
+}
+.form .note{
+  background: #fdf6ec;
+  padding: 0 20rpx;
+  line-height: 60rpx;
+  font-size: 24rpx;
+  color: #999;
+  margin: 30rpx;
+}
+.btns{
+  display: flex;
+  margin-top: 50rpx;
+}
+.btns .btn{
+  width: 320rpx;
+  height: 90rpx;
+  line-height: 90rpx;
+  box-sizing: border-box;
+  font-size: 28rpx;
+  border-radius: 60rpx;
+}
+.btns .tel{
+  border-width: 1rpx;
+  border-style: solid;
+}
+.success{
+  width: 600rpx;
+  text-align: center;
+  margin: 100rpx auto;
+}
+.success .text{
+  font-size: 40rpx;
+  margin: 10rpx 0 50rpx;
+}
+.success .info{
+  text-align: left;
+}

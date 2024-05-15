@@ -41,6 +41,11 @@
       </van-cell>
     </van-cell-group>
     <van-cell-group>
+      <van-cell center title="消费中门禁常开">
+        <switch checked="{{ orderDoorOpen }}" data-tag="orderDoorOpen" bindchange="onChangeSwitch"/>
+      </van-cell>
+    </van-cell-group>
+    <van-cell-group>
       <van-field model:value="{{ kefuPhone }}" placeholder="请输入" border="{{ false }}" label="客服电话" />
     </van-cell-group>
     <van-cell-group>

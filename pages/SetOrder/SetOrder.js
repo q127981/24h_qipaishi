@@ -270,12 +270,13 @@ Page({
    // 修改订单弹窗
    changeOrder(e){
     var orderInfo = e.currentTarget.dataset.info
+    this.getRoomList(orderInfo);
     this.setData({
-      changeOrderShow:true,
       changeTime: "",
       changeRoomId:"",
-      changeStartTime:"",
-      changeEndTime:"",
+      changeStartTime: orderInfo.startTime,
+      changeEndTime: orderInfo.endTime,
+      changeOrderShow:true,
       orderInfo: orderInfo
     })
   },
@@ -325,7 +326,9 @@ Page({
       "1",
       "post", {
         "orderId": that.data.orderInfo.orderId,
+        "roomId": that.data.roomId,
         "startTime": that.data.changeStartTime,
+        "endTime": that.data.changeEndTime
       },
       app.globalData.userDatatoken.accessToken,
       "",
@@ -745,4 +748,64 @@ Page({
         }
     })
   },
+  copyText: function (e) {
+    wx.setClipboardData({
+      data: e.currentTarget.dataset.text,
+      success: function (res) {
+        wx.getClipboardData({
+          success: function (res) {
+            wx.showToast({
+              title: '复制成功'
+            })
+          }
+        })
+      }
+    })
+  },
+  bindPickerChange: function (e) {
+    console.log("picker发送选择改变，携带值为", e);
+    console.log(this.data.array,'this.data.stores');
+    this.setData({
+      index: e.detail.value,
+      roomId: this.data.array[e.detail.value].roomId
+    });
+    console.log(this.data.roomId);
+  },
+  getRoomList: function (e) {
+    var that = this;
+    http.request(
+      "/member/store/getRoomInfoList/" + e.storeId,
+      "1",
+      "get",
+      {
+        // "storeId": e.storeId
+      },
+      app.globalData.userDatatoken.accessToken,
+      "",
+      function success(info) {
+        console.info("房间===");
+        if (info.code == 0) {
+          let stores = [];
+          let statusName = ''
+          info.data.map((it) => {
+            statusName = `(${it.status==1?'空闲':it.status==2?'待清洁':it.status==3?'使用中':it.status==4?'已预约':'禁用'})`
+            stores.push({ text: it.roomName + statusName , value: it.roomId });
+          });
+          if(e.roomId){
+            const indexArr = info.data.findIndex(item => item.roomId === e.roomId);
+            that.setData({
+              index:indexArr,
+              roomId: e.roomId
+
+            })
+          }
+          that.setData({
+            array: info.data,
+            values: stores.map((item) => item.text)
+          });
+        }
+      },
+      function fail(info) {}
+    );
+  }
 })

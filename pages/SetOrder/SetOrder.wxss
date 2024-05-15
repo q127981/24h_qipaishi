@@ -236,3 +236,6 @@ page{
   height: 90rpx;
   line-height: 90rpx;
 }
+.copyMobile{
+  color: blue;
+}

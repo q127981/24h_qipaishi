@@ -16,7 +16,11 @@ Page({
     pageSize: 10,
     isIpx: app.globalData.isIpx?true:false,
     foldIndex: -1,
-    mainColor: app.globalData.mainColor
+    showRoomOp: false,
+    roomItem: {},
+    mainColor: app.globalData.mainColor,
+    roomName:'',
+    roomId:''
   },
 
   /**
@@ -164,12 +168,12 @@ Page({
     })
     this.getDoorList("refresh")
   },
-  openBlueDoor: function(e){
+  openBlueDoor: function(){
     console.log('openBlueDoor');
     let that = this;
-    let lockData = e.currentTarget.dataset.lockdata;
-    let gatewayId = e.currentTarget.dataset.gatewayid;
-    let roomId = e.currentTarget.dataset.roomid;
+    let roomId = that.data.roomItem.roomId;
+    let lockData = that.data.roomItem.lockdata;
+    let gatewayId = that.data.roomItem.gatewayid;
     if(gatewayId){
       //支持远程开锁
       if (app.globalData.isLogin) 
@@ -199,27 +203,23 @@ Page({
     }else if(lockData){
       //本地蓝牙开锁
      lock.blueDoorOpen(lockData);
-    }else{
-      wx.showModal({
-        title: '提示',
-        content: '该房间未使用密码锁',
-        showCancel: false
-      })
     }
   },
   // 开房间门
   openDoor: function(e){
-    let roomId = e.currentTarget.dataset.roomid
-    let that = this
+    let that = this;
+    let roomId = that.data.roomItem.roomId;
+    console.log(roomId);
     wx.showModal({
       title: '提示',
-      content: '确定打开房间门吗',
+      content: '确定打开房间门和电源吗',
       complete: (res) => {
         if (res.cancel) {
         }
         if (res.confirm) {
           if (app.globalData.isLogin) 
           {
+            that.openBlueDoor();
             http.request(
               "/member/store/openRoomDoor/"+roomId,
               "1",
@@ -253,12 +253,12 @@ Page({
     })
   },
   // 关房间门
-  closeDoor: function(e){
-    let roomId = e.currentTarget.dataset.roomid
+  closeDoor: function(){
     let that = this
+    let roomId = that.data.roomItem.roomId;
     wx.showModal({
       title: '提示',
-      content: '确定关闭房间门吗',
+      content: '确定关闭房间门和电源吗',
       complete: (res) => {
         if (res.cancel) {
         }
@@ -362,4 +362,163 @@ Page({
     // console.info(id);
    
   },
+  roomOp:function(e){
+    let room = e.currentTarget.dataset.room
+    this.setData({
+      roomItem: room,
+      showRoomOp: true,
+      roomId: room.roomId,
+      roomName:room.roomName
+    })
+  },
+  closeRoomOp:function(){
+    this.setData({
+      roomItem: {},
+      showRoomOp: false
+    })
+  },
+  testYunlaba: function(e){
+    let that = this;
+    let roomId = that.data.roomItem.roomId;
+    wx.showModal({
+      title: '提示',
+      content: '房间喇叭将播放预设内容，确定操作吗？',
+      complete: (res) => {
+        if (res.cancel) {
+        }
+        if (res.confirm) {
+          if (app.globalData.isLogin) 
+          {
+            http.request(
+              "/member/store/testYunlaba/"+roomId,
+              "1",
+              "post", {
+                "roomId": roomId
+              },
+              app.globalData.userDatatoken.accessToken,
+              "",
+              function success(info) {
+                console.info('返回111===');
+                console.info(info);
+                if (info.code == 0) {
+                  wx.showToast({
+                    title: '操作成功',
+                    icon: 'success'
+                  })
+                }else{
+                  wx.showModal({
+                    content: info.msg,
+                    showCancel: false,
+                  })
+                }
+              },
+              function fail(info) {
+                
+              }
+            )
+          } 
+        }
+      }
+    })
+  },
+  // 清洁并结单
+  clearAndFinish: function(e){
+    let that = this;
+    let roomId = that.data.roomItem.roomId;
+    wx.showModal({
+      title: '注意提示',
+      content: '注意！！！房间状态将变为空闲！并立即关电！如果有进行中的订单，订单将会被结束！请谨慎确认房间当前状态后再操作！！！',
+      complete: (res) => {
+        if (res.cancel) {
+        }
+        if (res.confirm) {
+          if (app.globalData.isLogin) 
+          {
+            http.request(
+              "/member/store/clearAndFinish/"+roomId,
+              "1",
+              "get", {
+              },
+              app.globalData.userDatatoken.accessToken,
+              "",
+              function success(info) {
+                // console.info('返回111===');
+                // console.info(info);
+                if (info.code == 0) {
+                  wx.showToast({
+                    title: '操作成功',
+                    icon: 'success'
+                  })
+                  that.getDoorList();
+                }else{
+                  wx.showModal({
+                    content: info.msg,
+                    showCancel: false,
+                  })
+                }
+              },
+              function fail(info) {
+                
+              }
+            )
+          } 
+        }
+      }
+    })
+  },
+  disableRoom: function(e){
+    let that = this;
+    let roomId = that.data.roomItem.roomId;
+    wx.showModal({
+      title: '提示',
+      content: '确定修改房间状态吗？',
+      complete: (res) => {
+        if (res.cancel) {
+        }
+        if (res.confirm) {
+          if (app.globalData.isLogin) 
+          {
+            http.request(
+              "/member/store/disableRoom/"+roomId,
+              "1",
+              "post", {
+                "roomId": roomId
+              },
+              app.globalData.userDatatoken.accessToken,
+              "",
+              function success(info) {
+                console.info('返回111===');
+                console.info(info);
+                if (info.code == 0) {
+                  wx.showToast({
+                    title: '操作成功',
+                    icon: 'success'
+                  })
+                  that.getDoorList();
+                }else{
+                  wx.showModal({
+                    content: info.msg,
+                    showCancel: false,
+                  })
+                }
+              },
+              function fail(info) {
+                
+              }
+            )
+          } 
+        }
+      }
+    })
+  },
+  // 代下单
+  toPlaceOrder :function(){
+    this.setData({
+      showRoomOp:false
+    })
+    wx.navigateTo({
+      url: `/pages/placeOrder/placeOrder?id=${this.data.roomId}&roomName=${this.data.roomName}`
+    })
+    
+  }
 })

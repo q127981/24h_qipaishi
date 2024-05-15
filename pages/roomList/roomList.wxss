@@ -53,12 +53,14 @@ page{
   color:#222e2b;
 }
 .list .item .right .btn{
-  width: 160rpx;
+  width: 180rpx;
+  position: relative;
+  top: 50rpx;
   margin-bottom: 10rpx;
   text-align: center;
-  height: 45rpx;
-  line-height: 45rpx;
-  font-size: 28rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 34rpx;
   border-radius: 10rpx;
   color: #fff;
   background-color: #3ea7fd;
@@ -70,4 +72,39 @@ page{
   padding-bottom: 100rpx;
   text-align: center;
 
+}
+
+.dialog{
+  padding: 30rpx;
+}
+.dialog .item{
+  display: flex;
+  justify-content: center;
+  font-size: 28rpx;
+  line-height: 40rpx;
+  padding: 10rpx 0;
+}
+.dialog .item .btn{
+  text-align: center;
+  border-radius: 10rpx;
+  color: #fff;
+  margin: 0rpx 30rpx;
+  width: 150rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 30rpx;
+  flex-shrink: 0;
+}
+.dialog .item .btn.red{
+  background-color: #108ee9;
+}
+.dialog .item .btn.waring{
+  background-color: #06bd34;
+}
+.dialog .item .btn.yellow{
+  background-color: #bd3106;
+}
+.dialog .item text{
+  font-weight: 600;
+  font-size: 26rpx;
 }
