@@ -220,6 +220,10 @@ Page({
                 markers: allMarkers,
                 store: list[0]
               });
+            }else{
+              wx.switchTab({
+                url: '/pages/user/user',
+              })
             }
           }else{
             wx.showModal({
