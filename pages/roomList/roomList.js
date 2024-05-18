@@ -168,43 +168,6 @@ Page({
     })
     this.getDoorList("refresh")
   },
-  openBlueDoor: function(){
-    console.log('openBlueDoor');
-    let that = this;
-    let roomId = that.data.roomItem.roomId;
-    let lockData = that.data.roomItem.lockdata;
-    let gatewayId = that.data.roomItem.gatewayid;
-    if(gatewayId){
-      //支持远程开锁
-      if (app.globalData.isLogin) 
-      {
-          http.request(
-            "/member/store/openRoomLock/"+roomId,
-            "1",
-            "post", {
-            },
-            app.globalData.userDatatoken.accessToken,
-            "提交中...",
-            function success(info) {
-              if (info.code == 0) {
-               wx.showToast({
-                 title: '操作成功',
-                 icon: 'success'
-               })
-              }else{
-                //失败了 尝试一下本地开锁
-                lock.blueDoorOpen(lockData);
-              }
-            },
-            function fail(info) {
-            }
-          )
-       }
-    }else if(lockData){
-      //本地蓝牙开锁
-     lock.blueDoorOpen(lockData);
-    }
-  },
   // 开房间门
   openDoor: function(e){
     let that = this;
@@ -219,7 +182,7 @@ Page({
         if (res.confirm) {
           if (app.globalData.isLogin) 
           {
-            that.openBlueDoor();
+            // that.openBlueDoor();
             http.request(
               "/member/store/openRoomDoor/"+roomId,
               "1",

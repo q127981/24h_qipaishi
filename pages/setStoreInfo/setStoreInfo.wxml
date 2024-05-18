@@ -54,7 +54,7 @@
     <van-cell-group>
       <van-field model:value="{{ notice }}" autosize type="textarea" maxlength="2000" placeholder="请输入" border="{{ false }}" label="门店公告" />
     </van-cell-group>
-    <view class="line">
+    <view class="line" wx:if="{{qrCode}}">
       <label>门店小程序码</label>
       <view class="right">
         <image style="width:200rpx;height:200rpx;" data-src="{{qrCode}}" src="{{qrCode}}" bind:tap="previewImage"></image>

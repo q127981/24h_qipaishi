@@ -766,40 +766,15 @@ Page({
   //开密码门
   openRoomLock:function() {
     let that = this;
-    console.log(that.data.OrderInfodata);
-     if(that.data.OrderInfodata.gatewayId){
-       //支持远程开锁
-        http.request(
-          "/member/order/openRoomLock",
-          "1",
-          "post", {
-           "orderKey":that.data.orderKey,
-          },
-          app.globalData.userDatatoken.accessToken,
-          "提交中...",
-          function success(info) {
-            if (info.code == 0) {
-              wx.showToast({
-                title: '操作成功',
-                icon: 'success'
-              })
-            }else{
-              //失败了 尝试一下本地开锁
-              if(null!= this.data.OrderInfodata.lockData){
-                //本地蓝牙开锁
-                lock.blueDoorOpen(this.data.OrderInfodata.lockData);
-              }
-            }
-          },
-          function fail(info) {
-          }
-        )
-     }else if(null!= this.data.OrderInfodata.lockData){
+    if(that.data.OrderInfodata.lockData){
        //本地蓝牙开锁
-      lock.blueDoorOpen(this.data.OrderInfodata.lockData);
+      lock.blueDoorOpen(that.data.OrderInfodata.lockData);
     }else{
-       //都没有  那就要直接开电了
-       that.openRoomDoor()
+      wx.showModal({
+        title: '提示',
+        content: '该房间未使用密码锁，请直接开电使用',
+        showCancel: false
+      })
     }
   },
   roombindchange:function(event) {

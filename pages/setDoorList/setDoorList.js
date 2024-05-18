@@ -202,43 +202,14 @@ Page({
     })
   },
   openBlueDoor: function(e){
-    let that = this;
     let lockData = e.currentTarget.dataset.lockdata;
-    let gatewayId = e.currentTarget.dataset.gatewayid;
-    let roomId = e.currentTarget.dataset.roomid;
-    if(null!=gatewayId){
-      //支持远程开锁
-      if (app.globalData.isLogin) 
-      {
-          http.request(
-            "/member/store/openRoomLock/"+roomId,
-            "1",
-            "post", {
-            },
-            app.globalData.userDatatoken.accessToken,
-            "提交中...",
-            function success(info) {
-              if (info.code == 0) {
-               wx.showToast({
-                 title: '操作成功',
-                 icon: 'success'
-               })
-              }else{
-                //失败了 尝试一下本地开锁
-                lock.blueDoorOpen(lockData);
-              }
-            },
-            function fail(info) {
-            }
-          )
-       }
-    }else if(null!= lockData){
+    if(lockData){
       //本地蓝牙开锁
      lock.blueDoorOpen(lockData);
    }else{
       wx.showModal({
         title: '提示',
-        content: '该房间未使用密码锁',
+        content: '该房间未使用密码锁，请直接开电使用',
         showCancel: false
       })
    }

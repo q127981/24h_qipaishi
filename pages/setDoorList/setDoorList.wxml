@@ -59,8 +59,8 @@
             </view>
           </view>
           <view class="line2">
-            <view class="btn red" bindtap="openBlueDoor" data-lockdata="{{item.lockData}}" data-gatewayid="{{item.gatewayId}}" data-roomid="{{item.roomId}}">
-              密码锁
+            <view class="btn red" bindtap="openBlueDoor" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">
+              蓝牙开锁
             </view>
             <view class="btn red" bindtap="closeDoor" data-roomid="{{item.roomId}}">关电</view>
             <view class="btn red" bindtap="openDoor" data-roomid="{{item.roomId}}">开电</view>

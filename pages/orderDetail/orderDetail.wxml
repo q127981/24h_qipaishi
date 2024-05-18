@@ -77,7 +77,7 @@
       <view class="door m-b-20 color-primary" bind:tap="bindOpenRoomLock">
         <view class="action">
           <view class="iconfont icon-damen"></view>
-          <view class="text">房间门锁</view>
+          <view class="text">蓝牙开锁</view>
         </view>
       </view>
       <view class="door m-b-20 color-primary" bind:tap="roombindchange">
