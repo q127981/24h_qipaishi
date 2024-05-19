@@ -202,16 +202,15 @@ Page({
     })
   },
   openBlueDoor: function(e){
+    let that = this;
     let lockData = e.currentTarget.dataset.lockdata;
     if(lockData){
       //本地蓝牙开锁
      lock.blueDoorOpen(lockData);
    }else{
-      wx.showModal({
-        title: '提示',
-        content: '该房间未使用密码锁，请直接开电使用',
-        showCancel: false
-      })
+     wx.showToast({
+       title: '未使用密码锁',
+     })
    }
   },
   disableRoom: function(e){

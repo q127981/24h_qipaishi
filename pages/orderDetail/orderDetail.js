@@ -749,12 +749,14 @@ Page({
     },
   bindOpenRoomLock:function(event){
     let that = this;
-    if(that.data.OrderInfodata.status == 0 ){
+    let startTime=new Date(that.data.OrderInfodata.startTime);
+    if(that.data.OrderInfodata.status == 0 && startTime>Date.now()){
       wx.showModal({
         title: '温馨提示',
         content: '当前还未到预约时间，是否提前开始消费？',
         success: function (res) {
           if (res.confirm) {
+            that.openRoomDoor();
             that.openRoomLock();
           }
         }
@@ -765,21 +767,20 @@ Page({
     },
   //开密码门
   openRoomLock:function() {
-    let that = this;
+    var that = this;
     if(that.data.OrderInfodata.lockData){
        //本地蓝牙开锁
       lock.blueDoorOpen(that.data.OrderInfodata.lockData);
     }else{
-      wx.showModal({
-        title: '提示',
-        content: '该房间未使用密码锁，请直接开电使用',
-        showCancel: false
+      wx.showToast({
+        title: '未使用密码锁',
       })
     }
   },
   roombindchange:function(event) {
     let that = this;
-    if(that.data.OrderInfodata.status == 0 ){
+    let startTime=new Date(that.data.OrderInfodata.startTime);
+    if(that.data.OrderInfodata.status == 0 && startTime>Date.now()){
       wx.showModal({
         title: '温馨提示',
         content: '当前还未到预约时间，是否提前开始消费？',
