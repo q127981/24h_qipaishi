@@ -756,7 +756,6 @@ Page({
         content: '当前还未到预约时间，是否提前开始消费？',
         success: function (res) {
           if (res.confirm) {
-            that.openRoomDoor();
             that.openRoomLock();
           }
         }
