@@ -43,17 +43,30 @@ Page({
     that.setData({
       isLogin:app.globalData.isLogin,
     })
+    var OrderNo='';
+    var orderKey='';
     if(options.OrderNo){
-      that.setData({
-        OrderNo: options.OrderNo
-      });
+      OrderNo= options.OrderNo;
     }
     if(options.orderKey){
-      that.setData({
-        orderKey: options.orderKey
-      });
+        orderKey= options.orderKey;
     }
-    that.setData({beforeCloseFunction: this.beforeClose()})
+    var query=wx.getLaunchOptionsSync().query;
+    if(query){
+      if(query.OrderNo){
+        OrderNo=query.OrderNo;
+      }
+      if(query.orderKey){
+        orderKey=query.orderKey;
+      }
+    }
+ console.log(OrderNo);
+  console.log(orderKey);
+    that.setData({
+      beforeCloseFunction: this.beforeClose(),
+      OrderNo: OrderNo,
+      orderKey: orderKey,
+    })
     that.getrorderInfodata();
   },
 
@@ -512,8 +525,6 @@ Page({
   //获取订单详情
   getrorderInfodata:function(e){
     var that = this;
-    if (app.globalData.isLogin) 
-    {
       // console.log(that.data.OrderNo)
       http.request(
         "/member/order/getOrderInfo",
@@ -562,7 +573,6 @@ Page({
         function fail(info) {
         }
       )
-    } 
   },
   call:function () {
     // let that = this
@@ -756,6 +766,7 @@ Page({
         content: '当前还未到预约时间，是否提前开始消费？',
         success: function (res) {
           if (res.confirm) {
+            that.openRoomDoor();
             that.openRoomLock();
           }
         }
