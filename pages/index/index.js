@@ -34,6 +34,17 @@ Page({
     var that = this;
     that.getTap();
     console.log("onLoad index");
+    var storeId=options.storeId;
+    var query=wx.getLaunchOptionsSync().query;
+    console.log(query);
+    if(query&&query.storeId){
+      var storeId=query.storeId;
+      //扫码进来的 肯定有门店id 
+      that.setData({
+        storeId: storeId
+      });
+      wx.setStorageSync('global_store_id',storeId);
+    }
    
   },
   
@@ -53,16 +64,6 @@ Page({
     that.setData({
       isLogin:app.globalData.isLogin,
     })
-    var query=wx.getLaunchOptionsSync().query;
-    console.log(query);
-    if(query&&query.storeId){
-      var storeId=query.storeId;
-      //扫码进来的 肯定有门店id 
-      that.setData({
-        storeId: storeId
-      });
-      wx.setStorageSync('global_store_id',storeId);
-    }
     var popshow=false;//默认不显示广告
     //尝试从缓存获取
     var storeId_1 = wx.getStorageSync('global_store_id');
