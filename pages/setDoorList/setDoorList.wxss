@@ -131,3 +131,8 @@
   margin: 0 !important;
   line-height: normal !important;
 }
+.delRoom {
+  width: 80rpx;
+  text-align: center;
+  color: #a5a3a3;
+}

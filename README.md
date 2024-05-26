@@ -4,7 +4,7 @@
 
 ### 本仓库是小程序端源码  支持独立部署
 #### 配套的服务端独立部署文件及教程 仓库地址：
-##### Gitee: https://gitee.com/PublicGuan/qipaishi_server.git
+##### Gitee: https://gitee.com/PublicGuan/qipaishi_server2.git
 ##### Github: https://github.com/q127981/qipaishi_server.git
 
 ## 项目说明

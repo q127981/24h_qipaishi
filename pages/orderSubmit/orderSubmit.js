@@ -89,7 +89,7 @@ Page({
     var roomId=options.roomId;
     var timeselectindex=options.timeselectindex;
     var query=wx.getLaunchOptionsSync().query;
-    console.log('query');
+    console.log('打开房间页面');
     console.log(query);
     if(query){
       if(query.storeId){
@@ -111,7 +111,7 @@ Page({
     });
     wx.setStorageSync('global_store_id',storeId);
     if (app.globalData.isLogin) {
-      that.getroomInfodata(options.roomId).then(res=>{
+      that.getroomInfodata(roomId).then(res=>{
       });
     }
   },

@@ -244,44 +244,7 @@ Page({
     var aindex = e.currentTarget.dataset.index;
     var aboj = that.data.MainList[aindex];
     //判断当前优惠券是否可用
-    var acouponbool = false;
-    if(aboj){
-      var atype = aboj.type
-      if(atype == 1){
-        //省小时优惠券
-        if(that.data.submit_order_hour >= aboj.minUsePrice){
-            //优惠券可用
-            acouponbool = true;
-        }else{
-            //不可用
-            acouponbool = false;
-        }
-      }
-      else if(atype == 2){
-        //抵扣费用优惠券
-        console.info('价格===');
-        console.info(that.data.pricestring);
-        console.info('价格===');
-        if(that.data.pricestring >= aboj.minUsePrice){
-          //优惠券可用
-          acouponbool = true;
-        }else{
-          //不可用
-          acouponbool = false;
-        }
-      }else if(atype == 3){
-        //加时优惠券
-        if(that.data.submit_order_hour >= aboj.minUsePrice){
-            //优惠券可用
-            acouponbool = true;
-        }else{
-            //不可用
-            acouponbool = false;
-        }
-      }
-    }else{
-      acouponbool = true;
-    }
+    var acouponbool = aboj.enable;
     if(!acouponbool){
       wx.showModal({
         title: '温馨提示',

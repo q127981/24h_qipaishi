@@ -397,5 +397,49 @@ Page({
         }
       }
     })
-  }
+  },
+  delRoom: function(e){
+    let roomId = e.currentTarget.dataset.id;
+    let that = this
+    wx.showModal({
+      title: '注意提示',
+      content: '请确认是否删除该房间！！！该房间不能存在未完成的订单！',
+      complete: (res) => {
+        if (res.cancel) {
+        }
+        if (res.confirm) {
+          if (app.globalData.isLogin) 
+          {
+            http.request(
+              "/member/store/deleteRoomInfo/"+roomId,
+              "1",
+              "post", {
+              },
+              app.globalData.userDatatoken.accessToken,
+              "",
+              function success(info) {
+                // console.info('返回111===');
+                // console.info(info);
+                if (info.code == 0) {
+                  wx.showToast({
+                    title: '操作成功',
+                    icon: 'success'
+                  })
+                  that.getDoorList();
+                }else{
+                  wx.showModal({
+                    content: info.msg,
+                    showCancel: false,
+                  })
+                }
+              },
+              function fail(info) {
+                
+              }
+            )
+          } 
+        }
+      }
+    })
+  },
 })

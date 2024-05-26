@@ -34,15 +34,7 @@ Page({
     var that = this;
     that.getTap();
     console.log("onLoad index");
-    var query=wx.getLaunchOptionsSync().query;
-    if(query&&query.storeId){
-      var storeId=query.storeId;
-      //扫码进来的 肯定有门店id 
-      that.setData({
-        storeId: storeId
-      });
-      wx.setStorageSync('global_store_id',storeId);
-    }
+   
   },
   
   /**
@@ -56,11 +48,21 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    console.log("onShow index")
+    console.log("打开门店首页")
     var that = this;
     that.setData({
       isLogin:app.globalData.isLogin,
     })
+    var query=wx.getLaunchOptionsSync().query;
+    console.log(query);
+    if(query&&query.storeId){
+      var storeId=query.storeId;
+      //扫码进来的 肯定有门店id 
+      that.setData({
+        storeId: storeId
+      });
+      wx.setStorageSync('global_store_id',storeId);
+    }
     var popshow=false;//默认不显示广告
     //尝试从缓存获取
     var storeId_1 = wx.getStorageSync('global_store_id');

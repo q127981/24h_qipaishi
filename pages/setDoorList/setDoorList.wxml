@@ -22,6 +22,7 @@
             <label>禁用时间：</label>
             <text wx:if="{{item.banTimeStart}}">{{item.banTimeStart}} - {{item.banTimeEnd}}</text>
           </view>
+          <view class="delRoom" bind:tap="delRoom" data-id="{{item.roomId}}">删除</view>
         </view>
         <view class="info">
           <view class="line">
