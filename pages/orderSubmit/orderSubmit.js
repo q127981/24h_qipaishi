@@ -87,22 +87,28 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    console.log('打开房间页面');
+    console.log(options);
     var that = this;
     var storeId=options.storeId;
     var roomId=options.roomId;
     var timeselectindex=options.timeselectindex;
-    var query=wx.getEnterOptionsSync().query;
-    console.log('打开房间页面');
-    console.log(query);
-    if(query){
-      if(query.storeId){
-        storeId=query.storeId;
-      }
-      if(query.roomId){
-        roomId=query.roomId;
-      }
-      if(query.timeselectindex){
-        timeselectindex=query.timeselectindex;
+    var daytime=options.daytime;
+    if(daytime){
+      //点按钮跳转的
+    }else{
+      var query=wx.getEnterOptionsSync().query;
+      console.log(query);
+      if(query){
+        if(query.storeId){
+          storeId=query.storeId;
+        }
+        if(query.roomId){
+          roomId=query.roomId;
+        }
+        if(query.timeselectindex){
+          timeselectindex=query.timeselectindex;
+        }
       }
     }
     that.setData({
@@ -1144,8 +1150,8 @@ Page({
       "post", {
         storeId: that.data.storeId,
         roomId: that.data.roomId,
-        startTime:that.data.submit_begin_time,
-        endTime:that.data.submit_end_time,
+        // startTime:that.data.submit_begin_time,
+        // endTime:that.data.submit_end_time,
         // pageNo: that.data.pageNo,
         // pageSize: that.data.pageSize
       },

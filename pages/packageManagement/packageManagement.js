@@ -73,13 +73,27 @@ Page({
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh() {},
+  onPullDownRefresh() {
+    let that = this;
+    that.data.pageNo = 1;
+    this.getPkgList("refresh");
+    that.data.canLoadMore = true;
+    wx.stopPullDownRefresh();
+  },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom() {
-    // this.getMealList(); // 调用加载数据的方法
+    let that = this;
+    if (that.data.canLoadMore) {
+      that.data.pageNo++;
+      this.getPkgList('');
+    } else {
+      wx.showToast({
+        title: '我是有底线的...',
+      })
+    }
   },
 
   /**
