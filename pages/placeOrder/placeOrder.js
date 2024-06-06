@@ -70,7 +70,7 @@ Page({
     this.setData({
       startTime: `${year.replace("年", "-")}${month.replace(
         "月",
-        "-"
+        "/"
       )}${day.replace("日", "")} ${hour.replace("时", "")}:${minute.replace(
         "分",
         ""
@@ -96,9 +96,9 @@ Page({
     const minute = this.data.multiArray[4][index[4]];
 
     this.setData({
-      endTime: `${year.replace("年", "-")}${month.replace(
+      endTime: `${year.replace("年", "/")}${month.replace(
         "月",
-        "-"
+        "/"
       )}${day.replace("日", "")} ${hour.replace("时", "")}:${minute.replace(
         "分",
         ""
