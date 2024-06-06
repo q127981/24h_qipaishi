@@ -34,19 +34,23 @@ Page({
     var that = this;
     that.getTap();
     console.log("onLoad index");
-    var storeId=options.storeId;
-    var query=wx.getLaunchOptionsSync().query;
+    console.log(options);
+    var storeId='';
+    if(options.storeId){
+      storeId=options.storeId;
+    }
+    var query=wx.getEnterOptionsSync().query;
     console.log(query);
     if(query&&query.storeId){
-      var storeId=query.storeId;
-      //扫码进来的 肯定有门店id 
+      storeId=query.storeId;
+    }
+    if(storeId){
       that.setData({
         storeId: storeId
-      });
-      wx.setStorageSync('global_store_id',storeId);
+       });
+       wx.setStorageSync('global_store_id',storeId);
     }
-   
-  },
+   },
   
   /**
    * 生命周期函数--监听页面初次渲染完成

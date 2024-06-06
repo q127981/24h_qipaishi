@@ -1,0 +1,41 @@
+/* pages/deviceList/deviceList.wxss */
+.tabs {
+  background-color: #fff;
+}
+
+.tabs .van-dropdown-menu{
+  border-bottom: 1rpx solid #ddd;
+  height: 45px;
+}
+.tabs .van-dropdown-menu__title{
+  font-size: 30rpx !important;
+}
+.tabs .van-dropdown-menu{
+  box-shadow: none !important;
+}
+.container{
+}
+.list{
+  padding-top: 20rpx;
+}
+.list .item{
+  border-radius: 20rpx;
+  margin: 0rpx 20rpx;
+  padding: 20rpx;
+  height: 100rpx;
+  margin-bottom: 10rpx;
+  display: flex;
+  justify-content: space-between;
+}
+.list .item.online{
+  background-image: linear-gradient(181.2deg, rgb(173, 222, 247) 10.5%, rgba(115, 230, 250, 0.678) 86.8%);
+}
+.list .item.offline{
+  /* color:#fff; */
+  background-image: linear-gradient(181.2deg, rgb(228, 228, 228) 10.5%, #ceccc9 86.8%);
+}
+.container .buttom{
+  margin-top: 20rpx;
+  padding-bottom: 100rpx;
+  text-align: center;
+}

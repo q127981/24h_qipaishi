@@ -1,0 +1,208 @@
+/* pages/yourPage/yourPage.wxss */
+.form-section {
+  padding: 20rpx;
+  background-color: #fff;
+}
+
+.form-item {
+  margin-bottom: 20rpx;
+}
+
+.label {
+  margin-bottom: 10rpx;
+  color: #000;
+  font-size: 28rpx;
+}
+
+.input, .picker {
+  height: 60rpx;
+  line-height: 60rpx;
+  padding: 0 20rpx;
+  border: 1px solid #ccc;
+  border-radius: 5rpx;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  flex-shrink: 0;
+  margin-left: 5%;
+  width: 40%;
+}
+.stepper input{
+  width: 20%;
+  text-align: center;
+}
+.btn {
+  width: 60rpx;
+  height: 60rpx;
+  color: gray;
+  font-size: 30rpx;
+   border: 1rpx solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transform: scale(0.75);
+}
+
+.form-item {
+  display: flex;
+  align-content: flex-start; 
+  align-items: center;
+  margin-bottom: 20rpx;
+  
+}
+
+.label-container {
+  display: flex;
+  align-items: center;
+  margin-right: 10rpx; /* 根据需要调整标签与输入框之间的间距 */
+}
+
+.label {
+  font-size: 28rpx;
+  color: #000;
+}
+.required {
+  /* color: red; */
+  margin-left: 5px;
+}
+
+.input {
+  margin-left: 5%;
+  /* flex: 1; */
+  width: 50%;
+  height: 60rpx;
+  line-height: 60rpx;
+  padding: 0 30rpx;
+  border: 1px solid #ccc;
+  border-radius: 5rpx;
+}
+.picker{
+  margin-left: 5%;
+  width: 50%;
+  padding: 0 30rpx;
+  position: relative;
+  border-radius: 15rpx;
+}
+.arrow-down{
+    width: 18rpx;
+    height: 18rpx;
+    border-top: 4rpx solid #ccc;
+    border-right: 4rpx solid #ccc;
+    transform: rotate(135deg);
+    position: absolute;
+    right: 5%;
+    top: 20%; 
+}
+.checkbox-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 60%;
+  margin-left: 10%;
+  font-size: 24rpx;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  width: 18%; /* 100% / 5 */
+  margin-bottom: 10px;
+  background: #007aff;
+}
+.checkbox-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.checkbox-containe-group{
+  width: 60%;
+  margin-left: 10%; 
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 24rpx;
+}
+.checkbox-group-item{
+  display: flex;
+  align-items: center;
+  width: 18%; /* 100% / 5 */
+  margin-bottom: 10px;
+}
+.week-day-item {
+  width: 24%; /* 100% / 4 */
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.choose_1 view{
+  height: 80rpx;
+  color: blue;
+  text-decoration: underline;
+}
+.switch-container {
+  transform: scale(0.8); /* 缩小到原始大小的80% */
+  transform-origin: center; /* 确保缩放中心点在组件中心 */
+  margin-left: 6%;
+}
+checkbox {
+  margin-right:1px;
+}
+.choose{
+
+}
+.choose view{
+  height: 115rpx;
+  color: blue;
+  text-decoration: underline;
+}
+.button-group{
+  display: flex;
+  margin-top: 13%;
+}
+
+.button-group button{
+  width: 50%;
+  border-radius:10rpx;
+  font-size: 28rpx;
+  height: 80rpx;
+}
+.button-group :nth-child(2){
+  background-color: #007aff;
+  color: #fff;
+}
+.button-group :nth-child(1){
+  background-color: #ccc;
+  color: #fff;
+}
+/* 不是必填字段样式 */
+.lt{
+  margin-left: 8%;
+}
+.label_width{
+  width: 145rpx;
+  text-align: center;
+
+}
+
+/* 修改默认checkbox 的颜色 */
+  checkbox .wx-checkbox-input{
+    width: 30rpx; 
+    height: 30rpx; 
+  }
+  checkbox .wx-checkbox-input.wx-checkbox-input-checked{
+    border: none;
+    background: #007aff;
+  }
+  checkbox .wx-checkbox-input.wx-checkbox-input-checked::before{
+    width: 25rpx;
+    height: 25rpx;
+    line-height: 25rpx;
+    text-align: center;
+    font-size:24rpx; 
+    color:#FFF; 
+    background: transparent;
+    transform:translate(-50%, -50%) scale(1);
+    -webkit-transform:translate(-50%, -50%) scale(1);
+  }
+  

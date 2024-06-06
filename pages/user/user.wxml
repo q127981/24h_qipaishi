@@ -137,6 +137,14 @@
           <view class="iconfont icon-tongji color-primary"></view>
           <view>数据统计</view>
         </navigator>
+        <navigator class="item" url="../packageManagement/packageManagement">
+          <view class="iconfont icon-taocanguanli color-primary"></view>
+          <view>套餐管理</view>
+        </navigator>
+        <navigator class="item" url="../deviceList/deviceList">
+          <view class="iconfont icon-device color-primary"></view>
+          <view>设备管理</view>
+        </navigator>
       </view>
       <view class="box" wx:else>
         <!-- 保洁端 -->

@@ -9,7 +9,7 @@ function blueDoorOpen(lockData){
       // console.log("打断蓝牙操作");
       wx.showToast({ 
         icon: "loading", 
-        title: "开锁中..." ,
+        title: "请靠近门锁" ,
         duration: 10000,
         mask: true  // 遮罩层，防止点击
       });
@@ -44,7 +44,88 @@ function blueDoorOpen(lockData){
       })
   }
 }
+function queryLockPwd(lockData){
+  wx.showLoading({ title: `请靠近门锁` });
+  plugin.getAdminPasscode({ lockData: lockData}).then(result => {
+    wx.hideLoading();
+    if (result.errorCode === 0) {
+        wx.showModal({
+          content: `查询管理员密码成功, 密码: ${result.passcode}`,
+          showCancel: false,
+        })
+    } else {
+        wx.showToast({
+          title: '查询失败',
+          icon: 'error'
+        })
+    }
+  })
+}
+
+function addCard(lockData){
+  wx.showLoading({ title: `请靠近门锁` });
+  plugin.addICCard({
+    startDate: 0,
+    endDate:  0,
+    lockData: lockData,
+    callback: (result) => {
+        console.log(result, "中间步骤")
+        switch (result.type) {
+        case 1: {
+            wx.showLoading({ title: `添加成功，正在上传` });
+        }; break;
+        case 2:{
+            wx.showLoading({ title: `${result.description}, 请录入IC卡` });
+        }; break;
+        case 3: {
+            wx.showLoading({ title: result.description });
+        }; break;
+        default: {
+            wx.hideLoading();
+            wx.showModal({
+              content: result.errorMsg,
+              showCancel: false,
+            })
+        }; break;
+        }
+    }
+  }).then(res => {
+    wx.hideLoading();
+      if (res.errorCode === 0) {
+          wx.showToast({ title: "添加成功" });
+      } else {
+          wx.showModal({
+            content: `IC卡添加失败：${res.errorMsg}`,
+            showCancel: false,
+          })
+      }
+  })
+}
+
+function setLockPwd(lockData,passcode){
+  wx.showLoading({ title: `请靠近门锁` });
+  plugin.modifyAdminPasscode({
+    newPasscode: passcode,
+    lockData: lockData
+  }).then(res => {
+    wx.hideLoading();
+      if (res.errorCode === 0) {
+          wx.showToast({
+            title: '设置成功',
+            icon: 'success'
+          })
+      } else {
+        wx.showModal({
+          content: `密码设置失败：${res.errorMsg}`,
+          showCancel: false,
+        })
+      }
+  })
+}
 
 module.exports = {
-  blueDoorOpen: blueDoorOpen
+  blueDoorOpen: blueDoorOpen,
+  queryLockPwd: queryLockPwd,
+  addCard: addCard,
+  setLockPwd: setLockPwd,
 }

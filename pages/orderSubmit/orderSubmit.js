@@ -18,7 +18,9 @@ Page({
     txNowPrice:0.0,
     timeselectindex:0,//选择的日期索引位置
     roominfodata:{},//房间展示信息
+    pkgList: [],
     select_time_index:0,
+    select_pkg_index:-1,
     minDay:'',//可选最小时间
     maxDay:'',//可选最大时间
     minHour:'',//可选最小小时
@@ -42,6 +44,7 @@ Page({
     view_end_time:'',//显示结束时间
     nightLong:false,//是否通宵
     orderNo:'',//支付订单号
+    pkgId:'',
     // couponId:'',//优惠券Id,示例值(31071)
     scanCodeMsg:'',//团购券码 填了团购券时，其他支付方式均不生效
     pricestring:0.0,//支付金额
@@ -88,7 +91,7 @@ Page({
     var storeId=options.storeId;
     var roomId=options.roomId;
     var timeselectindex=options.timeselectindex;
-    var query=wx.getLaunchOptionsSync().query;
+    var query=wx.getEnterOptionsSync().query;
     console.log('打开房间页面');
     console.log(query);
     if(query){
@@ -130,6 +133,7 @@ Page({
     var that = this;
     that.getStoreBalance();
     that.getCouponListData();
+    that.getPkgList();
     // that.getuserinfo();
   },
 
@@ -229,7 +233,13 @@ Page({
         content: '您已输入团购券码，无法再选择优惠券！',
         showCancel: false
       })
-    }else{
+    }else if(that.data.select_pkg_index!=-1){
+      wx.showModal({
+        title: '温馨提示',
+        content: '您已选择套餐支付，无法再选择优惠券！',
+        showCancel: false
+      })
+    } else{
       wx.navigateTo({
         url: '../coupon/coupon?from=1&roomId='+that.data.roominfodata.roomId+'&orderHours='+that.data.order_hour+'&nightLong='+that.data.nightLong+'&startTime='+that.data.submit_begin_time+'&endTime='+that.data.submit_end_time,
         events: {
@@ -265,42 +275,43 @@ Page({
     console.log(that.data.couponInfo);
     var startDate=new Date(that.data.submit_begin_time);
     var timeIndex=that.data.select_time_index;
-    var price=that.getPrice(startDate);
-    console.log(that.data.order_hour)
-    if(null==that.data.order_hour){
-      that.setData({
-        order_hour: 4
-      })
-    }
-    console.log("订单时长:"+that.data.order_hour);
-    //原价
-    var oldPrice=0;
-    if(timeIndex==3){
-      //通宵 现在开始
-       that.MathTxNowPrice();
-       return
-    }else if(timeIndex==4){
-       oldPrice=that.data.txPrice;
+    var priceResult=0;
+    if(that.data.select_pkg_index>-1){
+      priceResult=that.data.pkgList[that.data.select_pkg_index].price;
     }else{
-       oldPrice=(that.data.order_hour*price).toFixed(2);
+      var price=that.getPrice(startDate);
+      if(null==that.data.order_hour){
+        that.setData({
+          order_hour: 4
+        })
+      }
+      console.log("订单时长:"+that.data.order_hour);
+      if(timeIndex==3){
+        //通宵 现在开始
+         that.MathTxNowPrice();
+         return
+      }else if(timeIndex==4){
+        priceResult=that.data.txPrice;
+      }else{
+        priceResult=(that.data.order_hour*price).toFixed(2);
+      }
+      if(that.data.couponInfo){
+        const acoupon=that.data.couponInfo;
+        if(acoupon.type == 1){
+          //减去时间对应费用
+          priceResult =  (priceResult-acoupon.price*price).toFixed(2);
+        }else if(acoupon.type == 2){
+          //直接减去费用
+          priceResult = priceResult-acoupon.price;
+        }  
+      }
+      if(priceResult<0){
+        priceResult = 0.0;
+      }
     }
-    if(that.data.couponInfo){
-      const acoupon=that.data.couponInfo;
-      if(acoupon.type == 1){
-        //减去时间对应费用
-        oldPrice =  (oldPrice-acoupon.price*price).toFixed(2);
-      }else if(acoupon.type == 2){
-        //直接减去费用
-        oldPrice = oldPrice-acoupon.price;
-      }  
-    }
-    if(oldPrice<0){
-      oldPrice = 0.0;
-    }
-    console.log('价格:'+that.getPrice(startDate))
     that.setData({
-      pricestring: oldPrice,
-      showprice: oldPrice
+      pricestring: priceResult,
+      showprice: priceResult
     })
   },
   MathTxNowPrice(){
@@ -335,6 +346,7 @@ Page({
         "post", {
           roomId:that.data.roomId,
           couponId:acouponId,
+          pkgId: that.data.pkgId,
           nightLong:that.data.nightLong,
           startTime:that.data.submit_begin_time,
           endTime:that.data.submit_end_time,
@@ -434,6 +446,8 @@ Page({
             }, 1000);
         },
         'fail': function(res) {
+          console.log('*************支付失败');
+          console.log(res);
             wx.showToast({
               title: '支付失败!',
               icon: 'error'
@@ -460,6 +474,7 @@ Page({
         "post", {
           roomId:that.data.roomId,
           couponId:acouponId,
+          pkgId:that.data.pkgId,
           nightLong:that.data.nightLong,
           startTime:that.data.submit_begin_time,
           endTime:that.data.submit_end_time,
@@ -665,17 +680,29 @@ Page({
   //点击的时间
   selectTimeHour:function(event){
     var that = this;
-    var startDate=new Date(that.data.submit_begin_time);//显示的开始时间
     var atimeindex = event.currentTarget.dataset.index;//选中的时间索引
-    if(atimeindex==3){
-      //手动再选中通宵立即开始时，把开始时间改成当前时间
-      startDate=new Date();
+    if(atimeindex==that.data.select_time_index){
+      that.setData({
+        select_time_index: -1,
+        pkgId: '',
+      })
+    }else{
+      var startDate=new Date(that.data.submit_begin_time);//显示的开始时间
+      if(atimeindex==3){
+        //手动再选中通宵立即开始时，把开始时间改成当前时间
+        startDate=new Date();
+      }
+      that.setData({
+        select_time_index: atimeindex,
+        select_pkg_index: -1,
+        pkgId: ''
+      })
+      that.MathDate(startDate);
     }
-    that.setData({
-      select_time_index: atimeindex
-    })
-    that.MathDate(startDate);
+    that.getPkgList();
   },
+  
+
   getuserinfo:function(){
     var that = this;
     if (app.globalData.isLogin) {
@@ -715,14 +742,19 @@ Page({
   goSelectPayType:function(e){
     var that = this;
     let aindex = e.currentTarget.dataset.index;
-
     if(that.data.scanCodeMsg.length>0){
       wx.showModal({
         title: '温馨提示',
         content: '您已输入团购券码，其他支付方式不再生效！',
         showCancel: false
       })
-    }else{
+    }else  if(that.data.select_pkg_index>-1){
+      wx.showModal({
+        title: '温馨提示',
+        content: '您已选择套餐支付，其他支付方式不再生效！',
+        showCancel: false
+      })
+    }  else{
       that.setData({
         payselectindex: aindex
       })
@@ -738,7 +770,9 @@ Page({
     if(e.detail.value.length>0){
       that.setData({
         payselectindex: 0,
-        submit_couponInfo:{}
+        submit_couponInfo:{},
+        pkgId: '',
+        select_pkg_index: -1
       });
     }else{
       that.setData({
@@ -925,9 +959,12 @@ Page({
     that.setData({
       order_hour: hour,
       show: false,
-      select_time_index: 2
+      select_time_index: 2,
+      select_pkg_index:-1,
+      pkgId: ''
     })
     that.MathDate(startDate);
+    that.getPkgList();
   },
   onTimeCancel(){
     this.setData({show: false})
@@ -1098,5 +1135,82 @@ Page({
       case 6:
         return that.data.price;
     }
-  }
+  },
+  getPkgList: function(e){
+    var that = this;
+    http.request(
+      "/member/pkg/getPkgPage",
+      "1",
+      "post", {
+        storeId: that.data.storeId,
+        roomId: that.data.roomId,
+        startTime:that.data.submit_begin_time,
+        endTime:that.data.submit_end_time,
+        // pageNo: that.data.pageNo,
+        // pageSize: that.data.pageSize
+      },
+      app.globalData.userDatatoken.accessToken,
+      "",
+      function success(info) {
+        if (info.code == 0) {
+          const newMeals = info.data.list.map(el=>({
+            ...el,
+            enableWeek: that.convertWeekday(el.enableWeek)
+          }))
+          
+          that.setData({
+            pkgList: newMeals
+          })
+        }else{
+          wx.showModal({
+            content: info.msg,
+            showCancel: false,
+          })
+        }
+      },
+      function fail(info) {
+        
+      }
+    )
+  },
+  //定义一个函数来将数字转换为星期名称：
+  convertWeekday(numbers) {
+    const weekDays = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+    return numbers.map(num => weekDays[num % 7]).join(", ");
+  },
+  //点击的套餐
+  selectPkgInfo:function(event){
+    var that = this;
+    if(that.data.scanCodeMsg.length>0){
+      wx.showModal({
+        title: '温馨提示',
+        content: '您已输入团购券码，其他支付方式不再生效！',
+        showCancel: false
+      })
+    }else{
+      var pkgIndex = event.currentTarget.dataset.index;//选中的时间索引
+      var pkgId = event.currentTarget.dataset.id;//选中的时间索引
+      var hour = event.currentTarget.dataset.hour;//选中的时间索引
+      if(pkgIndex==that.data.select_pkg_index){
+        pkgIndex=-1;
+        pkgId='';
+      }
+      var startDate=new Date(that.data.submit_begin_time);//显示的开始时间
+      var endDate = new Date(startDate.getTime()+1000*60*60*hour);
+      that.setData({
+        select_pkg_index: pkgIndex,
+        pkgId: pkgId,
+        order_hour: hour,
+        nightLong: false,
+        submit_couponInfo:{},//清空优惠券
+        payselectindex: 1,
+        select_time_index: -1,
+        submit_begin_time: this.formatDate(startDate.getTime()).text,
+        submit_end_time: this.formatDate(endDate.getTime()).text,
+        view_begin_time: this.formatViewDate(startDate.getTime()).text,
+        view_end_time: this.formatViewDate(endDate.getTime()).text,
+      })
+      that.MathPrice();
+    }
+  },
 })

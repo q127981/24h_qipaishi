@@ -18,7 +18,8 @@ page{
 }
 .top .topInfo{
   display: flex;
-  justify-content: space-between;
+  justify-content:space-evenly;
+
 }
 .top .topInfo .left{
   width: 160rpx;
@@ -32,30 +33,28 @@ page{
   /* height: 200rpx; */
   height: 100%;
 }
-.top .topInfo .left .flag{
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
+.top .topInfo .name .flag{
   height: 50rpx;
+  padding: 10rpx 20rpx;
+  border-radius: 10rpx;
   line-height: 50rpx;
   text-align: center;
-  font-size: 30rpx;
+  font-size: 28rpx;
   color: #fff;
 }
-.top .topInfo .left .doing{
+.top .topInfo .name .doing{
   background: #fec43cc0;
 }
-.top .topInfo .left .undo{
+.top .topInfo .name .undo{
   background: #05b1ccc5;
 }
-.top .topInfo .left .disabled{
+.top .topInfo .name .disabled{
   background: #bebebec0;
 }
-.top .topInfo .left .daiqingjie{
+.top .topInfo .name .daiqingjie{
   background: #349b05cb;
 }
-.top .topInfo .left .bukeyong{
+.top .topInfo .name .bukeyong{
   background: #2650d8;
 }
 
@@ -356,4 +355,32 @@ page{
   font-size: 28rpx;
   height: 90rpx;
   line-height: 90rpx;
+}
+.pkgList .item {
+  padding: 10rpx 20rpx;
+  margin: 5rpx;
+  border: 3rpx solid #b0cbf1;
+  border-radius: 15rpx;
+}
+.pkgList .item .name{
+  font-size: 30rpx;
+  font-weight: 500;
+  display: -webkit-box; 
+  -webkit-box-orient: vertical; 
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
+.pkgList .item.active{
+  border-color: #ffffff;
+  color: #ffffff;
+  background-color: var(--main-color);
+}
+.can-time {
+  color: rgb(177, 177, 169);
+  font-size: 22rpx;
+}
+.scroll-y{
+  height: 360rpx;
+  margin-top: 10rpx;
 }

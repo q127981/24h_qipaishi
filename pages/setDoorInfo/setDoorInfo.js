@@ -11,7 +11,7 @@ Page({
     index: '',
     roomClassList: [{id:0,name:'棋牌'},{id:1,name:'台球'},{id:2,name:'自习室'}],
     rcIndex: '',
-    types: [{id:1,name:'小'},{id:2,name:'中'},{id:3,name:'大'}],
+    types: [{id:1,name:'小包'},{id:2,name:'中包'},{id:3,name:'大包'},{id:4,name:'豪包'}],
     storeId: '',
     roomId: '',
     roomName: '',

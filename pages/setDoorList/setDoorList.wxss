@@ -54,7 +54,7 @@
   transition: height 0.8s;
 }
 .btns.show {
-  height: 260rpx;
+  height: 320rpx;
 }
 .list .item .tags .tag{
   margin: 0 10rpx 10rpx 0;
@@ -112,6 +112,11 @@
   /* color: #e09047; */
   background-color: #34bb28;
 }
+.list .item .btns .origin{
+  /* border: solid 1px #e09047; */
+  /* color: #e09047; */
+  background-color: #e09047;
+}
 .list .item .btns .primary{
   border: solid 1px var(--main-color);
   color: var(--main-color);
@@ -135,4 +140,17 @@
   width: 80rpx;
   text-align: center;
   color: #a5a3a3;
+}
+
+.dialog{
+  padding: 30rpx;
+  width: 700rpx;
+}
+.dialog .item{
+  display: flex;
+  font-size: 28rpx;
+  line-height: 60rpx;
+}
+.dialog .item label{
+  color: #666;
 }

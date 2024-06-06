@@ -12,21 +12,6 @@
         <block wx:else>
           <image class="img" src="../static/img/logo.png"></image>
         </block>
-        <block wx:if="{{roominfodata.status == 0}}">
-          <view class="flag disabled">禁用</view>
-        </block>
-        <block wx:elif="{{roominfodata.status == 1}}">
-          <view class="flag undo">空闲中</view>
-        </block>
-        <block wx:elif="{{roominfodata.status == 2}}">
-          <view class="flag daiqingjie">待清洁</view>
-        </block>
-        <block wx:elif="{{roominfodata.status == 3}}">
-          <view class="flag doing">使用中</view>
-        </block>
-        <block wx:else>
-          <view class="flag bukeyong">已预约</view>
-        </block>
       </view>
       <view class="right">
         <view class="info">
@@ -41,8 +26,26 @@
             <block wx:elif="{{roominfodata.type == 2}}">
               <text class="type">（中包）</text>
             </block>
-            <block wx:else>
+            <block wx:elif="{{roominfodata.type == 3}}">
               <text class="type">（大包）</text>
+            </block>
+            <block wx:else>
+              <text class="type">（豪包）</text>
+            </block>
+            <block wx:if="{{roominfodata.status == 0}}">
+            <text class="flag disabled">禁用</text>
+            </block>
+            <block wx:elif="{{roominfodata.status == 1}}">
+              <text class="flag undo">空闲中</text>
+            </block>
+            <block wx:elif="{{roominfodata.status == 2}}">
+              <text class="flag daiqingjie">待清洁</text>
+            </block>
+            <block wx:elif="{{roominfodata.status == 3}}">
+              <text class="flag doing">使用中</text>
+            </block>
+            <block wx:else>
+              <text class="flag bukeyong">已预约</text>
             </block>
           </view>
           <view class="tags">
@@ -120,6 +123,33 @@
           <view class="subTitle">{{txStartHour}}时后开始</view>
         </view>
       </view>
+    </view>
+    <!-- 套餐列表 -->
+    <view class="pkgList">
+    <scroll-view class="scroll-y" scroll-y wx:if="{{pkgList.length>0}}">
+      <view class="item {{select_pkg_index == index?'active':''}}" bind:tap="selectPkgInfo" data-id="{{item.pkgId}}" wx:for="{{pkgList}}" wx:key="pkgList" data-index="{{index}}" data-hour="{{item.hours}}">
+        <view class="name">
+          <text style="color: rgb(233, 23, 23);font-size: 28rpx;">￥{{item.price}}</text> 
+          {{item.pkgName}} 
+          (<text wx:if="{{item.roomType==null || item.roomType==0}}">不限包间</text>
+          <text wx:if="{{item.roomType==1}}">限小包</text>
+          <text wx:if="{{item.roomType==2}}">限中包</text>
+          <text wx:if="{{item.roomType==3}}">限大包</text>
+          <text wx:if="{{item.roomType==4}}">限豪包</text>
+          {{item.hours}}小时
+          )
+        </view>
+        <view class="can-time">
+          时间：<text wx:if="{{item.enableTime && item.enableTime.length ==24}}">不限制</text>
+            <text wx:else>{{item.enableTime}}时可用</text>
+        </view>
+          <view class="can-time">
+          星期：<text  wx:if="{{item.enableWeek && item.enableWeek.length ==26}}">不限制</text>
+        <text wx:else>{{item.enableWeek}}可用</text>
+      </view>
+      </view>
+    </scroll-view>
+     
     </view>
   </view>
   <view class="section orderPrice">

@@ -45,8 +45,11 @@
               <block wx:elif="{{item.type == 2}}">
                 <text class="type">（中包）</text>
               </block>
-              <block wx:else>
+              <block wx:elif="{{item.type == 3}}">
                 <text class="type">（大包）</text>
+              </block>
+              <block wx:else>
+                <text class="type">（豪包）</text>
               </block>
             </view>
             <view class="tags">

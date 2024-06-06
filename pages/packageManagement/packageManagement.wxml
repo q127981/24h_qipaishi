@@ -1,0 +1,66 @@
+<view class="tabs">
+    <van-dropdown-menu active-color="{{mainColor}}">
+      <van-dropdown-item value="{{ storeId }}" options="{{ stores }}"  bind:change="storeDropdown" />
+      <van-dropdown-item value="{{ value1 }}" options="{{ option1 }}" bind:change="statusDropdown" />
+    </van-dropdown-menu>
+  </view>
+  <view class="container" style="padding-top: 45px;">
+    <block wx:if="{{pkgList.length>0}}">
+      <view class="item" wx:for="{{pkgList}}" wx:key="pkgList">
+        <view class="item-top">
+          <view class="info">
+            <text class="title">{{item.pkgName}}</text>
+            <text class="time">过期时间 {{item.expireDay == 0?'永久有效':item.expireDay}} <text wx:if="{{item.expireDay !== 0}}">天</text> </text>
+          </view>
+          <view class="price">
+            <text style="color:#ee0000;">￥<text style="font-size: 40rpx;font-weight: bold;">{{item.price}}</text></text>
+          </view>
+        </view>
+        <view class="item-bottom">
+           <view class="line1">
+          <view>适用门店：{{item.storeName}}</view>
+          <view class="can-time">
+            可用时间： <text wx:if="{{item.enableTime && item.enableTime.length ==24}}">不限制</text>
+              <text wx:else>限{{item.enableTime}}时可用</text>
+        </view>
+           <view class="can-time">
+           可用星期： <text  wx:if="{{item.enableWeek && item.enableWeek.length ==26}}">不限制</text>
+            <text wx:else>限{{item.enableWeek}}可用</text>
+        </view>
+           </view>
+           <view class="line2">
+              <view>包间限制： 
+                <text wx:if="{{item.roomType==null || item.roomType==0}}">不限制</text>
+                <text wx:if="{{item.roomType==1}}">小包</text>
+                <text wx:if="{{item.roomType==2}}">中包</text>
+                <text wx:if="{{item.roomType==3}}">大包</text>
+                <text wx:if="{{item.roomType==4}}">豪包</text>
+              </view>
+              <view>套餐时长：{{item.hours}}小时</view>
+           </view>
+           <view class="line2">
+            <!-- <text>节假日可用： {{item.enableHoliday==true?'是':'否'}}</text> -->
+            <text wx:if="{{item.enable}}">套餐状态：  启用</text>
+            <text wx:else>套餐状态：  禁用</text>
+           </view>
+           <view class="line3">
+              <button class="enableBtn" data-item="{{item}}" bindtap="changeStatus">
+                <text wx:if="{{item.enable}}">禁用</text>
+                <text wx:else>启用</text>
+              </button>
+              <button class="editBtn" data-item="{{item}}" bindtap="edit">
+                编辑
+              </button>
+           </view>
+        </view>
+      </view>
+    </block>
+    <block wx:else>
+      <!-- 无订单和未登录 -->
+      <view class="nodata">暂无套餐，请新增</view>
+    </block>
+  </view>
+<!-- 底部按钮 -->
+<button bindtap="goToAddPage" class="bottom bg-primary {{isIpx?'fix-iphonex-button':''}}">
+  新增套餐
+</button>

@@ -8,7 +8,7 @@
         <view class="top">
           <view class="name">
             {{item.roomName}}
-            <text class="type">（{{item.type===0?'特价包':item.type===1?'小包':item.type===2?'中包':'大包'}}）</text>
+            <text class="type">（{{item.type===0?'特价包':item.type===1?'小包':item.type===2?'中包':item.type===3?'大包':'豪包'}}）</text>
           </view>
           <view class="price color-attention">￥{{item.price}}/小时</view>
         </view>
@@ -60,6 +60,13 @@
             </view>
           </view>
           <view class="line2">
+            <view class="btn origin" bindtap="queryLockPwd" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">
+              查询锁密码
+            </view>
+            <view class="btn origin" bindtap="setLockPwdShow" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">设置锁密码</view>
+            <view class="btn origin" bindtap="addLockCard" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">添加门锁卡片</view>
+          </view>
+          <view class="line2">
             <view class="btn red" bindtap="openBlueDoor" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">
               蓝牙开锁
             </view>
@@ -78,3 +85,12 @@
 <navigator url="../setDoorInfo/setDoorInfo?storeId={{storeId}}" class="bottom bg-primary {{isIpx?'fix-iphonex-button':''}}">
   新增房间
 </navigator>
+
+<van-dialog use-slot title="设置门锁密码" show="{{ setLockPwdShow }}" show-cancel-button confirm-button-text="确认" bind:confirm="confirmSetLockPwd" >
+  <view class="dialog">
+    <view class="item" style="align-items: center;">
+      <label>新管理员密码：</label>
+      <input model:value="{{ lockPwd }}" type="number" maxlength="8" style="border: 1px solid var(--main-color);"  placeholder = "请输入6-8纯数字密码"/>
+    </view>
+  </view>
+</van-dialog>

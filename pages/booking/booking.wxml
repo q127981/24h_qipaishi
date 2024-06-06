@@ -63,8 +63,11 @@
               <block wx:elif="{{item.type == 2}}">
                 <text class="type">（中包）</text>
               </block>
-              <block wx:else>
+              <block wx:elif="{{item.type == 3}}">
                 <text class="type">（大包）</text>
+              </block>
+              <block wx:else>
+                <text class="type">（豪包）</text>
               </block>
             </view>
             <view class="tags">
@@ -79,7 +82,7 @@
                 每小时
                 <label class="color-attention">￥{{item.price}}元</label>
               </view>
-              <block wx:if="{{item.price!=item.workPrice}}">
+              <!-- <block wx:if="{{item.price!=item.workPrice}}">
                 <view class="price">
                   闲时价
                   <label class="color-attention">￥{{item.workPrice}}元</label>
@@ -90,7 +93,7 @@
                   通宵场
                   <label class="color-attention">￥{{item.tongxiaoPrice}}元</label>
                 </view>
-              </block>
+              </block> -->
             </view>
             <view class="bottom">
               <block wx:if="{{item.status == 0}}">

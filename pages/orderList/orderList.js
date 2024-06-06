@@ -112,7 +112,7 @@ Page({
       })
     }
   },
-  //城市下拉菜单发生变化
+  //状态下拉菜单发生变化
   OrderStatusDropdown(event){
     let that = this
     //console.log('选择的值')

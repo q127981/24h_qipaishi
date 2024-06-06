@@ -1,0 +1,43 @@
+<!--pages/deviceList/deviceList.wxml-->
+<view class="tabs">
+  <view class="item">
+    <van-dropdown-menu active-color="{{mainColor}}">
+      <van-dropdown-item value="{{ storeId }}" options="{{ stores }}"  bind:change="storeDropdown" />
+      <van-dropdown-item value="{{ deviceType }}" options="{{ deviceTypes }}"  bind:change="typeDropdown" />
+  </van-dropdown-menu>
+  </view>
+  
+</view>
+
+<view class="container">
+  <view class="list">
+    <view class="item {{item.status==1?'online':'offline'}}" wx:for="{{deviceList}}" wx:key="deviceList">
+      <view class="line">
+        <view class="info">
+          <label>编号：</label>
+          <text class="sn">{{item.deviceSn}}</text>
+        </view>
+        <view class="info">
+          <label>类型：</label>
+          <text>{{item.type==1?'门禁':item.type==2?'空开':item.type==3?'云喇叭':item.type==4?'灯具':item.type==5?'密码锁':item.type==6?'网关':'插座'}}</text>
+        </view>
+        <view class="info" wx:if="{{item.type!=6&&item.type!=5}}">
+          <label>状态：</label>
+          <text>{{item.status==1?'在线':'离线'}}</text>
+        </view>
+      </view>
+      <view class="line">
+        <view class="info" wx:if="{{item.storeName}}">
+          <label>门店：</label>
+          <text class="name">{{item.storeName}}</text>
+        </view>
+        <view class="info" wx:if="{{item.roomName}}">
+          <label>房间：</label>
+          <text>{{item.roomName}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="buttom">- 加载完毕 -</view>
+</view>
+

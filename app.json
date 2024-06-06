@@ -46,12 +46,15 @@
     "pages/login/login",
     "pages/booking/booking",
     "pages/roomList/roomList",
-    "pages/placeOrder/placeOrder"
+    "pages/placeOrder/placeOrder",
+    "pages/packageManagement/packageManagement",
+    "pages/editPages/editPages",
+    "pages/deviceList/deviceList"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "麻总监24H自助棋牌茶室",
+    "navigationBarTitleText": "麻老板无人系统",
     "navigationBarTextStyle": "black"
   },
   "plugins": {

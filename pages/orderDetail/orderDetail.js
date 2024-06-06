@@ -51,7 +51,7 @@ Page({
     if(options.orderKey){
         orderKey= options.orderKey;
     }
-    var query=wx.getLaunchOptionsSync().query;
+    var query=wx.getEnterOptionsSync().query;
     if(query){
       if(query.OrderNo){
         OrderNo=query.OrderNo;

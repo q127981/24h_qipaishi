@@ -40,7 +40,7 @@
             <image class="roomImg" src="{{item.roomImg}}"></image>
           </li>
           <li class="li">
-              <view class="title">{{item.roomName}}({{item.roomType===1?'小包':item.roomType===2?'中包':'大包'}}) 
+              <view class="title">{{item.roomName}}({{item.roomType===1?'小包':item.roomType===2?'中包':item.roomType===3?'大包':'豪包'}}) 
               </view>
               <view><span class="name">{{item.storeName}}</span></view>
             <!-- <view class="name">{{item.storeName}}</view> -->
@@ -160,7 +160,7 @@
     </view>
     <view class="item">
       <label>当前房间：</label>
-      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':'大包'}}）</text>
+      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':orderInfo.roomType===3?'大包':'豪包'}}）</text>
     </view>
     <view class="item">
       <label>开始时间：</label><text>{{orderInfo.startTime}}</text>
@@ -184,7 +184,7 @@
     <view class="item">
       <label>房间名称：</label>
       <picker mode="selector" bindchange="bindPickerChange" value="{{index}}" range="{{values}}" data-ids="{{key}}">
-        <view class="picker">
+        <view class="picker" style="color: blue;">
           {{values[index] || "请选择"}}
         </view>
       </picker>
@@ -216,7 +216,7 @@
     </view>
     <view class="item">
       <label>当前房间：</label>
-      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':'大包'}}）</text>
+      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':orderInfo.roomType===3?'大包':'豪包'}}）</text>
     </view>
     <view class="item">
       <label>开始时间：</label><text>{{orderInfo.startTime}}</text>
@@ -238,7 +238,7 @@
     </view>
     <view class="item">
       <label>当前位置：</label>
-      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':'大包'}}）</text>
+      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':orderInfo.roomType===3?'大包':'豪包'}}）</text>
     </view>
     <view class="item">
       <label>开始时间：</label><text>{{orderInfo.startTime}}</text>
@@ -259,7 +259,7 @@
     </view>
     <view class="item">
       <label>当前房间：</label>
-      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':'大包'}}）</text>
+      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':orderInfo.roomType===3?'大包':'豪包'}}）</text>
     </view>
     <view class="item">
       <label>开始时间：</label><text>{{orderInfo.startTime}}</text>
@@ -281,7 +281,7 @@
     </view>
     <view class="item">
       <label>当前位置：</label>
-      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':'大包'}}）</text>
+      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':orderInfo.roomType===3?'大包':'豪包'}}）</text>
     </view>
     <view class="item">
       <label>开始时间：</label><text>{{orderInfo.startTime}}</text>

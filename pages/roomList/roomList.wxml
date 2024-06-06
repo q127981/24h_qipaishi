@@ -14,7 +14,7 @@
     <view class="item" wx:for="{{doorList}}" wx:key="item">
       <view class="left">
         <view class="info">
-          <text class="name">{{item.roomName}}（{{item.type===1?'小包':item.type===2?'中包':'大包'}}）</text>
+          <text class="name">{{item.roomName}}（{{item.type===1?'小包':item.type===2?'中包':item.type===3?'大包':'豪包'}}）</text>
         </view>
         <view class="info">
           <label>门店：</label>

@@ -11,7 +11,10 @@ Page({
     storeId: 0, 
     doorList: [],
     isIpx: app.globalData.isIpx?true:false,
-    foldIndex: -1
+    foldIndex: -1,
+    setLockPwdShow: false,
+    lockPwd: '',
+    lockData: '',
   },
 
   /**
@@ -442,4 +445,71 @@ Page({
       }
     })
   },
+  queryLockPwd: function(e){
+    let that = this;
+    let lockData = e.currentTarget.dataset.lockdata;
+    if(lockData){
+     lock.queryLockPwd(lockData);
+   }else{
+     wx.showToast({
+       title: '未使用密码锁',
+     })
+   }
+  },
+  addCard: function(e){
+    let that = this;
+    let lockData = e.currentTarget.dataset.lockdata;
+    if(lockData){
+     lock.addCard(lockData);
+   }else{
+     wx.showToast({
+       title: '未使用密码锁',
+     })
+   }
+  },
+  setLockPwdShow: function(e){
+    let that = this;
+    var lockData = e.currentTarget.dataset.lockdata;
+    console.log('lockData');
+    console.log(lockData);
+    that.setData({
+      setLockPwdShow: true,
+      lockData: lockData
+    })
+  },
+  confirmSetLockPwd: function(e){
+     var that=this;
+     var lockData = that.data.lockData;
+     console.log('lockData');
+     console.log(lockData);
+     if(lockData){
+      if(!that.data.lockPwd||that.data.lockPwd<100000){
+        wx.showToast({
+          title: '密码不合法',
+          icon: 'error'
+        })
+      }else{
+        lock.setLockPwd(lockData,that.data.lockPwd);
+        that.setData({
+          setLockPwdShow:false,
+          lockData:'',
+        })
+      }
+    }else{
+      wx.showToast({
+        title: '未使用密码锁',
+      })
+    }
+  },
+  addLockCard: function(e){
+    var that=this;
+    let lockData = e.currentTarget.dataset.lockdata;
+    if(lockData){
+      lock.addCard(lockData);
+   }else{
+     wx.showToast({
+       title: '未使用密码锁',
+     })
+   }
+  }
 })

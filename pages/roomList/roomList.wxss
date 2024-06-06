@@ -12,7 +12,7 @@ page{
 }
 
 .tabs .item .btn{
-  /* margin-bottom: 10rpx; */
+  margin: 10rpx;
   border-radius: 20rpx;
   width: 200rpx;
   text-align: center;
@@ -71,7 +71,6 @@ page{
   margin-top: 20rpx;
   padding-bottom: 100rpx;
   text-align: center;
-
 }
 
 .dialog{
@@ -83,6 +82,7 @@ page{
   font-size: 28rpx;
   line-height: 40rpx;
   padding: 10rpx 0;
+  margin: 10rpx;
 }
 .dialog .item .btn{
   text-align: center;
