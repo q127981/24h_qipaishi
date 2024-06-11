@@ -60,7 +60,7 @@ Page({
         orderKey=query.orderKey;
       }
     }
- console.log(OrderNo);
+  console.log(OrderNo);
   console.log(orderKey);
     that.setData({
       beforeCloseFunction: this.beforeClose(),

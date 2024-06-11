@@ -20,7 +20,7 @@ Page({
     tags: [],
     stores: [],
     roomType: '',
-    rooms: [{id:null,name:'不限制'},{id:1,name:'小包'},{id:2,name:'中包'},{id:3,name:'大包'},{id:4,name:'豪包'}],
+    rooms: [{id:null,name:'不限制'},{id:1,name:'小包'},{id:2,name:'中包'},{id:3,name:'大包'},{id:4,name:'豪包'},{id:5,name:'商务包'}],
     minUsePrice: '',
     price: '',
     expriceTime: '',

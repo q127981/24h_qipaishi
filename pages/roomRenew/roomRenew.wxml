@@ -1,0 +1,116 @@
+<!-- pages/orderDetail/orderDetail.wxml -->
+<wxs src="../../utils/magic.wxs" module="magic" />
+<view class="container">
+  <view class="top-container">
+    <view class="top">
+      <view class="info">
+        <view>
+          <image class="roomImg" src="{{magic.split(OrderInfodata.roomImg)[0]}}"></image>
+        </view>
+        <view class="name">
+          {{OrderInfodata.roomName}}（{{OrderInfodata.roomType==1?'小包':OrderInfodata.roomType==2?'中包':OrderInfodata.roomType==3?'大包':OrderInfodata.roomType==4?'豪包':'商务包'}}）
+        </view>
+        <view class="share">
+          <button class="share bg-primary" open-type="share"><text>分享</text></button>
+        </view>
+      </view>
+      </view>
+      <!-- 时间段 -->
+      <view class="timeBox">
+        <view class="time">
+          <view class="hour">
+            {{magic.splittime(OrderInfodata.startTime)[0]}}:{{magic.splittime(OrderInfodata.startTime)[1]}}
+          </view>
+          <view class="date">{{magic.splitkongge(OrderInfodata.startTime)[0]}}</view>
+        </view>
+        <view class="total border-primary">{{OrderInfodata.orderHour}}小时</view>
+        <view class="time">
+          <view class="hour">
+            {{magic.splittime(OrderInfodata.endTime)[0]}}:{{magic.splittime(OrderInfodata.endTime)[1]}}
+          </view>
+          <view class="date">{{magic.splitkongge(OrderInfodata.endTime)[0]}}</view>
+        </view>
+      </view>
+      <!-- 订单详情 -->
+      <view class="orderInfo">
+      <view class="item">
+        <view class="title">门店名称：</view>
+        <view class="logo">
+          {{OrderInfodata.storeName}}
+          <text class="color-primary link" bind:tap="goTencentMap">查看地图</text>
+        </view>
+      </view>
+      <view class="item">
+        <view class="title">支付方式：</view>
+        <text>{{OrderInfodata.payType===1?'微信':OrderInfodata.payType===2?'余额':'团购'}}</text>
+      </view>
+      <view class="item">
+        <label class="title">使用卡券：</label>
+        <block wx:if="{{OrderInfodata.couponName.length>0}}">
+          <text>{{OrderInfodata.couponName}}</text>
+        </block>
+        <block wx:else>
+          <text>暂无</text>
+        </block>
+      </view>
+      <view class="item">
+        <label class="title">下单时间：</label>
+        <text>{{OrderInfodata.createTime}}</text>
+      </view>
+      <!-- wifi -->
+      <view class="item" wx:if="{{OrderInfodata.status==0||OrderInfodata.status==1}}">
+        <label class="title">WIFI信息：</label>
+        <view class="color-primary wifi">
+          {{OrderInfodata.wifiInfo}}
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="order-container">
+    <view class="item" style="align-items: center;">
+      <label>请选择续费时长：</label>
+      <van-stepper value="{{ addTime }}" step="0.5" min="0" max="4" disable-input bind:change="onChange" />
+      时
+    </view>
+    <view class="item">
+      <label>增加后结束时间：</label>
+      <text>{{newTime}}</text>
+    </view>
+    <view class="item">
+      <label>小时单价：</label>
+      <text class="color-attention">{{OrderInfodata.roomPrice}}元</text>
+      /小时
+    </view>
+    <!-- <block wx:if="{{OrderInfodata.roomPrice!=OrderInfodata.workPrice}}">
+      <view class="item">
+        <label>闲时单价：</label>
+        <text class="color-attention">{{OrderInfodata.workPrice}}元</text>
+        /小时
+      </view>
+    </block> -->
+    <view class="item">
+      <label>支付总价：</label>
+      <text class="color-attention">{{totalPay}}</text>
+      元
+    </view>
+
+    <view class="btns">
+       <button class="backBtn" bind:tap="backHome">
+          返回首页
+      </button>
+      <block wx:if="{{isLogin}}">
+        <button class="renewBtn" bind:tap="renewOrder">
+          订单续费
+        </button>
+      </block>
+      <block wx:else>
+        <button class="renewBtn" bindgetphonenumber="phone" open-type="getPhoneNumber">
+          订单续费
+        </button>
+      </block>
+     
+    </view>
+
+  </view>
+  
+</view>

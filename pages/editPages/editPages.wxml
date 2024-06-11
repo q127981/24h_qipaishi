@@ -67,7 +67,13 @@
     <view class="form-item">
       <view class="label">节假日可用</view>
       <view class="switch-container">
-       <switch name="enableHoliday" checked="{{switchChecked}}" bindchange="onSwitchChange"/>
+       <switch name="enableHoliday" checked="{{switchChecked}}" bindchange="switchChange"/>
+      </view>
+    </view>
+    <view class="form-item">
+      <view class="label">可余额支付</view>
+      <view class="switch-container">
+       <switch name="balanceBuy" checked="{{balanceBuy}}" bindchange="switch2Change"/>
       </view>
     </view>
     <view class="form-item">

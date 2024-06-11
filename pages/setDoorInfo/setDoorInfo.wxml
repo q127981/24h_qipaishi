@@ -42,7 +42,7 @@
         </view>
       </view>
     </view>
-    <view class="line">
+    <!-- <view class="line">
       <label>闲时单价：</label>
       <view class="right">
         <view class="price">
@@ -50,7 +50,7 @@
           <text>元/小时</text>
         </view>
       </view>
-    </view>
+    </view> -->
     <view class="line">
       <label>通宵价格：</label>
       <view class="right">

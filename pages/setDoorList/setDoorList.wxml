@@ -8,7 +8,7 @@
         <view class="top">
           <view class="name">
             {{item.roomName}}
-            <text class="type">（{{item.type===0?'特价包':item.type===1?'小包':item.type===2?'中包':item.type===3?'大包':'豪包'}}）</text>
+            <text class="type">（{{item.type===0?'特价包':item.type===1?'小包':item.type===2?'中包':item.type===3?'大包':item.type===4?'豪包':'商务包'}}）</text>
           </view>
           <view class="price color-attention">￥{{item.price}}/小时</view>
         </view>
@@ -52,11 +52,14 @@
             <navigator class="btn yellow" url="../setDoorInfo/setDoorInfo?roomId={{item.roomId}}&&storeId={{storeId}}">
               修改信息
             </navigator>
-            <view class="btn yellow" bindtap="testYunlaba" data-roomid="{{item.roomId}}">
+            <!-- <view class="btn yellow" bindtap="testYunlaba" data-roomid="{{item.roomId}}">
               测试喇叭
+            </view> -->
+            <view class="btn yellow" data-src="{{item.renewCode}}" bind:tap="previewImage">
+              房间预定码
             </view>
             <view class="btn yellow" data-src="{{item.qrCode}}" bind:tap="previewImage">
-              房间预定码
+              房间续费码
             </view>
           </view>
           <view class="line2">

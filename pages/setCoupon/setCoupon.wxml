@@ -22,7 +22,7 @@
         <view class="left">
           <view class="name">{{item.couponName}}</view>
           <view class="text">适用门店：{{item.storeName}}</view>
-          <view class="text">包间限制：{{item.roomType===1?'小包':item.roomType===2?'中包':item.roomType===3?'大包':item.roomType===4?'豪包':'不限制'}}</view>
+          <view class="text">包间限制：{{item.roomType===1?'小包':item.roomType===2?'中包':item.roomType===3?'大包':item.roomType===4?'豪包':item.roomType===5?'商务包':'不限制'}}</view>
           <view class="text">抵扣额度：
               <text wx:if="{{item.type===2}}">{{item.price}}元</text>
               <text wx:else>{{item.price}}小时</text></view>

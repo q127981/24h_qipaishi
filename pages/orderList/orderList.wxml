@@ -37,7 +37,7 @@
             <image class="roomImg" src="{{magic.split(item.roomImg)[0]}}"></image>
           </li>
           <li class="li">
-              <view class="title">{{item.roomName}}({{item.roomType===1?'小包':item.roomType===2?'中包':item.roomType===3?'大包':'豪包'}}) 
+              <view class="title">{{item.roomName}}({{item.roomType===1?'小包':item.roomType===2?'中包':item.roomType===3?'大包':item.roomType===4?'豪包':'商务包'}}) 
               </view>
               <view><span class="name">{{item.storeName}}</span></view>
             <!-- <view class="name">{{item.storeName}}</view> -->
@@ -141,7 +141,7 @@
   <view class="dialog">
     <view class="item">
       <label>当前位置：</label>
-      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':orderInfo.roomType===3?'大包':'豪包'}}）</text>
+      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':orderInfo.roomType===3?'大包':orderInfo.roomType===4?'豪包':'商务包'}}）</text>
     </view>
     <view class="item">
       <label>预约时间：</label><text>{{orderInfo.startTime}}~{{orderInfo.endTime}}</text>
@@ -162,7 +162,7 @@
     </view>
     <view class="item">
       <label>当前位置：</label>
-      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':orderInfo.roomType===3?'大包':'豪包'}}）</text>
+      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':orderInfo.roomType===3?'大包':orderInfo.roomType===4?'豪包':'商务包'}}）</text>
     </view>
     <view class="item">
       <label>预约时间：</label><text>{{orderInfo.startTime}}~{{orderInfo.endTime}}</text>

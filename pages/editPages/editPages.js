@@ -27,6 +27,7 @@ Page({
     storesRoomName: '', //选中的限制房间类型
     item: {}, //回显数据
     price: '', //价格
+    balanceBuy: false,//支持余额支付
     roomStoreId:'',//门店id
   },
   // 获取适用门店列列表
@@ -112,6 +113,10 @@ Page({
       {
         key: "4",
         value: "豪包"
+      },
+      {
+        key: "5",
+        value: "商务包"
       }
     ];
     this.setData({
@@ -235,6 +240,11 @@ Page({
       switchChecked: e.detail.value
     });
   },
+  switch2Change: function (e) {
+    this.setData({
+      balanceBuy: e.detail.value
+    });
+  },
   submit: function () {
     wx.showToast({
       title: '提交成功',
@@ -337,6 +347,7 @@ Page({
           "enableTime": formData.enableTime, //可用时间 0-23数字
           "enableWeek": formData.enableWeek, //可用星期 1-7 数字
           "enableHoliday": formData.enableHoliday, //节假日可用
+          "balanceBuy": formData.balanceBuy, //节假日可用
           "price": formData.price, //销售价格	
           "expireDay": formData.expireDay, //购买后过期时间(天) 0=不过期	
           "maxNum": formData.maxNum, //单用户最大购买数量 0=不限	
@@ -380,6 +391,7 @@ Page({
         storeName: this.formatString(item.storeName, 10), //门店
         hours: item.hours, //时长
         switchChecked: item.enableHoliday, //节假日是否可用
+        balanceBuy: item.balanceBuy,
         price: item.price,
       });
 

@@ -29,6 +29,7 @@
     <view class="line1">
       <!-- 预约 -->
       <view hover-class="button-click" class="yuyue" bind:tap="goYuyue" style="background-image: url({{doorinfodata.btnImg}})"></view>
+      <!-- <view hover-class="button-click" class="yuyue" bind:tap="gotest" style="background-image: url({{doorinfodata.btnImg}})"></view> -->
       <view class="right-box">
         <!-- 切换门店 -->
         <view class="storename sub-item" bindtap="goIndexPage" style="background-image: url({{doorinfodata.qhImg}})"></view>

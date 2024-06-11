@@ -8,7 +8,7 @@
           <image class="roomImg" src="{{magic.split(OrderInfodata.roomImg)[0]}}"></image>
         </view>
         <view class="name">
-          {{OrderInfodata.roomName}}（{{OrderInfodata.roomType==1?'小包':OrderInfodata.roomType==2?'中包':OrderInfodata.roomType==3?'大包':'豪包'}}）
+          {{OrderInfodata.roomName}}（{{OrderInfodata.roomType==1?'小包':OrderInfodata.roomType==2?'中包':OrderInfodata.roomType==3?'大包':OrderInfodata.roomType==4?'豪包':'商务包'}}）
         </view>
         <view class="share">
           <button class="share bg-primary" open-type="share"><text>分享</text></button>
@@ -194,7 +194,7 @@
   <view class="dialog">
     <view class="item">
       <label>当前位置：</label>
-      <text>{{OrderInfodata.storeName}} {{OrderInfodata.roomName}}（{{OrderInfodata.roomType==1?'小包':OrderInfodata.roomType==2?'中包':OrderInfodata.roomType==3?'大包':'豪包'}}）</text>
+      <text>{{OrderInfodata.storeName}} {{OrderInfodata.roomName}}（{{OrderInfodata.roomType==1?'小包':OrderInfodata.roomType==2?'中包':OrderInfodata.roomType==3?'大包':OrderInfodata.roomType==4?'豪包':'商务包'}}）</text>
     </view>
     <view class="item">
       <label>预约时间：</label>
@@ -228,8 +228,11 @@
       <block wx:elif="{{OrderInfodata.roomType == 3}}">
         <text>{{OrderInfodata.storeName}} {{OrderInfodata.roomName}} （大包）</text>
       </block>
-      <block wx:else>
+      <block wx:elif="{{OrderInfodata.roomType == 4}}">
         <text>{{OrderInfodata.storeName}} {{OrderInfodata.roomName}} （豪包）</text>
+      </block>
+      <block wx:else>
+        <text>{{OrderInfodata.storeName}} {{OrderInfodata.roomName}} （商务包）</text>
       </block>
     </view>
     <view class="item">

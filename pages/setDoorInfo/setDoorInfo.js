@@ -11,14 +11,13 @@ Page({
     index: '',
     roomClassList: [{id:0,name:'棋牌'},{id:1,name:'台球'},{id:2,name:'自习室'}],
     rcIndex: '',
-    types: [{id:1,name:'小包'},{id:2,name:'中包'},{id:3,name:'大包'},{id:4,name:'豪包'}],
+    types: [{id:1,name:'小包'},{id:2,name:'中包'},{id:3,name:'大包'},{id:4,name:'豪包'},{id:5,name:'商务包'}],
     storeId: '',
     roomId: '',
     roomName: '',
     type: '',
     roomClass: '',
     price: '',
-    workPrice: '',
     tongxiaoPrice: '',
     minHour: '',
     leadHour: '',
@@ -159,7 +158,6 @@ Page({
               leadHour: info.data.leadHour,
               minHour: info.data.minHour,
               leadDay: info.data.leadDay,
-              workPrice: info.data.workPrice,
               tongxiaoPrice: info.data.tongxiaoPrice,
               tags: tags,
               sortId: info.data.sortId,
@@ -292,7 +290,7 @@ Page({
   submit: function(){
     console.log(this.data)
     if(this.data.roomName && this.data.type  && this.data.price 
-      && this.data.workPrice && this.data.tongxiaoPrice
+      && this.data.tongxiaoPrice
       && this.data.minHour && this.data.leadHour && this.data.leadDay  
       && this.data.tags.length && this.data.fileList.length){
       let that = this
@@ -315,7 +313,6 @@ Page({
             "minHour": that.data.minHour,
             "leadHour": that.data.leadHour,
             "leadDay": that.data.leadDay,
-            "workPrice": that.data.workPrice,
             "tongxiaoPrice": that.data.tongxiaoPrice,
             "label": that.data.tags.join(","),
             "imageUrls": imgs.join(","),

@@ -754,12 +754,12 @@ Page({
         content: '您已输入团购券码，其他支付方式不再生效！',
         showCancel: false
       })
-    }else  if(that.data.select_pkg_index>-1){
-      wx.showModal({
-        title: '温馨提示',
-        content: '您已选择套餐支付，其他支付方式不再生效！',
-        showCancel: false
-      })
+    // }else  if(that.data.select_pkg_index>-1){
+    //   wx.showModal({
+    //     title: '温馨提示',
+    //     content: '您已选择套餐支付，其他支付方式不再生效！',
+    //     showCancel: false
+    //   })
     }  else{
       that.setData({
         payselectindex: aindex

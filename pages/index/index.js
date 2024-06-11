@@ -544,5 +544,10 @@ Page({
       })
     }
   },
+  gotest:function(){
+    wx.navigateTo({
+      url: '../roomRenew/roomRenew?storeId=12&roomId=20',
+    })
+  }
 
 })

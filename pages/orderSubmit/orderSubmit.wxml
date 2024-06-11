@@ -29,8 +29,11 @@
             <block wx:elif="{{roominfodata.type == 3}}">
               <text class="type">（大包）</text>
             </block>
-            <block wx:else>
+             <block wx:elif="{{roominfodata.type == 4}}">
               <text class="type">（豪包）</text>
+            </block>
+            <block wx:else>
+              <text class="type">（商务包）</text>
             </block>
             <block wx:if="{{roominfodata.status == 0}}">
             <text class="flag disabled">禁用</text>
@@ -136,17 +139,23 @@
           <text wx:if="{{item.roomType==2}}">限中包</text>
           <text wx:if="{{item.roomType==3}}">限大包</text>
           <text wx:if="{{item.roomType==4}}">限豪包</text>
-          {{item.hours}}小时
+          <text wx:if="{{item.roomType==5}}">限商务包</text>
+         
           )
         </view>
         <view class="can-time">
           时间：<text wx:if="{{item.enableTime && item.enableTime.length ==24}}">不限制</text>
             <text wx:else>{{item.enableTime}}时可用</text>
         </view>
-          <view class="can-time">
+        <view class="can-time">
           星期：<text  wx:if="{{item.enableWeek && item.enableWeek.length ==26}}">不限制</text>
-        <text wx:else>{{item.enableWeek}}可用</text>
-      </view>
+          <text wx:else>{{item.enableWeek}}可用</text>
+        </view>
+         <view class="can-time">
+          套餐时长： {{item.hours}}小时
+          <text wx:if="{{item.balanceBuy}}">—— 此套餐支持余额支付</text>
+          <text wx:else>不可余额支付</text>
+        </view>
       </view>
     </scroll-view>
      

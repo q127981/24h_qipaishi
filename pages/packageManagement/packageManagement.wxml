@@ -35,13 +35,21 @@
                 <text wx:if="{{item.roomType==2}}">中包</text>
                 <text wx:if="{{item.roomType==3}}">大包</text>
                 <text wx:if="{{item.roomType==4}}">豪包</text>
+                <text wx:if="{{item.roomType==5}}">商务包</text>
               </view>
               <view>套餐时长：{{item.hours}}小时</view>
            </view>
            <view class="line2">
             <!-- <text>节假日可用： {{item.enableHoliday==true?'是':'否'}}</text> -->
-            <text wx:if="{{item.enable}}">套餐状态：  启用</text>
-            <text wx:else>套餐状态：  禁用</text>
+             <view>
+              <text wx:if="{{item.enable}}">套餐状态：  启用</text>
+              <text wx:else>套餐状态：  禁用</text>
+             </view>
+            <view>
+              可余额支付：
+              <text wx:if="{{item.balanceBuy}}">是</text>
+              <text wx:else>否</text>
+            </view>
            </view>
            <view class="line3">
               <button class="enableBtn" data-item="{{item}}" bindtap="changeStatus">
