@@ -709,6 +709,7 @@ Page({
         startDate=new Date();
       }
       that.setData({
+        payselectindex: 1,
         select_time_index: atimeindex,
         select_pkg_index: -1,
         pkgId: ''

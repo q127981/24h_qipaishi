@@ -108,3 +108,9 @@ page{
   font-weight: 600;
   font-size: 26rpx;
 }
+
+.dialog .item .name{
+  color: #108ee9;
+  font-weight: 600;
+  font-size: 36rpx;
+}

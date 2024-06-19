@@ -496,7 +496,7 @@ Page({
     var orderId = e.currentTarget.dataset.id;
     wx.showModal({
       title: '温馨提示',
-      content: '提前离店会立即结束订单，已支付的押金会自动退还，请问是否确认提前离店？',
+      content: '提前离店不退费，会立即结束订单，已支付的押金会自动退还，请问是否确认提前离店？',
       showCancel: true,
       success (res) {
         if (res.confirm) {

@@ -17,7 +17,8 @@ Page({
     stores: [], // 用于存储门店列表
     selectedStoreId: null, // 选中的门店ID
     storeName: '', // 选中的门店名称
-    storeIndex: 0, // 确保有一个有效的初始索引
+    storeIndex: -1, // 确保有一个有效的初始索引
+    storeId: '',
     switchChecked: false,
     checked: [], // 默认选中复选框 a
     weekDays: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
@@ -49,13 +50,18 @@ Page({
           console.log(info,'门店数据');
           if (info.code == 0 && info.data.length > 0) {
             // 更新门店列表和默认选中的门店
+            let storeIndex = 0
+            info.data.map((it,index) => {
+              console.log(it);
+              if(it.value === that.data.storeId){
+                storeIndex = index
+              }
+            })
             that.setData({
               stores: info.data,
-              storeName: that.formatString(info.data[0].key, 10), // 默认选中第一个门店的名称
-              storeId: info.data[0].value, // 默认选中第一个门店的ID
-              storeIndex: info.data[0].value, // 默认选中第一个门店的索引
-              roomStoreId:info.data[0].value
-
+              storeName: that.formatString(info.data[storeIndex].key, 10), // 默认选中第一个门店的名称
+              storeIndex: storeIndex, // 默认选中门店的索引
+              roomStoreId:info.data[storeIndex].value
             });
           } else {
             wx.showModal({
@@ -385,7 +391,6 @@ Page({
     if (options.item) {
       const item = JSON.parse(options.item);
       console.log(item, 'options');
-
       this.setData({
         item: item,
         storeName: this.formatString(item.storeName, 10), //门店
@@ -393,6 +398,7 @@ Page({
         switchChecked: item.enableHoliday, //节假日是否可用
         balanceBuy: item.balanceBuy,
         price: item.price,
+        storeId: item.storeId
       });
 
       // 解析 enableWeek 字符串
