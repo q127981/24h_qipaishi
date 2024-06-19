@@ -239,7 +239,7 @@ Page({
     var that = this;
     let aindex = e.currentTarget.dataset.index;
     wx.navigateTo({
-      url: '../orderDetail/orderDetail?OrderNo='+aindex,
+      url: '../orderDetail/orderDetail?toPage=true&OrderNo='+aindex,
     })
   },
   // 取消弹窗

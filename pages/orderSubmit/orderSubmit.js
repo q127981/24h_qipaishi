@@ -271,7 +271,7 @@ Page({
   // 去订单详情页
   goOrderDetail(){
     wx.navigateTo({
-      url: '../orderDetail/orderDetail',
+      url: '../orderDetail/orderDetail?toPage=true',
     })
   },
   //计算订单价格
@@ -315,6 +315,9 @@ Page({
         priceResult = 0.0;
       }
     }
+    if(that.data.roominfodata.deposit){
+      priceResult=parseFloat(priceResult)+parseFloat(that.data.roominfodata.deposit);
+    }
     that.setData({
       pricestring: priceResult,
       showprice: priceResult
@@ -351,6 +354,7 @@ Page({
         "1",
         "post", {
           roomId:that.data.roomId,
+          payType: that.data.payselectindex,
           couponId:acouponId,
           pkgId: that.data.pkgId,
           nightLong:that.data.nightLong,
@@ -373,7 +377,13 @@ Page({
               }
             }else{
               that.data.orderNo = info.data.orderNo;
-              that.submitorder();
+              //如果需要押金
+              if(that.data.roominfodata.deposit){
+                that.lockWxOrder(info);
+              }else{
+                //直接提交
+                that.submitorder();
+              }
             }
           }else{
             wx.showModal({
@@ -447,7 +457,7 @@ Page({
             //进入订单详情页  订单由支付回调函数创建
             setTimeout(function() {
               wx.navigateTo({
-                url: '../orderDetail/orderDetail',
+                url: '../orderDetail/orderDetail?toPage=true',
               })
             }, 1000);
         },
@@ -507,7 +517,7 @@ Page({
             }
             setTimeout(function() {
               wx.navigateTo({
-                url: '../orderDetail/orderDetail?OrderNo='+info.data,
+                url: '../orderDetail/orderDetail?toPage=true&OrderNo='+info.data,
               })
             }, 1000);
           }else{
@@ -775,7 +785,7 @@ Page({
     })
     if(e.detail.value.length>0){
       that.setData({
-        payselectindex: 0,
+        payselectindex: 3,
         submit_couponInfo:{},
         pkgId: '',
         select_pkg_index: -1
@@ -794,7 +804,7 @@ Page({
         //console.log(res) //输出回调信息
         that.setData({
           scanCodeMsg: res.result,
-          payselectindex: 0
+          payselectindex: 3
         });
         wx.showToast({
           title: '扫码成功',
@@ -1061,7 +1071,13 @@ Page({
     var nightLong=false;
     //先得出订单的时长
     var order_hour=that.data.order_hour;
-    if(that.data.select_time_index == 0){
+    if(that.data.select_time_index == -1){
+      if(that.data.select_pkg_index!=-1){
+        console.log('that.data.order_hour:'+that.data.order_hour)
+        order_hour=that.data.order_hour;
+        endDate=new Date(startDate.getTime()+1000*60*60*order_hour);
+      }
+    }else if(that.data.select_time_index == 0){
       order_hour=4;
       endDate=new Date(startDate.getTime()+1000*60*60*order_hour);
     }else if(that.data.select_time_index == 1){
@@ -1209,7 +1225,7 @@ Page({
         order_hour: hour,
         nightLong: false,
         submit_couponInfo:{},//清空优惠券
-        payselectindex: 1,
+        payselectindex: 4,
         select_time_index: -1,
         submit_begin_time: this.formatDate(startDate.getTime()).text,
         submit_end_time: this.formatDate(endDate.getTime()).text,

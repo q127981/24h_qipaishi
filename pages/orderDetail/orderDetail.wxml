@@ -33,6 +33,12 @@
       </view>
       <!-- 订单详情 -->
       <view class="orderInfo">
+       <view class="item">
+        <view class="title">订单编号：</view>
+        <view class="logo">
+          {{OrderInfodata.orderNo}}
+        </view>
+      </view>
       <view class="item">
         <view class="title">门店名称：</view>
         <view class="logo">
@@ -42,8 +48,14 @@
       </view>
       <view class="item">
         <view class="title">支付方式：</view>
-        <text>{{OrderInfodata.payType===1?'微信':OrderInfodata.payType===2?'余额':'团购'}}</text>
+        <text>{{OrderInfodata.payType===1?'微信':OrderInfodata.payType===2?'余额':OrderInfodata.payType===3?'团购':'套餐'}}</text>
       </view>
+       <block wx:if="{{OrderInfodata.deposit}}">
+        <view class="item">
+           <view class="title">支付押金：</view>
+            <text>¥ {{OrderInfodata.deposit}} 元</text>
+        </view>
+       </block>
       <view class="item">
         <label class="title">使用卡券：</label>
         <block wx:if="{{OrderInfodata.couponName.length>0}}">
@@ -83,7 +95,7 @@
       <view class="door m-b-20 color-primary" bind:tap="roombindchange">
         <view class="action">
           <view class="iconfont icon-dian"></view>
-          <view class="text">通电开灯</view>
+          <view class="text">通电开门</view>
         </view>
       </view>
       <button hover-class="button-click" class="door color-primary share {{OrderInfodata.renewBtn ?'':'disabled'}}" open-type="{{OrderInfodata.renewBtn ?'share':''}}">
@@ -105,11 +117,16 @@
         </view>
       </view>
       <view class="tip">Tips：分享房间给好友，好友可直接操作开门开电</view>
-      <view class="bar_btns" wx:if="{{OrderInfodata.status === 0}}">
-      <view class="btnSmall left" bindtap="cancelOrder" data-info="{{OrderInfodata.status}}">
-        取消订单
-      </view>
-      <view class="btnSmall right" bindtap="goChangeDoor">更换房间</view>
+    <view class="bar_btns" wx:if="{{OrderInfodata.status === 0}}">
+        <view class="btnSmall left" bindtap="cancelOrder" data-info="{{OrderInfodata.status}}">
+          取消订单
+        </view>
+        <view class="btnSmall right" bindtap="goChangeDoor">更换房间</view>
+    </view>
+     <view class="bar_btns" wx:if="{{OrderInfodata.status === 1}}">
+        <view class="btnSmall left" bindtap="stopOrder" data-id="{{OrderInfodata.orderId}}">
+          提前离店
+        </view>
     </view>
     </view>
     <view class="doors" wx:else>
@@ -135,6 +152,7 @@
     <view class="line">3. 订单可以提前开始消费，提前开始提前结束。</view>
     <view class="line">4. 特殊情况，或需要帮助，请联系客服处理！</view>
     <view class="line">5. 离场时请带好随身物品，以防丢失！</view>
+    <view class="line">6.支付的押金,在订单结束5分钟后,自动原路退回！</view>
   </view>
 </view>
 <!-- 续单弹窗 -->

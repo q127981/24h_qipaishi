@@ -220,10 +220,16 @@ Page({
                 markers: allMarkers,
                 store: list[0]
               });
-            }else{
+            }else if(that.data.cityName=='选择城市'&&that.data.name==''){
               wx.switchTab({
                 url: '/pages/user/user',
               })
+            }else{
+              that.setData({
+                MainStorelist: [],
+                markers: [],
+                store: ''
+              });
             }
           }else{
             wx.showModal({
@@ -372,9 +378,7 @@ Page({
   // 搜索框值改变
   onInputChange: function(e){
     this.setData({name: e.detail.value})
-    if(this.data.name.length>0){
-      this.getMainListdata()
-    }
+    this.getMainListdata()
   },
   // 点击marker展示门店信息
   makertap: function(e) { 
@@ -394,7 +398,7 @@ Page({
     // let aindex = e.currentTarget.dataset.index;
     if(app.globalData.isLogin){
       wx.navigateTo({
-        url: '../orderDetail/orderDetail',
+        url: '../orderDetail/orderDetail?toPage=true',
       })
     }else{
       that.gotologin();

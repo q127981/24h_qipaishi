@@ -66,8 +66,11 @@
               </block>
             </view>
             <view>
-              <view class="info">支付方式：<text>{{item.payType==1?'微信':item.payType==2?'余额':'团购'}}</text></view>
+              <view class="info">支付方式：<text>{{item.payType==1?'微信':item.payType==2?'余额':item.payType==3?'团购':'套餐'}}</text></view>
               <view class="info">实际支付：<text class="price">￥{{item.payPrice}}</text></view>
+               <block wx:if="{{item.deposit}}">
+                <view class="info">支付押金：<text class="color-attention">￥{{item.deposit}}</text></view>
+              </block>
                <block wx:if="{{item.status == 3}}">
                 <view class="info">订单退款：<text class="color-attention">￥{{item.refundPrice}}</text></view>
               </block>

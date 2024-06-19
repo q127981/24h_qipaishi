@@ -42,6 +42,15 @@
         </view>
       </view>
     </view>
+     <view class="line">
+      <label>房间押金：</label>
+      <view class="right">
+        <view class="price">
+          <input model:value="{{deposit}}" type="digit" placeholder="请输入" />
+          <text>元</text>
+        </view>
+      </view>
+    </view>
     <!-- <view class="line">
       <label>闲时单价：</label>
       <view class="right">

@@ -63,10 +63,10 @@
               <text style="color: black;font-size: 26rpx;">每小时</text>
               ￥{{roominfodata.price}}
             </view>
-            <block wx:if="{{roominfodata.price!=roominfodata.workPrice}}">
+            <block wx:if="{{roominfodata.deposit}}">
               <view class="price color-attention">
-                <text style="color: black;font-size: 26rpx;">闲时价</text>
-                ￥{{roominfodata.workPrice}}
+                <text style="color: black;font-size: 26rpx;">押金</text>
+                ￥{{roominfodata.deposit}}
               </view>
             </block>
           </view>
@@ -253,12 +253,19 @@
     <view>4. 本店通宵场的计费从{{txStartHour}}时起,共{{txHour}}个小时.</view>
     <view>5. 下单5分钟内可以取消订单,超过5分钟联系客服处理.</view>
     <view>6. 迟到消费,订单按原预定时间开始计费.</view>
+    <view>7. 支付的押金,在订单结束5分钟后,自动原路退回.</view>
   </view>
   <view class="order-bar {{isIpx?'fix-iphonex-button':''}}">
     <view class="left">
       <view class="total color-attention">
-        总计: <text>￥{{pricestring}}</text>
+        <text>￥{{pricestring}}元</text>
+        <block wx:if="{{roominfodata.deposit}}">
+          <text style="font-size:26rpx">（含押金{{roominfodata.deposit}}元）</text>
+        </block>
       </view>
+      <block wx:if="{{roominfodata.deposit}}">
+          <view class="time">订单结束5分钟后,押金自动退回</view>
+       </block>
       <view class="time color-primary">共{{order_hour}}小时</view>
     </view>
     <button hover-class="button-click" class="btn bg-primary" bindtap="SubmitOrderInfoData">

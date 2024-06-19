@@ -51,13 +51,15 @@ Page({
     if(options.orderKey){
         orderKey= options.orderKey;
     }
-    var query=wx.getEnterOptionsSync().query;
-    if(query){
-      if(query.OrderNo){
-        OrderNo=query.OrderNo;
-      }
-      if(query.orderKey){
-        orderKey=query.orderKey;
+    if(!options.toPage){
+      var query=wx.getEnterOptionsSync().query;
+      if(query){
+        if(query.OrderNo){
+          OrderNo=query.OrderNo;
+        }
+        if(query.orderKey){
+          orderKey=query.orderKey;
+        }
       }
     }
   console.log(OrderNo);
@@ -119,7 +121,7 @@ Page({
     let that = this;
     return {
       title: '打开订单，一键开门!',
-      path: '/pages/orderDetail/orderDetail?orderKey='+that.data.orderKey,
+      path: '/pages/orderDetail/orderDetail?toPage=true&orderKey='+that.data.orderKey,
       success: function (res) {
         if(res.confirm){
           // 转发成功
@@ -216,41 +218,45 @@ Page({
   },
   // 去更换房间
   goChangeDoor(){
-    var orderInfo = this.data.OrderInfodata
     wx.navigateTo({
-      url: '../changeDoor/changeDoor?orderInfo='+JSON.stringify(orderInfo),
+      url: '../changeDoor/changeDoor?orderInfo='+JSON.stringify(this.data.OrderInfodata),
     })
   },
   // 续费弹窗
   renewClick(){
     var that = this;
     let OrderInfodata = that.data.OrderInfodata
-    if(OrderInfodata.status==3){
+    if(OrderInfodata.status==3 ||OrderInfodata.status==2){
       wx.showToast({
         title: '订单已结束！',
         icon: 'error'
       })
     }else{
-      var currentTimeStamp =  Date.now();
-      var specifiedTime =  new Date(OrderInfodata.endTime).getTime();
-      // 判断是否已经过去了5分钟（5 * 60 * 1000毫秒）
-      var isPastFiveMinutes = (currentTimeStamp - specifiedTime) > (5 * 60 * 1000);
-      // 判断订单结束时间是否在当前时间的5分钟前
-      if (isPastFiveMinutes) {
-         wx.showModal({
-            title: '温馨提示',
-            content: '订单已结束超过5分钟，不允许续费！请重新下单！',
-            showCancel: false,
-            confirmText: "确定", 
-            success (res) {
-            }
-        })
-      } else {
         this.setData({
           renewShow: true,
           payTypes: [{name:'微信支付',value: 1,checked:true},{name:'钱包余额',value: 2}],
         })
-      }
+
+      // var currentTimeStamp =  Date.now();
+      // var specifiedTime =  new Date(OrderInfodata.endTime).getTime();
+      // // 判断是否已经过去了5分钟（5 * 60 * 1000毫秒）
+      // var isPastFiveMinutes = (currentTimeStamp - specifiedTime) > (5 * 60 * 1000);
+      // // 判断订单结束时间是否在当前时间的5分钟前
+      // if (isPastFiveMinutes) {
+      //    wx.showModal({
+      //       title: '温馨提示',
+      //       content: '订单已结束超过5分钟，不允许续费！请重新下单！',
+      //       showCancel: false,
+      //       confirmText: "确定", 
+      //       success (res) {
+      //       }
+      //   })
+      // } else {
+      //   this.setData({
+      //     renewShow: true,
+      //     payTypes: [{name:'微信支付',value: 1,checked:true},{name:'钱包余额',value: 2}],
+      //   })
+      // }
     }
   },
   // 续费加时间
@@ -483,6 +489,40 @@ Page({
         cancelOrderShow:true
       })
     }
+  },
+    // 提前离店
+  stopOrder(e){
+    var that = this;
+    var orderId = e.currentTarget.dataset.id;
+    wx.showModal({
+      title: '温馨提示',
+      content: '提前离店会立即结束订单，已支付的押金会自动退还，请问是否确认提前离店？',
+      showCancel: true,
+      success (res) {
+        if (res.confirm) {
+            http.request(
+              "/member/order/closeOrder/"+orderId,
+              "1",
+              "post", {
+              },
+              app.globalData.userDatatoken.accessToken,
+              "",
+              function success(info) {
+                console.info('结束订单===');
+                if (info.code == 0) {
+                    //刷新页面
+                    that.getrorderInfodata();
+                }else{
+                    wx.showModal({
+                      title: '温馨提示',
+                      content: info.msg,
+                      showCancel: false
+                    })
+                }
+              })
+        }
+      }
+    })
   },
   //订单取消成功弹窗
   cancelConfirm(){
@@ -745,6 +785,7 @@ Page({
               title: "操作成功",
               icon: 'success'
             })
+            that.getrorderInfodata();
           }else{
             wx.showModal({
               title:"提示",

@@ -72,14 +72,14 @@ page{
 }
 .lists .item .tag{
   position: absolute;
-  right: 35rpx;
-  top: 80rpx;
-  font-size: 32rpx;
+  right: 30rpx;
+  top: 15rpx;
+  font-size: 26rpx;
   font-weight: bold;
-  width: 130rpx;
-  height: 48rpx;
+  width: 100rpx;
+  height: 38rpx;
   text-align: center;
-  line-height: 48rpx;
+  line-height: 38rpx;
   /* color: #fff; */
   border-radius: 10rpx;
 }

@@ -507,7 +507,7 @@ Page({
     // let aindex = e.currentTarget.dataset.index;
     if(that.data.isLogin){
       wx.navigateTo({
-        url: '../orderDetail/orderDetail',
+        url: '../orderDetail/orderDetail?toPage=true',
       })
     }else{
       that.gotologin();

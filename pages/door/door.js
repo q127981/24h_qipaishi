@@ -534,7 +534,7 @@ Page({
   // 已支付去订单详情
   goOrderDetail(){
     wx.navigateTo({
-      url: '../orderDetail/orderDetail',
+      url: '../orderDetail/orderDetail?toPage=true',
     })
   },
   phone:function(e){

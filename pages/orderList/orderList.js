@@ -160,7 +160,7 @@ Page({
     var that = this;
     let aindex = e.currentTarget.dataset.index;
     wx.navigateTo({
-      url: '../orderDetail/orderDetail?OrderNo='+aindex,
+      url: '../orderDetail/orderDetail?OrderNo='+aindex+'&toPage=true',
     })
   },
   // 续费弹窗

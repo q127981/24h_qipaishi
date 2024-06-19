@@ -276,7 +276,7 @@ Page({
     var info = e.currentTarget.dataset.info
     if(info.status === 1){
       wx.navigateTo({
-        url: '../orderDetail/orderDetail?id='+info.orderId,
+        url: '../orderDetail/orderDetail?toPage=true&OrderNo='+info.orderId,
       })
     }
   }

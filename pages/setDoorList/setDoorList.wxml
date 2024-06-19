@@ -55,10 +55,10 @@
             <!-- <view class="btn yellow" bindtap="testYunlaba" data-roomid="{{item.roomId}}">
               测试喇叭
             </view> -->
-            <view class="btn yellow" data-src="{{item.renewCode}}" bind:tap="previewImage">
+            <view class="btn yellow" data-src="{{item.qrCode}}" bind:tap="previewImage">
               房间预定码
             </view>
-            <view class="btn yellow" data-src="{{item.qrCode}}" bind:tap="previewImage">
+            <view class="btn yellow" data-src="{{item.renewCode}}" bind:tap="previewImage">
               房间续费码
             </view>
           </view>
