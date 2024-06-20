@@ -365,18 +365,19 @@ Page({
         "提交中...",
         function success(info) {
           console.info('支付信息===');
+          console.log("that.data.payselectindex:"+that.data.payselectindex);
           if (info.code == 0) {
+            that.data.orderNo = info.data.orderNo;
             if(that.data.payselectindex==1){
               //选择的是微信支付
               if(that.data.pricestring <= 0.0){
                 //订单金额为0元的时候，不走微信支付，直接订单提交
-                that.data.orderNo = info.data.orderNo;
                 that.submitorder();
               }else{
                 that.lockWxOrder(info);
               }
-            }else{
-              that.data.orderNo = info.data.orderNo;
+            }else if(that.data.payselectindex==2||that.data.payselectindex==3){
+              //余额或团购支付
               //如果需要押金
               if(that.data.roominfodata.deposit){
                 that.lockWxOrder(info);
@@ -384,6 +385,10 @@ Page({
                 //直接提交
                 that.submitorder();
               }
+            }else if(that.data.payselectindex==4){
+              //套餐支付
+              //直接走微信
+              that.lockWxOrder(info);
             }
           }else{
             wx.showModal({
