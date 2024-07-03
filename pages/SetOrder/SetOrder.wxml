@@ -63,16 +63,13 @@
             <view>
               <view class="info">创建时间：{{item.createTime}}</view>
               <view class="info" wx:if="{{item.couponName}}">使用卡券：<label>{{item.couponName}}</label></view>
-              <!-- 管理员端 -->
-              <block wx:if="{{userinfo.userType == 12 || userinfo.userType == 13}}">
-                <view class="info">预订用户：{{item.nickname}}</view>
-                <view class="info">手机号码：{{item.mobile}}
-                <text  class="copyMobile" bindtap='copyText' data-text="{{item.mobile}}">复制</text>
-                </view>
-              </block>
+              <view class="info">预订用户：{{item.nickname}}</view>
+              <view class="info">手机号码：{{item.mobile}}
+              <text  class="copyMobile" bindtap='copyText' data-text="{{item.mobile}}">复制</text>
+              </view>
             </view>
             <view>
-              <view>支付方式：<text>{{item.payType===1?'微信':item.payType===2?'余额':'团购'}}</text></view>
+              <view>支付方式：<text>{{item.payType===1?'微信':item.payType===2?'余额':item.payType===3?'团购':'套餐'}}</text></view>
               <view>实际支付：<text class="price">￥{{item.payPrice}}</text></view>
                <block wx:if="{{item.status == 3}}">
                 <view>订单退款：<text class="color-attention">￥{{item.refundPrice}}</text></view>
@@ -109,7 +106,7 @@
     <view class="containerlogin">
       <view class="photo">
         <view class="img">
-          <image src="{{userinfo.avatar?userinfo.avatar:'../static/img/logo.png'}}" mode="widthFix" />
+          <image src="../static/img/logo.png" mode="widthFix" />
         </view>
         <view class="name">{{appName}}</view>
       </view>
@@ -137,18 +134,6 @@
     <view class="item">
       <label>支付总价：</label><text class="color-attention">{{totalPay}}</text>元
     </view>
-    <!-- <view class="item">
-      <label>支付方式：</label>
-      <radio-group class="pays" bindchange="radioChange">
-        <label class="pay" wx:for="{{payTypes}}" wx:key="{{item.value}}">
-            <radio value="{{item.value}}" checked="{{item.checked}}"/>{{item.name}}
-            <block wx:if="{{item.value === 2}}">
-              <view class="info">通用余额: {{userinfo.balance}}元</view>
-              <view class="info">赠送余额: {{giftBalance}}元</view>
-            </block>
-        </label>
-      </radio-group>
-    </view> -->
   </view>
 </van-dialog>
 <!-- 订单转移弹窗 -->

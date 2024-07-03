@@ -41,7 +41,6 @@ Page({
     orderColumn:"",//排序
     orderlist:[],//订单列表数组
     isLogin:app.globalData.isLogin,
-    userinfo:{},//用户信息
     orderInfo: '', //选择操作的订单
     addTime: 0, //续费时长
     changeTime:0,//修改时长
@@ -55,6 +54,7 @@ Page({
     payType: 2,
     storeId:'',
     stores: [],
+    userId: '',
     giftBalance: '',
     mainColor: app.globalData.mainColor
   },
@@ -64,15 +64,13 @@ Page({
    */
   onLoad(options) {
     let that = this;
-    this.setData({
+    that.setData({
+      userId: options.userId,
+      beforeCloseFunction: this.beforeClose(),
+      isLogin:app.globalData.isLogin,
       statusBarHeight: wx.getStorageSync('statusBarHeight'),
       titleBarHeight: wx.getStorageSync('titleBarHeight')
     })
-    that.setData({
-      isLogin:app.globalData.isLogin,
-    })
-    that.getuserinfo();
-    this.setData({beforeCloseFunction: this.beforeClose()})
     this.getOrderListdata('refresh');
     this.getXiaLaListAdmin()
   },
@@ -584,6 +582,7 @@ Page({
           "pageSize": that.data.pageSize,
           "status": that.data.status,
           "storeId": that.data.storeId,
+          "userId": that.data.userId,
           "orderColumn": that.data.orderColumn
         },
         app.globalData.userDatatoken.accessToken,
@@ -680,33 +679,7 @@ Page({
         })
     }
   },
-  getuserinfo:function(){
-    var that = this;
-    if (app.globalData.isLogin) {
-      http.request(
-        "/member/user/get",
-        "1",
-        "get", {
-        },
-        app.globalData.userDatatoken.accessToken,
-        "",
-        function success(info) {
-          console.info('我的信息===');
-          console.info(info);
-          if (info.code == 0) {
-            that.setData({
-              userinfo:info.data,
-            })
-          }
-        },
-        function fail(info) {
-          
-        }
-      )
-    } else {
-      //console.log('未登录失败！')
-    }
-  },
+
   // 获取赠送余额
   getgiftBalance:function(){
     var that = this;

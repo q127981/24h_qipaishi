@@ -20,6 +20,9 @@
         <view class="line"><label>门店：</label><label wx:if="{{item.storeName}}">{{item.storeName}}</label></view>
         <view class="line"><label>时间：</label>{{item.createTime}}</view>
         <view class="line"><label>类型：</label>
+        <block wx:if="{{item.type==6}}">
+          管理员清空
+        </block>
         <block wx:if="{{item.type==5}}">
           管理员赠送
         </block>

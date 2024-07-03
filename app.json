@@ -49,7 +49,8 @@
     "pages/placeOrder/placeOrder",
     "pages/packageManagement/packageManagement",
     "pages/editPages/editPages",
-    "pages/deviceList/deviceList"
+    "pages/deviceList/deviceList",
+    "pages/roomRenew/roomRenew"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -59,7 +60,7 @@
   },
   "plugins": {
     "myPlugin": {
-      "version": "3.0.2",
+      "version": "3.0.3",
       "provider": "wx43d5971c94455481"
     }
   },

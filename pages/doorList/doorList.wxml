@@ -28,12 +28,14 @@
 <view class="container">
    <!-- 地图 -->
    <view class="mapPage" wx:if="{{isMap}}">
-   
       <!-- 点击marker展示门店 -->
     <view class="list" wx:if="{{store}}">
       <view class="item" bind:tap="goStore" data-storeid="{{store.storeId}}">
-        <view>
-            <image class="img"src="{{store.headImg}}" mode="scaleToFill"></image>
+        <view wx:if="{{item.headImg}}">
+            <image class="img" src="{{item.headImg}}" mode="scaleToFill"></image>
+          </view>
+          <view wx:else>
+            <image class="img" src="../static/img/logo.png" mode="aspectFit"></image>
           </view>
           <view class="info">
             <view class="name">{{store.storeName}}</view>
@@ -52,21 +54,32 @@
   <!-- 列表 -->
   <view class="lists" wx:else="">
     <view class="list">
+    <block wx:if="{{MainStorelist.length>0}}">
       <view class="item" bind:tap="goStore" data-storeid="{{item.storeId}}" wx:for="{{MainStorelist}}" wx:key="MainStorelist">
-          <view >
-            <image class="img"src="{{item.headImg}}" mode="scaleToFill"></image>
+          <view wx:if="{{item.headImg}}">
+            <image class="img" src="{{item.headImg}}" mode="scaleToFill"></image>
+          </view>
+          <view wx:else>
+            <image class="img" src="../static/img/logo.png" mode="aspectFit"></image>
           </view>
           <view class="info">
             <view class="name">{{item.storeName}}</view>
-            <view class="tag-primary"><text class="distance">{{item.distance}}</text>km</view>
             <view class="iconfont icon-weizhi btn" catchtap="goTencentMap" data-info="{{item}}"></view>
             <view class="iconfont icon-phone btn" catchtap="call" data-info="{{item.kefuPhone}}"></view>
+            <view class="tag-primary" wx:if="{{item.distance}}"><text class="distance">{{item.distance}}</text>km</view>
           </view>
           <view class="address">
               {{item.address}}
             </view>
         
       </view>
+    </block>
+    <block wx:else>
+      <view>
+          <view class="noStoreInfo" bind:tap="goUser"> - 暂无门店 - </view>
+          <!-- <button bind:tap="goUser" class="noStoreBtn">个人中心</button> -->
+      </view>
+    </block>
     </view>
   </view>
 </view>
@@ -88,12 +101,3 @@
 <!-- 底部按钮 -->
 <view wx:if="{{isMap}}" class="bg-primary enterBtn" bindtap="goListSeach">预定房间</view>
 <view class="bt"></view>
-<!-- <view class="banner">
-      <swiper autoplay indicator-dots>
-        <block wx:for="{{bannershowlist}}" wx:key="banner">
-          <swiper-item>
-            <image src="{{item.imgUrl}}" mode="widthFix"></image>
-          </swiper-item>
-        </block>
-      </swiper>
-    </view> -->

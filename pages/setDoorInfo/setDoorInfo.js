@@ -129,10 +129,12 @@ Page({
           console.info(info);
           if (info.code == 0) {
             let fileList = []
-            let arr = info.data.imageUrls.split(",")
-            arr.map(it => {
-              fileList.push({url:it})
-            })
+            if(info.data.imageUrls){
+              let arr = info.data.imageUrls.split(",")
+              arr.map(it => {
+                fileList.push({url:it})
+              })
+            }
             let ind = ''
             that.data.types.map((it,index) => {
               if(it.id == info.data.type){
@@ -146,8 +148,9 @@ Page({
               }
             })
             let tags=[];
-            tags=info.data.label.split(",");
-            console.log(tags)
+            if(info.data.label){
+              tags=info.data.label.split(",");
+            }
             that.setData({
               index: ind,
               rcIndex: rcIndex,

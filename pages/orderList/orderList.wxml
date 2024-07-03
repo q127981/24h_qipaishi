@@ -90,7 +90,7 @@
     </block>
     <block wx:else>
       <!-- 无订单和未登录 -->
-      <view class="nodata">暂无订单列表</view>
+      <view class="nodata">- 暂无订单 -</view>
     </block>
   </block>
   <block wx:else>

@@ -24,6 +24,8 @@ Page({
     timeHourAllArr:[],//所有门店小时数组
     isLogin:app.globalData.isLogin,
     popshow: false,
+    wifiShow: false,
+    simpleModel: '',//简洁模式
     maoHeight:0,//锚链接跳转高度
   },
 
@@ -106,7 +108,7 @@ Page({
         popshow: popshow
       })
     }
-    // this.getDoorListdata();
+    this.getDoorListdata();
   },
   popClose:function(){
     this.setData({popshow: false})
@@ -189,10 +191,8 @@ Page({
     })
  },
   showWifi(){
-    wx.showModal({
-      title: 'WIFI信息',
-      content: this.data.doorinfodata.wifiInfo,
-      showCancel: false
+    this.setData({
+      wifiShow: true
     })
   },
  
@@ -395,7 +395,8 @@ Page({
           if (info.code == 0) {
             if(null!=info.data){
               that.setData({
-                doorinfodata: info.data
+                doorinfodata: info.data,
+                simpleModel: info.data.simpleModel
               });
               if(null!=info.data.storeEnvImg &&info.data.storeEnvImg.length>0){
                 var arr=info.data.storeEnvImg.split(",");
@@ -548,6 +549,44 @@ Page({
     wx.navigateTo({
       url: '../roomRenew/roomRenew?storeId=12&roomId=20',
     })
-  }
-
+  },
+  copyWifi: function(e){
+    let ssid = e.currentTarget.dataset.ssid;
+    let pwd = e.currentTarget.dataset.pwd;
+    wx.setClipboardData({
+      data: pwd,
+      success: function (res) {
+          wx.showToast({ title: '已复制到剪贴板！' })
+      }
+    })
+    this.setData({
+      wifiShow:false
+    })
+  },
+  connectWifi: function(e){
+    var that=this;
+    let ssid = e.currentTarget.dataset.ssid;
+    let pwd = e.currentTarget.dataset.pwd;
+    wx.startWifi({
+      success (res) {
+        // console.log(res.errMsg)
+        wx.connectWifi({
+          SSID: ssid,
+          password: pwd,
+          success (res) {
+            this.setData({
+              wifiShow: false
+            })
+            wx.showToast({ title: '自动连接WiFi成功' })
+          },
+          fail(res){
+            wx.showToast({ title: res })
+          }
+        })
+      },
+      fail(res){
+        wx.showToast({ title: res })
+      }
+    })
+  },
 })

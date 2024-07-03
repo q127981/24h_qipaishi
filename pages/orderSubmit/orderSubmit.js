@@ -278,29 +278,21 @@ Page({
   MathPrice:function(){
     console.log("MathPrice");
     var that = this;
-    console.log(that.data.couponInfo);
     var startDate=new Date(that.data.submit_begin_time);
-    var timeIndex=that.data.select_time_index;
+    var hour=that.data.order_hour;
+    if(!hour){
+      hour=that.data.minHour;
+      that.setData({
+        order_hour: hour
+      })
+    }
     var priceResult=0;
     if(that.data.select_pkg_index>-1){
       priceResult=that.data.pkgList[that.data.select_pkg_index].price;
     }else{
       var price=that.getPrice(startDate);
-      if(null==that.data.order_hour){
-        that.setData({
-          order_hour: 4
-        })
-      }
-      console.log("订单时长:"+that.data.order_hour);
-      if(timeIndex==3){
-        //通宵 现在开始
-         that.MathTxNowPrice();
-         return
-      }else if(timeIndex==4){
-        priceResult=that.data.txPrice;
-      }else{
-        priceResult=(that.data.order_hour*price).toFixed(2);
-      }
+      console.log("订单时长:"+hour);
+      priceResult=(hour*price).toFixed(2);
       if(that.data.couponInfo){
         const acoupon=that.data.couponInfo;
         if(acoupon.type == 1){
@@ -323,23 +315,7 @@ Page({
       showprice: priceResult
     })
   },
-  MathTxNowPrice(){
-      var that = this;
-      //现在开始的通宵价格
-      var price=0;
-      var startDate=new Date(that.data.submit_begin_time);
-      if(that.data.order_hour>that.data.txHour){
-        price=parseFloat(((that.data.order_hour-that.data.txHour)*this.getPrice(startDate)).toFixed(2))+parseFloat(that.data.txPrice);
-        price=price.toFixed(2);
-      }else{
-        price=that.data.txPrice;
-      }
-      that.setData({
-        txNowPrice: price,
-        pricestring: price,
-        showprice: price
-      })
-  },
+
   // 预支付
   SubmitOrderInfoData(){
     var that = this;
@@ -557,8 +533,9 @@ Page({
         if (info.code == 0) {
           var minHour=info.data.minHour;
           var hour_options=[]
-          for(;minHour <= 12;minHour++){
-            hour_options.push(minHour+'小时');
+          for(let i=0;i<5;i++){
+            // minHour=minHour+1;
+            hour_options.push(minHour+i);
           }
           that.setData({
             roominfodata: info.data,
@@ -595,14 +572,6 @@ Page({
     console.log('初始化时间');
     var that = this;
     var startDate=new Date();
-    if(that.data.timeselectindex>0){
-      //选中的不是今天  则设置为对应日期的0时开始
-      startDate.setHours(0);
-      startDate.setMinutes(0);
-      startDate.setSeconds(0);
-      startDate.setMilliseconds(0);
-      startDate=new Date(startDate.getTime()+24 * 60 * 60*1000*that.data.timeselectindex);
-    }
     that.setData({
       submit_begin_time: that.formatDate(startDate).text
     });
@@ -702,6 +671,7 @@ Page({
   selectTimeHour:function(event){
     var that = this;
     var atimeindex = event.currentTarget.dataset.index;//选中的时间索引
+    var hour = event.currentTarget.dataset.hour;
     if(atimeindex==that.data.select_time_index){
       that.setData({
         select_time_index: -1,
@@ -709,15 +679,12 @@ Page({
       })
     }else{
       var startDate=new Date(that.data.submit_begin_time);//显示的开始时间
-      if(atimeindex==3){
-        //手动再选中通宵立即开始时，把开始时间改成当前时间
-        startDate=new Date();
-      }
       that.setData({
         payselectindex: 1,
         select_time_index: atimeindex,
         select_pkg_index: -1,
-        pkgId: ''
+        pkgId: '',
+        order_hour: hour
       })
       that.MathDate(startDate);
     }
@@ -1073,65 +1040,18 @@ Page({
   },
   MathDate:function(startDate){
     var that=this;
-    var endDate = new Date(startDate.getTime());
-    var nightLong=false;
     //先得出订单的时长
     var order_hour=that.data.order_hour;
-    if(that.data.select_time_index == -1){
-      if(that.data.select_pkg_index!=-1){
-        console.log('that.data.order_hour:'+that.data.order_hour)
-        order_hour=that.data.order_hour;
-        endDate=new Date(startDate.getTime()+1000*60*60*order_hour);
-      }
-    }else if(that.data.select_time_index == 0){
-      order_hour=4;
-      endDate=new Date(startDate.getTime()+1000*60*60*order_hour);
-    }else if(that.data.select_time_index == 1){
-      order_hour=6;
-      endDate=new Date(startDate.getTime()+1000*60*60*order_hour);
-    }else if(that.data.select_time_index == 2){
-      //不用管 已经读取了选择的值
-      endDate=new Date(startDate.getTime()+1000*60*60*order_hour);
-    }else if(that.data.select_time_index == 3){
-      //通宵立即开始 
-      nightLong=true;
-      //取通宵的时长
-      order_hour=that.data.txHour;
-      //判断开始时间 是否在通宵场的范围内 有两种情况 结束时间在当日和次日
-      if(startDate.getHours()<that.data.txStartHour){
-        //如果是凌晨4点之后的  那么就要加上当前时间至通宵开始时间的时间差
-        if(startDate.getHours() >= 4){
-          var txStartDate = new Date(startDate.getTime());
-          txStartDate.setHours(that.data.txStartHour);
-          txStartDate.setMinutes(0)
-          txStartDate.setSeconds(0)
-          txStartDate.setMilliseconds(0);
-          order_hour=order_hour+(txStartDate.getTime()-startDate.getTime())/1000/60/60;
-          order_hour=order_hour.toFixed(2);
-        }
-      }
-      endDate=new Date(startDate.getTime()+1000*60*60*order_hour);
-    }else if(that.data.select_time_index == 4){
-      nightLong=true;
-      //取通宵的时长
-      order_hour=that.data.txHour;
-      //判断开始时间 是否在通宵场的范围内 有两种情况 结束时间在当日和次日
-      if(startDate.getHours() < that.data.txStartHour){
-        //如果是凌晨4点之后的  那么开始时间就要改为当日通宵开始小时
-        if(startDate.getHours() >= 4){
-          startDate.setHours(that.data.txStartHour);
-          startDate.setMinutes(0)
-          startDate.setSeconds(0)
-          startDate.setMilliseconds(0);
-        }
-      }
-      //取通宵的时长
-      order_hour=that.data.txHour;
-      endDate=new Date(startDate.getTime()+1000*60*60*order_hour);
+    console.log('先得出订单的时长');
+    if(!order_hour){
+      order_hour=that.data.minHour;
+      that.setData({
+        order_hour: order_hour
+      })
     }
+    var endDate=new Date(startDate.getTime()+1000*60*60*order_hour);
     that.setData({
-      nightLong:nightLong,
-      order_hour:order_hour,
+      nightLong: false,
       submit_couponInfo:{},//清空优惠券
       submit_begin_time: this.formatDate(startDate.getTime()).text,
       submit_end_time: this.formatDate(endDate.getTime()).text,

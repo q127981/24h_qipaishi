@@ -104,7 +104,7 @@ page{
 .list .item .info .name{
   font-size: 36rpx;
   text-align: left;
-  width: 436rpx;
+  width: 400rpx;
   line-height: 40rpx;
   color: rgba(51, 50, 50, 0.945);
 }
@@ -140,7 +140,7 @@ page{
 
 .quickBtns{
   position: fixed;
-  right: 20rpx;
+  right: 10rpx;
   bottom: 160rpx;
   z-index: 1;
 }
@@ -195,4 +195,18 @@ page{
 .bt{
   height: 100rpx;
   margin-bottom: 50rpx;
+}
+
+.noStoreInfo {
+  font-size: 32rpx;
+  text-align: center;
+  margin: 100rpx;
+}
+.noStoreBtn{
+  width: 200rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 32rpx;
+  color: #fff;
+  background-color: var(--main-color);
 }

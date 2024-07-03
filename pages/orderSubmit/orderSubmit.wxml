@@ -17,24 +17,24 @@
         <view class="info">
           <view class="name">
             {{roominfodata.roomName}}
-            <block wx:if="{{roominfodata.type == 0}}">
-              <text class="type">（特价包）</text>
+            (<block wx:if="{{roominfodata.type == 0}}">
+              <text class="type">特价包</text>
             </block>
             <block wx:elif="{{roominfodata.type == 1}}">
-              <text class="type">（小包）</text>
+              <text class="type">小包</text>
             </block>
             <block wx:elif="{{roominfodata.type == 2}}">
-              <text class="type">（中包）</text>
+              <text class="type">中包</text>
             </block>
             <block wx:elif="{{roominfodata.type == 3}}">
-              <text class="type">（大包）</text>
+              <text class="type">大包</text>
             </block>
              <block wx:elif="{{roominfodata.type == 4}}">
-              <text class="type">（豪包）</text>
+              <text class="type">豪包</text>
             </block>
             <block wx:else>
-              <text class="type">（商务包）</text>
-            </block>
+              <text class="type">商务包</text>
+            </block>)
             <block wx:if="{{roominfodata.status == 0}}">
             <text class="flag disabled">禁用</text>
             </block>
@@ -106,24 +106,10 @@
     </view>
     <view class="times-quick">
       <view class="top">
-        <view class="item {{select_time_index == 0?'active':''}}" bind:tap="selectTimeHour" data-index="0">
-          <view class="hours">4小时</view>
-          <view class="subTitle">推荐</view>
-        </view>
-        <!-- <view class="item {{select_time_index == 1?'active':''}}" bind:tap="selectTimeHour" data-index="1">
-          <view class="hours">6小时</view>
-        </view> -->
-        <view class="item {{select_time_index == 2?'active':''}}" bind:tap="otherTime" data-index="2">
-          <view class="hours">其他</view>
-          <view class="subTitle">自定义时长</view>
-        </view>
-        <view class="item {{select_time_index == 3?'active':''}}" bind:tap="selectTimeHour" data-index="3">
-          <view class="hours">通宵</view>
-          <view class="subTitle">现在开始</view>
-        </view>
-        <view class="item {{select_time_index == 4?'active':''}}" bind:tap="selectTimeHour" data-index="4">
-          <view class="hours">通宵</view>
-          <view class="subTitle">{{txStartHour}}时后开始</view>
+        <view class="lists" wx:for="{{hour_options}}" wx:key="hour_options">
+          <view class="item {{select_time_index == index?'active':''}}" bind:tap="selectTimeHour" data-index="{{index}}" data-hour="{{item}}">
+            <view class="hours">{{item}}小时</view>
+          </view>
         </view>
       </view>
     </view>

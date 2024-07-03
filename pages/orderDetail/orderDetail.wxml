@@ -76,6 +76,12 @@
           {{OrderInfodata.wifiInfo}}
         </view>
       </view>
+      <view class="item" wx:if="{{OrderInfodata.status==0||OrderInfodata.status==1}}">
+        <label class="title">WIFI密码：</label>
+        <view class="color-primary wifi">
+          {{OrderInfodata.wifiPwd}}
+        </view>
+      </view>
     </view>
   </view>
   <view class="order-container">

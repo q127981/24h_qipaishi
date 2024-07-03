@@ -159,11 +159,11 @@ page{
 }
 
 .times-quick .top .item{
-  width: 18%;
-  height: 80rpx;
+  /* width: 18%; */
+  height: 50rpx;
   margin-top: 20rpx;
   text-align: center;
-  /* line-height: 50rpx; */
+  line-height: 50rpx;
   border: 2rpx solid #ddd;
   border-radius: 10rpx;
   padding: 5rpx 20rpx;
@@ -359,8 +359,8 @@ page{
 .pkgList .item {
   padding: 10rpx 20rpx;
   margin: 5rpx;
-  border: 3rpx solid #b0cbf1;
-  border-radius: 15rpx;
+  border: 1rpx solid #b0cbf1;
+  border-radius: 10rpx;
 }
 .pkgList .item .name{
   font-size: 30rpx;

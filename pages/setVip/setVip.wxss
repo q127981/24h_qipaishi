@@ -128,3 +128,18 @@ page{
   /* border:1px solid var(--main-green); */
   /* color: var(--main-green); */
 }
+
+.dialog{
+  margin-top: 20rpx;
+}
+.dialog .tip{
+  font-size: 26rpx;
+  color: red;
+  text-align: center;
+  margin-bottom: 15rpx;
+}
+
+.picker {
+  display: flex;
+}
+

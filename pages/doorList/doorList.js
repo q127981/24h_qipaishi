@@ -220,10 +220,14 @@ Page({
                 markers: allMarkers,
                 store: list[0]
               });
-            }else if(that.data.cityName=='选择城市'&&that.data.name==''){
-              wx.switchTab({
-                url: '/pages/user/user',
-              })
+              //如果只有一个店 那么直接进入门店主页
+              if(list.length==1&&that.data.cityName=='选择城市'&&that.data.name==''){
+                // 设置参数
+                wx.setStorageSync('global_store_id',list[0].storeId);
+                wx.switchTab({
+                  url: '/pages/index/index'
+                });
+              }
             }else{
               that.setData({
                 MainStorelist: [],
@@ -404,4 +408,9 @@ Page({
       that.gotologin();
     }
   },
+  goUser: function(){
+    wx.switchTab({
+      url: '/pages/user/user',
+    })
+  }
 })

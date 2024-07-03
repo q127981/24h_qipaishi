@@ -23,6 +23,8 @@ Page({
     cityName: '',
     address: '',
     wifiInfo: '',
+    wifiPwd: '',
+    simpleModel: true,
     kefuPhone: '',
     notice: '',
     headImg: '',
@@ -140,30 +142,60 @@ Page({
               })
             }
             let fileList3 = []
-            if(null!=info.data.storeEnvImg){
+            if(info.data.storeEnvImg){
               let arr2 = info.data.storeEnvImg.split(",")
               arr2.map(it => {
                 fileList3.push({url:it})
               })
             }
+            let btnfileList=[]; 
+           if(info.data.btnImg){
+             btnfileList=[{url:info.data.btnImg}];
+           }
+           let qhfileList=[];
+           if(info.data.qhImg){
+              qhfileList=[{url:info.data.qhImg}];
+           }
+           let tgfileList= [];
+           if(info.data.tgImg){
+            tgfileList=[{url:info.data.tgImg}];
+           }
+           let openfileList= [];
+           if(info.data.openImg){
+            openfileList=[{url:info.data.openImg}];
+           }
+           let czfileList= [];           
+           if(info.data.czImg){
+            czfileList=[{url:info.data.czImg}];
+           }
+           let wififileList= [];
+           if(info.data.wifiImg){
+            wififileList=[{url:info.data.wifiImg}];
+           }
+           let kffileList=[];
+           if(info.data.kfImg){
+            kffileList=[{url:info.data.kfImg}];
+           }
             that.setData({
               storeId: info.data.storeId,
               storeName: info.data.storeName,
               cityName: info.data.cityName,
               address: info.data.address,
               wifiInfo: info.data.wifiInfo,
+              wifiPwd: info.data.wifiPwd,
+              simpleModel: info.data.simpleModel,
               kefuPhone: info.data.kefuPhone,
               notice: info.data.notice,
               fileList1: fileList1,
               fileList2: fileList2,
               fileList3: fileList3,
-              btnfileList: [{url:info.data.btnImg}],
-              qhfileList: [{url:info.data.qhImg}],
-              tgfileList: [{url:info.data.tgImg}],
-              openfileList: [{url:info.data.openImg}],
-              czfileList: [{url:info.data.czImg}],
-              wififileList: [{url:info.data.wifiImg}],
-              kffileList: [{url:info.data.kfImg}],
+              btnfileList: btnfileList,
+              qhfileList: qhfileList,
+              tgfileList: tgfileList,
+              openfileList: openfileList,
+              czfileList: czfileList,
+              wififileList: wififileList,
+              kffileList: kffileList,
               lat: info.data.lat,
               lon: info.data.lon,
               clearTime: info.data.clearTime,
@@ -336,25 +368,81 @@ Page({
       [dataset.tag]: detail.value
     })
   },
+  onChangeSimpleModel(e){
+    const { target: {dataset = {}} = {}, detail } = e
+    this.setData({
+      [dataset.tag]: detail.value
+    })
+  },
   // 保存
   submit: function(){
-    console.log(this.data)
-    if(this.data.storeName && this.data.cityName && this.data.address && this.data.wifiInfo && this.data.kefuPhone && this.data.notice&& this.data.lon&& this.data.lat&& this.data.clearTime&&   this.data.txStartHour&& this.data.txHour&& this.data.fileList1.length && this.data.fileList2.length && this.data.fileList3.length&& this.data.btnfileList.length&& this.data.qhfileList.length&& this.data.tgfileList.length&& this.data.czfileList.length&& this.data.openfileList.length&& this.data.wififileList.length&& this.data.kffileList.length){
-      let that = this
-      let imgs = []
-      let bannerImgs = []
-      that.data.fileList2.map(it => {
-        bannerImgs.push(it.url)
+    let that = this
+    //校验参数
+    if(this.data.storeName 
+      && this.data.cityName 
+      && this.data.address 
+      && this.data.lon
+      && this.data.lat
+      && this.data.wifiInfo 
+      && this.data.wifiPwd
+      && this.data.kefuPhone 
+      && this.data.txStartHour
+      && this.data.txHour
+      && this.data.clearTime
+      && this.data.notice
+      && this.data.fileList1.length 
+      && this.data.fileList2.length 
+    ){}else{
+      wx.showToast({
+        title: '请填写完整',
+        icon: 'none'
       })
-      that.data.fileList3.map(it => {
-        imgs.push(it.url)
-      })
-      if (app.globalData.isLogin) 
-      {
-        http.request(
-          "/member/store/save",
-          "1",
-          "post", {
+      return;
+    }
+    let imgs = []
+    let bannerImgs = []
+    that.data.fileList2.map(it => {
+      bannerImgs.push(it.url)
+    })
+    that.data.fileList3.map(it => {
+      imgs.push(it.url)
+    })
+    let params={};
+    if(this.data.simpleModel){
+      //简洁模式
+      params = {
+        "storeId": that.data.storeId,
+        "storeName": that.data.storeName,
+        "cityName": that.data.cityName,
+        "headImg": that.data.fileList1[0].url,
+        "bannerImg": bannerImgs.join(","),
+        "notice": that.data.notice,
+        "address": that.data.address,
+        "wifiInfo": that.data.wifiInfo,
+        "wifiPwd": that.data.wifiPwd,
+        "simpleModel": that.data.simpleModel,
+        "kefuPhone": that.data.kefuPhone,
+        "lat": that.data.lat,
+        "lon": that.data.lon,
+        "clearTime": that.data.clearTime,
+        "clearOpen": that.data.clearOpen,
+        "showTxPrice": that.data.showTxPrice,
+        "txStartHour": that.data.txStartHour,
+        "delayLight": that.data.delayLight,
+        "txHour": that.data.txHour,
+        "orderDoorOpen": that.data.orderDoorOpen,
+      }
+    }else{
+      //个性化模式 需要上传那些模板图片
+      if(this.data.fileList3.length
+        && this.data.btnfileList.length
+        && this.data.qhfileList.length
+        && this.data.tgfileList.length
+        && this.data.czfileList.length
+        && this.data.openfileList.length
+        && this.data.wififileList.length
+        && this.data.kffileList.length){
+          params = {
             "storeId": that.data.storeId,
             "storeName": that.data.storeName,
             "cityName": that.data.cityName,
@@ -371,6 +459,8 @@ Page({
             "notice": that.data.notice,
             "address": that.data.address,
             "wifiInfo": that.data.wifiInfo,
+            "wifiPwd": that.data.wifiPwd,
+            "simpleModel": that.data.simpleModel,
             "kefuPhone": that.data.kefuPhone,
             "lat": that.data.lat,
             "lon": that.data.lon,
@@ -381,38 +471,46 @@ Page({
             "delayLight": that.data.delayLight,
             "txHour": that.data.txHour,
             "orderDoorOpen": that.data.orderDoorOpen,
-          },
-          app.globalData.userDatatoken.accessToken,
-          "",
-          function success(info) {
-            console.info('返回111===');
-            console.info(info);
-            if (info.code == 0) {
-              wx.showToast({
-                title: '设置成功',
-                icon: 'success'
-              })
-              setTimeout(() => {
-                wx.navigateBack()
-              }, 1000);
-            }else{
-              wx.showModal({
-                content: info.msg,
-                showCancel: false,
-              })
-            }
-          },
-          function fail(info) {
-            
-          }
-        )
-      } 
-    }else{
-      wx.showToast({
-        title: '请填写完整',
-        icon: 'none'
-      })
-      
+          };
+      }else{
+        wx.showToast({
+          title: '请填写完整',
+          icon: 'none'
+        })
+        return;
+      }
     }
-  }
+    console.log('提交保存门店信息');
+    if (app.globalData.isLogin) 
+    {
+      http.request(
+        "/member/store/save",
+        "1",
+        "post", params,
+        app.globalData.userDatatoken.accessToken,
+        "",
+        function success(info) {
+          console.info('返回111===');
+          console.info(info);
+          if (info.code == 0) {
+            wx.showToast({
+              title: '设置成功',
+              icon: 'success'
+            })
+            setTimeout(() => {
+              wx.navigateBack()
+            }, 1000);
+          }else{
+            wx.showModal({
+              content: info.msg,
+              showCancel: false,
+            })
+          }
+        },
+        function fail(info) {
+          
+        }
+      )
+    } 
+ }
 })

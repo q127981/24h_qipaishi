@@ -130,11 +130,11 @@
               使用中 | {{item.endTime}}结束
             </view>
           </block>
-          <block wx:elif="{{item.status == 4 ||item.status == 2}}">
+          <!-- <block wx:elif="{{item.status == 4 ||item.status == 2}}">
             <view class="tip color-attention" wx:if="{{item.endTime}}">
               已预订 | {{item.startTime}}开始
             </view>
-          </block>
+          </block> -->
         </view>
         <view class="times">
           <block wx:for="{{timeHourAllArr[index]}}" wx:for-item="houritem2">

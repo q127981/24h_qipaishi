@@ -10,6 +10,8 @@ Page({
   data: {
     isSelect: 0,
     MainList:[],//列表数组
+    stores: [],
+    index: '',
     canLoadMore: true,//是否还能加载更多
     pageNo: 1,
     pageSize: 10,
@@ -19,7 +21,11 @@ Page({
     createRule: 'ASC',
     orderRule: 'ASC',
     numRule: 'ASC',
-    couponId: ''
+    couponId: '',
+    showRecharge: false,
+    member: '',
+    money: '',
+    storeId: '',
   },
 
   /**
@@ -39,6 +45,7 @@ Page({
       })
     }
     this.getListData('refresh');
+    this.getXiaLaListAdmin();
   },
 
   /**
@@ -253,6 +260,109 @@ Page({
       success(res){
         wx.showToast({title: '复制成功',})
       }
+    })
+  },
+  recharge:function(e){
+    let data = e.currentTarget.dataset.info
+    this.setData({
+        member:data,
+        money: '',
+        storeId: '',
+        index: '',
+        showRecharge: true
+    })
+  },
+  confirmRecharge:function(e){
+      var that=this;
+      if(that.data.storeId){
+        if (app.globalData.isLogin) 
+        {
+          http.request(
+            "/member/manager/recharge",
+            "1",
+            "post", {
+              "userId": that.data.member.id,
+              "storeId": that.data.storeId,
+              "money": that.data.money,
+            },
+            app.globalData.userDatatoken.accessToken,
+            "提交中",
+            function success(info) {
+              console.info('返回111===');
+              console.info(info);
+              if (info.code == 0) {
+                wx.showToast({
+                  title: '充值成功',
+                })
+              }else{
+                wx.showModal({
+                  content: info.msg,
+                  showCancel: false,
+                })
+              }
+            },
+            function fail(info) {
+              wx.showModal({
+                content: '请求服务异常，请稍后重试',
+                showCancel: false,
+              })
+            }
+          )
+        } 
+      }else{
+        wx.showToast({
+          title: '未选择门店',
+        })
+      }
+  },
+  cancelRecharge:function(e){
+    this.setData({
+      member: '',
+      money: '',
+      storeId: '',
+      showRecharge: false
+    })
+  },
+  //管理员获取门店下拉列表数据
+  getXiaLaListAdmin:function(e){
+    var that = this;
+    //if (app.globalData.isLogin) 
+    {
+      http.request(
+        "/member/store/getStoreList",
+        "1",
+        "get", {
+        },
+        app.globalData.userDatatoken.accessToken,
+        "",
+        function success(info) {
+          console.info('下拉门店数据===');
+          console.info(info);
+          if (info.code == 0) {
+            let stores = []
+            info.data.map(it => {
+              stores.push({text:it.key,value:it.value})
+            })
+           that.setData({
+             stores: stores,
+           })
+          }else{
+            wx.showModal({
+              content: '请求服务异常，请稍后重试',
+              showCancel: false,
+            })
+          }
+        },
+        function fail(info) {
+          
+        }
+      )
+    } 
+  },
+  bindStoreChange: function(e) {
+    this.setData({
+      index: e.detail.value,
+      storeId: this.data.stores[e.detail.value].value
     })
   },
 })

@@ -11,7 +11,7 @@
       <view class="item" wx:for="{{MainList}}" wx:key="item">
         <view class="top">
           <view class="img" bindtap="previewImage" data-info="{{item}}">
-            <image src="{{item.headImg}}" preview-size="200rpx" mode="widthFix"></image>
+            <image src="{{item.headImg}}" preview-size="200rpx" mode="widthFix" style="height: 100rpx;"></image>
             <view class="{{item.status===0?'status green':item.status===1?'status yellow':'status gray'}}">
               {{item.status===0?'开业':item.status===1?'审核中':'停用中'}}
             </view>
