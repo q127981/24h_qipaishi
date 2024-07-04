@@ -118,16 +118,9 @@
                 <view class="btn disabled">预约</view>
               </block>
               <block wx:else="">
-                <block wx:if="{{isLogin}}">
-                  <view class="btn bg-primary" bind:tap="goOrder" data-status="{{item.status}}" data-index="{{index}}" data-info="{{item.roomId}}">
+                <view class="btn bg-primary" bind:tap="goOrder" data-status="{{item.status}}" data-index="{{index}}" data-info="{{item.roomId}}">
                     预约
                   </view>
-                </block>
-                <block wx:else>
-                  <button hover-class="button-click" class="btn bg-primary" bindgetphonenumber="phone" open-type="getPhoneNumber" data-type="1" data-status="{{item.status}}" data-index="{{index}}" data-info="{{item.roomId}}">
-                    预约
-                  </button>
-                </block>
               </block>
             </view>
           </view>

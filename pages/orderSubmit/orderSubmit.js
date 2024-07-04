@@ -1086,40 +1086,37 @@ Page({
   },
   getPkgList: function(e){
     var that = this;
-    http.request(
-      "/member/pkg/getPkgPage",
-      "1",
-      "post", {
-        storeId: that.data.storeId,
-        roomId: that.data.roomId,
-        // startTime:that.data.submit_begin_time,
-        // endTime:that.data.submit_end_time,
-        // pageNo: that.data.pageNo,
-        // pageSize: that.data.pageSize
-      },
-      app.globalData.userDatatoken.accessToken,
-      "",
-      function success(info) {
-        if (info.code == 0) {
-          const newMeals = info.data.list.map(el=>({
-            ...el,
-            enableWeek: that.convertWeekday(el.enableWeek)
-          }))
-          
-          that.setData({
-            pkgList: newMeals
-          })
-        }else{
-          wx.showModal({
-            content: info.msg,
-            showCancel: false,
-          })
+    if (app.globalData.isLogin) {
+      http.request(
+        "/member/pkg/getPkgPage",
+        "1",
+        "post", {
+          storeId: that.data.storeId,
+          roomId: that.data.roomId,
+        },
+        app.globalData.userDatatoken.accessToken,
+        "",
+        function success(info) {
+          if (info.code == 0) {
+            const newMeals = info.data.list.map(el=>({
+              ...el,
+              enableWeek: that.convertWeekday(el.enableWeek)
+            }))
+            
+            that.setData({
+              pkgList: newMeals
+            })
+          }else{
+            wx.showModal({
+              content: info.msg,
+              showCancel: false,
+            })
+          }
+        },
+        function fail(info) {
         }
-      },
-      function fail(info) {
-        
-      }
-    )
+      )
+    }
   },
   //定义一个函数来将数字转换为星期名称：
   convertWeekday(numbers) {

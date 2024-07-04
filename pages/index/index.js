@@ -1,5 +1,5 @@
 // pages/doorList/doorList.js
-const app = getApp()
+const app = getApp();
 var http = require('../../utils/http');
 var util1 = require('../../utils/util.js');
 Page({
@@ -22,7 +22,7 @@ Page({
     doorlistArr:[],//房间数组
     timeHourArr:[],//小时数组
     timeHourAllArr:[],//所有门店小时数组
-    isLogin:app.globalData.isLogin,
+    isLogin: app.globalData.isLogin,
     popshow: false,
     wifiShow: false,
     simpleModel: '',//简洁模式
@@ -33,9 +33,12 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    this.setData({
+      isLogin: app.globalData.isLogin,
+    })
+    console.log("onLoad index");
     var that = this;
     that.getTap();
-    console.log("onLoad index");
     console.log(options);
     var storeId='';
     if(options.storeId){
@@ -65,10 +68,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    console.log("打开门店首页")
+    console.log("onShow index");
     var that = this;
     that.setData({
-      isLogin:app.globalData.isLogin,
+      isLogin: app.globalData.isLogin,
     })
     var popshow=false;//默认不显示广告
     //尝试从缓存获取
@@ -241,42 +244,39 @@ Page({
   },
   goOrder(e){
       var that = this;
-      if(that.data.isLogin){
-        //console.log('已经登录+++++++');
-        let status = e.currentTarget.dataset.status;
-        let aroomid = e.currentTarget.dataset.info;
-        var atime = '';
-        if(that.data.timeselectindex >= 0)
-          atime = that.data.timeDayArr[that.data.timeselectindex];
-        var storeId = that.data.storeId
-        if(status == 2){
-          if(that.data.doorinfodata.clearOpen){
-            wx.showModal({
-              title: '提示',
-              content: '您选择的房间暂未清洁，介意请勿预订！',
-              confirmText: '继续预定',
-              complete: (res) => {
-                if (res.confirm) {
-                  wx.navigateTo({
-                    url: '../orderSubmit/orderSubmit?roomId='+aroomid+'&daytime='+atime+'&storeId='+storeId+'&timeselectindex='+that.data.timeselectindex,
-                  })
-                } else if (res.cancel) {
-                  //console.log('用户点击取消')
-                }
+      let status = e.currentTarget.dataset.status;
+      let aroomid = e.currentTarget.dataset.info;
+      var atime = '';
+      if(that.data.timeselectindex >= 0)
+        atime = that.data.timeDayArr[that.data.timeselectindex];
+      var storeId = that.data.storeId
+      if(status == 2){
+        if(that.data.doorinfodata.clearOpen){
+          wx.showModal({
+            title: '提示',
+            content: '您选择的房间暂未清洁，介意请勿预订！',
+            confirmText: '继续预定',
+            complete: (res) => {
+              if (res.confirm) {
+                wx.navigateTo({
+                  url: '../orderSubmit/orderSubmit?roomId='+aroomid+'&daytime='+atime+'&storeId='+storeId+'&timeselectindex='+that.data.timeselectindex,
+                })
+              } else if (res.cancel) {
+                //console.log('用户点击取消')
               }
-            })
-          }else{
-            wx.showModal({
-              title: '提示',
-              content: '房间暂未清洁，禁止预订！',
-              showCancel: false
-            })
-          }
+            }
+          })
         }else{
-          wx.navigateTo({
-            url: '../orderSubmit/orderSubmit?roomId='+aroomid+'&daytime='+atime+'&storeId='+storeId+'&timeselectindex='+that.data.timeselectindex,
+          wx.showModal({
+            title: '提示',
+            content: '房间暂未清洁，禁止预订！',
+            showCancel: false
           })
         }
+      }else{
+        wx.navigateTo({
+          url: '../orderSubmit/orderSubmit?roomId='+aroomid+'&daytime='+atime+'&storeId='+storeId+'&timeselectindex='+that.data.timeselectindex,
+        })
       }
   },
   phone:function(e){
@@ -310,7 +310,8 @@ Page({
                           isLogin:true,
                         })
                         //缓存服务器返回的用户信息
-                        wx.setStorageSync("userDatatoken", info.data)
+                        wx.setStorageSync("userDatatoken", info.data);
+                        this.goOrder(e);
                       }
                   }
                 },
