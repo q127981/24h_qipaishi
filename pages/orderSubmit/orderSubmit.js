@@ -533,7 +533,7 @@ Page({
         if (info.code == 0) {
           var minHour=info.data.minHour;
           var hour_options=[]
-          for(let i=0;i<5;i++){
+          for(let i=0;i<4;i++){
             // minHour=minHour+1;
             hour_options.push(minHour+i);
           }
@@ -939,29 +939,6 @@ Page({
       showtimefalge: false
     })
   },
-  //其他时间点击确定
-  onTimeConfirm(event) {
-    let that = this
-    var value = event.detail.value
-    var hour = Number(value.replace("小时", " "))
-    var startDate=new Date(that.data.submit_begin_time);//显示的开始时间
-    that.setData({
-      order_hour: hour,
-      show: false,
-      select_time_index: 2,
-      select_pkg_index:-1,
-      pkgId: ''
-    })
-    that.MathDate(startDate);
-    that.getPkgList();
-  },
-  onTimeCancel(){
-    this.setData({show: false})
-  },
-  // 点击其他时间
-  otherTime(){
-    this.setData({show: true})
-  },
   // 获取赠送余额
   getStoreBalance:function(){
     var that = this;
@@ -1042,12 +1019,28 @@ Page({
     var that=this;
     //先得出订单的时长
     var order_hour=that.data.order_hour;
+    var nightLong=false;
     console.log('先得出订单的时长');
     if(!order_hour){
       order_hour=that.data.minHour;
       that.setData({
         order_hour: order_hour
       })
+    }
+    if(order_hour==99){
+      nightLong=true;
+      //取通宵的时长
+      order_hour=that.data.txHour;
+      //判断开始时间 是否在通宵场的范围内 有两种情况 结束时间在当日和次日
+      if(startDate.getHours() < that.data.txStartHour){
+        //如果是凌晨4点之后的  那么开始时间就要改为当日通宵开始小时
+        if(startDate.getHours() >= 4){
+          startDate.setHours(that.data.txStartHour);
+          startDate.setMinutes(0)
+          startDate.setSeconds(0)
+          startDate.setMilliseconds(0);
+        }
+      }
     }
     var endDate=new Date(startDate.getTime()+1000*60*60*order_hour);
     that.setData({

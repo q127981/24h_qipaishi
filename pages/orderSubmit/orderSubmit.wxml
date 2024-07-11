@@ -111,6 +111,9 @@
             <view class="hours">{{item}}小时</view>
           </view>
         </view>
+        <view class="item {{select_time_index == 99?'active':''}}" bind:tap="selectTimeHour" data-hour="99" data-index="99">
+          <view class="hours">通宵场</view>
+        </view>
       </view>
     </view>
     <!-- 套餐列表 -->

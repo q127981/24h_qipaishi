@@ -69,7 +69,7 @@
   <view class="order-container">
     <view class="item" style="align-items: center;">
       <label>请选择续费时长：</label>
-      <van-stepper value="{{ addTime }}" step="0.5" min="0" max="4" disable-input bind:change="onChange" />
+      <van-stepper value="{{ addTime }}" step="1" min="0" max="8" disable-input bind:change="onChange" />
       时
     </view>
     <view class="item">

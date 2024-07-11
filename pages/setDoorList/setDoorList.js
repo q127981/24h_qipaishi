@@ -511,5 +511,16 @@ Page({
        title: '未使用密码锁',
      })
    }
-  }
+  },
+  setLockGateWay: function(e){
+    var that=this;
+    let lockData = e.currentTarget.dataset.lockdata;
+    if(lockData){
+      lock.setLockGateWay(lockData);
+   }else{
+     wx.showToast({
+       title: '未使用密码锁',
+     })
+   }
+  },
 })

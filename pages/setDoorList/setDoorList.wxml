@@ -37,7 +37,7 @@
           {{foldIndex === item.roomId ? "隐藏":"显示管理功能"}}
         </van-divider>
         <view class="btns {{foldIndex === item.roomId ? 'show': ''}}">
-          <view class="line1">
+          <view class="line2">
             <view class="btn warning" bindtap="disableRoom" data-roomid="{{item.roomId}}">
               启用禁用
             </view>
@@ -69,12 +69,20 @@
             <view class="btn origin" bindtap="setLockPwdShow" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">设置锁密码</view>
             <view class="btn origin" bindtap="addLockCard" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">添加门锁卡片</view>
           </view>
-          <view class="line2">
-            <view class="btn red" bindtap="openBlueDoor" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">
+           <view class="line2">
+            <view class="btn origin" bindtap="setLockGateWay" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">
+              远程开锁设置
+            </view>
+            <view class="btn origin" bindtap="openBlueDoor" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">
               蓝牙开锁
             </view>
-            <view class="btn red" bindtap="closeDoor" data-roomid="{{item.roomId}}">关电</view>
+          </view>
+          <view class="line2">
             <view class="btn red" bindtap="openDoor" data-roomid="{{item.roomId}}">开电</view>
+            <view class="btn red" bindtap="closeDoor" data-roomid="{{item.roomId}}">关电</view>
+            <!-- <view class="btn red" bindtap="openBlueDoor" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">
+              蓝牙开锁
+            </view> -->
           </view>
         </view>
       </view>

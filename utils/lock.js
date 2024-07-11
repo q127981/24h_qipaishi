@@ -102,6 +102,27 @@ function addCard(lockData){
   })
 }
 
+function setLockGateWay(lockData){
+  wx.showLoading({ title: `请靠近门锁` });
+  plugin.setRemoteUnlockSwitchState({
+    enable: true,
+    lockData: lockData
+  }).then(res => {
+    wx.hideLoading();
+      if (res.errorCode === 0) {
+          wx.showToast({
+            title: '设置成功',
+            icon: 'success'
+          })
+      } else {
+        wx.showModal({
+          content: `设置失败：${res.errorMsg}`,
+          showCancel: false,
+        })
+      }
+  })
+}
+
 function setLockPwd(lockData,passcode){
   wx.showLoading({ title: `请靠近门锁` });
   plugin.modifyAdminPasscode({
@@ -122,10 +143,10 @@ function setLockPwd(lockData,passcode){
       }
   })
 }
-
 module.exports = {
   blueDoorOpen: blueDoorOpen,
   queryLockPwd: queryLockPwd,
   addCard: addCard,
   setLockPwd: setLockPwd,
+  setLockGateWay: setLockGateWay,
 }
