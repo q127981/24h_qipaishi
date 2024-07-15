@@ -278,42 +278,49 @@ Page({
   MathPrice:function(){
     console.log("MathPrice");
     var that = this;
-    var startDate=new Date(that.data.submit_begin_time);
-    var hour=that.data.order_hour;
-    if(!hour){
-      hour=that.data.minHour;
+    if(that.data.nightLong){
       that.setData({
-        order_hour: hour
+          pricestring: that.data.txPrice,
+          showprice: that.data.txPrice
+      })
+    }else{
+      var startDate=new Date(that.data.submit_begin_time);
+      var hour=that.data.order_hour;
+      if(!hour){
+        hour=that.data.minHour;
+        that.setData({
+          order_hour: hour
+        })
+      }
+      var priceResult=0;
+      if(that.data.select_pkg_index>-1){
+        priceResult=that.data.pkgList[that.data.select_pkg_index].price;
+      }else{
+        var price=that.getPrice(startDate);
+        console.log("订单时长:"+hour);
+        priceResult=(hour*price).toFixed(2);
+        if(that.data.couponInfo){
+          const acoupon=that.data.couponInfo;
+          if(acoupon.type == 1){
+            //减去时间对应费用
+            priceResult =  (priceResult-acoupon.price*price).toFixed(2);
+          }else if(acoupon.type == 2){
+            //直接减去费用
+            priceResult = priceResult-acoupon.price;
+          }  
+        }
+        if(priceResult<0){
+          priceResult = 0.0;
+        }
+      }
+      if(that.data.roominfodata.deposit){
+        priceResult=parseFloat(priceResult)+parseFloat(that.data.roominfodata.deposit);
+      }
+      that.setData({
+        pricestring: priceResult,
+        showprice: priceResult
       })
     }
-    var priceResult=0;
-    if(that.data.select_pkg_index>-1){
-      priceResult=that.data.pkgList[that.data.select_pkg_index].price;
-    }else{
-      var price=that.getPrice(startDate);
-      console.log("订单时长:"+hour);
-      priceResult=(hour*price).toFixed(2);
-      if(that.data.couponInfo){
-        const acoupon=that.data.couponInfo;
-        if(acoupon.type == 1){
-          //减去时间对应费用
-          priceResult =  (priceResult-acoupon.price*price).toFixed(2);
-        }else if(acoupon.type == 2){
-          //直接减去费用
-          priceResult = priceResult-acoupon.price;
-        }  
-      }
-      if(priceResult<0){
-        priceResult = 0.0;
-      }
-    }
-    if(that.data.roominfodata.deposit){
-      priceResult=parseFloat(priceResult)+parseFloat(that.data.roominfodata.deposit);
-    }
-    that.setData({
-      pricestring: priceResult,
-      showprice: priceResult
-    })
   },
 
   // 预支付
@@ -679,8 +686,12 @@ Page({
       })
     }else{
       var startDate=new Date(that.data.submit_begin_time);//显示的开始时间
+      var payselectindex = 1;
+      if(that.data.scanCodeMsg){
+         payselectindex = 3;
+      }
       that.setData({
-        payselectindex: 1,
+        payselectindex: payselectindex,
         select_time_index: atimeindex,
         select_pkg_index: -1,
         pkgId: '',
@@ -1041,16 +1052,28 @@ Page({
           startDate.setMilliseconds(0);
         }
       }
+       var endDate=new Date(startDate.getTime()+1000*60*60*order_hour);
+       that.setData({
+          nightLong: true,
+          order_hour: order_hour,
+          submit_couponInfo:{},//清空优惠券
+          submit_begin_time: this.formatDate(startDate.getTime()).text,
+          submit_end_time: this.formatDate(endDate.getTime()).text,
+          view_begin_time: this.formatViewDate(startDate.getTime()).text,
+          view_end_time: this.formatViewDate(endDate.getTime()).text,
+       })
+    }else{
+      var endDate=new Date(startDate.getTime()+1000*60*60*order_hour);
+      that.setData({
+          nightLong: false,
+          order_hour: order_hour,
+          submit_couponInfo:{},//清空优惠券
+          submit_begin_time: this.formatDate(startDate.getTime()).text,
+          submit_end_time: this.formatDate(endDate.getTime()).text,
+          view_begin_time: this.formatViewDate(startDate.getTime()).text,
+          view_end_time: this.formatViewDate(endDate.getTime()).text,
+      })
     }
-    var endDate=new Date(startDate.getTime()+1000*60*60*order_hour);
-    that.setData({
-      nightLong: false,
-      submit_couponInfo:{},//清空优惠券
-      submit_begin_time: this.formatDate(startDate.getTime()).text,
-      submit_end_time: this.formatDate(endDate.getTime()).text,
-      view_begin_time: this.formatViewDate(startDate.getTime()).text,
-      view_end_time: this.formatViewDate(endDate.getTime()).text,
-    })
     that.MathPrice();
   },
   getPrice:function(startDate){

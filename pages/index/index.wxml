@@ -181,7 +181,7 @@
     <view class="intro">
       <view class="address" bindtap="goDoorDetail">
         <view class="iconfont icon-dingwei"></view>
-        {{doorinfodata.address}}
+        <text style="font-size: 20rpx;">{{doorinfodata.address}}</text>
       </view>
       <view class="btns">
         <view class="iconfont icon-weizhi btn" bindtap="goTencentMap" data-info="{{doorinfodata}}"></view>

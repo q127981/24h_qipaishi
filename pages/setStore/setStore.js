@@ -27,6 +27,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    this.getListData('refresh');
   },
 
   /**
@@ -40,7 +41,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    this.getListData('refresh');
+    // this.getListData('refresh');
   },
 
   /**
@@ -203,24 +204,90 @@ Page({
   },
   //美团授权跳转
   meituanScope:function(e){
-    let url = e.currentTarget.dataset.info
-    wx.showModal({
-      title: '提示',
-      content: '请点击复制按钮,然后打开系统浏览器,并粘贴打开!',
-      confirmText: '复制',
-      complete: (res) => {
-        if (res.confirm) {
-          wx.setClipboardData({
-            data: url,
-            success: function (res) {
-                wx.showToast({ title: '已复制到剪贴板！' })
+    let storeId = e.currentTarget.dataset.id
+    http.request(
+      "/member/store/getGroupPayAuthUrl",
+      "1",
+      "post", {
+        "storeId": storeId,
+        "groupPayType": 1
+      },
+      app.globalData.userDatatoken.accessToken,
+      "",
+      function success(info) {
+        if (info.code == 0) {
+          wx.showModal({
+            title: '提示',
+            content: '请点击复制按钮,然后打开系统浏览器,并粘贴链接打开! 完成授权流程',
+            confirmText: '复制',
+            complete: (res) => {
+              if (res.confirm) {
+                wx.setClipboardData({
+                  data: info.data,
+                  success: function (res) {
+                      wx.showToast({ title: '已复制到剪贴板！' })
+                  }
+                })
+              } else if (res.cancel) {
+                //console.log('用户点击取消')
+              }
             }
           })
-        } else if (res.cancel) {
-          //console.log('用户点击取消')
+        }else{
+          wx.showModal({
+            content: info.msg,
+            showCancel: false,
+          })
         }
+      },
+      function fail(info) {
       }
-    })
+    )
+
+
+    
+  },
+  //抖音授权跳转
+  douyinScope:function(e){
+    let storeId = e.currentTarget.dataset.id
+    http.request(
+      "/member/store/getGroupPayAuthUrl",
+      "1",
+      "post", {
+        "storeId": storeId,
+        "groupPayType": 2
+      },
+      app.globalData.userDatatoken.accessToken,
+      "",
+      function success(info) {
+        if (info.code == 0) {
+          wx.showModal({
+            title: '提示',
+            content: '请点击复制按钮,然后打开系统浏览器,并粘贴链接打开! 完成授权流程',
+            confirmText: '复制',
+            complete: (res) => {
+              if (res.confirm) {
+                wx.setClipboardData({
+                  data: info.data,
+                  success: function (res) {
+                      wx.showToast({ title: '已复制到剪贴板！' })
+                  }
+                })
+              } else if (res.cancel) {
+                //console.log('用户点击取消')
+              }
+            }
+          })
+        }else{
+          wx.showModal({
+            content: info.msg,
+            showCancel: false,
+          })
+        }
+      },
+      function fail(info) {
+      }
+    )
   },
   // 打开大门
   openStoreDoor:function(e){
