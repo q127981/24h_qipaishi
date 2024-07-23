@@ -355,7 +355,7 @@ Page({
     wx.previewImage({
       urls: [currentUrl]
     })
-},
+  },
    // 结单
    finishOrder: function(e){
     let roomId = e.currentTarget.dataset.roomid;
@@ -470,12 +470,17 @@ Page({
   setLockPwdShow: function(e){
     let that = this;
     var lockData = e.currentTarget.dataset.lockdata;
-    console.log('lockData');
-    console.log(lockData);
-    that.setData({
-      setLockPwdShow: true,
-      lockData: lockData
-    })
+    if(lockData){
+      that.setData({
+        setLockPwdShow: true,
+        lockData: lockData
+      })
+    }else{
+      wx.showToast({
+       title: '未使用密码锁',
+       icon: 'error'
+     })
+    }
   },
   confirmSetLockPwd: function(e){
      var that=this;
@@ -517,7 +522,7 @@ Page({
     let lockData = e.currentTarget.dataset.lockdata;
     if(lockData){
       lock.setLockGateWay(lockData);
-   }else{
+    }else{
      wx.showToast({
        title: '未使用密码锁',
      })

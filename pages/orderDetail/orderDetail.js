@@ -69,7 +69,7 @@ Page({
       OrderNo: OrderNo,
       orderKey: orderKey,
     })
-    that.getrorderInfodata();
+    
   },
 
   /**
@@ -83,7 +83,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-  
+    this.getrorderInfodata();
   },
 
   /**
@@ -218,8 +218,20 @@ Page({
   },
   // 去更换房间
   goChangeDoor(){
+    var orderInfo={
+        "orderId":this.data.OrderInfodata.orderId,
+        "storeId":this.data.OrderInfodata.storeId,
+        "storeName":this.data.OrderInfodata.storeName,
+        "roomName":this.data.OrderInfodata.roomName,
+        "startTime":this.data.OrderInfodata.startTime,
+        "endTime":this.data.OrderInfodata.endTime,
+        "roomType":this.data.OrderInfodata.roomType,
+        "roomId":this.data.OrderInfodata.roomId,
+        "kefuPhone":this.data.OrderInfodata.kefuPhone,
+    };
+    console.log(orderInfo);
     wx.navigateTo({
-      url: '../changeDoor/changeDoor?orderInfo='+JSON.stringify(this.data.OrderInfodata),
+      url: '../changeDoor/changeDoor?orderInfo='+JSON.stringify(orderInfo),
     })
   },
   // 续费弹窗

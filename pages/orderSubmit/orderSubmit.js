@@ -35,6 +35,7 @@ Page({
     doorname:'',//门店名称
     timeHourAllArr: [],
     hour_options: [],
+    other_hour_options: [],
     order_hour: '',
     //订单提交
     submit_couponInfo:{},//选中的提交的优惠券信息
@@ -540,9 +541,14 @@ Page({
         if (info.code == 0) {
           var minHour=info.data.minHour;
           var hour_options=[]
-          for(let i=0;i<4;i++){
+          for(let i=0;i<3;i++){
             // minHour=minHour+1;
             hour_options.push(minHour+i);
+          }
+          var other_hour_options=[]
+          for(let i=0;i<20;i++){
+            // minHour=minHour+1;
+            other_hour_options.push(minHour+i+'小时');
           }
           that.setData({
             roominfodata: info.data,
@@ -557,6 +563,7 @@ Page({
             workPrice: info.data.workPrice,
             enableWorkPrice: info.data.enableWorkPrice,
             hour_options:hour_options,
+            other_hour_options: other_hour_options,
             storeId: info.data.storeId,
             timeHourAllArr: info.data.timeSlot.slice(0,24)
           });
@@ -1173,5 +1180,28 @@ Page({
       })
       that.MathPrice();
     }
+  },
+  // 点击其他时间
+  otherTime(){
+    this.setData({show: true})
+  },
+  onTimeCancel(){
+    this.setData({show: false})
+  },
+    //其他时间点击确定
+  onTimeConfirm(event) {
+    let that = this
+    var value = event.detail.value
+    var hour = Number(value.replace("小时", " "))
+    var startDate=new Date(that.data.submit_begin_time);//显示的开始时间
+    that.setData({
+      order_hour: hour,
+      show: false,
+      select_time_index: 999,
+      select_pkg_index:-1,
+      pkgId: ''
+    })
+    that.MathDate(startDate);
+    that.getPkgList();
   },
 })

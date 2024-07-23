@@ -32,8 +32,8 @@ page{
   justify-content: space-between;
 }
 .list .item .img{
-  width: 240rpx;
-  /* height: 240rpx; */
+  width: 200rpx;
+  /* height: 50rpx; */
   overflow: hidden;
 }
 .list .item .img image{
@@ -99,7 +99,7 @@ page{
   transition: height 0.8s;
 }
 .btns.show {
-  height: 170rpx;
+  height: 230rpx;
 }
 .list .item .btns{
   display: flex;
@@ -111,8 +111,8 @@ page{
   padding: 0;
   width: 180rpx;
   text-align: center;
-  height: 70rpx;
-  line-height: 70rpx;
+  height: 60rpx;
+  line-height: 60rpx;
   font-size: 26rpx;
   border-radius: 10rpx;
   margin-top: 16rpx;

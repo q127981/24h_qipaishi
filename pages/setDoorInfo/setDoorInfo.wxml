@@ -116,25 +116,15 @@
       </view>
     </view>
     <view class="tips">注:每日固定时间段该房间不可用，不禁用就不填写</view>
-    <!-- <view class="line">
-      <label>房间标签：</label>
-      <view class="right">
-        <view class="tags">
-          <input model:value="{{tag}}" type="text" placeholder="输入标签，点击完成确认" bindconfirm="addTag"/>
-          <van-tag wx:for="{{tags}}" wx:key="item" data-label="{{item}}" closeable size="medium" type="primary" plain round  bind:close="onTagClose">{{item}}</van-tag>
-        </view>
-      </view>
-    </view> -->
     <view class="line">
       <label>房间标签：</label>
       <view class="right">
-        <view class="pickerMult" bindtap="chooseTag">
-          <view class="mult" wx:for="{{tags}}" wx:key="tags"><text class="name">{{item}}</text><view class="iconfont icon-delete_fill" data-label="{{item}}" catch:tap="delLabel"></view>
-          </view>
-          <view class="iconfont icon-xuanzex"></view>
+        <view class="tags">
+          <textarea model:value="{{label}}" type="text" placeholder="输入标签，用逗号分隔"/>
         </view>
       </view>
     </view>
+    <view class="tips">注:请使用英文的逗号进行分隔</view>
     <view class="line">
       <label>房间图片：</label>
       <view class="right">

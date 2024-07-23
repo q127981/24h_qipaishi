@@ -41,21 +41,10 @@
             <view class="btn warning" bindtap="disableRoom" data-roomid="{{item.roomId}}">
               启用禁用
             </view>
-            <view class="btn warning" bindtap="clearAndFinish" data-roomid="{{item.roomId}}">
-              设置空闲
-            </view>
-            <view class="btn warning" bindtap="finishOrder" data-roomid="{{item.roomId}}">
-              结束订单
-            </view>
-          </view>
-          <view class="line2">
-            <navigator class="btn yellow" url="../setDoorInfo/setDoorInfo?roomId={{item.roomId}}&&storeId={{storeId}}">
+             <navigator class="btn warning" url="../setDoorInfo/setDoorInfo?roomId={{item.roomId}}&&storeId={{storeId}}">
               修改信息
             </navigator>
-            <!-- <view class="btn yellow" bindtap="testYunlaba" data-roomid="{{item.roomId}}">
-              测试喇叭
-            </view> -->
-            <view class="btn yellow" data-src="{{item.qrCode}}" bind:tap="previewImage">
+             <view class="btn yellow" data-src="{{item.qrCode}}" bind:tap="previewImage">
               房间预定码
             </view>
             <view class="btn yellow" data-src="{{item.renewCode}}" bind:tap="previewImage">
@@ -67,22 +56,23 @@
               查询锁密码
             </view>
             <view class="btn origin" bindtap="setLockPwdShow" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">设置锁密码</view>
-            <view class="btn origin" bindtap="addLockCard" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">添加门锁卡片</view>
-          </view>
-           <view class="line2">
+            <view class="btn origin" bindtap="addLockCard" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">添加锁卡片</view>
             <view class="btn origin" bindtap="setLockGateWay" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">
-              远程开锁设置
-            </view>
-            <view class="btn origin" bindtap="openBlueDoor" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">
-              蓝牙开锁
+              锁数据查询
             </view>
           </view>
           <view class="line2">
+           <view class="btn warning" bindtap="clearAndFinish" data-roomid="{{item.roomId}}">
+              设置空闲
+            </view>
+            <view class="btn warning" bindtap="finishOrder" data-roomid="{{item.roomId}}">
+              结束订单
+            </view>
+            <view class="btn red" bindtap="openBlueDoor" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">
+              蓝牙开锁
+            </view>
             <view class="btn red" bindtap="openDoor" data-roomid="{{item.roomId}}">开电</view>
             <view class="btn red" bindtap="closeDoor" data-roomid="{{item.roomId}}">关电</view>
-            <!-- <view class="btn red" bindtap="openBlueDoor" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">
-              蓝牙开锁
-            </view> -->
           </view>
         </view>
       </view>

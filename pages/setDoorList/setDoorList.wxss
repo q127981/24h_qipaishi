@@ -54,7 +54,7 @@
   transition: height 0.8s;
 }
 .btns.show {
-  height: 400rpx;
+  height: 230rpx;
 }
 .list .item .tags .tag{
   margin: 0 10rpx 10rpx 0;
@@ -72,7 +72,7 @@
   /* font-size: 26rpx; */
 }
 .list .item .info .line{
-  width: 50%;
+  /* width: 50%; */
 }
 .list .item .btns .line1{
   display: flex;
@@ -85,12 +85,14 @@
   margin-top: 20rpx;
 }
 .list .item .btns .btn{
-  padding: 0;
-  width: 30%;
+  /* padding: 0; */
+  /* width: 30%; */
+  padding: 2rpx 12rpx;
+  margin: 0rpx 5rpx;
   text-align: center;
-  height: 60rpx;
-  line-height: 60rpx;
-  font-size: 30rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 26rpx;
   border-radius: 10rpx;
   background: transparent;
   color: #fff;

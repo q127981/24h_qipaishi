@@ -162,7 +162,7 @@ Page({
     var info = e.currentTarget.dataset.info
     var roomId = info.roomId
     //禁用状态无法更换
-    if(that.data.roomType>=info.type || info.status==0 || info.type>this.data.orderInfo.type){
+    if(that.data.roomType>=info.type || info.status==0 || info.type>this.data.orderInfo.roomType){
       return
     }
     this.setData({

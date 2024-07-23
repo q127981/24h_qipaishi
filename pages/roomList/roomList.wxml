@@ -40,11 +40,11 @@
           </view>
         </block>
       </view>
-      <block wx:if="{{userinfo.userType!=14}}">
-      <view class="right">
-        <view class="btn red" bindtap="roomOp" data-room="{{item}}">控制功能</view>
-      </view>
-    </block>
+      <block wx:if="{{userinfo.userType!=14||(userinfo.userType==14&&item.clearOpenDoor)}}">
+        <view class="right">
+          <view class="btn red" bindtap="roomOp" data-room="{{item}}">控制功能</view>
+        </view>
+      </block>
     </view>
   </view>
   <view class="buttom">- 加载完毕 -</view>
@@ -60,12 +60,12 @@
     <view class="item">
         <view class="btn red" bindtap="openDoor">开电</view>
         <view class="btn red" bindtap="closeDoor">关电</view>
-        <view class="btn red" bindtap="toPlaceOrder">代下单</view>
-    </view>
-    <view class="item">
-        <view class="btn waring" bindtap="disableRoom">启用禁用</view>
         <view class="btn waring" bindtap="testYunlaba">测试喇叭</view>
+    </view>
+    <view class="item" wx:if="{{userinfo.userType!=14}}">
+        <view class="btn waring" bindtap="disableRoom">启用禁用</view>
         <view class="btn waring" bindtap="clearAndFinish">保洁完成</view>
+        <view class="btn red" bindtap="toPlaceOrder">代下单</view>
     </view>
   </view>
 </van-dialog>

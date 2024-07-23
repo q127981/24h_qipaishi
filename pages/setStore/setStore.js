@@ -3,6 +3,8 @@
 const app = getApp()
 var http = require('../../utils/http');
 var util1 = require('../../utils/util.js');
+var lock = require('../../utils/lock.js');
+
 Page({
 
   /**
@@ -13,6 +15,8 @@ Page({
     canLoadMore: true,//是否还能加载更多
     pageNo: 1,
     name: '',
+    setLockPwdShow: false,
+    lockData: '',
     isIpx: app.globalData.isIpx?true:false,
     foldIndex: -1
   },
@@ -161,42 +165,11 @@ Page({
   search: function(){
     this.getListData("refresh")
   },
-  // 图片预览
-  previewImage:function(e){
-    let storeId = e.currentTarget.dataset.info.storeId
-    let that = this
-    if (app.globalData.isLogin) {
-      http.request(
-        "/member/store/getDetail/"+storeId,
-        "1",
-        "get", {
-        },
-        app.globalData.userDatatoken.accessToken,
-        "",
-        function success(info) {
-          if (info.code == 0) {
-            //console.log(info)
-            let urls = info.data.storeEnvImg.split(',')
-            wx.previewImage({
-              current: info.data.headImg, // 当前显示图片的http链接
-              urls: urls // 需要预览的图片http链接列表
-            })
-          }else{
-            wx.showModal({
-              content: '请求服务异常，请稍后重试',
-              showCancel: false,
-            })
-          }
-        },
-        function fail(info) {
-        }
-      )
-    } else{
-      wx.showModal({
-        content: '请您先登录，再重试！',
-        showCancel: false,
-      })
-    }
+  previewImage(e){
+    var currentUrl = e.currentTarget.dataset.src //获取当前点击图片链接
+    wx.previewImage({
+      urls: [currentUrl]
+    })
   },
   // 获取门店详情
   getData:function(storeId){
@@ -336,5 +309,55 @@ Page({
       address: store.address,
       scale: 28
     })
+  },
+  queryLockPwd: function(e){
+    let that = this;
+    let lockData = e.currentTarget.dataset.lockdata;
+    if(lockData){
+     lock.queryLockPwd(lockData);
+    }else{
+     wx.showToast({
+       title: '未使用密码锁',
+       icon: 'error'
+     })
+   }
+  },
+  //设置密码锁密码
+  setLockPwdShow: function(e){
+    let that = this;
+    var lockData = e.currentTarget.dataset.lockdata;
+    if(lockData){
+      that.setData({
+        setLockPwdShow: true,
+        lockData: lockData
+      })
+    }else{
+      wx.showToast({
+       title: '未使用密码锁',
+       icon: 'error'
+     })
+    }
+  },
+  confirmSetLockPwd: function(e){
+     var that=this;
+     var lockData = that.data.lockData;
+     if(lockData){
+      if(!that.data.lockPwd||that.data.lockPwd<100000){
+        wx.showToast({
+          title: '密码不合法',
+          icon: 'error'
+        })
+      }else{
+        lock.setLockPwd(lockData,that.data.lockPwd);
+        that.setData({
+          setLockPwdShow:false,
+          lockData:'',
+        })
+      }
+    }else{
+      wx.showToast({
+        title: '未使用密码锁',
+      })
+    }
   },
 })

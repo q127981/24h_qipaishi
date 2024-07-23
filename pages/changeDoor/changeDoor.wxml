@@ -11,7 +11,7 @@
     <view class="title border-primary">房间</view>
     <view class="doors" wx:if="{{doorList.length}}">
       <!-- 禁用状态无法更换 -->
-      <view class="door {{roomType>=item.type || item.status ==0 || item.type>orderInfo.type?'disabled':''}} {{item.roomId === roomId?'bg-primary':''}}" wx:for="{{doorList}}" wx:key="doorList" bind:tap="choose" data-info="{{item}}">
+      <view class="door {{roomType>=item.type || item.status ==0 || item.type>orderInfo.roomType?'disabled':''}} {{item.roomId === roomId?'bg-primary':''}}" wx:for="{{doorList}}" wx:key="doorList" bind:tap="choose" data-info="{{item}}">
         <view class="name">{{item.roomName}}（{{item.type===1?'小包':item.type===2?'中包':item.type===3?'大包':item.type===4?'豪包':'商务包'}}）</view>
         <block wx:if="{{item.roomId === orderInfo.roomId}}">
           <view class="current"><image src="{{userinfo.avatar}}" mode="widthFix" /></view>

@@ -23,8 +23,7 @@ Page({
     minHour: '',
     leadHour: '',
     leadDay: '',
-    tag: '',
-    tags:[],
+    label: '',
     sortId: '',
     yunlabaSound: '',
     fileList: [],
@@ -49,7 +48,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    this.getSimple()
     if(options.storeId){
       this.setData({
         storeId: Number(options.storeId)
@@ -147,10 +145,6 @@ Page({
                 rcIndex = index
               }
             })
-            let tags=[];
-            if(info.data.label){
-              tags=info.data.label.split(",");
-            }
             that.setData({
               index: ind,
               rcIndex: rcIndex,
@@ -164,7 +158,7 @@ Page({
               minHour: info.data.minHour,
               leadDay: info.data.leadDay,
               tongxiaoPrice: info.data.tongxiaoPrice,
-              tags: tags,
+              label: info.data.label,
               sortId: info.data.sortId,
               yunlabaSound: info.data.yunlabaSound,
               fileList: fileList,
@@ -268,23 +262,7 @@ Page({
       showtime: false
     })
   },
-  // 添加标签
-  addTag:function(e){
-    let tag = [e.detail.value]
-    let tags = this.data.tags.concat(tag)
-    this.setData({
-      tags: tags,
-      tag: ''
-    })
-  },
-  // 标签删除
-  onTagClose(e) {
-    let label = e.currentTarget.dataset.label
-    let tags = this.data.tags.filter(it => it!=label)
-    this.setData({
-      tags: tags
-    });
-  },
+
   // 取消
   cancel: function(){
     wx.navigateBack({
@@ -297,7 +275,7 @@ Page({
     if(this.data.roomName && this.data.type  && this.data.price 
       && this.data.tongxiaoPrice
       && this.data.minHour && this.data.leadHour && this.data.leadDay  
-      && this.data.tags.length && this.data.fileList.length){
+      && this.data.label && this.data.fileList.length){
       let that = this
       let imgs = []
       that.data.fileList.map(it => {
@@ -320,7 +298,7 @@ Page({
             "leadHour": that.data.leadHour,
             "leadDay": that.data.leadDay,
             "tongxiaoPrice": that.data.tongxiaoPrice,
-            "label": that.data.tags.join(","),
+            "label": that.data.label,
             "imageUrls": imgs.join(","),
             "sortId": that.data.sortId,
             "yunlabaSound": that.data.yunlabaSound,
@@ -376,60 +354,8 @@ Page({
     let value = e.detail.value  
     return value.replace(/[^\d.]/g,'')
   },
-  // 获取字典数据
-  getSimple: function(){
-    let that = this
-    if (app.globalData.isLogin) 
-    {
-      http.request(
-        "/member/dict/list-all-simple",
-        "1",
-        "get", {
-        },
-        app.globalData.userDatatoken.accessToken,
-        "",
-        function success(info) {
-          console.info('返回111===');
-          console.info(info);
-          if (info.code == 0) {
-            let simple = info.data
-            var labels = []
-            simple.map(it => {
-              if(it.dictType == 'member_room_label'){
-                labels.push(it)
-              }
-            })
-            that.setData({
-              labels: labels
-            })
-          }else{
-            wx.showModal({
-              content: info.msg,
-              showCancel: false,
-            })
-          }
-        },
-        function fail(info) {
-          
-        }
-      )
-    } 
-  },
-  // 选择标签
-  chooseTag: function(){
-    var labels = this.data.labels
-    this.data.tags.map(it => {
-      labels.map(lab => {
-        if(lab.label == it){
-          lab.checked = true
-        }
-      })
-    })
-    this.setData({
-      showLabel: true,
-      labels: labels
-    })
-  },
+
+ 
   checkboxChange(e) {
     //console.log('checkbox发生change事件，携带value值为：', e.detail.value)
     const labels = this.data.labels
@@ -447,17 +373,7 @@ Page({
       labels: labels
     })
   },
-  // 保存标签
-  saveLabel: function () {
-    var labels = this.data.labels
-    var tags = []
-    labels.map(it => {
-      if(it.checked){
-        tags.push(it.label)
-      }
-    })
-    this.setData({tags: tags})
-  },
+ 
   //清除禁用时间
   clearBanTime: function(){
     this.setData({
@@ -466,20 +382,5 @@ Page({
     })
 
   },
-  delLabel: function(e){
-    let that = this
-    var label = e.currentTarget.dataset.label
-    var labels = that.data.labels
-    var tags = that.data.tags
-    labels.map(it => {
-      if(it.label == label){
-        it.checked = false
-      }
-    })
-    tags = tags.filter(it => it!=label)
-    that.setData({
-      tags: tags,
-      labels: labels
-    })
-  },
+
 })

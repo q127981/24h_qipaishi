@@ -54,6 +54,10 @@
       <view class="item">
         <view class="label color-primary">抖音</view>
         <view class="price2">{{businfo.dyMoney}}</view>
+
+      </view> <view class="item">
+        <view class="label color-primary">快手</view>
+        <view class="price2">{{businfo.ksMoney}}</view>
       </view>
     </view>
      

@@ -40,6 +40,7 @@ Page({
     txStartHour: '',
     delayLight: '',
     orderDoorOpen: '',
+    clearOpenDoor: '',
     txHour: '',
     citylist: [], //城市列表
     ritem: [
@@ -206,6 +207,7 @@ Page({
               delayLight: info.data.delayLight,
               txHour: info.data.txHour,
               orderDoorOpen: info.data.orderDoorOpen,
+              clearOpenDoor: info.data.clearOpenDoor,
             })
           }else{
             wx.showModal({
@@ -431,6 +433,7 @@ Page({
         "delayLight": that.data.delayLight,
         "txHour": that.data.txHour,
         "orderDoorOpen": that.data.orderDoorOpen,
+        "clearOpenDoor": that.data.clearOpenDoor,
       }
     }else{
       //个性化模式 需要上传那些模板图片
@@ -471,6 +474,7 @@ Page({
             "delayLight": that.data.delayLight,
             "txHour": that.data.txHour,
             "orderDoorOpen": that.data.orderDoorOpen,
+            "clearOpenDoor": that.data.clearOpenDoor,
           };
       }else{
         wx.showToast({

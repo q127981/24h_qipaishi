@@ -114,6 +114,9 @@
         <view class="item {{select_time_index == 99?'active':''}}" bind:tap="selectTimeHour" data-hour="99" data-index="99">
           <view class="hours">通宵场</view>
         </view>
+        <view class="item {{select_time_index == 999?'active':''}}" bind:tap="otherTime" data-index="999">
+          <view class="hours">其他</view>
+        </view>
       </view>
     </view>
     <!-- 套餐列表 -->
@@ -279,5 +282,5 @@
 </van-popup>
 <!-- 其他时间弹窗 -->
 <van-popup show="{{ show }}" position="bottom">
-  <van-picker show-toolbar columns="{{ hour_options }}" bind:confirm="onTimeConfirm" bind:cancel="onTimeCancel" />
+  <van-picker show-toolbar columns="{{ other_hour_options }}" bind:confirm="onTimeConfirm" bind:cancel="onTimeCancel" />
 </van-popup>
