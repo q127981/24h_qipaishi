@@ -1,0 +1,163 @@
+<!--pages/setDoorInfo/setDoorInfo.wxml-->
+<view class="container" style="{{isIpx?'padding-bottom:168rpx':'padding-bottom:120rpx'}}">
+  <view class="form">
+    <view class="line">
+      <label>房间名称：</label>
+      <view class="right">
+        <input model:value="{{roomName}}" type="text" placeholder="请输入"/>
+      </view>
+    </view>
+    <view class="line">
+      <label>房间类别：</label>
+      <view class="right">
+        <view class="city">
+          <picker bindchange="bindRoomClassChange" value="{{rcIndex}}" range-key="name" range="{{roomClassList}}">
+            <view class="picker">
+              <input type="text" disabled placeholder="请选择" placeholder-class="plh" value="{{roomClassList[rcIndex].name}}"/>
+              <view class="iconfont icon-xuanzex"></view>
+            </view>
+          </picker>
+        </view>
+      </view>
+    </view>
+    <view class="line">
+      <label>房间类型：</label>
+      <view class="right">
+        <view class="city">
+          <picker bindchange="bindTypeChange" value="{{index}}" range-key="name" range="{{types}}">
+            <view class="picker">
+              <input type="text" disabled placeholder="请选择" placeholder-class="plh" value="{{types[index].name}}"/>
+              <view class="iconfont icon-xuanzex"></view>
+            </view>
+          </picker>
+        </view>
+      </view>
+    </view>
+    <view class="line">
+      <label>房间单价：</label>
+      <view class="right">
+        <view class="price">
+          <input model:value="{{price}}" type="digit" placeholder="请输入" />
+          <text>元/小时</text>
+        </view>
+      </view>
+    </view>
+     <view class="line">
+      <label>房间押金：</label>
+      <view class="right">
+        <view class="price">
+          <input model:value="{{deposit}}" type="digit" placeholder="请输入" />
+          <text>元</text>
+        </view>
+      </view>
+    </view>
+    <!-- <view class="line">
+      <label>闲时单价：</label>
+      <view class="right">
+        <view class="price">
+          <input model:value="{{workPrice}}" type="digit" placeholder="请输入"/>
+          <text>元/小时</text>
+        </view>
+      </view>
+    </view> -->
+    <view class="line">
+      <label>通宵价格：</label>
+      <view class="right">
+        <view class="price">
+          <input model:value="{{tongxiaoPrice}}" type="digit" placeholder="请输入"/>
+          <text>元/场</text>
+        </view>
+      </view>
+    </view>
+    <view class="line">
+      <label>最低下单小时：</label>
+      <view class="right">
+        <view class="price">
+        <input  model:value="{{minHour}}" type="text" placeholder="请输入1-4的数字"/>小时
+        </view>
+      </view>
+    </view>
+    <view class="line">
+      <label>提前开始时间：</label>
+      <view class="right">
+        <view class="price">
+        <input model:value="{{leadHour}}" type="text" placeholder="请输入1-12的数字"/>小时
+        </view>
+      </view>
+    </view>
+    <view class="line">
+      <label>提前下单天数：</label>
+      <view class="right">
+        <input  style="width: 300rpx;" model:value="{{leadDay}}" type="text" placeholder="请输入1-5的数字"/>天
+      </view>
+    </view>
+    <view class="line">
+      <label>排序位置：</label>
+      <view class="right">
+        <input style="width: 300rpx;" model:value="{{sortId}}" type="number" placeholder="数字越小排名靠前" />
+      </view>
+    </view>
+    <view class="line">
+      <label>喇叭音量：</label>
+      <view class="right">
+        <input style="width: 400rpx;" model:value="{{yunlabaSound}}" type="number" placeholder="请输入，数字1-5" />
+      </view>
+    </view>
+    <view class="line">
+      <label>禁用时间：</label>
+      <view class="right">
+        <view class="search">
+          <view class="iconfont icon-date"></view>
+          <input bindtap="chooseTime" data-type="start" type="text" placeholder="开始" disabled value="{{banTimeStart}}" />
+          <text>至</text>
+          <input bindtap="chooseTime" data-type="end" type="text" placeholder="结束" disabled value="{{banTimeEnd}}" />
+        </view>
+        <view class="icon iconfont icon-close" bind:tap="clearBanTime"> </view>
+      </view>
+    </view>
+    <view class="tips">注:每日固定时间段该房间不可用，不禁用就不填写</view>
+    <view class="line">
+      <label>房间标签：</label>
+      <view class="right">
+        <view class="tags">
+          <textarea model:value="{{label}}" type="text" placeholder="输入标签，用逗号分隔"/>
+        </view>
+      </view>
+    </view>
+    <view class="tips">注:请使用英文的逗号进行分隔</view>
+    <view class="line">
+      <label>房间图片：</label>
+      <view class="right">
+        <van-uploader file-list="{{ fileList }}" bind:after-read="afterRead" bind:delete="delete" preview-size="200rpx" max-count="9" />
+      </view>
+    </view>
+  </view>
+  <!-- 底部按钮 -->
+  <view class="submit border-primary {{isIpx?'fix-iphonex-button':''}}">
+    <button hover-class="button-click"  class="color-primary cancel" bindtap="cancel">取消</button>
+    <button hover-class="button-click"  class="bg-primary" bindtap="submit">保存</button>
+  </view>
+</view>
+<!-- 时间选择弹窗 -->
+<van-popup show="{{ showtime }}" position="bottom"
+  custom-style="height: 60%">
+  <van-datetime-picker type="time" value="{{currentDate}}"  filter="{{filter}}" bind:confirm="timeChange" bind:cancel="timeCancel">
+  </van-datetime-picker>
+</van-popup>
+<van-dialog
+  use-slot
+  title="选择房间标签"
+  show="{{ showLabel }}"
+  show-cancel-button
+  bind:confirm="saveLabel"
+>
+  <view class="dialog">
+    <checkbox-group bindchange="checkboxChange">
+      <view class="checkbox">
+        <label class="label" wx:for="{{labels}}" wx:key="labels">
+            <checkbox value="{{item.label}}" checked="{{item.checked}}"/>{{item.label}}
+        </label>
+      </view>
+    </checkbox-group>
+  </view>
+</van-dialog>

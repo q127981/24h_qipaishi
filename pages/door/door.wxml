@@ -69,7 +69,7 @@
     <view class="containerlogin">
       <view class="photo">
         <view class="img">
-          <image src="../static/img/logo.png" mode="widthFix" />
+          <image src="/logo.png" mode="widthFix" />
         </view>
         <view class="name">{{appName}}</view>
       </view>

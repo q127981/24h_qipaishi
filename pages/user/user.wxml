@@ -6,7 +6,7 @@
       <button hover-class="button-click" class="userInfo" bind:tap="gotosetuserinfo">
         <view class="left">
           <view class="photo">
-            <image src="{{userinfo.avatar?userinfo.avatar:'../static/img/logo.png'}}" mode="widthFix"></image>
+            <image src="{{userinfo.avatar?userinfo.avatar:'/logo.png'}}" mode="widthFix"></image>
           </view>
           <view class="info">
             <view class="name">昵称：{{userinfo.nickname.length?userinfo.nickname:"暂无"}}</view>
@@ -19,9 +19,9 @@
     <block wx:else>
       <button hover-class="button-click" class="userInfo" bindgetphonenumber="phone" open-type="getPhoneNumber">
         <view class="left">
-          <!-- <image class="photo" src="../static/img/logo.png"></image> -->
-          <!-- <button hover-class="button-click"  class="photo" src="../static/img/logo.png" bindgetphonenumber="phone" open-type="getPhoneNumber">地图</button> -->
-          <image class="photo" src="../static/img/logo.png"></image>
+          <!-- <image class="photo" src="/logo.png"></image> -->
+          <!-- <button hover-class="button-click"  class="photo" src="/logo.png" bindgetphonenumber="phone" open-type="getPhoneNumber">地图</button> -->
+          <image class="photo" src="/logo.png"></image>
           <view class="info">
             <view class="name">点击登录</view>
           </view>
@@ -97,66 +97,66 @@
     <view class="menu">
       <view class="title border-primary">功能专区</view>
       <view class="box" wx:if="{{userinfo.userType!= 14}}">
-        <navigator class="item" url="../setStore/setStore">
+        <navigator class="item" url="/packageA/pages/setStore/setStore">
           <view class="iconfont icon-mendianguanli color-primary"></view>
           <view>门店管理</view>
         </navigator>
-        <navigator class="item" url="../roomList/roomList">
+        <navigator class="item" url="/packageA/pages/roomList/roomList">
           <view class="iconfont icon-wanle color-primary"></view>
           <view>房间控制</view>
         </navigator>
-        <navigator class="item" url="../SetOrder/SetOrder">
+        <navigator class="item" url="/packageA/pages/SetOrder/SetOrder">
           <view class="iconfont icon-dingdan color-primary"></view>
           <view>订单管理</view>
         </navigator>
-        <navigator class="item" url="../setVip/setVip">
+        <navigator class="item" url="/packageA/pages/setVip/setVip">
           <view class="iconfont icon-huiyuan color-primary"></view>
           <view>会员管理</view>
         </navigator>
-        <navigator class="item" url="../setCoupon/setCoupon">
+        <navigator class="item" url="/packageA/pages/setCoupon/setCoupon">
           <view class="iconfont icon-diyongquan color-primary"></view>
           <view>优惠卡券</view>
         </navigator>
-        <navigator class="item" url="../scanQr/scanQr">
+        <navigator class="item" url="/packageA/pages/scanQr/scanQr">
           <view class="iconfont icon-qr-code color-primary"></view>
           <view>团购验券</view>
         </navigator>
-        <navigator class="item" url="../admin/admin">
+        <navigator class="item" url="/packageA/pages/admin/admin">
           <view class="iconfont icon-employee color-primary"></view>
           <view>员工管理</view>
         </navigator>
-        <navigator class="item" url="../cleaner/cleaner">
+        <navigator class="item" url="/packageA/pages/cleaner/cleaner">
           <view class="iconfont icon-renyuanguanli color-primary"></view>
           <view>保洁员管理</view>
         </navigator>
-        <navigator class="item" url="../taskManager/taskManager">
+        <navigator class="item" url="/packageA/pages/taskManager/taskManager">
           <view class="iconfont icon-dingdan2 color-primary"></view>
           <view>保洁订单</view>
         </navigator>
-        <navigator class="item" url="../statics/statics">
+        <navigator class="item" url="/packageA/pages/statics/statics">
           <view class="iconfont icon-tongji color-primary"></view>
           <view>数据统计</view>
         </navigator>
-        <navigator class="item" url="../packageManagement/packageManagement">
+        <navigator class="item" url="/packageA/pages/packageManagement/packageManagement">
           <view class="iconfont icon-taocanguanli color-primary"></view>
           <view>套餐管理</view>
         </navigator>
-        <navigator class="item" url="../deviceList/deviceList">
+        <navigator class="item" url="/packageA/pages/deviceList/deviceList">
           <view class="iconfont icon-device color-primary"></view>
           <view>设备管理</view>
         </navigator>
       </view>
       <view class="box" wx:else>
         <!-- 保洁端 -->
-        <navigator class="item" url="../task/task">
+        <navigator class="item" url="/packageA/pages/task/task">
           <view class="iconfont icon-renwu color-primary"></view>
           <view>任务大厅</view>
         </navigator>
-        <navigator class="item" url="../roomList/roomList">
+        <navigator class="item" url="/packageA/pages/roomList/roomList">
           <view class="iconfont icon-wanle color-primary"></view>
           <view>房间状态</view>
         </navigator>
-        <navigator class="item" url="../taskStatics/taskStatics">
+        <navigator class="item" url="/packageA/pages/taskStatics/taskStatics">
           <view class="iconfont icon-tongji color-primary"></view>
           <view>任务统计</view>
         </navigator>

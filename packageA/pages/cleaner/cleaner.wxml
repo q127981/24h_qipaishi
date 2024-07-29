@@ -1,0 +1,60 @@
+<!-- pages/cleaner/cleaner.wxml -->
+<view class="tabs">
+  <van-dropdown-menu active-color="{{mainColor}}">
+    <van-dropdown-item value="{{ storeId }}" options="{{ stores }}" bind:change="storeDropdown" />
+  </van-dropdown-menu>
+</view>
+<view class="container" style="{{isIpx?'padding-bottom:168rpx':'padding-bottom:120rpx'}}">
+  <block wx:if="{{list.length}}">
+    <!-- 列表 -->
+    <view class="list">
+      <view class="item" wx:for="{{list}}" wx:key="item">
+        <view class="top">
+          <view class="left">
+            <view class="img">
+              <image src="{{item.avatar?item.avatar:'/logo.png'}}" mode="widthFix"></image>
+            </view>
+            <view class="nick">{{item.nickname}}</view>
+            <!-- <view class="del color-attention" bindtap="delete" data-info="{{item}}">删除</view> -->
+          </view>
+          <view class="right">
+            <view class="info-box">
+              <view class="info">门店：{{item.storeName}}</view>
+              <view class="info">姓名：{{item.name}}</view>
+              <view class="info">手机号：{{item.mobile}}</view>
+              <view class="info">总收入：{{item.money}}元</view>
+              <view class="info">已完成：{{item.finishCount}}单,已结算：{{item.settlementCount}}单</view>
+            </view>
+            <view class="btns">
+              <view class="btn green" data-info="{{item}}" bind:tap="taskSettle">任务结算</view>
+              <view class="btn red" data-info="{{item}}" bindtap="delete">删除</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{canLoadMore}}" class="noteMore">下拉刷新查看更多...</view>
+  </block>
+  <block wx:else>
+    <view class="nodata">暂无数据</view>
+  </block>
+</view>
+<!-- 底部按钮 -->
+<view class="bottom bg-primary {{isIpx?'fix-iphonex-button':''}}" bindtap="add">添加保洁员</view>
+<!-- 添加弹窗 -->
+<van-dialog use-slot title="添加保洁员" show="{{ show }}" show-cancel-button bind:confirm="submit" bind:cancel="cancel" before-close="{{beforeCloseFunction}}" confirm-button-color="{{mainColor}}">
+  <view class="dialog">
+    <van-cell-group>
+      <van-field label="门店：" placeholder="请选择门店">
+        <picker slot="input" bindchange="bindStoreChange" value="{{index}}" range-key="text" range="{{stores}}">
+          <view class="picker">
+            <input type="text" disabled placeholder="请选择门店" placeholder-class="plh" value="{{stores[index].text}}" />
+            <van-icon name="arrow-down" />
+          </view>
+        </picker>
+      </van-field>
+      <van-field model:value="{{name}}" label="姓名：" placeholder="请输入" />
+      <van-field model:value="{{mobile}}" label="手机号：" placeholder="请输入" border="{{ false }}" />
+    </van-cell-group>
+  </view>
+</van-dialog>

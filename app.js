@@ -3,6 +3,7 @@ App({
   globalData: {
     //接口地址
     baseUrl: "https://wq.scyanzu.com/app-api",
+    // baseUrl: "http://test.maozngjian.com:8900/app-api",
     //租户id
     tenantId: "150",
     //小程序名称

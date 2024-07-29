@@ -2,25 +2,10 @@
   "pages": [
     "pages/index/index",
     "pages/doorList/doorList",
-    "pages/cleaner/cleaner",
-    "pages/admin/admin",
-    "pages/taskSettle/taskSettle",
-    "pages/statics/statics",
+    
     "pages/cashOut/cashOut",
-    "pages/SetOrder/SetOrder",
-    "pages/scanQr/scanQr",
-    "pages/setVip/setVip",
-    "pages/setCoupon/setCoupon",
-    "pages/setCouponInfo/setCouponInfo",
-    "pages/setStore/setStore",
-    "pages/setStoreInfo/setStoreInfo",
-    "pages/setDiscount/setDiscount",
-    "pages/setDoorList/setDoorList",
-    "pages/setDoorInfo/setDoorInfo",
-    "pages/task/task",
-    "pages/taskManager/taskManager",
-    "pages/taskDetail/taskDetail",
-    "pages/taskStatics/taskStatics",
+  
+    
     "pages/doorSubmit/doorSubmit",
     "pages/door/door",
     "pages/doorSelect/doorSelect",
@@ -41,17 +26,49 @@
     "pages/help/help",
     "pages/recharge/recharge",
     "pages/orderList/orderList",
-    "pages/logs/logs",
     "pages/location/location",
     "pages/login/login",
     "pages/booking/booking",
-    "pages/roomList/roomList",
     "pages/placeOrder/placeOrder",
-    "pages/packageManagement/packageManagement",
-    "pages/editPages/editPages",
-    "pages/deviceList/deviceList",
     "pages/roomRenew/roomRenew"
   ],
+  "subpackages": [
+    {
+      "root": "packageA",
+      "name": "p1",
+      "pages": [
+        "pages/admin/admin",
+        "pages/statics/statics",
+        "pages/setVip/setVip",
+        "pages/cleaner/cleaner",
+        "pages/setCoupon/setCoupon",
+        "pages/setStore/setStore",
+        "pages/setDoorInfo/setDoorInfo",
+        "pages/setStoreInfo/setStoreInfo",
+        "pages/setCouponInfo/setCouponInfo",
+        "pages/SetOrder/SetOrder",
+        "pages/setDiscount/setDiscount",
+        "pages/setDoorList/setDoorList",
+        "pages/taskStatics/taskStatics",
+        "pages/task/task",
+        "pages/taskDetail/taskDetail",
+        "pages/taskSettle/taskSettle",
+        "pages/scanQr/scanQr",
+        "pages/taskManager/taskManager",
+        "pages/deviceList/deviceList",
+        "pages/packageManagement/packageManagement",
+        "pages/editPages/editPages",
+        "pages/roomList/roomList"
+      ]
+    }
+  ],
+  "preloadRule": {
+    "pages/user/user":{
+      "packages": ["p1"],
+      "network": "all"
+    }
+
+  },
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",

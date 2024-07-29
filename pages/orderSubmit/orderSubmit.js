@@ -692,7 +692,12 @@ Page({
         pkgId: '',
       })
     }else{
-      var startDate=new Date(that.data.submit_begin_time);//显示的开始时间
+      var startDate=null;
+      if(that.data.select_time_index==99){
+        startDate=new Date();
+      }else{
+        startDate=new Date(that.data.submit_begin_time);//显示的开始时间
+      }
       var payselectindex = 1;
       if(that.data.scanCodeMsg){
          payselectindex = 3;

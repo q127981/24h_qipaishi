@@ -16,7 +16,7 @@
   <!-- 门店信息-->
   <view class="intro">
     <view class="line1">
-        <image class="image" src="../static/img/logo.png"></image> 
+        <image class="image" src="/logo.png"></image> 
         <text class="name">{{doorinfodata.storeName}}</text>
         <button class="qhBtn" bindtap="goIndexPage">切换门店 ></button>
     </view>
@@ -58,7 +58,7 @@
             <image class="img" src="{{magic.split(item.imageUrls)[0]}}" catchtap="imgYu" data-index="{{index}}"></image>
           </block>
           <block wx:else>
-            <image class="img" src="../static/img/logo.png"></image>
+            <image class="img" src="/logo.png"></image>
           </block>
           <block wx:if="{{item.status == 0}}">
             <view class="flag disabled">禁用</view>
@@ -76,7 +76,7 @@
             <view class="flag bukeyong">已预约</view>
           </block>
         </view>
-        <view class="right">
+        <view class="right" bind:tap="goOrder" data-status="{{item.status}}" data-index="{{index}}" data-info="{{item.roomId}}">
           <view class="info">
             <view class="name">
               {{item.roomName}}
@@ -115,7 +115,7 @@
             <view class="bottom">
               <block wx:if="{{item.status == 0}}">
                 <!-- 禁用状态 -->
-                <view class="btn disabled">预约</view>
+                <view class="btn disabled">禁用</view>
               </block>
               <block wx:else="">
                 <view class="btn bg-primary" bind:tap="goOrder" data-status="{{item.status}}" data-index="{{index}}" data-info="{{item.roomId}}">

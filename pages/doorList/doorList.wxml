@@ -35,7 +35,7 @@
             <image class="img" src="{{item.headImg}}" mode="scaleToFill"></image>
           </view>
           <view wx:else>
-            <image class="img" src="../static/img/logo.png" mode="aspectFit"></image>
+            <image class="img" src="/logo.png" mode="aspectFit"></image>
           </view>
           <view class="info">
             <view class="name">{{store.storeName}}</view>
@@ -60,7 +60,7 @@
             <image class="img" src="{{item.headImg}}" mode="scaleToFill"></image>
           </view>
           <view wx:else>
-            <image class="img" src="../static/img/logo.png" mode="aspectFit"></image>
+            <image class="img" src="/logo.png" mode="aspectFit"></image>
           </view>
           <view class="info">
             <view class="name">{{item.storeName}}</view>

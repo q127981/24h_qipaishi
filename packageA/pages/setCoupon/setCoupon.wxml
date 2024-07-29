@@ -1,0 +1,56 @@
+<!--pages/setCoupon/setCoupon.wxml-->
+<view class="tabs">
+  <van-dropdown-menu active-color="{{mainColor}}">
+    <van-dropdown-item value="{{ storeId }}" options="{{ stores }}"  bind:change="storeDropdown" />
+    <van-dropdown-item value="{{ type }}" options="{{ types }}"  bind:change="typeDropdown" />
+  </van-dropdown-menu>
+</view>
+<view class="container" style="{{isSelect?'padding-bottom:0;':isIpx?'padding-bottom:188rpx':'padding-bottom:120rpx'}}">
+<block wx:if="{{list.length}}">
+  <view class="list">
+    <view class="item" wx:for="{{list}}" wx:key="item">
+      <block wx:if="{{item.type===1}}">
+        <image class="img" src="/img/coupon_blue.png" mode="scaleToFill"></image>
+      </block>
+      <block wx:if="{{item.type===2}}">
+        <image class="img" src="/img/coupon_yellow.png" mode="scaleToFill"></image>
+      </block>
+      <block wx:if="{{item.type===3}}">
+        <image class="img" src="/img/order_blue.png" mode="scaleToFill"></image>
+      </block>
+      <view class="info">
+        <view class="left">
+          <view class="name">{{item.couponName}}</view>
+          <view class="text">适用门店：{{item.storeName}}</view>
+          <view class="text">包间限制：{{item.roomType===1?'小包':item.roomType===2?'中包':item.roomType===3?'大包':item.roomType===4?'豪包':item.roomType===5?'商务包':'不限制'}}</view>
+          <view class="text">抵扣额度：
+              <text wx:if="{{item.type===2}}">{{item.price}}元</text>
+              <text wx:else>{{item.price}}小时</text></view>
+          <view class="text">使用门槛：
+              <text wx:if="{{item.type===2}}">满{{item.minUsePrice}}元可用</text>
+              <text wx:else>满{{item.minUsePrice}}小时可用</text></view>
+          <view class="text">过期时间：{{item.expriceTime}}</view>
+          <view class="text">状态：<text class="{{item.status===0?'normal':'expired'}}">{{item.status===0?'待使用':item.status===1?'已使用':'已过期'}}</text></view>
+        </view>
+        <view class="right">
+          <view class="btns" wx:if="{{isSelect}}">
+            <button hover-class="button-click"  class="btn bg-primary" bindtap="select" data-info="{{item.couponId}}">选择</button>
+          </view>
+          <!-- 优惠券管理 -->
+          <view class="btns" wx:else>
+            <navigator class="btn primary" url="../setVip/setVip?isSelect=1&&couponId={{item.couponId}}">赠送用户</navigator>
+            <navigator class="btn yellow" url="../setCouponInfo/setCouponInfo?couponId={{item.couponId}}">修改设置</navigator>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</block>
+<block wx:else>
+  <view class="nodata">暂无数据</view>
+</block>
+</view>
+<!-- 底部按钮 -->
+<view class="bt">
+  <navigator wx:if="{{!isSelect}}" url="../setCouponInfo/setCouponInfo" class="bottom bg-primary {{isIpx?'fix-iphonex-button transparent':''}}">添加优惠券</navigator>
+</view>

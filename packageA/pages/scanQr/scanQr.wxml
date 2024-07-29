@@ -1,0 +1,36 @@
+<!-- pages/join/join.wxml -->
+<view class="container">
+  <image src="/img/tg_bk.png" mode="widthFix"></image>
+  <view class="form">
+    <van-cell-group>
+      <van-cell title="所属门店" is-link>
+        <view class="right">
+          <view class="tags">
+            <view class="city store">
+              <picker bindchange="bindStoreChange" range-key="name" range="{{stores}}">
+                <view class="picker">
+                  <input type="text" disabled placeholder="请选择" placeholder-class="plh" value="{{stores[storeIndex].name}}" />
+                </view>
+              </picker>
+            </view>
+          </view>
+        </view>
+      </van-cell>
+    </van-cell-group>
+    <!-- <view class="right"> -->
+      <van-cell-group class="coupon">
+        <van-field label="团购券码" model:value="{{ groupPayNo }}" placeholder="请输入团购券码" input-align="right" 
+        use-button-slot
+        >
+        <van-button slot="button" size="small" type="primary" bind:tap="scanCode">
+          <view class="iconfont icon-saomiao" ></view>
+        </van-button>
+        </van-field>
+      </van-cell-group>
+    <!-- </view> -->
+    
+  </view>
+  <view class="btns">
+    <button hover-class="button-click" class="btn submit bg-primary" bindtap="submit">提交验券</button>
+  </view>
+</view>

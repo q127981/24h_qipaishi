@@ -1,0 +1,105 @@
+<!-- pages/yourPage/yourPage.wxml -->
+<!--  bindreset="onReset -->
+<form bindsubmit="onSubmit" bindreset="onReset">
+  <view class="form-section">
+    <view class="form-item">
+  <view class="label-container">
+    <text class="label">套餐名称</text>
+    <text class="required">*</text>
+  </view>
+  <input name="pkg_name" class="input" placeholder="请输入"  value="{{item.pkgName}}"/>
+</view>
+<view class="form-item">
+  <view class="label-container">
+    <view class="label">适用门店</view>
+    <text class="required">*</text>
+  </view>
+  <picker mode="selector" name="store" range="{{stores}}" range-key="key" value="{{storeIndex}}" bindchange="handlePickerChanges" class="picker">
+  <view class="picker-display">{{storeName}}</view>
+  <view class="arrow-down"></view>
+  </picker>
+</view>
+<view class="form-item">
+  <view class="label-container">
+    <view class="label">套餐时长<text class="required">*</text></view>
+  </view>
+  <view class="stepper">
+    <button class="btn" data-op="dec" bindtap="decreaseDuration"><view>-</view></button>
+    <input type="number" name="duration" class="count-display" value="{{hours}}" disabled/>
+    <button class="btn" data-op="inc" bindtap="increaseDuration"><view>+</view></button>小时
+  </view>
+</view>
+<view class="form-item">
+  <view class="label-container">
+    <view class="label">限制房间</view>
+  </view>
+  <picker mode="selector" name="storeRoom" range="{{storesRoomList}}" range-key="value" value="{{storesRoomIndex}}" bindchange="handlePickerChange" class="picker lt">
+  <view class="picker-display">{{storesRoomName}}</view>
+  <view class="arrow-down"></view>
+</picker>
+</view>
+<view class="form-item">
+    <view class="label">可用时间</view>
+      <checkbox-group name="enableTime" class="checkbox-containe-group">
+      <view wx:for="{{times}}" wx:key="index" class="checkbox-group-item" >
+          <checkbox value="{{item.index}}" checked="{{item.checked}}" bindtap="toggleCheck" data-index="{{index}}"></checkbox>
+          <text>{{item.index}}</text>
+      </view>
+  </checkbox-group>
+    <view class="choose">
+      <view bindtap="selectAllHours">全选</view>
+      <view bindtap="invertSelection">反选</view>
+    </view>
+  </view>
+<view class="form-item">
+  <view class="label">可用星期</view>
+  <checkbox-group name="enableWeek" class="checkbox-containe-group">
+      <view wx:for="{{weekDays}}" wx:key="index"  class="week-day-item" >
+          <checkbox bindtap="chackWeek"  color="#007aff"  value="{{index+1}}" data-index="{{index}}" checked="{{checkedStates[index]}}"></checkbox>
+          <text>{{item}}</text>
+      </view>
+  </checkbox-group>
+  <view class="choose_1">
+    <view bindtap="selectAll">全选</view>
+    <view bindtap="selectInverse">反选</view>
+  </view>
+</view>
+    <view class="form-item">
+      <view class="label">节假日可用</view>
+      <view class="switch-container">
+       <switch name="enableHoliday" checked="{{switchChecked}}" bindchange="switchChange"/>
+      </view>
+    </view>
+    <view class="form-item">
+      <view class="label">可余额支付</view>
+      <view class="switch-container">
+       <switch name="balanceBuy" checked="{{balanceBuy}}" bindchange="switch2Change"/>
+      </view>
+    </view>
+    <view class="form-item">
+    <view class="label-container">
+      <text class="label">销售价格</text>
+      <text class="required">*</text>
+    </view>
+  <input name="price" class="input" placeholder="请输入" type="digit" value="{{item.price}}" bindinput="handleInput" required/>
+</view>
+<view class="form-item">
+    <view class="label-container">
+      <text class="label">过期天数</text>
+    </view>
+  <input name="expireDay" class="input lt" placeholder="0为不过期" required type="number" value="{{item.expireDay}}"/>
+</view>
+    <view class="form-item">
+      <view class="label label_width">单用户量大 购买数量</view>
+      <input name="maxNum" class="input" placeholder="0 为不限" type="number" value="{{item.maxNum}}"/>
+    </view>
+    <view class="form-item">
+      <view class="label">排序号</view>
+      <input name="sortId" class="input" placeholder="数字越小越靠前" style="margin-left: 13%;" type="number" value="{{item.sortId}}"/>
+    </view>
+    <view class="button-group">
+      <button bindtap="cancelSave" >取消</button>
+      <button formType="submit">保存</button>
+    </view>
+  </view>
+</form>

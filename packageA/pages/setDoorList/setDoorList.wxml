@@ -1,0 +1,97 @@
+<!-- pages/setDoorList/setDoorList.wxml -->
+<wxs src="../../../utils/magic.wxs" module="magic" />
+<view class="container" style="{{isIpx?'padding-bottom:168rpx':'padding-bottom:120rpx'}}">
+  <block wx:if="{{doorList.length}}">
+    <view class="list">
+      <!-- <view class="item doing" wx:for="{{doorList}}" wx:key="item" class="{{item.status==0?'item disabled':item.status==1?'item undo':item.status==2?'item clean':item.status==3?'item doing':'item yuyue'}}"> -->
+      <view class="item doing" wx:for="{{doorList}}" wx:key="item" class="item">
+        <view class="top">
+          <view class="name">
+            {{item.roomName}}
+            <text class="type">（{{item.type===0?'特价包':item.type===1?'小包':item.type===2?'中包':item.type===3?'大包':item.type===4?'豪包':'商务包'}}）</text>
+          </view>
+          <view class="price color-attention">￥{{item.price}}/小时</view>
+        </view>
+        <view class="tags">
+          <block wx:for="{{magic.split(item.label)}}" wx:for-item="labelitem" wx:key="label">
+            <view class="tag">{{labelitem}}</view>
+          </block>
+        </view>
+        <view class="info">
+          <view class="line" style="width: 100%;">
+            <label>禁用时间：</label>
+            <text wx:if="{{item.banTimeStart}}">{{item.banTimeStart}} - {{item.banTimeEnd}}</text>
+          </view>
+          <view class="delRoom" bind:tap="delRoom" data-id="{{item.roomId}}">删除</view>
+        </view>
+        <view class="info">
+          <view class="line">
+            <label>当前状态：</label>
+            <text>{{item.status==0?'禁用':item.status==1?'空闲中':item.status==2?'待清洁':item.status==3?'使用中':'已预约'}}</text>
+          </view>
+          <view class="line">
+            <text wx:if="{{item.orderTime}}">{{item.orderTime}}</text>
+          </view>
+        </view>
+        <van-divider contentPosition="center" customStyle="color: #108ee9;" bind:tap="foldTap" data-index="{{item.roomId}}">
+          {{foldIndex === item.roomId ? "隐藏":"显示管理功能"}}
+        </van-divider>
+        <view class="btns {{foldIndex === item.roomId ? 'show': ''}}">
+          <view class="line2">
+            <view class="btn warning" bindtap="disableRoom" data-roomid="{{item.roomId}}">
+              启用禁用
+            </view>
+             <navigator class="btn warning" url="../setDoorInfo/setDoorInfo?roomId={{item.roomId}}&&storeId={{storeId}}">
+              修改信息
+            </navigator>
+             <view class="btn yellow" data-src="{{item.qrCode}}" bind:tap="previewImage">
+              房间预定码
+            </view>
+            <view class="btn yellow" data-src="{{item.renewCode}}" bind:tap="previewImage">
+              房间续费码
+            </view>
+          </view>
+          <view class="line2">
+            <view class="btn origin" bindtap="queryLockPwd" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">
+              查询锁密码
+            </view>
+            <view class="btn origin" bindtap="setLockPwdShow" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">设置锁密码</view>
+            <view class="btn origin" bindtap="addLockCard" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">添加锁卡片</view>
+            <view class="btn origin" bindtap="setLockGateWay" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">
+              锁数据查询
+            </view>
+          </view>
+          <view class="line2">
+           <view class="btn warning" bindtap="clearAndFinish" data-roomid="{{item.roomId}}">
+              设置空闲
+            </view>
+            <view class="btn warning" bindtap="finishOrder" data-roomid="{{item.roomId}}">
+              结束订单
+            </view>
+            <view class="btn red" bindtap="openBlueDoor" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">
+              蓝牙开锁
+            </view>
+            <view class="btn red" bindtap="openDoor" data-roomid="{{item.roomId}}">开电</view>
+            <view class="btn red" bindtap="closeDoor" data-roomid="{{item.roomId}}">关电</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+  <block wx:else>
+    <view class="nodata">暂无数据</view>
+  </block>
+</view>
+<!-- 底部按钮 -->
+<navigator url="../setDoorInfo/setDoorInfo?storeId={{storeId}}" class="bottom bg-primary {{isIpx?'fix-iphonex-button':''}}">
+  新增房间
+</navigator>
+
+<van-dialog use-slot title="设置门锁密码" show="{{ setLockPwdShow }}" show-cancel-button confirm-button-text="确认" bind:confirm="confirmSetLockPwd" >
+  <view class="dialog">
+    <view class="item" style="align-items: center;">
+      <label>新管理员密码：</label>
+      <input model:value="{{ lockPwd }}" type="number" maxlength="8" style="border: 1px solid var(--main-color);"  placeholder = "请输入6-8纯数字密码"/>
+    </view>
+  </view>
+</van-dialog>

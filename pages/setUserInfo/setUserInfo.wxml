@@ -1,7 +1,7 @@
 <!--pages/setUserInfo/setUserInfo.wxml-->
 <view class="container">
   <view class="photo">
-    <view class="img"><image src="{{userinfo.avatar?userinfo.avatar:'../static/img/logo.png'}}" mode="widthFix" /></view>
+    <view class="img"><image src="{{userinfo.avatar?userinfo.avatar:'/logo.png'}}" mode="widthFix" /></view>
     <button hover-class="button-click"  class="tip" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">点击更新头像</button>
   </view>
   <view class="list">

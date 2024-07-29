@@ -10,7 +10,7 @@
           <image class="img" src="{{magic.split(roominfodata.imageUrls)[0]}}"></image>
         </block>
         <block wx:else>
-          <image class="img" src="../static/img/logo.png"></image>
+          <image class="img" src="/logo.png"></image>
         </block>
       </view>
       <view class="right">
@@ -270,7 +270,7 @@
     <view class="containerlogin">
       <view class="photo">
         <view class="img">
-          <image src="../static/img/logo.png" mode="widthFix" />
+          <image src="/logo.png" mode="widthFix" />
         </view>
         <view class="name">{{appName}}</view>
       </view>

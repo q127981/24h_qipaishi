@@ -1,0 +1,83 @@
+<!--pages/setDiscount/setDiscount.wxml-->
+<view class="tabs">
+  <van-dropdown-menu active-color="{{mainColor}}">
+    <van-dropdown-item value="{{ storeId }}" options="{{ stores }}" disabled="{{storeId?true:false}}"  bind:change="storeDropdown"/>
+  </van-dropdown-menu>
+</view>
+<view class="container" style="{{isIpx?'padding-bottom:168rpx':'padding-bottom:120rpx'}}">
+  <block wx:if="{{list.length}}">
+    <view class="list">
+      <view class="{{item.status === 2?'item disabled':'item'}}" wx:for="{{list}}" wx:key="item">
+        <view class="info">
+          <view class="line"><label>适用门店：</label><text>{{item.storeName}}</text></view>
+          <view class="line"><label>充值金额：</label><text>{{item.payMoney}}元</text></view>
+          <view class="line"><label>赠送金额：</label><text>{{item.giftMoney}}元</text></view>
+          <view class="line"><label>创建时间：</label><text>{{item.createTime}}</text></view>
+          <view class="line"><label>过期时间：</label><text>{{item.expriceTime}}</text></view>
+        </view>
+        <view class="btns">
+          <button hover-class="button-click"  class="{{item.status==1?'btn red':'btn green'}}" wx:if="{{item.status !=2}}" bindtap="setStatus" data-info="{{item}}">{{item.status==1?'禁用':'启用'}}</button>
+          <button hover-class="button-click"  class="btn bg-primary" bindtap="edit" data-info="{{item}}">修改</button>
+        </view>
+      </view>
+    </view>
+    <view class="noteMore">下拉刷新加载更多</view>
+  </block>
+  <block wx:else>
+    <view class="nodata">暂无数据</view>
+  </block>
+</view>
+<!-- 底部按钮 -->
+<view class="bottom bg-primary {{isIpx?'fix-iphonex-button':''}}" bindtap="edit">添加规则</view>
+
+<!-- 修改弹窗 -->
+<van-dialog
+  use-slot
+  title="填写规则"
+  show="{{ show }}"
+  show-cancel-button
+  bind:confirm="submit"
+  bind:cancel="cancel" 
+  before-close="{{beforeCloseFunction}}"
+  zIndex="99"
+>
+  <view class="dialog">
+    <van-cell-group>
+    <van-field
+        label="适用门店："
+        placeholder="请选择门店"
+        border="{{ false }}"
+      >
+        <picker slot="input" bindchange="bindStoreChange" range-key="text" value="{{optionindex}}" range="{{stores}}" disabled="{{storeId?true:false}}">
+          <view class="picker">
+            <input type="text" disabled placeholder="请选择门店" placeholder-class="plh" model:value="{{stores[optionindex].text}}"/>
+          </view>
+        </picker>
+      </van-field>
+      <van-field
+        model:value="{{ payMoney }}"
+        label="充值金额："
+        placeholder="请输入"
+        type="digit"
+      />
+      <van-field
+        model:value="{{ giftMoney }}"
+        label="赠送金额："
+        placeholder="请输入"
+        type="digit"
+      />
+      <van-field
+        label="过期时间："
+        placeholder="请选择时间"
+      >
+      <view slot="input" class="picker">
+        <picker style="width: 100%;" mode="date" value="{{expriceTime}}" bindchange="selectDateSecondChange">
+          <input type="text" disabled placeholder="请选择时间" placeholder-class="plh" model:value="{{expriceTime}}"/>
+        </picker>
+      </view>
+
+      </van-field>
+      
+    </van-cell-group>
+  </view>
+</van-dialog>

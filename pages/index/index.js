@@ -245,6 +245,9 @@ Page({
   goOrder(e){
       var that = this;
       let status = e.currentTarget.dataset.status;
+      if(status == 0){
+        return
+      }
       let aroomid = e.currentTarget.dataset.info;
       var atime = '';
       if(that.data.timeselectindex >= 0)
@@ -254,7 +257,7 @@ Page({
         if(that.data.doorinfodata.clearOpen){
           wx.showModal({
             title: '提示',
-            content: '您选择的房间暂未清洁，介意请勿预订！',
+            content: '您选择的此场地暂未清洁，介意请勿预订！',
             confirmText: '继续预定',
             complete: (res) => {
               if (res.confirm) {
