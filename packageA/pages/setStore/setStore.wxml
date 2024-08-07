@@ -77,3 +77,12 @@
 <navigator url="../setStoreInfo/setStoreInfo" class="bottom bg-primary {{isIpx?'fix-iphonex-button':''}}">
   新增门店
 </navigator>
+
+<van-dialog use-slot title="设置门锁密码" show="{{ setLockPwdShow }}" show-cancel-button confirm-button-text="确认" bind:confirm="confirmSetLockPwd" >
+  <view class="dialog">
+    <view class="item" style="align-items: center;">
+      <label>新管理员密码：</label>
+      <input model:value="{{ lockPwd }}" type="number" maxlength="8" style="border: 1px solid var(--main-color);"  placeholder = "请输入6-8纯数字密码"/>
+    </view>
+  </view>
+</van-dialog>

@@ -2,10 +2,7 @@
   "pages": [
     "pages/index/index",
     "pages/doorList/doorList",
-    
     "pages/cashOut/cashOut",
-  
-    
     "pages/doorSubmit/doorSubmit",
     "pages/door/door",
     "pages/doorSelect/doorSelect",
@@ -67,7 +64,6 @@
       "packages": ["p1"],
       "network": "all"
     }
-
   },
   "window": {
     "backgroundTextStyle": "light",
@@ -77,7 +73,7 @@
   },
   "plugins": {
     "myPlugin": {
-      "version": "3.0.3",
+      "version": "3.0.4",
       "provider": "wx43d5971c94455481"
     }
   },

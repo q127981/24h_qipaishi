@@ -135,3 +135,15 @@ page{
   margin: 0 !important;
   line-height: normal !important;
 }
+.dialog{
+  padding: 30rpx;
+  width: 700rpx;
+}
+.dialog .item{
+  display: flex;
+  font-size: 28rpx;
+  line-height: 60rpx;
+}
+.dialog .item label{
+  color: #666;
+}

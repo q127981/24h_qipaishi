@@ -60,6 +60,9 @@ Page({
    */
   onShow() {
     this.getOrderInfo();
+    this.setData({
+      isLogin:app.globalData.isLogin
+    })
   },
 
   /**
