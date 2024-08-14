@@ -109,7 +109,7 @@ page{
 .list .item .btns .btn{
   margin: 0 5rpx;
   padding: 0;
-  width: 180rpx;
+  width: 150rpx;
   text-align: center;
   height: 60rpx;
   line-height: 60rpx;

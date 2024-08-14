@@ -55,13 +55,16 @@
         "pages/deviceList/deviceList",
         "pages/packageManagement/packageManagement",
         "pages/editPages/editPages",
-        "pages/roomList/roomList"
+        "pages/roomList/roomList",
+        "pages/setStoreSound/setStoreSound"
       ]
     }
   ],
   "preloadRule": {
-    "pages/user/user":{
-      "packages": ["p1"],
+    "pages/user/user": {
+      "packages": [
+        "p1"
+      ],
       "network": "all"
     }
   },

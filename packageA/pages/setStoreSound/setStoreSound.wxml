@@ -1,0 +1,42 @@
+<!--packageA/pages/setStoreSound/setStoreSound.wxml-->
+<view class="container" style="{{isIpx?'padding-bottom:168rpx':'padding-bottom:120rpx'}}">
+  <view class="title">
+    留空或不设置，设备将播放预设音频
+  </view>
+  <view class="title">
+    禁止播放违反法律/伦理的非法文本
+  </view>
+  <view class="form">
+    <view class="line">
+      <label>欢迎语：</label>
+      <view class="right">
+          <textarea model:value="{{welcomeText}}" type="text" placeholder="最大150个字"/>
+      </view>
+    </view>
+    <view class="tips">注:订单开始1分钟时播报</view>
+    <view class="line">
+      <label>到期前30分钟</label>
+      <view class="right">
+          <textarea model:value="{{endText30}}" type="text" placeholder="最大150个字"/>
+      </view>
+    </view>
+    <view class="line">
+      <label>到期前5分钟</label>
+      <view class="right">
+          <textarea model:value="{{endText5}}" type="text" placeholder="最大150个字"/>
+      </view>
+    </view>
+    <view class="line">
+      <label>深夜提醒</label>
+      <view class="right">
+          <textarea model:value="{{nightText}}" type="text" placeholder="最大150个字"/>
+      </view>
+    </view>
+    <view class="tips">注:凌晨第一个整点播报</view>
+  </view>
+  <!-- 底部按钮 -->
+  <view class="submit border-primary {{isIpx?'fix-iphonex-button':''}}">
+    <button hover-class="button-click"  class="color-primary cancel" bindtap="cancel">取消</button>
+    <button hover-class="button-click"  class="bg-primary" bindtap="submit">保存</button>
+  </view>
+</view>

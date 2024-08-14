@@ -46,6 +46,9 @@
           <navigator class="btn orage" bind:tap="douyinScope" data-id="{{item.storeId}}">
             抖音授权
           </navigator>
+          <navigator class="btn orage" url="../setDoorList/setDoorList?storeId={{item.storeId}}">
+            房间管理
+          </navigator>
           <view class="btn green" data-src="{{item.qrCode}}" bind:tap="previewImage">
               门店二维码
           </view>
@@ -55,16 +58,15 @@
           <view class="btn green" bindtap="setLockPwdShow" data-lockdata="{{item.lockData}}">
             设置锁密码
           </view>
+          <navigator class="btn green" bind:tap="openStoreDoor" data-info="{{item.storeId}}">
+            开大门
+          </navigator>
           <navigator class="btn yellow" url="../setDiscount/setDiscount?storeId={{item.storeId}}">
             充值优惠
           </navigator>
-          <navigator class="btn yellow" url="../setDoorList/setDoorList?storeId={{item.storeId}}">
-            房间管理
+          <navigator class="btn yellow" url="../setStoreSound/setStoreSound?storeId={{item.storeId}}">
+            自定义播报
           </navigator>
-          <navigator class="btn yellow" bind:tap="openStoreDoor" data-info="{{item.storeId}}">
-            开大门
-          </navigator>
-          
         </view>
       </view>
     </view>
