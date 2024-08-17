@@ -315,7 +315,7 @@ Page({
         }
       }
       if(that.data.roominfodata.deposit){
-        priceResult=parseFloat(priceResult)+parseFloat(that.data.roominfodata.deposit);
+        priceResult=(parseFloat(priceResult)+parseFloat(that.data.roominfodata.deposit)).toFixed(2);
       }
       that.setData({
         pricestring: priceResult,
