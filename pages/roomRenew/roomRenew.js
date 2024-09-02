@@ -8,30 +8,28 @@ Page({
    * 页面的初始数据
    */
    data: {
-      isLogin:app.globalData.isLogin,
+      isLogin: app.globalData.isLogin,
       storeId: '',
       roomId: '',
       OrderInfodata: '',
       newTime: '',
       totalPay: '',
-
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    console.log(options);
+    var that = this
     var storeId='';
     var roomId='';
     if(options.storeId){
       storeId=options.storeId;
     }
-      if(options.roomId){
+    if(options.roomId){
       roomId=options.roomId;
     }
     var query=wx.getEnterOptionsSync().query;
-    console.log(query);
     if(query){
       if(query.storeId){
         storeId=query.storeId;
@@ -40,11 +38,10 @@ Page({
         roomId=query.roomId;
       }
     }
-    this.setData({
+    that.setData({
       storeId: storeId,
       roomId: roomId,
     });
-    console.log(this.data);
 
   },
 
@@ -59,10 +56,13 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    this.getOrderInfo();
-    this.setData({
-      isLogin:app.globalData.isLogin
-    })
+    var that = this
+    setTimeout(() => {
+      that.setData({
+        isLogin:app.globalData.isLogin
+      })
+    }, 200);
+    that.getOrderInfo();
   },
 
   /**

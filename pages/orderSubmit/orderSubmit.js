@@ -9,6 +9,7 @@ Page({
    */
   data: {
     appName: app.globalData.appName,
+    isLogin: app.globalData.isLogin,
     storeId: '',
     roomId:'',//房间id
     daytime:'',//传递的日期
@@ -88,9 +89,12 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    console.log('打开房间页面');
-    console.log(options);
     var that = this;
+    console.log('打开房间页面');
+    that.setData({
+      isLogin:app.globalData.isLogin
+    })
+    console.log(options);
     var storeId=options.storeId;
     var roomId=options.roomId;
     var timeselectindex=options.timeselectindex;
@@ -112,18 +116,15 @@ Page({
         }
       }
     }
+    that.getroomInfodata(roomId).then(res=>{
+    });
     that.setData({
-      isLogin:app.globalData.isLogin,
       storeId: storeId,
       roomId: roomId,
       // daytime: options.daytime,
       timeselectindex: timeselectindex
     });
     wx.setStorageSync('global_store_id',storeId);
-    if (app.globalData.isLogin) {
-      that.getroomInfodata(roomId).then(res=>{
-      });
-    }
   },
 
   /**
@@ -138,6 +139,11 @@ Page({
    */
   onShow() {
     var that = this;
+    setTimeout(() => {
+      that.setData({
+        isLogin:app.globalData.isLogin
+      });
+    }, 200);
     that.getStoreBalance();
     that.getCouponListData();
     that.getPkgList();
