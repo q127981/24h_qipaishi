@@ -6,34 +6,41 @@
       <van-dropdown-item value="{{ deviceType }}" options="{{ deviceTypes }}"  bind:change="typeDropdown" />
   </van-dropdown-menu>
   </view>
-  
 </view>
 
 <view class="container">
   <view class="list">
     <view class="item {{item.status==1?'online':'offline'}}" wx:for="{{deviceList}}" wx:key="deviceList">
-      <view class="line">
+      <view class="line1">
         <view class="info">
           <label>编号：</label>
           <text class="sn">{{item.deviceSn}}</text>
         </view>
         <view class="info">
           <label>类型：</label>
-          <text>{{item.type==1?'门禁':item.type==2?'空开':item.type==3?'云喇叭':item.type==4?'灯具':item.type==5?'密码锁':item.type==6?'网关':'插座'}}</text>
+          <text>{{item.type==1?'门禁':item.type==2?'空开':item.type==3?'云喇叭':item.type==4?'灯具':item.type==5?'密码锁':item.type==6?'网关':item.type==7?'插座':item.type==8?'锁球器控制器（12V）':item.type==9?'人脸门禁机':item.type==10?'智能语音喇叭':'二维码识别器'}}</text>
         </view>
         <view class="info" wx:if="{{item.type!=6&&item.type!=5}}">
           <label>状态：</label>
           <text>{{item.status==1?'在线':'离线'}}</text>
         </view>
       </view>
-      <view class="line">
+      <view class="line2">
         <view class="info" wx:if="{{item.storeName}}">
           <label>门店：</label>
           <text class="name">{{item.storeName}}</text>
         </view>
-        <view class="info" wx:if="{{item.roomName}}">
-          <label>房间：</label>
-          <text>{{item.roomName}}</text>
+        <view class="info" >
+          <block wx:if="{{item.roomName}}">
+            <label>房间：</label>
+            <text>{{item.roomName}}</text>
+          </block>
+          <block wx:else>
+             <view>-</view>
+          </block>
+        </view>
+        <view class="del" bindtap="delDevice" data-id="{{item.deviceId}}">
+          删除
         </view>
       </view>
     </view>
@@ -41,3 +48,65 @@
   <view class="buttom">- 加载完毕 -</view>
 </view>
 
+<!-- 底部按钮 -->
+<view class="bottom bg-primary {{isIpx?'fix-iphonex-button':''}}" bindtap="add">添加设备</view>
+<!-- 添加弹窗 -->
+<van-dialog
+  use-slot
+  title="添加设备"
+  show="{{ showAdd }}"
+  show-cancel-button
+  bind:confirm="submitAdd"
+  bind:cancel="cancelAdd" 
+  before-close="{{beforeCloseFunction}}"
+  confirm-button-color="{{mainColor}}"
+>
+  <view class="dialog">
+    <van-cell-group>
+      <van-field
+        model:value="{{deviceSn}}"
+        label="设备编号："
+        maxlength="10"
+        placeholder="请输入,最长10位数"
+      />
+       <van-field
+        label="设备类型："
+        placeholder="请选择"
+      >
+      <picker slot="input" bindchange="bindDeviceTypeSelect" value="{{deviceTypeIndex}}" range-key="text" range="{{deviceTypes}}">
+          <view class="picker">
+            <input type="text" disabled placeholder="请选择类型" placeholder-class="plh" value="{{deviceTypes[deviceTypeIndex].text}}"/>
+            <van-icon name="arrow-down" />
+          </view>
+      </picker>
+      </van-field>
+      <van-field
+        label="门店："
+        placeholder="请选择门店"
+      >
+      <picker slot="input" bindchange="bindStoreSelect" value="{{storeIndex}}" range-key="text" range="{{stores}}">
+          <view class="picker">
+            <input type="text" disabled placeholder="请选择门店" placeholder-class="plh" value="{{stores[storeIndex].text}}"/>
+            <van-icon name="arrow-down" />
+          </view>
+      </picker>
+      </van-field>
+      <van-field
+        label="房间："
+        placeholder="请选择房间"
+      >
+      <picker slot="input" bindchange="bindRoomSelect" value="{{roomIndex}}" range-key="text" range="{{roomList}}">
+          <view class="picker">
+            <input type="text" disabled placeholder="请选择房间" placeholder-class="plh" value="{{roomList[roomIndex].text}}"/>
+            <van-icon name="arrow-down" />
+          </view>
+      </picker>
+      </van-field>
+      <view class="tips">注：网关、人脸识别机、前台云喇叭、门店大门门禁</view>
+      <view class="tips">等设备不需要绑定房间，只绑定门店即可</view>
+      <text style="font-size: 26rpx;margin-left:30rpx">共用设备：</text>
+      <switch bindchange="changeSwitchStatus" checked="{{shareDevice}}"/> 
+      <view class="tips">注:表示多个房间或台桌共用，常用于中央空调</view>
+    </van-cell-group>
+  </view>
+</van-dialog>

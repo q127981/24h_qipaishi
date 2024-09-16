@@ -148,7 +148,7 @@ Page({
                 })
               }
               let arr = that.data.pkgList;
-              let arrs = arr.concat(info.data.list);
+              let arrs = arr.concat(newList);
               that.setData({
                 pkgList: arrs,
               })

@@ -1,0 +1,86 @@
+/* packageA/pages/faceRecord/faceRecord.wxss */
+page{
+  background: #f5f5f5;
+}
+.container{
+  padding: 0px 16rpx 20rpx 16rpx;
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 20rpx;
+}
+.list {
+  padding-top: 10rpx;
+}
+.list .item{
+  margin: 10px; /* 可以根据需要调整间距 */
+  margin-bottom: 20rpx;
+  padding: 20rpx;
+  background: rgb(255, 255, 255);
+  border-radius: 12rpx;
+  text-align: left;
+  display: flex;
+  justify-content: center;
+  /* flex-wrap: wrap; */
+}
+.list .item .right {
+  width: 500rpx;
+  margin: 20rpx;
+  padding: 10rpx;
+  position: relative; /* 父容器设置为相对定位 */
+
+}
+
+.list .item .left .img{
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+  width: 180rpx;
+  height: 270rpx;
+  position: relative;
+  display: inline-block; /* 或者其他适合的布局方式 */
+}
+.list .item .left .img image{
+  width: 100%;
+  height: 100%;
+  border-radius: 10rpx;
+}
+.list .item .label{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  height: 30rpx;
+  font-size: 22rpx;
+  color: white; /* 文字颜色 */
+  
+}
+.list .item .label.success{
+  background: rgb(238, 27, 27); /* 半透明背景 */
+}
+.list .item .label.error{
+  background: rgb(83, 228, 91); /* 半透明背景 */
+}
+.list .item .right .btn{
+  position: absolute;  /* 绝对定位 */
+  bottom: 0rpx;        /* 距离父容器底部 10px */
+  right: 10rpx;         /* 距离父容器右侧 10px */
+}
+.list .item .right .btn .link{
+  background-color: #000;
+  padding: 10rpx 20rpx;
+  color: #fff;
+  border-radius: 10rpx;
+  font-size: 20rpx;
+  width: 100rpx;
+}
+.list .item .right .info .title{
+  font-size: 28rpx;
+  font-weight: bold;
+  color: rgb(255, 69, 22);
+}
+.list .item .right .info .text{
+  font-size: 26rpx ;
+  font-weight: normal !important;
+}

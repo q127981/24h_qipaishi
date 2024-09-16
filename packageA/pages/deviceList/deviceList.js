@@ -6,17 +6,23 @@ Page({
    * 页面的初始数据
    */
   data: {
-    storeId: '', //列表搜索门店id
+    storeId: '',
     stores: [],
-    deviceTypes: [{value:'',text:'所有设备'},{value:1,text:'门禁'},{value:2,text:'空开'},{value:3,text:'云喇叭'},{value:4,text:'灯具'},{value:5,text:'密码锁'},{value:6,text:'网关'},{value:7,text:'插座'}],
+    storeIndex: '',
+    roomList:[],
+    roomIndex: '',
+    deviceTypes: [{value:'',text:'请选择类型'},{value:1,text:'门禁'},{value:2,text:'空开'},{value:3,text:'云喇叭'},{value:4,text:'灯具'},{value:5,text:'密码锁'},{value:6,text:'网关'},{value:7,text:'插座'},{value:8,text:'锁球器控制器（12V）'},{value:9,text:'人脸门禁机'},{value:10,text:'智能语音喇叭'},{value:11,text:'二维码识别器'}],
+    deviceTypeIndex: '',
     deviceType: '',
     deviceList:[],
     isIpx: app.globalData.isIpx?true:false,
     pageNo: 1,
     pageSize: 10,
     canLoadMore: true,
-
-
+    showAdd: false,
+    deviceSn: '',
+    shareDevice: false,
+    beforeCloseFunction:null,
   },
 
   /**
@@ -24,6 +30,7 @@ Page({
    */
   onLoad(options) {
     this.getXiaLaListAdmin();
+    this.setData({beforeCloseFunction: this.beforeClose()})
   },
 
   /**
@@ -86,6 +93,18 @@ Page({
   onShareAppMessage() {
 
   },
+  beforeClose() {
+    // 这里一定要用箭头函数，否则访问不到this
+    return (type) => {
+        //console.log(type)
+        if (type === 'cancel') {
+            // 点击取消
+            return true
+        }else {
+            // 点击确定
+        }
+    }
+  },
    //管理员获取门店下拉列表数据
    getXiaLaListAdmin:function(e){
     var that = this;
@@ -106,10 +125,45 @@ Page({
             info.data.map(it => {
               stores.push({text:it.key,value:it.value})
             })
-            stores.unshift({text:"全部门店",value:""})
+            stores.unshift({text:"请选择门店",value:""})
            that.setData({
              stores: stores,
-             storeId: stores[0].value
+           })
+          }else{
+            wx.showModal({
+              content: '请求服务异常，请稍后重试',
+              showCancel: false,
+            })
+          }
+        },
+        function fail(info) {
+          
+        }
+      )
+    } 
+  },
+   //管理员获取房间下拉列表数据
+   getRoomListAdmin:function(storeId){
+    var that = this;
+    //if (app.globalData.isLogin) 
+    {
+      http.request(
+        "/member/store/getRoomList/"+storeId,
+        "1",
+        "get", {
+        },
+        app.globalData.userDatatoken.accessToken,
+        "",
+        function success(info) {
+          console.info('下拉房间数据===');
+          if (info.code == 0) {
+            let roomList = []
+            info.data.map(it => {
+              roomList.push({text:it.key,value:it.value})
+            })
+            roomList.unshift({text:"请选择房间",value:""})
+           that.setData({
+             roomList: roomList,
            })
           }else{
             wx.showModal({
@@ -207,4 +261,161 @@ Page({
       }
     })
   },
+    // 添加
+  add(){
+    this.setData({
+      showAdd: true
+    })
+  },
+  bindDeviceTypeSelect: function(e) {
+    this.setData({
+      deviceTypeIndex: e.detail.value,
+    })
+  },
+  bindStoreSelect: function(e) {
+    console.log(e.detail.value)
+    if(e.detail.value&&e.detail.value!=0){
+      var that=this;
+      that.setData({
+        storeIndex: e.detail.value,
+        roomIndex: ''
+      })
+      that.getRoomListAdmin(that.data.stores[that.data.storeIndex].value)
+    }
+  },
+  bindRoomSelect: function(e) {
+    this.setData({
+      roomIndex: e.detail.value,
+    })
+  },
+  changeSwitchStatus: function() {
+    this.setData({
+      shareDevice: !this.data.shareDevice // 根据当前状态取反
+    });
+    console.log(this.data.shareDevice)
+  },
+  submitAdd: function(){
+    var that=this;
+    if(!that.data.deviceSn){
+      wx.showToast({
+        title: '请输入设备编号',
+        icon: 'error'
+      })
+      return
+    }
+    if(!that.data.deviceTypeIndex||that.data.deviceTypeIndex==0){
+      wx.showToast({
+        title: '请选择设备类型',
+        icon: 'error'
+      })
+      return
+    }
+    if(!that.data.storeIndex||that.data.storeIndex==0){
+      wx.showToast({
+        title: '请选择门店',
+        icon: 'error'
+      })
+      return
+    }
+    var deviceType=that.data.deviceTypes[that.data.deviceTypeIndex].value;
+    var storeId=that.data.stores[that.data.storeIndex].value;
+    var roomId='';
+    if(that.data.roomIndex!=0){
+      roomId=that.data.roomList[that.data.roomIndex].value;
+    }
+    //保存数据
+    if (app.globalData.isLogin) 
+          {
+            http.request(
+              "/member/store/addDevice",
+              "1",
+              "post", {
+                "deviceSn": that.data.deviceSn,
+                "shareDevice": that.data.shareDevice,
+                "deviceType": deviceType,
+                "storeId": storeId,
+                "roomId": roomId,
+              },
+              app.globalData.userDatatoken.accessToken,
+              "",
+              function success(info) {
+                console.info('返回111===');
+                if (info.code == 0) {
+                  wx.showToast({
+                    title: '添加成功',
+                    icon: 'success'
+                  })
+                  that.setData({
+                    deviceSn: ''
+                  });
+                  that.getDeviceList('refresh');
+                }else{
+                  wx.showModal({
+                    content: '请求服务异常，请稍后重试',
+                    showCancel: false,
+                  })
+                }
+              },
+              function fail(info) {
+                
+              }
+            )
+          } 
+
+
+
+  },
+  cancelAdd: function(){
+      this.setData({
+        storeIndex:'',
+        deviceTypeIndex:'',
+        roomIndex:'',
+        shareDevice: false,
+        deviceSn: '',
+      })
+  },
+  delDevice: function(e){
+    var that=this;
+    var deviceId = e.currentTarget.dataset.id;
+    wx.showModal({
+      title: '提示',
+      content: '确定删除此设备绑定吗？为了避免误操作，仅允许超管操作',
+      complete: (res) => {
+        if (res.cancel) {
+        }
+        if (res.confirm) {
+          if (app.globalData.isLogin) 
+          {
+            http.request(
+              "/member/store/delDevice/"+deviceId,
+              "1",
+              "post", {
+              },
+              app.globalData.userDatatoken.accessToken,
+              "",
+              function success(info) {
+                console.info('返回111===');
+                if (info.code == 0) {
+                  wx.showToast({
+                    title: '删除成功',
+                    icon: 'success'
+                  })
+                  that.getDeviceList('refresh');
+                }else{
+                  wx.showModal({
+                    content: '请求服务异常，请稍后重试',
+                    showCancel: false,
+                  })
+                }
+              },
+              function fail(info) {
+                
+              }
+            )
+          } 
+        }
+      }
+    })
+  }
+
 })

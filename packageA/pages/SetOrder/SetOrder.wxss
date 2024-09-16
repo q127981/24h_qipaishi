@@ -38,8 +38,8 @@ page{
   padding: 15rpx 20rpx;
 }
 .lists .item{
-  /* background: #fff; */
-  background: radial-gradient(circle at 20% 10%, rgb(210, 247, 250) 0%, rgb(238, 245, 235) 86.8%);
+  background: rgb(255, 255, 255);
+  /* background: radial-gradient(circle at 20% 10%, rgb(210, 247, 250) 0%, rgb(238, 245, 235) 86.8%); */
   border-radius: 20rpx;
   /* border: 4rpx solid #b1d1f7; */
   padding: 15rpx 26rpx;

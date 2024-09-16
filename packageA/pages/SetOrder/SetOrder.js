@@ -589,7 +589,6 @@ Page({
         message,
         function success(info) {
           console.info('订单列表===');
-          console.info(info);
           if (info.code == 0) {
             if (e == "refresh"){
               that.setData({

@@ -20,6 +20,8 @@ Page({
     store: '', //地图上方展示的门店详情
     storeId:'',
     // isLogin:app.globalData.isLogin,
+    pageindex:1,//分页的page
+    canLoadMore: true,//是否还能加载更多
     userId: '', //管理员代下单用户id
   },
 
@@ -33,14 +35,21 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh() {
+  },
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom() {
     let that = this;
-    // this.setData({
-    //     pageNo: 1,
-    //     canLoadMore:true,
-    //     MainList:[]
-    // })
-    this.getMainListdata('refresh');
-    wx.stopPullDownRefresh();
+    if (that.data.canLoadMore) {
+      that.data.pageindex++;
+      this.getMainListdata();
+    } else {
+      wx.showToast({
+        title: '没有更多门店了...',
+        icon: 'none'
+      })
+    }
   },
   /**
    * 用户点击右上角分享
@@ -109,7 +118,7 @@ Page({
           // wx.setStorageSync('cityName', data)
           that.getLocation();
           // that.getBannerdata();
-          that.getMainListdata();
+          that.getMainListdata('refresh');
         },
       }
     })
@@ -122,14 +131,14 @@ Page({
       isMap: true
     })
     this.setData({name:''})
-    this.getMainListdata()
+    this.getMainListdata('refresh')
   },
   goListSeach(){
     this.setData({
       isMap: false
     })
     this.setData({name:''})
-    this.getMainListdata()
+    this.getMainListdata('refresh')
   },
   //充值
   goRecharge(e){
@@ -174,8 +183,12 @@ Page({
     var that = this;
     let message = "";
     if (e == "refresh") { //刷新，page变为1
-      message = "正在加载"
-      that.setData({pageNo:1})
+      that.setData({
+        orderlist:[],//列表数组
+        canLoadMore: true,//是否还能加载更多
+        pageindex: 1,
+      })
+      message = "获取中..."
     }
     //if (app.globalData.isLogin) 
     {
@@ -183,8 +196,8 @@ Page({
         "/member/index/getStoreList",
         "1",
         "post", {
-          "pageNo": 1,
-          "pageSize": 20,
+          "pageNo": that.data.pageindex,
+          "pageSize": 10,
           "cityName": that.data.cityName,
           "lat": that.data.lat,
           "lon": that.data.lon,
@@ -215,11 +228,6 @@ Page({
                 allMarkers.push(marker)
                 marker = null
               }
-              that.setData({
-                MainStorelist: list,
-                markers: allMarkers,
-                store: list[0]
-              });
               //如果只有一个店 那么直接进入门店主页
               if(list.length==1&&that.data.cityName=='选择城市'&&that.data.name==''){
                 // 设置参数
@@ -227,12 +235,36 @@ Page({
                 wx.switchTab({
                   url: '/pages/index/index'
                 });
+              }else{
+                if (info.data.list.length < 10) {
+                  that.setData({
+                    canLoadMore: false
+                  })
+                }
+                if (e == "refresh"){
+                  that.setData({
+                    MainStorelist: list,
+                    markers: allMarkers,
+                    store: list[0]
+                  });
+                }else{
+                  let arr = that.data.MainStorelist;
+                  let arrs = arr.concat(info.data.list)
+                  let markers = that.data.markers;
+                  let newMarkers = markers.concat(allMarkers);
+                  that.setData({
+                    MainStorelist: arrs,
+                    markers: newMarkers,
+                    store: arrs[0]
+                  })
+                }
               }
             }else{
               that.setData({
                 MainStorelist: [],
                 markers: [],
-                store: ''
+                store: '',
+                canLoadMore: false
               });
             }
           }else{
@@ -286,13 +318,13 @@ Page({
           lat: latitude,
           lon:longitude,
         });
-        that.getMainListdata();
+        that.getMainListdata('refresh');
         // 处理位置信息，比如将位置信息显示在页面上
         // 示例中使用的是util.js中的函数，开发者可以根据需要自行编写
         //util.showLocation(latitude, longitude)
       },
       fail: function(res) {
-        that.getMainListdata()
+        that.getMainListdata('refresh');
         // 如果获取位置信息失败，可以处理错误情况
         //console.log('获取位置失败', res.errMsg)
       }
@@ -381,8 +413,8 @@ Page({
   },
   // 搜索框值改变
   onInputChange: function(e){
-    this.setData({name: e.detail.value})
-    this.getMainListdata()
+    this.setData({name: e.detail.value});
+    this.getMainListdata('refresh');
   },
   // 点击marker展示门店信息
   makertap: function(e) { 

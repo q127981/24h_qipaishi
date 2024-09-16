@@ -8,6 +8,13 @@
       </view>
     </view>
     <view class="line">
+      <label>房间简称：</label>
+      <view class="right">
+        <input model:value="{{roomCallName}}" type="text" placeholder="请输入"/>
+      </view>
+    </view>
+    <view class="tips">注:云喇叭播报的房间名称,尽量简短,不要超过6个字.例:VIP1</view>
+    <view class="line">
       <label>房间类别：</label>
       <view class="right">
         <view class="city">
@@ -30,6 +37,14 @@
               <view class="iconfont icon-xuanzex"></view>
             </view>
           </picker>
+        </view>
+      </view>
+    </view>
+    <view class="line">
+      <label>不需要清洁：</label>
+      <view class="right">
+        <view>
+          <switch bindchange="changeSwitchStatus" checked="{{jumpClear}}"/> 
         </view>
       </view>
     </view>

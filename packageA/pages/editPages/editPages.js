@@ -23,7 +23,7 @@ Page({
     checked: [], // 默认选中复选框 a
     weekDays: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
     checkedStates: Array(7).fill(false), // 初始未选中状态
-    storesRoomList: [], //用于储存限制房间数据
+    storesRoomList: [{key: "0",value: "不限"},{key: "1",value: "小包"},{key: "2",value: "中包"},{key: "3",value: "大包"},{key: "4",value: "豪包"},{key: "5",value: "商务包"}], //用于储存限制房间数据
     storesRoomIndex: 0, //默认第一个
     storesRoomName: '', //选中的限制房间类型
     item: {}, //回显数据
@@ -83,7 +83,6 @@ Page({
         icon: 'none'
       });
     }
-    that.storesRoom()
   },
   // 选择门店
   handlePickerChanges: function (e) {
@@ -97,39 +96,6 @@ Page({
       // storeIndex:newStore.value
     });
     console.log(this.data.storeIndex,'storeIndex');
-  },
-  //限制房间数据
-  storesRoom: function () {
-    const storesRoomList = [{
-        key: "0",
-        value: "不限"
-      },
-      {
-        key: "1",
-        value: "小包"
-      },
-      {
-        key: "2",
-        value: "中包"
-      },
-      {
-        key: "3",
-        value: "大包"
-      },
-      {
-        key: "4",
-        value: "豪包"
-      },
-      {
-        key: "5",
-        value: "商务包"
-      }
-    ];
-    this.setData({
-      storesRoomList: storesRoomList,
-      storesRoomIndex: 0, // 重置索引为0
-      storesRoomName: storesRoomList[0].value // 设置默认显示的房间类型
-    });
   },
   //
   // 处理用户选择变更：限制房间的类型
@@ -384,19 +350,31 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    var that=this;
     if (options.item) {
       const item = JSON.parse(options.item);
       console.log(item, 'options');
-      this.setData({
+      that.setData({
         item: item,
-        storeName: this.formatString(item.storeName, 10), //门店
+        storeName: that.formatString(item.storeName, 10), //门店
         hours: item.hours, //时长
         switchChecked: item.enableHoliday, //节假日是否可用
         balanceBuy: item.balanceBuy,
         price: item.price,
-        storeId: item.storeId
+        storeId: item.storeId,
+        roomType: item.roomType,
       });
-
+      //选中指定房间
+      that.data.storesRoomList.forEach(function(v, i){
+        if(v.key==item.roomType){
+          console.log(v);
+          that.setData({
+            storesRoomIndex: i,
+            storesRoomName: v.value
+          })
+          return;
+        }
+      })
       // 解析 enableWeek 字符串
       if (item.enableWeek) {
         const weekDaysSet = new Set(item.enableWeek.split(', ').map(day => day.trim()));
@@ -405,7 +383,6 @@ Page({
           checkedStates: checkedStates
         });
       }
-
       // 解析 enableTime 字符串
       if (item.enableTime) {
         console.log(item.enableTime);
@@ -421,15 +398,18 @@ Page({
         });
       }
     }
-    console.log(this.data.item);
-    this.getStoreList()
+    that.setData({
+      storesRoomIndex: 0,
+      storesRoomName: that.data.storesRoomList[0].value
+    })
+    that.getStoreList();
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady() {
-
+    
   },
 
   /**

@@ -67,6 +67,12 @@
           <navigator class="btn yellow" url="../setStoreSound/setStoreSound?storeId={{item.storeId}}">
             自定义播报
           </navigator>
+          <navigator class="btn yellow" url="../faceBlacklist/faceBlacklist?storeId={{item.storeId}}">
+            人脸黑名单
+          </navigator>
+          <navigator class="btn yellow" url="../faceRecord/faceRecord?storeId={{item.storeId}}">
+            人脸识别记录
+          </navigator>
         </view>
       </view>
     </view>

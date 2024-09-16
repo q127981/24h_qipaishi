@@ -50,7 +50,7 @@
             <view class="flag bukeyong">已预约</view>
           </block>
         </view>
-        <view class="right" bind:tap="goOrder" data-status="{{item.status}}" data-index="{{index}}" data-info="{{item.roomId}}">
+        <view class="right" catch:tap="goOrder" data-status="{{item.status}}" data-index="{{index}}" data-info="{{item.roomId}}">
           <view class="info">
             <view class="name">
               {{item.roomName}}
