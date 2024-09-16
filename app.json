@@ -2,10 +2,7 @@
   "pages": [
     "pages/index/index",
     "pages/doorList/doorList",
-    
     "pages/cashOut/cashOut",
-  
-    
     "pages/doorSubmit/doorSubmit",
     "pages/door/door",
     "pages/doorSelect/doorSelect",
@@ -58,16 +55,20 @@
         "pages/deviceList/deviceList",
         "pages/packageManagement/packageManagement",
         "pages/editPages/editPages",
-        "pages/roomList/roomList"
+        "pages/roomList/roomList",
+        "pages/setStoreSound/setStoreSound",
+        "pages/faceRecord/faceRecord",
+        "pages/faceBlacklist/faceBlacklist"
       ]
     }
   ],
   "preloadRule": {
-    "pages/user/user":{
-      "packages": ["p1"],
+    "pages/user/user": {
+      "packages": [
+        "p1"
+      ],
       "network": "all"
     }
-
   },
   "window": {
     "backgroundTextStyle": "light",
@@ -77,7 +78,7 @@
   },
   "plugins": {
     "myPlugin": {
-      "version": "3.0.3",
+      "version": "3.0.5",
       "provider": "wx43d5971c94455481"
     }
   },

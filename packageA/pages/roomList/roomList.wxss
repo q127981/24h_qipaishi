@@ -10,7 +10,6 @@ page{
 .tabs .item .van-dropdown-menu{
   box-shadow: unset !important;
 }
-
 .tabs .item .btn{
   margin: 10rpx;
   border-radius: 20rpx;
@@ -81,8 +80,8 @@ page{
   justify-content: center;
   font-size: 28rpx;
   line-height: 40rpx;
-  padding: 10rpx 0;
-  margin: 10rpx;
+  padding: 10rpx 10rpx;
+  margin: 15rpx;
 }
 .dialog .item .btn{
   text-align: center;

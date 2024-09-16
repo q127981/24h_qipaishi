@@ -27,6 +27,8 @@ Page({
     wifiShow: false,
     simpleModel: '',//简洁模式
     maoHeight:0,//锚链接跳转高度
+    tabIndex: 0,
+
   },
 
   /**
@@ -335,7 +337,7 @@ Page({
     //if (app.globalData.isLogin) 
     {
       http.request(
-        "/member/index/getRoomInfoList"+'/'+that.data.storeId,
+        "/member/index/getRoomInfoList"+'/'+that.data.storeId+"?roomClass="+that.data.tabIndex,
         "1",
         "post", {
           "storeId": that.data.storeId,
@@ -591,6 +593,15 @@ Page({
       fail(res){
         wx.showToast({ title: res })
       }
+    })
+  },
+  tabChange(e) {
+    console.log(e)
+    const {target} = e
+    this.setData({
+      tabIndex: Number(target.dataset.index),
+    }, () => {
+      this.getDoorListdata()
     })
   },
 })

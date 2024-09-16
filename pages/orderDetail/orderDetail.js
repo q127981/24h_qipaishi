@@ -777,7 +777,7 @@ Page({
       }
     )
   },
-  openRoomDoor:function() {
+  openRoomDoor:function(e) {
     let that = this;
     //开房间门
       console.log('开房间门');
@@ -797,6 +797,9 @@ Page({
               title: "操作成功",
               icon: 'success'
             })
+            if(e==true){
+              that.openRoomLock();
+            }
             that.getrorderInfodata();
           }else{
             wx.showModal({
@@ -819,8 +822,8 @@ Page({
         content: '当前还未到预约时间，是否提前开始消费？',
         success: function (res) {
           if (res.confirm) {
-            that.openRoomDoor();
-            that.openRoomLock();
+            that.openRoomDoor(true);
+            // that.openRoomLock();
           }
         }
       })

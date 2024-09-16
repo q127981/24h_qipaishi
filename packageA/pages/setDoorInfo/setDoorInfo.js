@@ -15,6 +15,8 @@ Page({
     storeId: '',
     roomId: '',
     roomName: '',
+    roomCallName: '',
+    jumpClear: false,
     type: '',
     roomClass: '',
     price: '',
@@ -150,6 +152,8 @@ Page({
               rcIndex: rcIndex,
               roomId: info.data.roomId,
               roomName: info.data.roomName,
+              roomCallName: info.data.roomCallName,
+              jumpClear: info.data.jumpClear,
               type: info.data.type,
               roomClass: info.data.roomClass,
               price: info.data.price,
@@ -272,7 +276,7 @@ Page({
   // 保存
   submit: function(){
     console.log(this.data)
-    if(this.data.roomName && this.data.type  && this.data.price 
+    if(this.data.roomName && this.data.roomCallName && this.data.type && this.data.price 
       && this.data.tongxiaoPrice
       && this.data.minHour && this.data.leadHour && this.data.leadDay  
       && this.data.label && this.data.fileList.length){
@@ -290,6 +294,8 @@ Page({
             "roomId": that.data.roomId,
             "storeId": that.data.storeId,
             "roomName": that.data.roomName,
+            "roomCallName": that.data.roomCallName,
+            "jumpClear": that.data.jumpClear,
             "type": that.data.type,
             "roomClass": that.data.roomClass,
             "price": that.data.price,
@@ -381,6 +387,12 @@ Page({
       banTimeEnd: ''
     })
 
+  },
+  changeSwitchStatus: function() {
+    this.setData({
+      jumpClear: !this.data.jumpClear // 根据当前状态取反
+    });
+    console.log(this.data.jumpClear)
   },
 
 })

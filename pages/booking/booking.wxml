@@ -17,11 +17,11 @@
     </view>
   </view>
   <view class="top-tabs-container">
-    <!-- <view class="top-tabs" >
+    <view class="top-tabs" >
       <view data-index="0" class="tab {{tabIndex === 0 && 'active'}}" bind:tap="tabChange">棋牌</view>
       <view data-index="1" class="tab {{tabIndex === 1 && 'active'}}" bind:tap="tabChange">台球</view>
-      <view data-index="2" class="tab {{tabIndex === 2 && 'active'}}" bind:tap="tabChange">自习室</view>
-    </view> -->
+      <!-- <view data-index="2" class="tab {{tabIndex === 2 && 'active'}}" bind:tap="tabChange">自习室</view> -->
+    </view>
   </view>
   <!-- 房间列表 -->
   <view class="lists" wx:for="{{doorlistArr}}" wx:key="doorlistArr" id="roomList">
@@ -50,7 +50,7 @@
             <view class="flag bukeyong">已预约</view>
           </block>
         </view>
-        <view class="right" bind:tap="goOrder" data-status="{{item.status}}" data-index="{{index}}" data-info="{{item.roomId}}">
+        <view class="right" catch:tap="goOrder" data-status="{{item.status}}" data-index="{{index}}" data-info="{{item.roomId}}">
           <view class="info">
             <view class="name">
               {{item.roomName}}
@@ -105,7 +105,7 @@
               </block>
               <block wx:else="">
                 <block wx:if="{{isLogin}}">
-                  <view class="btn bg-primary" bind:tap="goOrder" data-status="{{item.status}}" data-index="{{index}}" data-info="{{item.roomId}}">
+                  <view class="btn bg-primary">
                     预约
                   </view>
                 </block>

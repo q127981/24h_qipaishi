@@ -5,7 +5,7 @@
 .list .item{
   margin-bottom: 20rpx;
   padding: 20rpx 30rpx;
-  background-image: linear-gradient(181.2deg, rgb(181, 239, 249) 10.5%, rgb(247, 206, 187) 86.8%);
+   background: linear-gradient( #a0e4fdd3, #f6fdcbb2);
   border-radius: 30rpx;
 }
 .list .doing{

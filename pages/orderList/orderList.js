@@ -259,7 +259,7 @@ Page({
                 })
               }
             }else{
-              if (info.data != null && info.data.list != null && info.data.list.length < 10) {
+              if (info.data != null && info.data.list.length < 10) {
                 that.setData({
                   canLoadMore: false
                 })

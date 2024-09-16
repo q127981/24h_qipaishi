@@ -1,0 +1,47 @@
+<!--packageA/pages/faceRecord/faceRecord.wxml-->
+<view class="container">
+  <block wx:if="{{list.length}}">
+    <!-- 列表 -->
+    <view class="list">
+      <view class="item" wx:for="{{list}}" wx:key="item">
+        <view class="img">
+            <image src="{{item.photoData}}" mode="aspectFill"></image>
+            <view class="label {{item.type==1?'success':'error'}}">{{item.type==1?'黑名单用户':'陌生人'}}</view>
+        </view>
+        <view class="info">{{item.showTime}}</view>
+        <view class="info">
+          <text class="link" bindtap="moveBlacklist" data-info="{{item}}" wx:if="{{item.type==1}}">移出黑名单</text>
+          <text class="link" bindtap="moveBlacklist" data-info="{{item}}" wx:if="{{item.type==2}}">加入黑名单</text>
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{canLoadMore}}" class="noteMore">下拉刷新查看更多...</view>
+  </block>
+  <block wx:else>
+    <view class="nodata">暂无数据</view>
+  </block>
+</view>
+
+<van-dialog
+  use-slot
+  title="加入黑名单"
+  show="{{ moveShow }}"
+  show-cancel-button
+  bind:confirm="confirm"
+  bind:cancel="cancel" 
+>
+  <view class="dialog">
+    <van-cell-group>
+      <van-field
+        type="textarea"
+        label="拉黑理由："
+        placeholder="请输入拉黑理由"
+        autosize="{{ true }}"
+        maxlength="50"
+        show-word-limit
+        model:value="{{remark}}"
+      >
+      </van-field>
+    </van-cell-group>
+  </view>
+</van-dialog>

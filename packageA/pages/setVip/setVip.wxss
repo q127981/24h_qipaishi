@@ -1,5 +1,4 @@
 /* pages/setVip/setVip.wxss */
-
 page{
   background: #f5f5f5;
 }

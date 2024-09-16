@@ -25,7 +25,16 @@
   height: 100rpx;
   margin-bottom: 10rpx;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-start;
+}
+.list .item .line1{
+  margin-right: 40rpx;
+}
+.list .item .line2 .del{
+  position: absolute;
+  right: 60rpx;
+  font-size: 22rpx;
+  color: #555555;
 }
 .list .item.online{
   background-image: linear-gradient(181.2deg, rgb(173, 222, 247) 10.5%, rgba(115, 230, 250, 0.678) 86.8%);
@@ -38,4 +47,28 @@
   margin-top: 20rpx;
   padding-bottom: 100rpx;
   text-align: center;
+}
+
+.bottom{
+  width: 430rpx;
+  height: 90rpx;
+  text-align: center;
+  line-height: 90rpx;
+  position: fixed;
+  bottom: 30rpx;
+  left: 160rpx;
+  border-radius: 50rpx;
+  font-size: 36rpx;
+}
+.dialog{
+  margin-top: 20rpx;
+}
+
+.picker {
+  display: flex;
+}
+.tips {
+  font-size: 24rpx;
+  padding-left: 26rpx;
+  color: #aaa;
 }

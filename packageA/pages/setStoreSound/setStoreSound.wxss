@@ -1,0 +1,68 @@
+/* pages/setStoreInfo/setStoreInfo.wxss */
+.container{
+  padding: 16rpx 16rpx 200rpx 16rpx;
+}
+.title{
+  font-size: 32rpx;
+  color: red;
+  text-align: center;
+}
+.form .line{
+  display: flex;
+  margin-bottom: 16rpx;
+  padding-top: 30rpx;
+  background-color: #fff;
+}
+.form .line label{
+  width: 220rpx;
+  line-height: 60rpx;
+  color: #646566;
+  font-size: 25rpx;
+  padding-left: 30rpx;
+}
+.form .line .right{
+  /* display: flex; */
+  width: 540rpx;
+}
+
+.form .line textarea{
+  padding: 10rpx 20rpx;
+  box-sizing: border-box;
+  width: 100%;
+  height: 160rpx;
+  border: 1rpx solid var(--main-color);
+  border-radius: 10rpx;
+}
+.form .tips {
+  font-size: 24rpx;
+  padding-left: 26rpx;
+  color: #aaa;
+}
+.submit{
+  width: 100%;
+  height: 90rpx;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  background: #fff;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 9999;
+  background-color: #f4f4f4;
+  justify-content: space-between;
+  padding-top: 30rpx;
+}
+.submit button{
+  width: 45%;
+  border-radius: 0;
+  font-size: 30rpx;
+  height:90rpx;
+  line-height: 90rpx;
+  padding: 0;
+  background-color: #fff;
+}
+.submit .cancel{
+  background: #fff;
+  border: 1px solid var(--main-color);
+}

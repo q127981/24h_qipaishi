@@ -18,8 +18,9 @@
         </view>
         <view class="right">
           <view class="info">门店：{{item.storeName}}</view>
-          <view class="info">姓名：{{item.name}}</view>
+          <view class="info">姓名：{{item.name?item.name:''}}</view>
           <view class="info">手机号：{{item.mobile}}</view>
+          <view class="info">账号权限：{{item.type==12?'超管':'店长'}}</view>
         </view>
       </view>
       <view class="btns">
@@ -70,6 +71,8 @@
         placeholder="请输入"
         border="{{ false }}"
       />
+      <text style="font-size: 26rpx;margin-left:30rpx">是否超管：</text>
+      <switch bindchange="changeSwitchStatus" checked="{{isAdmin}}"/> 
     </van-cell-group>
   </view>
 </van-dialog>

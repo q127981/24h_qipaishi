@@ -1,0 +1,70 @@
+/* packageA/pages/faceRecord/faceRecord.wxss */
+page{
+  background: #f5f5f5;
+}
+.container{
+  padding: 0px 16rpx 20rpx 16rpx;
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 20rpx;
+}
+.list {
+  padding-top: 10rpx;
+  display: flex;
+  justify-content: start;
+  flex-wrap: wrap;
+}
+.list .item{
+  margin: 10px; /* 可以根据需要调整间距 */
+  width: calc(50% - 40px); /* 假设间距为5px，每张图片宽度为50%，减去间距为10px */
+  margin-bottom: 20rpx;
+  padding: 20rpx;
+  background: rgb(255, 255, 255);
+  border-radius: 12rpx;
+  text-align: center;
+}
+
+.list .item .img{
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+  width: 180rpx;
+  height: 270rpx;
+  position: relative;
+  display: inline-block; /* 或者其他适合的布局方式 */
+}
+.list .item .img image{
+  width: 100%;
+  height: 100%;
+  border-radius: 10rpx;
+}
+.list .item .label{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  height: 30rpx;
+  font-size: 22rpx;
+  color: white; /* 文字颜色 */
+  
+}
+.list .item .label.success{
+  background: rgb(238, 27, 27); /* 半透明背景 */
+}
+.list .item .label.error{
+  background: rgb(83, 228, 91); /* 半透明背景 */
+}
+
+.list .item .link{
+  background-color: #000;
+  padding: 10rpx 20rpx;
+  color: #fff;
+  border-radius: 10rpx;
+  font-size: 20rpx;
+}
+.list .item .info{
+  font-size: 24rpx;
+  margin-top: 10rpx;
+}

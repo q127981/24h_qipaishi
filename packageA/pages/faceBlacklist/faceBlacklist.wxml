@@ -1,0 +1,36 @@
+<!--packageA/pages/faceBlacklist/faceBlacklist.wxml-->
+<view class="container">
+  <block wx:if="{{list.length}}">
+    <!-- 列表 -->
+    <view class="list">
+      <view class="item" wx:for="{{list}}" wx:key="item">
+        <view class="left">
+          <view class="img">
+              <image src="{{item.photoData}}" mode="aspectFill"></image>
+          </view>
+        </view>
+        <view class="right">
+          <view class="info">
+          <text class="title"> 门店名称：</text>
+          <text class="text">{{item.storeName}}</text>
+          </view>
+          <view class="info">
+            <text class="title">识别时间：</text>
+            <text class="text">{{item.createTime}}</text>
+          </view>
+          <view class="info">
+            <text class="title">拉黑原因：</text>
+            <text class="text">{{item.remark?item.remark:''}}</text>
+            </view>
+          <view class="btn">
+            <view class="link" bindtap="moveBlacklist" data-id="{{item.blacklistId}}">移出黑名单</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{canLoadMore}}" class="noteMore">下拉刷新查看更多...</view>
+  </block>
+  <block wx:else>
+    <view class="nodata">暂无数据</view>
+  </block>
+</view>

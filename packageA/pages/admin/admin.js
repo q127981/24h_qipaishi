@@ -21,7 +21,8 @@ Page({
     name: '',
     beforeCloseFunction:null,
     isIpx: app.globalData.isIpx?true:false,
-    mainColor: app.globalData.mainColor
+    mainColor: app.globalData.mainColor,
+    isAdmin:false,
   },
 
   /**
@@ -268,7 +269,9 @@ Page({
   // 添加
   add(){
     this.setData({
-      show: true
+      show: true,
+      mobile: '',
+      storeId2: ''
     })
   },
   bindStoreChange: function(e) {
@@ -321,6 +324,7 @@ Page({
           "storeId": that.data.storeId2,
           "name": that.data.name,
           "mobile": that.data.mobile,
+          "isAdmin": that.data.isAdmin,
         },
         app.globalData.userDatatoken.accessToken,
         "保存中",
@@ -348,5 +352,10 @@ Page({
         }
       )
     } 
-  }
+  },
+  changeSwitchStatus: function() {
+    this.setData({
+      isAdmin: !this.data.isAdmin // 根据当前状态取反
+    });
+  },
 })

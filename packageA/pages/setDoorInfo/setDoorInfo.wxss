@@ -57,7 +57,7 @@
   border: 0;
 }
 .form .tips {
-  font-size: 22rpx;
+  font-size: 24rpx;
   padding-left: 26rpx;
   color: #aaa;
 }
