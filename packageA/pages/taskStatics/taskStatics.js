@@ -152,7 +152,7 @@ Page({
                 })
               }
             }else{
-              if (info.data != null && info.data.list.length < 10) {
+              if (info.data != null && info.data.list.length <= info.data.total) {
                 that.setData({
                   canLoadMore: false
                 })

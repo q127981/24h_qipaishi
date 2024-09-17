@@ -208,7 +208,7 @@ Page({
                 deviceList: info.data.list
               })
             }else{
-              if (info.data != null && info.data.list != null && info.data.list.length < 10) {
+              if (info.data != null && info.data.list != null && info.data.list.length <= info.data.total) {
                 that.setData({
                   canLoadMore: false
                 })
