@@ -236,7 +236,7 @@ Page({
                   url: '/pages/index/index'
                 });
               }else{
-                if (info.data.list.length < 10) {
+                if (info.data.list.length <= info.data.total) {
                   that.setData({
                     canLoadMore: false
                   })
@@ -250,6 +250,8 @@ Page({
                 }else{
                   let arr = that.data.MainStorelist;
                   let arrs = arr.concat(info.data.list)
+                  console.log('arr');
+                  console.log(arr);
                   let markers = that.data.markers;
                   let newMarkers = markers.concat(allMarkers);
                   that.setData({

@@ -56,7 +56,7 @@
         "pages/packageManagement/packageManagement",
         "pages/editPages/editPages",
         "pages/roomList/roomList",
-        "pages/setStoreSound/setStoreSound"
+        "pages/setStoreSound/setStoreSound",
         "pages/faceRecord/faceRecord",
         "pages/faceBlacklist/faceBlacklist"
       ]
