@@ -89,11 +89,12 @@ App({
       }
     })
     //console.log('启动程序==');
+  },
+  onShow() {
+    var _this = this
     wx.getStorage({
       key: 'userDatatoken',
       success: function (res) {
-        //console.log(res.data);
-        //console.log('启动程序==+++++');
         _this.globalData.userDatatoken = res.data;
         _this.globalData.isLogin = true;
       },

@@ -116,6 +116,7 @@ Page({
             info.data.map(it => {
               stores.push({text:it.key,value:it.value})
             })
+            stores.unshift({text:'请选择',value:''})
            that.setData({
              stores: stores,
              storeId: stores[0].value,
@@ -271,7 +272,8 @@ Page({
     this.setData({
       show: true,
       mobile: '',
-      storeId2: ''
+      storeId2: '',
+      index: '',
     })
   },
   bindStoreChange: function(e) {
