@@ -88,7 +88,7 @@
       <label>最低下单小时：</label>
       <view class="right">
         <view class="price">
-        <input  model:value="{{minHour}}" type="text" placeholder="请输入1-4的数字"/>小时
+        <input  model:value="{{minHour}}" type="text" placeholder="请输入1-12的数字"/>小时
         </view>
       </view>
     </view>

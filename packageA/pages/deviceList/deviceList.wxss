@@ -26,6 +26,9 @@
   margin-bottom: 10rpx;
   display: flex;
   justify-content: space-start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .list .item .line1{
   margin-right: 40rpx;

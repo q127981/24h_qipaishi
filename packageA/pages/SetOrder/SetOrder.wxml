@@ -119,8 +119,12 @@
   before-close="{{beforeCloseFunction}}">
   <view class="dialog">
     <view class="item" style="align-items: center;">
-      <label>请选择增加的时间：</label>
-      <van-stepper value="{{ addTime }}" step="0.5" min="-8" max="8" disable-input  bind:change="onChange" /> 时
+      <label>请选择增加的小时：</label>
+      <van-stepper value="{{ addTimeH }}" step="0.5" min="-8" max="8" disable-input  bind:change="onChangeH" /> 小时
+    </view>
+    <view class="item" style="align-items: center;">
+      <label>请选择增加的分钟：</label>
+      <van-stepper value="{{ addTimeM }}" step="5" min="0" max="60" disable-input  bind:change="onChangeM" /> 分钟
     </view>
     <view class="item">
       <label>订单原结束时间：</label><text>{{orderInfo.endTime}}</text>

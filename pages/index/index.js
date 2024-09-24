@@ -14,6 +14,7 @@ Page({
     storeEnvImg:[],//图片数组
     bannerImg:[],//banner
     doorinfodata:{},//门店信息
+    roomClass: [],//房间种类筛选
     timeselectindex:0,//日期选择索引值
     timebg_primary:'bg-primary',
     timebg_primary_no:'',
@@ -108,7 +109,7 @@ Page({
     console.log('最终的门店id:'+that.data.storeId)
     if(that.data.storeId){
       that.loadingtime();
-      that.getDoorInfodata();
+      that.getStoreInfodata();
       that.setData({
         popshow: popshow
       })
@@ -334,13 +335,14 @@ Page({
   //获取房间列表数据
   getDoorListdata:function(e){
     var that = this;
-    //if (app.globalData.isLogin) 
+    if (that.data.storeId) 
     {
       http.request(
-        "/member/index/getRoomInfoList"+'/'+that.data.storeId+"?roomClass="+that.data.tabIndex,
+        "/member/index/getRoomInfoList",
         "1",
         "post", {
           "storeId": that.data.storeId,
+          "roomClass": that.data.tabIndex,
         },
         app.globalData.userDatatoken.accessToken,
         "获取中...",
@@ -384,7 +386,7 @@ Page({
      });
   },
   //获取门店相信信息
-  getDoorInfodata:function(e){
+  getStoreInfodata:function(e){
     var that = this;
     //if (app.globalData.isLogin) 
     {
@@ -416,6 +418,22 @@ Page({
                   bannerImg: arr
                 });
               }
+              //增加房间类别的筛选条件
+            if(null!=info.data.roomClassList&&info.data.roomClassList.length>0){
+              const classArr=[];
+              info.data.roomClassList.forEach(e=>{
+                if(e===0){
+                  classArr.push( { text: '棋牌', value: 0});
+                }else if(e===1){
+                  classArr.push( { text: '台球', value: 1});
+                }else if(e===2){
+                  classArr.push( { text: '自习室', value: 2});
+                }
+              });
+              that.setData({
+                roomClass: classArr
+              });
+            }
             }else{
               wx.navigateTo({
                 url: "../doorList/doorList",
@@ -513,9 +531,44 @@ Page({
     var that = this;
     // let aindex = e.currentTarget.dataset.index;
     if(that.data.isLogin){
-      wx.navigateTo({
-        url: '../orderDetail/orderDetail?toPage=true',
-      })
+      http.request(
+        "/member/order/getOrderInfo",
+        "1",
+        "get", {
+        },
+        app.globalData.userDatatoken.accessToken,
+        "获取中...",
+        function success(info) {
+          console.info('订单信息===');
+          if (info.code === 0 && info.data) {
+            //有订单  调用开门
+            let startTime=new Date(info.data.startTime);
+            if(info.data.status == 0 && startTime>Date.now()){
+              wx.showModal({
+                title: '温馨提示',
+                content: '当前还未到预约时间，是否提前开始消费？',
+                success: function (res) {
+                  if (res.confirm) {
+                    that.openRoomDoor(info.data);
+                  }
+                }
+              })
+            }else{
+              that.openRoomDoor(info.data);
+            }
+          }else{
+            wx.showModal({
+              title: '温馨提示',
+              content: '当前无有效订单，请先下单！',
+              showCancel: false,
+              success (res) {
+              }
+            })
+          }
+        },
+        function fail(info) {
+        }
+      )
     }else{
       that.gotologin();
     }
@@ -604,4 +657,34 @@ Page({
       this.getDoorListdata()
     })
   },
+  openRoomDoor:function(data) {
+    let that = this;
+    //开房间门
+      console.log('开房间门');
+      http.request(
+        "/member/order/openRoomDoor?orderKey="+data.orderKey,
+        "1",
+        "post", {
+          // "orderKey":that.data.orderKey,
+        },
+        app.globalData.userDatatoken.accessToken,
+        "提交中...",
+        function success(info) {
+          if (info.code == 0) {
+            wx.showToast({
+              title: "操作成功",
+              icon: 'success'
+            })
+          }else{
+            wx.showModal({
+              title:"提示",
+              content: info.msg,
+              showCancel: false,
+            })
+          }
+        },
+        function fail(info) {
+        }
+      )
+    },
 })

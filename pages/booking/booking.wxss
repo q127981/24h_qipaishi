@@ -127,14 +127,14 @@ page{
 }
 .lists .item .top .left{
   width: 190rpx;
-  height: 290rpx;
+  height: 230rpx;
   border-radius: 10rpx;
   position: relative;
   overflow: hidden;
 }
 .lists .item .top .left .img{
   width: 100%;
-  height: 85%;
+  height: 100%;
 }
 .lists .item .top .left .flag{
   position: absolute;

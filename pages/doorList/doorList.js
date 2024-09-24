@@ -19,7 +19,7 @@ Page({
     markers: [],
     store: '', //地图上方展示的门店详情
     storeId:'',
-    // isLogin:app.globalData.isLogin,
+    isLogin:app.globalData.isLogin,
     pageindex:1,//分页的page
     canLoadMore: true,//是否还能加载更多
     userId: '', //管理员代下单用户id
@@ -435,9 +435,44 @@ Page({
     var that = this;
     // let aindex = e.currentTarget.dataset.index;
     if(app.globalData.isLogin){
-      wx.navigateTo({
-        url: '../orderDetail/orderDetail?toPage=true',
-      })
+      http.request(
+        "/member/order/getOrderInfo",
+        "1",
+        "get", {
+        },
+        app.globalData.userDatatoken.accessToken,
+        "获取中...",
+        function success(info) {
+          console.info('订单信息===');
+          if (info.code === 0 && info.data) {
+            //有订单  调用开门
+            let startTime=new Date(info.data.startTime);
+            if(info.data.status == 0 && startTime>Date.now()){
+              wx.showModal({
+                title: '温馨提示',
+                content: '当前还未到预约时间，是否提前开始消费？',
+                success: function (res) {
+                  if (res.confirm) {
+                    that.openRoomDoor(info.data);
+                  }
+                }
+              })
+            }else{
+              that.openRoomDoor(info.data);
+            }
+          }else{
+            wx.showModal({
+              title: '温馨提示',
+              content: '当前无有效订单，请先下单！',
+              showCancel: false,
+              success (res) {
+              }
+            })
+          }
+        },
+        function fail(info) {
+        }
+      )
     }else{
       that.gotologin();
     }
@@ -446,5 +481,35 @@ Page({
     wx.switchTab({
       url: '/pages/user/user',
     })
-  }
+  },
+  openRoomDoor:function(data) {
+    let that = this;
+    //开房间门
+      console.log('开房间门');
+      http.request(
+        "/member/order/openRoomDoor?orderKey="+data.orderKey,
+        "1",
+        "post", {
+          // "orderKey":that.data.orderKey,
+        },
+        app.globalData.userDatatoken.accessToken,
+        "提交中...",
+        function success(info) {
+          if (info.code == 0) {
+            wx.showToast({
+              title: "操作成功",
+              icon: 'success'
+            })
+          }else{
+            wx.showModal({
+              title:"提示",
+              content: info.msg,
+              showCancel: false,
+            })
+          }
+        },
+        function fail(info) {
+        }
+      )
+    },
 })

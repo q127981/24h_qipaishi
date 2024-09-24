@@ -16,11 +16,11 @@
       下单5分钟内可以取消订单，开始订单前可更换场地。迟到消费，订单按原预定时间开始计费。</rich-text>
     </view>
   </view>
-  <view class="top-tabs-container">
+  <view class="top-tabs-container" wx:if="{{roomClass&&roomClass.length>1}}">
     <view class="top-tabs" >
-      <view data-index="0" class="tab {{tabIndex === 0 && 'active'}}" bind:tap="tabChange">棋牌</view>
-      <view data-index="1" class="tab {{tabIndex === 1 && 'active'}}" bind:tap="tabChange">台球</view>
-      <!-- <view data-index="2" class="tab {{tabIndex === 2 && 'active'}}" bind:tap="tabChange">自习室</view> -->
+      <block wx:for="{{roomClass}}" wx:key="roomClass">
+        <view data-index="{{item.value}}" class="tab {{tabIndex === item.value && 'active'}}" bind:tap="tabChange">{{item.text}}</view>
+      </block>
     </view>
   </view>
   <!-- 房间列表 -->

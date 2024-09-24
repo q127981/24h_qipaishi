@@ -13,6 +13,7 @@ Page({
     storeEnvImg: [], //图片数组
     bannerImg: [], //banner
     doorinfodata: {}, //门店信息
+    roomClass: [],//房间种类筛选
     timeselectindex: 0, //日期选择索引值
     timebg_primary: "bg-primary",
     timebg_primary_no: "",
@@ -28,7 +29,7 @@ Page({
     cautionText: `
     <p>
       <b>营业时间:</b>
-      <span style="color: #b0b1b1;">24小时营业，可提前6天预约，3小时起约麻咖麻将馆(大象城店)，24小时营业，可提前6天预约，3小时起约</span>
+      <span style="color: #b0b1b1;">24小时营业</span>
     </p>
   `
   },
@@ -56,7 +57,7 @@ Page({
       console.info("options===");
       console.info(options.storeId);
       this.getDoorListdata();
-      this.getDoorInfodata();
+      this.getStoreInfodata();
     }
 
     this.setData({
@@ -180,8 +181,8 @@ Page({
   goBack() {
     wx.navigateBack()
   },
-   //获取门店相信信息
-   getDoorInfodata:function(e){
+   //获取门店信息
+   getStoreInfodata:function(e){
     var that = this;
     //if (app.globalData.isLogin) 
     {
@@ -209,6 +210,22 @@ Page({
               var arr=info.data.bannerImg.split(",");
               that.setData({
                 bannerImg: arr
+              });
+            }
+            //增加房间类别的筛选条件
+            if(null!=info.data.roomClassList&&info.data.roomClassList.length>0){
+              const classArr=[];
+              info.data.roomClassList.forEach(e=>{
+                if(e===0){
+                  classArr.push( { text: '棋牌', value: 0});
+                }else if(e===1){
+                  classArr.push( { text: '台球', value: 1});
+                }else if(e===2){
+                  classArr.push( { text: '自习室', value: 2});
+                }
+              });
+              that.setData({
+                roomClass: classArr
               });
             }
           }else{
@@ -349,7 +366,7 @@ Page({
     //if (app.globalData.isLogin)
     {
       http.request(
-        "/member/index/getRoomInfoList" + "/" + that.data.storeId+"?roomClass="+that.data.tabIndex,
+        "/member/index/getRoomInfoList",
         "1",
         "post",
         {

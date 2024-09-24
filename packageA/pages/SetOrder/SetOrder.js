@@ -42,7 +42,8 @@ Page({
     orderlist:[],//订单列表数组
     isLogin:app.globalData.isLogin,
     orderInfo: '', //选择操作的订单
-    addTime: 0, //续费时长
+    addTimeH: 0, //续费时长
+    addTimeM: 0,//续费分钟
     changeTime:0,//修改时长
     newTime:'',//增加后的时间
     totalPay: 0, //增加后支付价格
@@ -454,15 +455,26 @@ Page({
     }
   },
   // 续费加时间
-  onChange:function(event){
+  onChangeH:function(event){
     var that = this
-    var addTime = event.detail
-    var newTime = Moment(that.data.orderInfo.endTime).add(addTime, "hours").format("YYYY/MM/DD HH:mm")
-    //console.log(`newtime:${newTime}`)
+    var addTimeH = event.detail;
+    var minute = addTimeH * 60 +that.data.addTimeM;
+    var newTime = Moment(that.data.orderInfo.endTime).add(minute, "minutes").format("YYYY/MM/DD HH:mm")
     this.setData({
-      addTime: addTime,
+      addTimeH: addTimeH,
       newTime: newTime,
-      totalPay: (addTime * that.data.orderInfo.price).toFixed(2)
+      totalPay: (minute / 60 * that.data.orderInfo.price).toFixed(2)
+    })
+  },
+  onChangeM:function(event){
+    var that = this
+    var addTimeM = event.detail;
+    var minute = addTimeM + that.data.addTimeH * 60;
+    var newTime = Moment(that.data.orderInfo.endTime).add(minute, "minutes").format("YYYY/MM/DD HH:mm")
+    this.setData({
+      addTimeM: addTimeM,
+      newTime: newTime,
+      totalPay: (minute * that.data.orderInfo.price).toFixed(2)
     })
   },
   // 修改订单时间
@@ -494,68 +506,62 @@ Page({
             that.renewCancel()
         }else {
             // 点击确定
-            if(that.data.addTime==0){
+            console.log(that.data.newTime)
+            if(that.data.newTime){
+              that.renewConfirm()
+            }else{
               wx.showToast({
                 title: '请选择增加时间!',
+                icon: 'none'
               })
               return
             }
-            that.renewConfirm()
+            
         }
     }
   },
   // 续费
   renewConfirm: function(){
-    if(!this.data.addTime){
-      wx.showToast({
-        title: '请选择增加时间',
-        icon: "none"
-      })
-      return false;
-    }else{
-      var that = this
-      if (app.globalData.isLogin) 
-      {
-        http.request(
-          "/member/manager/renewByAdmin",
-          "1",
-          "post", {
-            "orderId": that.data.orderInfo.orderId,
-            // "minutes": that.data.addTime * 60,
-            "endTime": that.data.newTime,
-            "payType": that.data.payType,
-            "orderNo": that.data.orderInfo.orderNo
-          },
-          app.globalData.userDatatoken.accessToken,
-          "",
-          function success(info) {
-            console.info('返回111===');
-            console.info(info);
-            if (info.code == 0) {
-              wx.showToast({
-                title: '续时成功',
-              })
-              that.getOrderListdata('refresh')
-              that.renewCancel()
-            }else{
-              wx.showModal({
-                content: info.msg,
-                showCancel: false,
-              })
-            }
-          },
-          function fail(info) {
-            
-          }
-        )
-      } 
-    }
+    var that = this
+    http.request(
+      "/member/manager/renewByAdmin",
+      "1",
+      "post", {
+        "orderId": that.data.orderInfo.orderId,
+        // "minutes": that.data.addTime * 60,
+        "endTime": that.data.newTime,
+        "payType": that.data.payType,
+        "orderNo": that.data.orderInfo.orderNo
+      },
+      app.globalData.userDatatoken.accessToken,
+      "",
+      function success(info) {
+        console.info('返回111===');
+        console.info(info);
+        if (info.code == 0) {
+          wx.showToast({
+            title: '续时成功',
+          })
+          that.getOrderListdata('refresh')
+          that.renewCancel()
+        }else{
+          wx.showModal({
+            content: info.msg,
+            showCancel: false,
+          })
+        }
+      },
+      function fail(info) {
+        
+      }
+    )
   },
   // 取消续费重置数据
   renewCancel: function(){
     this.setData({
       renewShow: false,
-      addTime: '',
+      addTimeH: 0,
+      addTimeM: 0,
       newTime: '',
       totalPay: 0,
       payType: 1
