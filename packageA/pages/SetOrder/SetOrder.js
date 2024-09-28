@@ -458,12 +458,12 @@ Page({
   onChangeH:function(event){
     var that = this
     var addTimeH = event.detail;
-    var minute = addTimeH * 60 +that.data.addTimeM;
+    var minute = addTimeH * 60 + that.data.addTimeM;
     var newTime = Moment(that.data.orderInfo.endTime).add(minute, "minutes").format("YYYY/MM/DD HH:mm")
     this.setData({
       addTimeH: addTimeH,
       newTime: newTime,
-      totalPay: (minute / 60 * that.data.orderInfo.price).toFixed(2)
+      totalPay: (minute * that.data.orderInfo.price / 60).toFixed(2)
     })
   },
   onChangeM:function(event){
@@ -474,7 +474,7 @@ Page({
     this.setData({
       addTimeM: addTimeM,
       newTime: newTime,
-      totalPay: (minute * that.data.orderInfo.price).toFixed(2)
+      totalPay: (minute * that.data.orderInfo.price / 60).toFixed(2)
     })
   },
   // 修改订单时间
