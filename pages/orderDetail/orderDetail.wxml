@@ -92,16 +92,16 @@
           <view class="text">门店大门</view>
         </view>
       </view>
-      <view class="door m-b-20 color-primary" bind:tap="bindOpenRoomLock">
-        <view class="action">
-          <view class="iconfont icon-damen"></view>
-          <view class="text">蓝牙开锁</view>
-        </view>
-      </view>
       <view class="door m-b-20 color-primary" bind:tap="roombindchange">
         <view class="action">
           <view class="iconfont icon-dian"></view>
           <view class="text">通电开门</view>
+        </view>
+      </view>
+      <view class="door m-b-20 color-primary" bind:tap="showModal">
+        <view class="action">
+          <view class="iconfont icon-weizhi"></view>
+          <view class="text">空调控制</view>
         </view>
       </view>
       <button hover-class="button-click" class="door color-primary share {{OrderInfodata.renewBtn ?'':'disabled'}}" open-type="{{OrderInfodata.renewBtn ?'share':''}}">
@@ -268,3 +268,69 @@
     </view>
   </view>
 </van-dialog>
+
+<view class="ac-control">
+  <view class="ac-control__modal {{kongtiaoShow ? 'ac-control__modal--show' : ''}}" bindtap="hideModal">
+    <view class="ac-control__modal-content" catchtap="stopPropagation">
+      <view class="ac-control__modal-header">
+        <text class="ac-control__modal-title">空调控制</text>
+        <text class="ac-control__modal-close" bindtap="hideModal">×</text>
+      </view>
+      <view class="ac-control__modal-body">
+        <view class="ac-control__temperature-control">
+          <button class="ac-control__control-button" bindtap="adjustTemperature" data-delta="-1" >-</button>
+          <view class="ac-control__temperature-display">
+            <view class="ac-control__temperature-fill" style="width: {{(temperature - 15) / 14 * 100}}%"></view>
+            <view class="ac-control__temperature-text">{{temperature}}°C</view>
+          </view>
+          <button class="ac-control__control-button" bindtap="adjustTemperature" data-delta="1" >+</button>
+        </view>
+        
+        <view class="ac-control__fan-control">
+          <button class="ac-control__control-button" bindtap="adjustFanSpeed" data-delta="-1" >-</button>
+          <view class="ac-control__fan-display">
+            <text>风量</text>
+            <view class="ac-control__fan-level">
+              <view wx:for="{{5}}" wx:key="index" class="ac-control__fan-dot {{fanSpeed >= index + 1 ? 'ac-control__fan-dot--active' : ''}}"></view>
+            </view>
+          </view>
+          <button class="ac-control__control-button" bindtap="adjustFanSpeed" data-delta="1" >+</button>
+        </view>
+        
+        <view class="ac-control__mode-grid">
+          <view class="ac-control__mode-button {{mode === 'cool' ? 'ac-control__mode-button--active' : ''}} " bindtap="setMode" data-mode="cool">
+            <text class="ac-control__mode-icon">❄️</text>
+            <text>制冷</text>
+          </view>
+          <view class="ac-control__mode-button {{mode === 'heat' ? 'ac-control__mode-button--active' : ''}}" bindtap="setMode" data-mode="heat">
+            <text class="ac-control__mode-icon">🔆</text>
+            <text>制热</text>
+          </view>
+          <view class="ac-control__mode-button {{mode === 'auto' ? 'ac-control__mode-button--active' : ''}}" bindtap="setMode" data-mode="auto">
+            <text class="ac-control__mode-icon">🔄</text>
+            <text>自动</text>
+          </view>
+        </view>
+        
+        <view class="ac-control__swing-row">
+          <view class="ac-control__swing-button {{verticalSwing ? 'ac-control__swing-button--active' : ''}} " bindtap="toggleVerticalSwing">
+            <text class="ac-control__mode-icon">↕️</text>
+            <text>上下扫风</text>
+          </view>
+          <view class="ac-control__swing-button {{horizontalSwing ? 'ac-control__swing-button--active' : ''}} " bindtap="toggleHorizontalSwing">
+            <text class="ac-control__mode-icon">↔️</text>
+            <text>左右扫风</text>
+          </view>
+        </view>
+        <view class="btn">
+          <button class="ac-control__power-button ac-control__power-button--off" bindtap="togglePowerOff">
+          关机
+          </button>
+          <button class="ac-control__power-button ac-control__power-button--on" bindtap="togglePowerOn">
+          开机
+          </button>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -99,7 +99,7 @@ Page({
    */
   onPullDownRefresh() {
     let that = this;
-    this.setData({
+    that.setData({
         pageNo: 1,
         canLoadMore:true,
         list:[]
@@ -114,7 +114,6 @@ Page({
   onReachBottom() {
     let that = this;
     if (that.data.canLoadMore) {
-      that.data.pageNo++;
       this.getMainListdata('')
     } else {
       wx.showToast({
@@ -195,29 +194,29 @@ Page({
           console.info('返回111===');
           console.info(info);
           if (info.code == 0) {
-            
-            if (e == "refresh"){
+            if(info.data.list.length === 0){
               that.setData({
-                list: info.data.list,
-                finishNum:info.data.total
-              });
-              if(info.data.list.length === 0){
-                that.setData({
-                  canLoadMore: false
-                })
-              }
-            }else{
-              if (info.data != null && info.data.list.length <= info.data.total) {
-                that.setData({
-                  canLoadMore: false
-                })
-              }
-              let arr = that.data.list;
-              let arrs = arr.concat(info.data.list);
-              that.setData({
-                list: arrs,
-                finishNum: info.data.total
+                canLoadMore: false
               })
+            }else{
+               //有数据
+              if(that.data.list){
+                //列表已有数据  那么就追加
+                let arr = that.data.list;
+                let arrs = arr.concat(info.data.list);
+                that.setData({
+                  list: arrs,
+                  pageNo: that.data.pageNo + 1,
+                  canLoadMore: arrs.length < info.data.total,
+                  finishNum:info.data.total
+                })
+              }else{
+                that.setData({
+                  list: info.data.list,
+                  pageNo: that.data.pageNo + 1,
+                  finishNum:info.data.total
+                });
+              }
             }
           }else{
             wx.showModal({

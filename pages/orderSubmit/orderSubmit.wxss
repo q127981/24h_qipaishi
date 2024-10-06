@@ -22,15 +22,15 @@ page{
 
 }
 .top .topInfo .left{
-  width: 160rpx;
-  /* height: 260rpx; */
+  width: 190rpx;
+  height: 230rpx;
+  margin-right: 10rpx;
   border-radius: 10rpx;
   position: relative;
   overflow: hidden;
 }
 .top .topInfo .left .img{
   width: 100%;
-  /* height: 200rpx; */
   height: 100%;
 }
 .top .topInfo .name .flag{

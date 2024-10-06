@@ -62,7 +62,7 @@ Page({
   onPullDownRefresh() {
     let that = this;
     that.setData({
-      orderlist:[],//列表数组
+      list:[],//列表数组
       canLoadMore: true,//是否还能加载更多
       pageNo: 1,
     })
@@ -76,8 +76,7 @@ Page({
   onReachBottom() {
     let that = this;
     if (that.data.canLoadMore) {
-      that.data.pageNo++;
-      this.getList();
+      that.getList();
     } else {
       wx.showToast({
         title: '我是有底线的...',
@@ -115,26 +114,27 @@ Page({
         "",
         function success(info) {
           if (info.code == 0) {
-            if (e == "refresh"){
+            if(info.data.list.length === 0){
               that.setData({
-                list: info.data.list
+                canLoadMore: false
               })
-              if(info.data.list.length === 0){
-                that.setData({
-                  canLoadMore: false
-                })
-              }
             }else{
-              if (info.data != null && info.data.list.length <= info.data.total) {
+               //有数据
+              if(that.data.list){
+                //列表已有数据  那么就追加
+                let arr = that.data.list;
+                let arrs = arr.concat(info.data.list);
                 that.setData({
-                  canLoadMore: false
+                  list: arrs,
+                  pageNo: that.data.pageNo + 1,
+                  canLoadMore: arrs.length < info.data.total
                 })
+              }else{
+                that.setData({
+                  list: info.data.list,
+                  pageNo: that.data.pageNo + 1,
+                });
               }
-              let arr = that.data.list;
-              let arrs = arr.concat(info.data.list)
-              that.setData({
-                list: arrs,
-              })
             }
           }else{
             wx.showModal({

@@ -15,6 +15,14 @@ Page({
     renewShow: false, //续费弹窗
     cancelOrderShow: false, //订单取消弹窗
     cancelOrderSucShow: false, //取消成功弹窗
+    kongtiaoShow: false,//空调控制显示
+    temperature: 26,
+    mode: '',
+    verticalSwing: false,
+    horizontalSwing: false,
+    fanSpeed: '',
+    fanDelta: '',
+    power: false,
     OrderNo: '',//订单id
     orderKey: '',//订单key  用于分享好友 直接打开使用
     isLogin:app.globalData.isLogin,
@@ -140,29 +148,6 @@ Page({
   share:function(){
 
   },
-  // 确认到店
-  startOrder:function(){
-    let isBefore= Moment().isBefore(this.data.OrderInfodata.startTime)
-    var that = this
-    if(isBefore){
-      wx.showModal({
-        title: '提示',
-        content: '订单将从当前时间开始计费。您确定要提前开始吗？',
-        cancelText: '继续等待',
-        confirmText: '现在开始',
-        complete: (res) => {
-          if (res.cancel) {
-          }
-      
-          if (res.confirm) {
-            that.beginOrder()
-          }
-        }
-      })
-    }else{
-      that.beginOrder()
-    }
-  },
   // 结束订单
   endOrder:function(){
     var that = this
@@ -197,7 +182,6 @@ Page({
         "",
         function success(info) {
           console.info('返回111===');
-          console.info(info);
           if (info.code == 0) {
             wx.showToast({
               title: '确认到店成功',
@@ -780,69 +764,36 @@ Page({
   openRoomDoor:function(e) {
     let that = this;
     //开房间门
-      console.log('开房间门');
-      http.request(
-        "/member/order/openRoomDoor?orderKey="+that.data.orderKey,
-        "1",
-        "post", {
-          // "orderKey":that.data.orderKey,
-        },
-        app.globalData.userDatatoken.accessToken,
-        "提交中...",
-        function success(info) {
-          console.info('房间门===');
-          console.info(info);
-          if (info.code == 0) {
-            wx.showToast({
-              title: "操作成功",
-              icon: 'success'
-            })
-            if(e==true){
-              that.openRoomLock();
-            }
-            that.getrorderInfodata();
-          }else{
-            wx.showModal({
-              title:"提示",
-              content: info.msg,
-              showCancel: false,
-            })
-          }
-        },
-        function fail(info) {
+    console.log('开房间门');
+    http.request(
+      "/member/order/openRoomDoor?orderKey="+that.data.orderKey,
+      "1",
+      "post", {
+        // "orderKey":that.data.orderKey,
+      },
+      app.globalData.userDatatoken.accessToken,
+      "提交中...",
+      function success(info) {
+        console.info('房间门===');
+        console.info(info);
+        if (info.code == 0) {
+          wx.showToast({
+            title: "操作成功",
+            icon: 'success'
+          })
+          that.getrorderInfodata();
+        }else{
+          wx.showModal({
+            title:"提示",
+            content: info.msg,
+            showCancel: false,
+          })
         }
-      )
+      },
+      function fail(info) {
+      }
+    )
     },
-  bindOpenRoomLock:function(event){
-    let that = this;
-    let startTime=new Date(that.data.OrderInfodata.startTime);
-    if(that.data.OrderInfodata.status == 0 && startTime>Date.now()){
-      wx.showModal({
-        title: '温馨提示',
-        content: '当前还未到预约时间，是否提前开始消费？',
-        success: function (res) {
-          if (res.confirm) {
-            that.openRoomDoor(true);
-            // that.openRoomLock();
-          }
-        }
-      })
-    }else{
-       that.openRoomLock();
-    }
-    },
-  //开密码门
-  openRoomLock:function() {
-    var that = this;
-    if(that.data.OrderInfodata.lockData){
-       //本地蓝牙开锁
-      lock.blueDoorOpen(that.data.OrderInfodata.lockData);
-    }else{
-      wx.showToast({
-        title: '未使用密码锁',
-      })
-    }
-  },
   roombindchange:function(event) {
     let that = this;
     let startTime=new Date(that.data.OrderInfodata.startTime);
@@ -917,25 +868,187 @@ Page({
       //console.log('未登录失败！')
     }
   },
-  showModel:function(msg){
-    wx.showModal({
-      title: '温馨提示',
-      content: msg
-    })
-  },
-  getPrice:function(startDate){
-    var that=this;
-    var day= new Date(startDate).getDay();
-    switch (day) {
-      case 1:
-      case 2:
-      case 3:
-      case 4:
-        return that.data.OrderInfodata.workPrice;
-      case 0:
-      case 5:
-      case 6:
-        return that.data.OrderInfodata.roomPrice;
+  showModal() {
+    let that=this;
+    if(that.data.OrderInfodata.kongtiaoCount){
+      this.setData({ kongtiaoShow: true });
+    }else{
+      wx.showModal({
+        title: '温馨提示',
+        content: '商家未开通空调控制功能',
+        showCancel: false,
+        complete: (res) => {
+        }
+      })
     }
+  },
+  
+  hideModal() {
+    this.setData({ kongtiaoShow: false });
+  },
+  
+  stopPropagation(e) {
+    // e.stopPropagation();
+  },
+  
+  adjustTemperature(e) {
+    if (this.data.power) {
+      const delta = parseInt(e.currentTarget.dataset.delta);
+      let newTemp = this.data.temperature + delta;
+      newTemp = Math.max(16, Math.min(30, newTemp));
+      this.setData({ temperature: newTemp });
+      this.sendKongtiaoControl();
+    }else{
+      wx.showToast({
+        title: '请先开机空调',
+        icon: 'none'
+      })
+    }
+  },
+  
+  setMode(e) {
+    if (this.data.power) {
+      const newMode = e.currentTarget.dataset.mode;
+      this.setData({ mode: newMode });
+      this.sendKongtiaoControl();
+    }else{
+      wx.showToast({
+        title: '请先开机空调',
+        icon: 'none'
+      })
+    }
+  },
+  
+  toggleVerticalSwing() {
+    if (this.data.power) {
+      this.setData({ verticalSwing: !this.data.verticalSwing });
+      this.sendKongtiaoControl();
+    }else{
+      wx.showToast({
+        title: '请先开机空调',
+        icon: 'none'
+      })
+    }
+  },
+  
+  toggleHorizontalSwing() {
+    if (this.data.power) {
+      this.setData({ horizontalSwing: !this.data.horizontalSwing });
+      this.sendKongtiaoControl();
+    }else{
+      wx.showToast({
+        title: '请先开机空调',
+        icon: 'none'
+      })
+    }
+  },
+  
+  adjustFanSpeed(e) {
+    if (this.data.power) {
+      const delta = parseInt(e.currentTarget.dataset.delta);
+      let newSpeed = this.data.fanSpeed + delta;
+      newSpeed = Math.max(1, Math.min(5, newSpeed));
+      this.setData({ 
+        fanSpeed: newSpeed,
+        fanDelta: delta
+       });
+      this.sendKongtiaoControl();
+    }else{
+      wx.showToast({
+        title: '请先开机空调',
+        icon: 'none'
+      })
+    }
+  },
+  togglePowerOn() {
+    let that = this;
+    let startTime=new Date(that.data.OrderInfodata.startTime);
+    if(that.data.OrderInfodata.status == 0 && startTime>Date.now()){
+      wx.showModal({
+        title: '提示',
+        content: '订单将从当前时间开始计费。您确定要提前开始吗？',
+        cancelText: '继续等待',
+        confirmText: '现在开始',
+        complete: (res) => {
+          if (res.cancel) {
+          }
+          if (res.confirm) {
+            // 开机时，重置所有状态到默认值
+            that.setData({
+              power: true,
+              temperature: 26,
+              mode: '',
+              verticalSwing: '',
+              horizontalSwing: '',
+              fanSpeed: '',
+              fanDelta: ''
+            });
+            that.openRoomDoor();
+            //因为刚开电 可能设备都还没上线 根据实际情况  可能需要延迟几秒执行
+            that.sendKongtiaoControl();
+          }
+        }
+      })
+    }else{
+      // 开机时，重置所有状态到默认值
+      that.setData({
+        power: true,
+        temperature: 26,
+        mode: '',
+        verticalSwing: '',
+        horizontalSwing: '',
+        fanSpeed: '',
+        fanDelta: ''
+      });
+      that.sendKongtiaoControl();
+    }
+    
+  },
+  togglePowerOff() {
+    // 关机时，只更改电源状态
+    this.setData({
+      power: false,
+      temperature: 26,
+      mode: '',
+      verticalSwing: '',
+      horizontalSwing: '',
+      fanSpeed: '',
+      fanDelta: ''
+    });
+    this.sendKongtiaoControl();
+  },
+  sendKongtiaoControl(){
+    let that=this;
+    http.request(
+      "/member/order/controlKT",
+      "1",
+      "post", {
+        "orderKey":that.data.orderKey,
+        "power":that.data.power,
+        "temperature":that.data.temperature,
+        "mode":that.data.mode,
+        "verticalSwing":that.data.verticalSwing,
+        "horizontalSwing":that.data.horizontalSwing,
+        "fanDelta":that.data.fanDelta,
+      },
+      app.globalData.userDatatoken.accessToken,
+      "提交中...",
+      function success(info) {
+        if (info.code == 0) {
+          wx.showToast({
+            title: "操作成功",
+            icon: 'success'
+          })
+        }else{
+          wx.showModal({
+            title:"提示",
+            content: info.msg,
+            showCancel: false,
+          })
+        }
+      },
+      function fail(info) {
+      }
+    )
   }
 })

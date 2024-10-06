@@ -35,6 +35,16 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh() {
+    let that = this;
+    that.setData({
+        pageNo: 1,
+        canLoadMore:true,
+        MainStorelist: [],
+        markers: [],
+        store: '',
+    })
+    that.getMainListdata('refresh');
+    wx.stopPullDownRefresh();
   },
   /**
    * 页面上拉触底事件的处理函数
@@ -42,8 +52,7 @@ Page({
   onReachBottom() {
     let that = this;
     if (that.data.canLoadMore) {
-      that.data.pageindex++;
-      this.getMainListdata();
+      that.getMainListdata();
     } else {
       wx.showToast({
         title: '没有更多门店了...',
@@ -207,9 +216,14 @@ Page({
         message,
         function success(info) {
           if (info.code == 0) {
-            let list = info.data.list
-            let allMarkers = []
-            if(list.length>0){
+            if(info.data.list.length === 0){
+              that.setData({
+                canLoadMore: false
+              })
+            }else{
+              //有数据
+              let list = info.data.list
+              let allMarkers = [];
               for(let i=0;i<list.length;i++){
                 var title = list[i].storeName
                 var lat = list[i].lat
@@ -225,49 +239,38 @@ Page({
                   },
                   fontSize: 20,
                 }
-                allMarkers.push(marker)
-                marker = null
+                allMarkers.push(marker);
               }
               //如果只有一个店 那么直接进入门店主页
-              if(list.length==1&&that.data.cityName=='选择城市'&&that.data.name==''){
-                // 设置参数
+              if(list.length===1&&that.data.cityName=='选择城市'&&that.data.name==''){
+                // 缓存门店ID
                 wx.setStorageSync('global_store_id',list[0].storeId);
                 wx.switchTab({
                   url: '/pages/index/index'
                 });
               }else{
-                if (info.data.list.length <= info.data.total) {
-                  that.setData({
-                    canLoadMore: false
-                  })
-                }
-                if (e == "refresh"){
-                  that.setData({
-                    MainStorelist: list,
-                    markers: allMarkers,
-                    store: list[0]
-                  });
-                }else{
+                if(that.data.MainStorelist){
+                  //列表已有数据  那么就追加
                   let arr = that.data.MainStorelist;
-                  let arrs = arr.concat(info.data.list)
-                  console.log('arr');
-                  console.log(arr);
+                  let arrs = arr.concat(info.data.list);
                   let markers = that.data.markers;
                   let newMarkers = markers.concat(allMarkers);
                   that.setData({
                     MainStorelist: arrs,
                     markers: newMarkers,
-                    store: arrs[0]
+                    store: list[0],
+                    pageNo: that.data.pageNo + 1,
+                    canLoadMore: arrs.length < info.data.total
                   })
+                }else{
+                  that.setData({
+                    MainStorelist: info.data.list,
+                    markers: allMarkers,
+                    store: list[0],
+                    pageNo: that.data.pageNo + 1,
+                  });
                 }
               }
-            }else{
-              that.setData({
-                MainStorelist: [],
-                markers: [],
-                store: '',
-                canLoadMore: false
-              });
             }
           }else{
             wx.showModal({

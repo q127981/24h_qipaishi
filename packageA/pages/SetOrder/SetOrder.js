@@ -126,8 +126,7 @@ Page({
   onReachBottom() {
     let that = this;
     if (that.data.canLoadMore) {
-      that.data.pageNo++;
-      this.getOrderListdata('')
+      that.getOrderListdata('')
     } else {
       wx.showToast({
         title: '我是有底线的...',
@@ -596,30 +595,31 @@ Page({
         function success(info) {
           console.info('订单列表===');
           if (info.code == 0) {
-            if (e == "refresh"){
+            if(info.data.list.length === 0){
               that.setData({
-                orderlist: info.data.list
-              });
-              if(info.data.list.length === 0){
-                that.setData({
-                  canLoadMore: false
-                })
-              }
-            }else{
-              if (info.data != null && info.data.list.length <= info.data.total) {
-                that.setData({
-                  canLoadMore: false
-                })
-              }
-              let arr = that.data.orderlist;
-              let arrs = arr.concat(info.data.list);
-              that.setData({
-                orderlist: arrs,
+                canLoadMore: false
               })
+            }else{
+              //有数据
+              if(that.data.orderlist){
+                //列表已有数据  那么就追加
+                let arr = that.data.orderlist;
+                let arrs = arr.concat(info.data.list);
+                that.setData({
+                  orderlist: arrs,
+                  pageNo: that.data.pageNo + 1,
+                  canLoadMore: arrs.length < info.data.total
+                })
+              }else{
+                that.setData({
+                  orderlist: info.data.list,
+                  pageNo: that.data.pageNo + 1,
+                });
+              }
             }
           }else{
             wx.showModal({
-              content: '请求服务异常，请稍后重试',
+              content: info.msg,
               showCancel: false,
             })
           }

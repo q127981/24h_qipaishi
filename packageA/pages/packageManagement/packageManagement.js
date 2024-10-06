@@ -75,7 +75,11 @@ Page({
    */
   onPullDownRefresh() {
     let that = this;
-    that.data.pageNo = 1;
+    that.setData({
+      pkgList:[],//列表数组
+      canLoadMore: true,//是否还能加载更多
+      pageNo: 1,
+    })
     this.getPkgList("refresh");
     that.data.canLoadMore = true;
     wx.stopPullDownRefresh();
@@ -87,8 +91,7 @@ Page({
   onReachBottom() {
     let that = this;
     if (that.data.canLoadMore) {
-      that.data.pageNo++;
-      this.getPkgList('');
+      that.getPkgList('');
     } else {
       wx.showToast({
         title: '我是有底线的...',
@@ -128,30 +131,31 @@ Page({
         function success(info) {
           console.info('套餐列表===');
           if (info.code == 0) {
-            const newList = info.data.list.map(meal => ({
-              ...meal,
-              enableWeek: that.convertWeekday(meal.enableWeek)
-            }));
-            if (e == "refresh"){
+            if(info.data.list.length === 0){
               that.setData({
-                pkgList: newList
-              });
-              if(info.data.list.length === 0){
-                that.setData({
-                  canLoadMore: false
-                })
-              }
-            }else{
-              if (info.data != null && info.data.list.length <= info.data.total) {
-                that.setData({
-                  canLoadMore: false
-                })
-              }
-              let arr = that.data.pkgList;
-              let arrs = arr.concat(newList);
-              that.setData({
-                pkgList: arrs,
+                canLoadMore: false
               })
+            }else{
+              const newList = info.data.list.map(meal => ({
+                ...meal,
+                enableWeek: that.convertWeekday(meal.enableWeek)
+              }));
+               //有数据
+              if(that.data.pkgList){
+                //列表已有数据  那么就追加
+                let arr = that.data.pkgList;
+                let arrs = arr.concat(newList);
+                that.setData({
+                  pkgList: arrs,
+                  pageNo: that.data.pageNo + 1,
+                  canLoadMore: arrs.length < info.data.total
+                })
+              }else{
+                that.setData({
+                  pkgList: newList,
+                  pageNo: that.data.pageNo + 1,
+                });
+              }
             }
           }else{
             wx.showModal({

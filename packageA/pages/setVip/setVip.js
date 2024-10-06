@@ -81,7 +81,7 @@ Page({
    */
   onPullDownRefresh() {
     let that = this;
-    this.setData({
+    that.setData({
       MainList:[],//列表数组
       canLoadMore: true,//是否还能加载更多
       pageNo: 1,
@@ -96,7 +96,6 @@ Page({
   onReachBottom() {
     let that = this;
     if (that.data.canLoadMore) {
-      that.data.pageNo++;
       this.getListData('')
     } else {
       wx.showToast({
@@ -138,26 +137,27 @@ Page({
           console.info('返回111===');
           console.info(info);
           if (info.code == 0) {
-            if (e == "refresh"){
+            if(info.data.list.length === 0){
               that.setData({
-                MainList: info.data.list
-              });
-              if(info.data.list.length === 0){
-                that.setData({
-                  canLoadMore: false
-                })
-              }
-            }else{
-              if (info.data != null && info.data.list.length <= info.data.total) {
-                that.setData({
-                  canLoadMore: false
-                })
-              }
-              let arr = that.data.MainList;
-              let arrs = arr.concat(info.data.list);
-              that.setData({
-                MainList: arrs,
+                canLoadMore: false
               })
+            }else{
+               //有数据
+              if(that.data.MainList){
+                //列表已有数据  那么就追加
+                let arr = that.data.MainList;
+                let arrs = arr.concat(info.data.list);
+                that.setData({
+                  MainList: arrs,
+                  pageNo: that.data.pageNo + 1,
+                  canLoadMore: arrs.length < info.data.total
+                })
+              }else{
+                that.setData({
+                  MainList: info.data.list,
+                  pageNo: that.data.pageNo + 1,
+                });
+              }
             }
           }else{
             wx.showModal({

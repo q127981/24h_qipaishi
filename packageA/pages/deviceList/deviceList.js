@@ -66,9 +66,12 @@ Page({
    */
   onPullDownRefresh() {
     let that = this;
-    that.data.pageNo = 1;
-    this.getDeviceList("refresh");
-    that.data.canLoadMore = true;
+    that.setData({
+      pageNo: 1,
+      canLoadMore:true,
+      deviceList:[]
+  })
+  that.getDeviceList("refresh");
     wx.stopPullDownRefresh();
   },
 
@@ -78,8 +81,7 @@ Page({
   onReachBottom() {
     let that = this;
     if (that.data.canLoadMore) {
-      that.data.pageNo++;
-      this.getDeviceList('');
+      that.getDeviceList('');
     } else {
       wx.showToast({
         title: '我是有底线的...',
@@ -131,7 +133,7 @@ Page({
            })
           }else{
             wx.showModal({
-              content: '请求服务异常，请稍后重试',
+              content: info.msg,
               showCancel: false,
             })
           }
@@ -167,7 +169,7 @@ Page({
            })
           }else{
             wx.showModal({
-              content: '请求服务异常，请稍后重试',
+              content: info.msg,
               showCancel: false,
             })
           }
@@ -203,21 +205,27 @@ Page({
         "",
         function success(info) {
           if (info.code == 0) {
-            if (e == "refresh"){
+            if(info.data.list.length === 0){
               that.setData({
-                deviceList: info.data.list
+                canLoadMore: false
               })
             }else{
-              if (info.data != null && info.data.list != null && info.data.list.length <= info.data.total) {
+               //有数据
+              if(that.data.deviceList){
+                //列表已有数据  那么就追加
+                let arr = that.data.deviceList;
+                let arrs = arr.concat(info.data.list);
                 that.setData({
-                  canLoadMore: false
+                  deviceList: arrs,
+                  pageNo: that.data.pageNo + 1,
+                  canLoadMore: arrs.length < info.data.total
                 })
+              }else{
+                that.setData({
+                  deviceList: info.data.list,
+                  pageNo: that.data.pageNo + 1,
+                });
               }
-              let arr = that.data.deviceList;
-              let arrs = arr.concat(info.data.list)
-              that.setData({
-                deviceList: arrs,
-              })
             }
           }else{
             wx.showModal({
@@ -351,7 +359,7 @@ Page({
                   that.getDeviceList('refresh');
                 }else{
                   wx.showModal({
-                    content: '请求服务异常，请稍后重试',
+                    content: info.msg,
                     showCancel: false,
                   })
                 }
@@ -403,7 +411,7 @@ Page({
                   that.getDeviceList('refresh');
                 }else{
                   wx.showModal({
-                    content: '请求服务异常，请稍后重试',
+                    content: info.msg,
                     showCancel: false,
                   })
                 }
