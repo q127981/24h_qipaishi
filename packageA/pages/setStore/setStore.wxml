@@ -13,7 +13,7 @@
           <view class="img">
             <image src="{{item.headImg}}" preview-size="200rpx" mode="widthFix" style="height: 50rpx;"></image>
             <view class="{{item.status===0?'status green':item.status===1?'status yellow':'status gray'}}">
-              {{item.status===0?'开业':item.status===1?'审核中':'停用中'}}
+              {{item.status===0?'开业':item.status===1?'审核中':'已到期'}}
             </view>
           </view>
           <view class="right">
@@ -21,7 +21,7 @@
               <view class="name">{{item.storeName}}</view>
               <view class="about">
                 <view class="info">
-                  <view class="line">场地数量：{{item.roomNum}}</view>
+                  <view class="line">房间:{{item.roomNum}}</view>
                 </view>
               </view>
             </view>
@@ -29,11 +29,13 @@
               {{item.address}}
               <!-- <text class="link color-primary" bindtap="goTencentMap" data-info="{{item}}">查看地图</text> -->
             </view>
-            <text class="status yellow" style="width: 260rpx;padding: 0rpx 10rpx;">门店ID：{{item.storeId}}</text>
+            <text class="label yellow">门店ID：{{item.storeId}}</text>
+            <block wx:if="{{item.expireTime}}">
+              <text class="label orage">{{item.expireTime}}到期</text>
+            </block>
           </view>
         </view>
         <van-divider class="divider" contentPosition="center" customStyle="color: #108ee9;" bind:tap="foldTap" data-index="{{item.storeId}}">
-
           {{foldIndex === item.storeId ? "隐藏":"显示管理功能"}}
         </van-divider>
         <view class="btns {{foldIndex === item.storeId ? 'show': ''}}">

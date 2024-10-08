@@ -10,6 +10,7 @@ Page({
    */
   data: {
     isLogin:app.globalData.isLogin,
+    sysinfo: '',
     userinfo:{
       couponCount:0,
       giftBalance:0,
@@ -21,7 +22,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+    this.getSysInfo();
   },
 
   /**
@@ -162,6 +163,28 @@ Page({
     } else {
       //console.log('未登录失败！')
     }
+  },
+  getSysInfo:function(){
+    var that = this;
+    http.request(
+      "/member/index/getSysInfo",
+      "1",
+      "get", {
+      },
+      "",
+      "",
+      function success(info) {
+        console.info(info);
+        if (info.code == 0) {
+          that.setData({
+            sysinfo:info.data,
+          })
+        }
+      },
+      function fail(info) {
+        
+      }
+    )
   },
   gotosetuserinfo:function(){
     wx.navigateTo({

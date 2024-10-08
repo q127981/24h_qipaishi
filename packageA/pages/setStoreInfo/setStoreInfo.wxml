@@ -60,9 +60,11 @@
         <switch checked="{{ clearOpenDoor }}" data-tag="clearOpenDoor" bindchange="onChangeSwitch"/>
       </van-cell>
     </van-cell-group>
-   
     <van-cell-group>
       <van-field model:value="{{ notice }}" autosize type="textarea" maxlength="2000" placeholder="请输入" border="{{ false }}" label="门店公告" />
+    </van-cell-group>
+    <van-cell-group>
+      <van-field model:value="{{ orderWebhook }}" autosize type="textarea" maxlength="200" placeholder="请输入" border="{{ false }}" label="企业微信webhook" />
     </van-cell-group>
     <view class="line" wx:if="{{qrCode}}">
       <label>门店小程序码</label>

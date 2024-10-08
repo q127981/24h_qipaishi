@@ -42,6 +42,7 @@ Page({
     orderDoorOpen: '',
     clearOpenDoor: '',
     txHour: '',
+    orderWebhook: '',
     citylist: [], //城市列表
     ritem: [
       {value: true, name: '是' , checked: 'true'},
@@ -187,6 +188,7 @@ Page({
               simpleModel: info.data.simpleModel,
               kefuPhone: info.data.kefuPhone,
               notice: info.data.notice,
+              orderWebhook: info.data.orderWebhook,
               fileList1: fileList1,
               fileList2: fileList2,
               fileList3: fileList3,
@@ -419,6 +421,7 @@ Page({
         "headImg": that.data.fileList1[0].url,
         "bannerImg": bannerImgs.join(","),
         "notice": that.data.notice,
+        "orderWebhook": that.data.orderWebhook,
         "address": that.data.address,
         "wifiInfo": that.data.wifiInfo,
         "wifiPwd": that.data.wifiPwd,
@@ -460,6 +463,7 @@ Page({
             "storeEnvImg": imgs.join(","),
             "bannerImg": bannerImgs.join(","),
             "notice": that.data.notice,
+            "orderWebhook": that.data.orderWebhook,
             "address": that.data.address,
             "wifiInfo": that.data.wifiInfo,
             "wifiPwd": that.data.wifiPwd,

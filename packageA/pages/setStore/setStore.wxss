@@ -40,9 +40,13 @@ page{
   width: 100%;
 }
 .list .item .right{
-  width: 400rpx;
+  width: 450rpx;
 }
 .list .item .right .name{
+  display: inline-block;
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 32rpx;
   line-height: 40rpx;
   color: rgb(75, 71, 71);
@@ -52,6 +56,13 @@ page{
   color: #666;
   line-height: 30rpx;
   margin: 10rpx 0;
+}
+.list .item .right .label{
+  font-size: 24rpx;
+  line-height: 30rpx;
+  margin: 10rpx;
+  padding: 0rpx 10rpx;
+  border-radius: 10rpx;
 }
 .list .item .link{
   margin-left: 10rpx;
@@ -63,6 +74,10 @@ page{
   font-size: 26rpx;
 }
 .list .item .info{
+  display: inline-block;
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
   line-height: 40rpx;
 }
 .list .item .status{

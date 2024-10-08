@@ -31,6 +31,7 @@
         <text wx:if="{{item.orderEndTime}}">{{item.orderEndTime}}</text>
       </view>
       <view class="btns">
+        <button hover-class="button-click"  class="btn bg-warning" wx:if="{{item.status!=4&&item.status!=6}}" bindtap="cancelOrder" data-info="{{item.clearId}}">取消订单</button>
         <button hover-class="button-click"  class="btn bg-primary" wx:if="{{item.status!=0}}" bindtap="goTaskDetail" data-info="{{item.clearId}}">查看详情</button>
       </view>
     </view>

@@ -11,7 +11,7 @@ Page({
     storeIndex: '',
     roomList:[],
     roomIndex: '',
-    deviceTypes: [{value:'',text:'请选择类型'},{value:1,text:'门禁'},{value:2,text:'空开'},{value:3,text:'云喇叭'},{value:4,text:'灯具'},{value:5,text:'密码锁'},{value:6,text:'网关'},{value:7,text:'插座'},{value:8,text:'锁球器控制器（12V）'},{value:9,text:'人脸门禁机'},{value:10,text:'智能语音喇叭'},{value:11,text:'二维码识别器'}],
+    deviceTypes: [{value:'',text:'请选择类型'},{value:1,text:'门禁'},{value:2,text:'空开'},{value:3,text:'云喇叭'},{value:4,text:'灯具'},{value:5,text:'密码锁'},{value:6,text:'网关'},{value:7,text:'插座'},{value:8,text:'锁球器控制器（12V）'},{value:9,text:'人脸门禁机'},{value:10,text:'智能语音喇叭'},{value:11,text:'二维码识别器'},{value:12,text:'红外控制器'},{value:13,text:'三路控制器'}],
     deviceTypeIndex: '',
     deviceType: '',
     deviceList:[],

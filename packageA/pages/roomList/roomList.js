@@ -20,7 +20,15 @@ Page({
     roomItem: {},
     mainColor: app.globalData.mainColor,
     roomName:'',
-    roomId:''
+    roomId:'',
+    kongtiaoShow: false,//空调控制显示
+    temperature: 26,
+    mode: '',
+    verticalSwing: false,
+    horizontalSwing: false,
+    fanSpeed: '',
+    fanDelta: '',
+    power: false,
   },
 
   /**
@@ -337,7 +345,9 @@ Page({
   closeRoomOp:function(){
     this.setData({
       roomItem: {},
-      showRoomOp: false
+      showRoomOp: false,
+      roomId:'',
+      roomName:'',
     })
   },
   testYunlaba: function(e){
@@ -483,5 +493,145 @@ Page({
       url: `/pages/placeOrder/placeOrder?id=${this.data.roomId}&roomName=${this.data.roomName}`
     })
     
+  },
+  showModal(e) {
+    let that=this;
+    if(that.data.roomItem.kongtiaoCount){
+      this.setData({ 
+        kongtiaoShow: true,
+        showRoomOp: false,
+       });
+    }else{
+      wx.showModal({
+        title: '温馨提示',
+        content: '商家未开通空调控制功能',
+        showCancel: false,
+        complete: (res) => {
+        }
+      })
+    }
+  },
+  
+  hideModal() {
+    this.setData({ kongtiaoShow: false });
+  },
+  
+  stopPropagation(e) {
+    // e.stopPropagation();
+  },
+  
+  adjustTemperature(e) {
+    //调节温度 16度=25 17度=26 18度=27 19-30度=8-19
+    const delta = parseInt(e.currentTarget.dataset.delta);
+    let newTemp = this.data.temperature + delta;
+    newTemp = Math.max(16, Math.min(30, newTemp));
+    this.setData({ temperature: newTemp });
+    console.log("newTemp:"+newTemp);
+    if(newTemp==16){
+      this.sendKongtiaoControl(25);
+    }else  if(newTemp==17){
+      this.sendKongtiaoControl(26);
+    }else if(newTemp==18){
+      this.sendKongtiaoControl(27);
+    }else{
+      //19-30度=8-19
+      this.sendKongtiaoControl(newTemp-11);
+    }
+    
+  },
+  
+  setMode(e) {
+    const newMode = e.currentTarget.dataset.mode;
+    //设置模式 制冷20 制热21 自动24
+    this.setData({mode: newMode})
+    setTimeout(() => {
+      this.setData({mode: ''})
+    }, 300);
+    if(newMode == 'cool'){
+      this.sendKongtiaoControl(20);
+    }else if(newMode == 'heat'){
+      this.sendKongtiaoControl(21);
+    }else if(newMode == 'auto'){
+      this.sendKongtiaoControl(24);
+    }
+  },
+  
+  toggleVerticalSwing() {
+   //上下扫风 开始63 停止65
+   this.setData({ verticalSwing: !this.data.verticalSwing });
+   if(this.data.verticalSwing){
+     this.sendKongtiaoControl(63);
+   }else{
+     this.sendKongtiaoControl(65);
+   }
+  },
+  
+  toggleHorizontalSwing() {
+    //左右扫风 开始64 停止66
+    this.setData({ horizontalSwing: !this.data.horizontalSwing });
+    if(this.data.horizontalSwing){
+      this.sendKongtiaoControl(64);
+    }else{
+      this.sendKongtiaoControl(66);
+    }
+  },
+  
+  adjustFanSpeed(e) {
+    //增大风速69 减小风速70
+    const delta = parseInt(e.currentTarget.dataset.delta);
+    let newSpeed = this.data.fanSpeed + delta;
+    newSpeed = Math.max(1, Math.min(5, newSpeed));
+    console.log('delta:'+delta);
+    console.log('newSpeed:'+newSpeed);
+    this.setData({ 
+      fanSpeed: newSpeed,
+      fanDelta: delta
+    });
+    if(delta==1){
+      this.sendKongtiaoControl(69);
+    }else{
+      this.sendKongtiaoControl(70);
+    }
+  },
+  togglePowerOn() {
+    let that = this;
+    // 开机 0 温度默认26度
+    that.setData({
+      temperature: 26,
+    });
+    that.sendKongtiaoControl(0);
+  },
+  togglePowerOff() {
+    // 关机 1
+    this.sendKongtiaoControl(1);
+  },
+  sendKongtiaoControl(cmd){
+    let that=this;
+    http.request(
+      "/member/store/controlKT",
+      "1",
+      "post", {
+        "roomId":that.data.roomId,
+        "cmd":cmd
+      },
+      app.globalData.userDatatoken.accessToken,
+      "提交中...",
+      function success(info) {
+        if (info.code == 0) {
+          wx.showToast({
+            title: "操作成功",
+            icon: 'none'
+          })
+        }else{
+          wx.showModal({
+            title:"提示",
+            content: info.msg,
+            showCancel: false,
+          })
+        }
+      },
+      function fail(info) {
+      }
+    )
   }
 })

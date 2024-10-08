@@ -138,3 +138,9 @@
   font-size: 48rpx;
   margin-bottom: 10rpx;
 }
+
+.version {
+  font-size: 24rpx;
+  text-align: center;
+  color: #108ee9;
+}

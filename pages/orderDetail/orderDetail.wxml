@@ -323,11 +323,11 @@
           </view>
         </view>
         <view class="btn">
-          <button class="ac-control__power-button ac-control__power-button--off" bindtap="togglePowerOff">
-          关机
-          </button>
           <button class="ac-control__power-button ac-control__power-button--on" bindtap="togglePowerOn">
           开机
+          </button>
+          <button class="ac-control__power-button ac-control__power-button--off" bindtap="togglePowerOff">
+          关机
           </button>
         </view>
       </view>

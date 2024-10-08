@@ -102,6 +102,10 @@ page{
   margin-left: 30rpx;
 }
 .list .item .info .name{
+  display: inline-block;
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 36rpx;
   text-align: left;
   width: 400rpx;

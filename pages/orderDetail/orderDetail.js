@@ -777,6 +777,11 @@ Page({
         console.info('房间门===');
         console.info(info);
         if (info.code == 0) {
+          //如果不存在网关 但是又用了密码锁，有锁数据的情况下再进行蓝牙开门操作
+          if(that.data.OrderInfodata.lockData&&!that.data.OrderInfodata.gatewayId){
+            console.log("蓝牙开锁");
+            lock.blueDoorOpen(that.data.OrderInfodata.lockData);
+          }
           wx.showToast({
             title: "操作成功",
             icon: 'success'
@@ -892,72 +897,76 @@ Page({
   },
   
   adjustTemperature(e) {
-    if (this.data.power) {
-      const delta = parseInt(e.currentTarget.dataset.delta);
-      let newTemp = this.data.temperature + delta;
-      newTemp = Math.max(16, Math.min(30, newTemp));
-      this.setData({ temperature: newTemp });
-      this.sendKongtiaoControl();
+    //调节温度 16度=25 17度=26 18度=27 19-30度=8-19
+    const delta = parseInt(e.currentTarget.dataset.delta);
+    let newTemp = this.data.temperature + delta;
+    newTemp = Math.max(16, Math.min(30, newTemp));
+    this.setData({ temperature: newTemp });
+    console.log("newTemp:"+newTemp);
+    if(newTemp==16){
+      this.sendKongtiaoControl(25);
+    }else  if(newTemp==17){
+      this.sendKongtiaoControl(26);
+    }else if(newTemp==18){
+      this.sendKongtiaoControl(27);
     }else{
-      wx.showToast({
-        title: '请先开机空调',
-        icon: 'none'
-      })
+      //19-30度=8-19
+      this.sendKongtiaoControl(newTemp-11);
     }
+    
   },
   
   setMode(e) {
-    if (this.data.power) {
-      const newMode = e.currentTarget.dataset.mode;
-      this.setData({ mode: newMode });
-      this.sendKongtiaoControl();
-    }else{
-      wx.showToast({
-        title: '请先开机空调',
-        icon: 'none'
-      })
+    const newMode = e.currentTarget.dataset.mode;
+    //设置模式 制冷20 制热21 自动24
+    this.setData({mode: newMode})
+    setTimeout(() => {
+      this.setData({mode: ''})
+    }, 300);
+    if(newMode == 'cool'){
+      this.sendKongtiaoControl(20);
+    }else if(newMode == 'heat'){
+      this.sendKongtiaoControl(21);
+    }else if(newMode == 'auto'){
+      this.sendKongtiaoControl(24);
     }
   },
   
   toggleVerticalSwing() {
-    if (this.data.power) {
-      this.setData({ verticalSwing: !this.data.verticalSwing });
-      this.sendKongtiaoControl();
-    }else{
-      wx.showToast({
-        title: '请先开机空调',
-        icon: 'none'
-      })
-    }
+   //上下扫风 开始63 停止65
+   this.setData({ verticalSwing: !this.data.verticalSwing });
+   if(this.data.verticalSwing){
+     this.sendKongtiaoControl(63);
+   }else{
+     this.sendKongtiaoControl(65);
+   }
   },
   
   toggleHorizontalSwing() {
-    if (this.data.power) {
-      this.setData({ horizontalSwing: !this.data.horizontalSwing });
-      this.sendKongtiaoControl();
+    //左右扫风 开始64 停止66
+    this.setData({ horizontalSwing: !this.data.horizontalSwing });
+    if(this.data.horizontalSwing){
+      this.sendKongtiaoControl(64);
     }else{
-      wx.showToast({
-        title: '请先开机空调',
-        icon: 'none'
-      })
+      this.sendKongtiaoControl(66);
     }
   },
   
   adjustFanSpeed(e) {
-    if (this.data.power) {
-      const delta = parseInt(e.currentTarget.dataset.delta);
-      let newSpeed = this.data.fanSpeed + delta;
-      newSpeed = Math.max(1, Math.min(5, newSpeed));
-      this.setData({ 
-        fanSpeed: newSpeed,
-        fanDelta: delta
-       });
-      this.sendKongtiaoControl();
+    //增大风速69 减小风速70
+    const delta = parseInt(e.currentTarget.dataset.delta);
+    let newSpeed = this.data.fanSpeed + delta;
+    newSpeed = Math.max(1, Math.min(5, newSpeed));
+    console.log('delta:'+delta);
+    console.log('newSpeed:'+newSpeed);
+    this.setData({ 
+      fanSpeed: newSpeed,
+      fanDelta: delta
+    });
+    if(delta==1){
+      this.sendKongtiaoControl(69);
     }else{
-      wx.showToast({
-        title: '请先开机空调',
-        icon: 'none'
-      })
+      this.sendKongtiaoControl(70);
     }
   },
   togglePowerOn() {
@@ -973,63 +982,42 @@ Page({
           if (res.cancel) {
           }
           if (res.confirm) {
-            // 开机时，重置所有状态到默认值
+            // 开机 0 温度默认26度
             that.setData({
-              power: true,
               temperature: 26,
-              mode: '',
-              verticalSwing: '',
-              horizontalSwing: '',
-              fanSpeed: '',
-              fanDelta: ''
             });
             that.openRoomDoor();
             //因为刚开电 可能设备都还没上线 根据实际情况  可能需要延迟几秒执行
-            that.sendKongtiaoControl();
+            that.sendKongtiaoControl(0);
           }
         }
       })
     }else{
-      // 开机时，重置所有状态到默认值
+      // 开机 0 温度默认26度
       that.setData({
-        power: true,
         temperature: 26,
-        mode: '',
-        verticalSwing: '',
-        horizontalSwing: '',
-        fanSpeed: '',
-        fanDelta: ''
       });
-      that.sendKongtiaoControl();
+      that.sendKongtiaoControl(0);
     }
     
   },
   togglePowerOff() {
-    // 关机时，只更改电源状态
-    this.setData({
-      power: false,
-      temperature: 26,
-      mode: '',
-      verticalSwing: '',
-      horizontalSwing: '',
-      fanSpeed: '',
-      fanDelta: ''
-    });
-    this.sendKongtiaoControl();
+    // 关机 1
+    this.sendKongtiaoControl(1);
+    
   },
-  sendKongtiaoControl(){
+  sendKongtiaoControl(cmd){
+    // wx.showToast({
+    //   title: "操作成功",
+    //   icon: 'none'
+    // })
     let that=this;
     http.request(
       "/member/order/controlKT",
       "1",
       "post", {
         "orderKey":that.data.orderKey,
-        "power":that.data.power,
-        "temperature":that.data.temperature,
-        "mode":that.data.mode,
-        "verticalSwing":that.data.verticalSwing,
-        "horizontalSwing":that.data.horizontalSwing,
-        "fanDelta":that.data.fanDelta,
+        "cmd":cmd
       },
       app.globalData.userDatatoken.accessToken,
       "提交中...",
@@ -1037,7 +1025,7 @@ Page({
         if (info.code == 0) {
           wx.showToast({
             title: "操作成功",
-            icon: 'success'
+            icon: 'none'
           })
         }else{
           wx.showModal({

@@ -43,6 +43,10 @@ page{
    margin-left: 50rpx;
 }
 .simple .intro .line1 .name {
+  display: inline-block;
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 36rpx;
   font-weight: 600;
   margin-left: 10rpx;
