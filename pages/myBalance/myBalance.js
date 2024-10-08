@@ -124,7 +124,10 @@ Page({
     {
       if (e == "refresh") { //刷新，page变为1
         message = "正在加载"
-        that.setData({pageNo:1})
+        that.setData({
+          pageNo:1,
+          MainList:[]
+        })
       }
 
       http.request(

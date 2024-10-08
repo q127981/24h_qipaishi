@@ -184,7 +184,10 @@ Page({
     {
       if (e == "refresh") { //刷新，page变为1
         message = "正在加载"
-        that.setData({pageNo:1})
+        that.setData({
+          pageNo:1,
+          list:[]
+        })
       }
       http.request(
         "/member/manager/getClearManagerPage",
@@ -228,7 +231,7 @@ Page({
             }
           }else{
             wx.showModal({
-              content: '请求服务异常，请稍后重试',
+              content: info.msg,
               showCancel: false,
             })
           }
@@ -427,7 +430,7 @@ Page({
               })
               setTimeout(() => {
                 that.getMainListdata("refresh")
-              }, 5000);
+              }, 500);
           }else{
             wx.showModal({
               content: info.msg,
@@ -448,4 +451,50 @@ Page({
       url: '../taskDetail/taskDetail?id='+id,
     })
   },
+  //撤销订单
+  cancelOrder(e){
+    var id = e.currentTarget.dataset.info
+    var that = this;
+wx.showModal({
+      title: '提示',
+      content: '是否确认取消该保洁订单？',
+      confirmText: '确认',
+      complete: (res) => {
+        if (res.cancel) {
+          
+        }
+        if (res.confirm) {
+         if (app.globalData.isLogin) 
+        {
+          http.request(
+            "/member/manager/cancelClear/"+id,
+            "1",
+            "post", {
+            },
+            app.globalData.userDatatoken.accessToken,
+            '',
+            function success(info) {
+              if (info.code == 0) {
+                  wx.showToast({
+                    title: '操作成功',
+                  })
+                  setTimeout(() => {
+                    that.getMainListdata("refresh")
+                  }, 500);
+              }else{
+                wx.showModal({
+                  content: info.msg,
+                  showCancel: false,
+                })
+              }
+            },
+            function fail(info) {
+              
+            }
+          )
+        } 
+        }
+      }
+    })
+  }
 })

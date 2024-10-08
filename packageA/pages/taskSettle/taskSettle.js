@@ -35,7 +35,9 @@ Page({
     list: [],
   },
   goSearch() {
-    this.setData({ show: true });
+    this.setData({ 
+      show: true,
+    });
   },
   onClose() {
     this.setData({ show: false });
@@ -174,7 +176,11 @@ Page({
     {
       if (e == "refresh") { //刷新，page变为1
         message = "正在加载"
-        that.setData({pageNo:1})
+        that.setData({
+          pageNo:1,
+          list:[],
+          finishNum: 0
+        })
       }
       http.request(
         "/member/manager/getClearManagerPage",
@@ -196,8 +202,9 @@ Page({
           if (info.code == 0) {
             if(info.data.list.length === 0){
               that.setData({
-                canLoadMore: false
-              })
+                canLoadMore: false,
+                finishNum: 0
+            })
             }else{
                //有数据
               if(that.data.list){
