@@ -263,11 +263,11 @@ Page({
     // console.info(addTime);
     var newTime = Moment(that.data.OrderInfodata.endTime).add(addTime, "hours").format("YYYY/MM/DD HH:mm")
     //console.log(`newtime:${newTime}`)
-    this.setData({
+    that.setData({
       addTime: addTime,
       // totalPay: addTime * that.data.orderInfo.price,
       newTime: newTime,
-      totalPay: (addTime * this.getPrice(newTime)).toFixed(2)
+      totalPay: (addTime * that.data.OrderInfodata.roomPrice).toFixed(2)
     })
   },
   // 支付方式选择
