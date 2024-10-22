@@ -62,7 +62,7 @@
           <text>{{OrderInfodata.couponName}}</text>
         </block>
         <block wx:else>
-          <text>暂无</text>
+          <text>未选择</text>
         </block>
       </view>
       <view class="item">
@@ -194,6 +194,37 @@
       <text class="color-attention">{{totalPay}}</text>
       元
     </view>
+    <view class="item">
+      <label>优惠卡券：</label>
+      <view class="coupon" bindtap="goCoupon">
+        <block wx:if="{{submit_couponInfo.couponName}}">
+          <block wx:if="{{submit_couponInfo.type == 1}}">
+            <view class="price-coupon">
+              {{submit_couponInfo.couponName}}(抵扣{{submit_couponInfo.price}}小时)
+            </view>
+          </block>
+          <block wx:if="{{submit_couponInfo.type == 2}}">
+            <view class="price-coupon">
+              {{submit_couponInfo.couponName}}(满减{{submit_couponInfo.price}}元)
+            </view>
+          </block>
+          <block wx:if="{{submit_couponInfo.type == 3}}">
+            <view class="price-coupon">
+              {{submit_couponInfo.couponName}}(延长{{submit_couponInfo.price}}小时)
+            </view>
+          </block>
+        </block>
+        <block wx:else>
+          <block wx:if="{{couponCount>0}}">
+            <view class="price-coupon">{{couponCount}}张</view>
+          </block>
+          <block wx:else>
+            <view class="price-coupon">暂无</view>
+          </block>
+        </block>
+        <view class="iconfont icon-right"></view>
+      </view>
+    </view>
     <view class="item pay-item">
       <label>支付方式：</label>
       <radio-group class="pays" bindchange="radioChange">
@@ -211,6 +242,7 @@
         </label>
       </radio-group>
     </view>
+
   </view>
 </van-dialog>
 <!-- 取消订单弹窗 -->

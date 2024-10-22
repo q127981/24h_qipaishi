@@ -329,6 +329,14 @@ switch {
   word-wrap: break-word;
   font-size: 24rpx;
 }
+.dialog .item .coupon{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.dialog .item .coupon .price-coupon{
+  color: red;
+}
 
 .ac-control {
   /* 这里可以添加整体容器的样式 */

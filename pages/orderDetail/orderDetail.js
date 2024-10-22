@@ -40,7 +40,9 @@ Page({
     weixinOrderNo:'',//支付订单号
     renewOrderNo:'',//续费订单号
     giftBalance: '',
-    balance: ''
+    balance: '',
+    submit_couponInfo:{},//选中的提交的优惠券信息
+    couponId:'',
   },
 
   /**
@@ -91,7 +93,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    this.getrorderInfodata();
+    this.getOrderInfoData();
   },
 
   /**
@@ -186,7 +188,7 @@ Page({
             wx.showToast({
               title: '确认到店成功',
             })
-            that.getrorderInfodata()
+            that.getOrderInfoData()
           }else{
             wx.showModal({
               content: info.msg,
@@ -230,6 +232,8 @@ Page({
     }else{
         this.setData({
           renewShow: true,
+          couponId: '',
+          submit_couponInfo:{},
           payTypes: [{name:'微信支付',value: 1,checked:true},{name:'钱包余额',value: 2}],
         })
 
@@ -307,7 +311,7 @@ Page({
         "1",
         "post", {
           roomId:that.data.OrderInfodata.roomId,
-          couponId:"", 
+          couponId: that.data.couponId,
           startTime:that.data.OrderInfodata.endTime,
           endTime:that.data.newTime,
           orderId: that.data.OrderInfodata.orderId
@@ -320,7 +324,7 @@ Page({
           if (info.code == 0) {
             that.data.renewOrderNo = info.data.orderNo;
              //判断是不是微信支付 微信支付让回调去处理
-             if(that.data.payType == 1){
+             if(that.data.payType == 1 && info.data.payPrice>0){
                 that.lockWxOrder(info);
               }else{
                 that.renewConfirm();
@@ -351,7 +355,7 @@ Page({
         "1",
         "post", {
           roomId:that.data.OrderInfodata.roomId,
-          couponId:"", 
+          couponId:that.data.couponId,
           startTime:that.data.OrderInfodata.endTime,
           endTime:that.data.newTime,
           orderId: that.data.OrderInfodata.orderId
@@ -390,7 +394,7 @@ Page({
         'success': function(res) {
             //console.log('*************支付成功');
             // that.renewConfirm();
-            that.getrorderInfodata()
+            that.getOrderInfoData()
             that.renewCancel()
         },
         'fail': function(res) {
@@ -422,7 +426,7 @@ Page({
           "1",
           "post", {
             "orderId": that.data.OrderInfodata.orderId,
-            // "minutes": that.data.addTime * 60,
+            "couponId": that.data.couponId,
             "endTime": that.data.newTime,
             "payType": that.data.payType,
             "orderNo": that.data.renewOrderNo
@@ -436,7 +440,7 @@ Page({
               wx.showToast({
                 title: '续时成功',
               })
-              that.getrorderInfodata()
+              that.getOrderInfoData()
               that.renewCancel()
             }else{
               wx.showModal({
@@ -468,7 +472,7 @@ Page({
     //订单取消成功
      //刷新页面
      var that=this;
-     that.getrorderInfodata();
+     that.getOrderInfoData();
      that.renewCancel()
   },
   // 取消弹窗
@@ -507,7 +511,7 @@ Page({
                 console.info('结束订单===');
                 if (info.code == 0) {
                     //刷新页面
-                    that.getrorderInfodata();
+                    that.getOrderInfoData();
                 }else{
                     wx.showModal({
                       title: '温馨提示',
@@ -540,7 +544,7 @@ Page({
             console.info(info);
             if (info.code == 0) {
                 //刷新页面
-                that.getrorderInfodata();
+                that.getOrderInfoData();
                 that.renewCancel()
                 that.setData({
                   cancelOrderSuccess: true
@@ -559,7 +563,7 @@ Page({
     } 
   },
   //获取订单详情
-  getrorderInfodata:function(e){
+  getOrderInfoData:function(e){
     var that = this;
       // console.log(that.data.OrderNo)
       http.request(
@@ -786,7 +790,7 @@ Page({
             title: "操作成功",
             icon: 'success'
           })
-          that.getrorderInfodata();
+          that.getOrderInfoData();
         }else{
           wx.showModal({
             title:"提示",
@@ -1038,5 +1042,39 @@ Page({
       function fail(info) {
       }
     )
-  }
+  },
+  // 去优惠券页面
+  goCoupon(){
+    var that = this;
+    if(!that.data.newTime){
+      wx.showToast({
+        title: '请先选择时间',
+        icon:'none'
+      })
+      return
+    }
+    wx.navigateTo({
+      url: '../coupon/coupon?from=1&roomId='+that.data.OrderInfodata.roomId+'&nightLong=false'+'&startTime='+that.data.OrderInfodata.endTime+'&endTime='+that.data.newTime,
+      events: {
+        // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
+        pageDataList: function(data) {
+          console.log('页面B触发事件时传递的数据1：',data)
+          that.setData({
+            submit_couponInfo: data,
+            couponId: data.couponId
+          });
+          // that.setshowpayMoney(data);
+        },
+        pageDataList_no: function(data) {
+          //console.log('页面B触发事件时传递的数据1：',data)
+          that.setData({
+            submit_couponInfo: data,
+            couponId:''
+          });
+          // that.setshowpayMoney(data);
+        },
+      }
+    })
+  },
+  
 })

@@ -260,7 +260,9 @@ Page({
                     wx.showToast({
                       title: '赠送成功',
                     })
-                    wx.navigateBack()
+                    setTimeout(() => {
+                      wx.navigateBack()
+                    }, 200);
                 }else{
                   wx.showModal({
                     content: '请求服务异常，请稍后重试',

@@ -35,7 +35,7 @@
           <view class="right">
             <view class="info">
               手机号 ：{{item.mobile}}
-              <text class="link color-primary" wx:if="{{!isSelect}}" bindtap="copy" data-info="{{item.mobile}}">点击复制</text>
+              <text class="link color-primary" wx:if="{{!isSelect}}" bindtap="copy" data-info="{{item.mobile}}">复制</text>
             </view>
             <view class="info">注册时间：{{item.createTime}}</view>
             <view class="info">最近下单：{{item.orderTime?item.orderTime:''}}</view>
