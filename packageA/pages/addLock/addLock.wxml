@@ -1,0 +1,30 @@
+<!--packageA/pages/addLock/addLock.wxml-->
+<view class="container">
+  <view class="info">
+    <view class="line">1. 打开手机蓝牙设置开关,并靠近门锁</view>
+    <view class="line">2. 输入从物联网平台获得的智能锁编号</view>
+    <view class="line">3. 智能锁装电池，触摸输密码面板唤醒锁</view>
+    <view class="line">4. 听到锁发出"请添加蓝牙管理员"</view>
+    <view class="line">5. 点击扫描附近锁，选择锁进行初始化</view>
+    <view class="line">6. 初始化时间大概10秒，请耐心等待完成</view>
+  </view>
+  <view class="form">
+    <view class="sn">
+      <label class="label">智能锁编号：T T </label>
+      <input class="input" model:value="{{deviceSn}}" disabled="{{checkSuccess}}" type="number" placeholder="请输入8位数字" maxlength="8"/>
+    </view>
+    <view class="btn" bind:tap="scanLock">扫描附近锁</view>
+  </view>
+  
+  <view class="list" wx:if="{{checkSuccess}}">
+    <view class="item" wx:for="{{list}}" wx:key="item" class="item">
+      <view class="lock {{item.isSettingMode?'enable':'disable'}}">
+        <view>
+          {{item.deviceId}}
+          <text wx:if="{{!item.isSettingMode}}">(锁已注册)</text>
+        </view>
+        <view class="btn" bind:tap="initLock" wx:if="{{item.isSettingMode}}">初始化</view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -901,23 +901,13 @@ Page({
   },
   
   adjustTemperature(e) {
-    //调节温度 16度=25 17度=26 18度=27 19-30度=8-19
+    //调节温度 升高温度67 降低温度68
     const delta = parseInt(e.currentTarget.dataset.delta);
-    let newTemp = this.data.temperature + delta;
-    newTemp = Math.max(16, Math.min(30, newTemp));
-    this.setData({ temperature: newTemp });
-    console.log("newTemp:"+newTemp);
-    if(newTemp==16){
-      this.sendKongtiaoControl(25);
-    }else  if(newTemp==17){
-      this.sendKongtiaoControl(26);
-    }else if(newTemp==18){
-      this.sendKongtiaoControl(27);
+    if(delta==1){
+      this.sendKongtiaoControl(67);
     }else{
-      //19-30度=8-19
-      this.sendKongtiaoControl(newTemp-11);
+      this.sendKongtiaoControl(68);
     }
-    
   },
   
   setMode(e) {
@@ -974,6 +964,14 @@ Page({
     }
   },
   togglePowerOn() {
+    // 开机 0
+    this.sendKongtiaoControl(0); 
+  },
+  togglePowerOff() {
+    // 关机 1
+    this.sendKongtiaoControl(1);
+  },
+  sendKongtiaoControl(cmd){
     let that = this;
     let startTime=new Date(that.data.OrderInfodata.startTime);
     if(that.data.OrderInfodata.status == 0 && startTime>Date.now()){
@@ -986,36 +984,17 @@ Page({
           if (res.cancel) {
           }
           if (res.confirm) {
-            // 开机 0 温度默认26度
-            that.setData({
-              temperature: 26,
-            });
             that.openRoomDoor();
-            //因为刚开电 可能设备都还没上线 根据实际情况  可能需要延迟几秒执行
-            that.sendKongtiaoControl(0);
+            that.controlKT(cmd);
           }
         }
       })
     }else{
-      // 开机 0 温度默认26度
-      that.setData({
-        temperature: 26,
-      });
-      that.sendKongtiaoControl(0);
+      that.controlKT(cmd);
     }
-    
   },
-  togglePowerOff() {
-    // 关机 1
-    this.sendKongtiaoControl(1);
-    
-  },
-  sendKongtiaoControl(cmd){
-    // wx.showToast({
-    //   title: "操作成功",
-    //   icon: 'none'
-    // })
-    let that=this;
+  controlKT(cmd){
+    let that = this;
     http.request(
       "/member/order/controlKT",
       "1",
@@ -1043,6 +1022,7 @@ Page({
       }
     )
   },
+  
   // 去优惠券页面
   goCoupon(){
     var that = this;

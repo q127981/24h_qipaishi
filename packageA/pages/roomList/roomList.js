@@ -209,7 +209,8 @@ Page({
                   })
                 }else{
                   wx.showModal({
-                    content: '请求服务异常，请稍后重试',
+                    title:"提示",
+                    content: info.msg,
                     showCancel: false,
                   })
                 }
@@ -254,7 +255,8 @@ Page({
                   })
                 }else{
                   wx.showModal({
-                    content: '请求服务异常，请稍后重试',
+                    title:"提示",
+                    content: info.msg,
                     showCancel: false,
                   })
                 }
@@ -521,23 +523,13 @@ Page({
   },
   
   adjustTemperature(e) {
-    //调节温度 16度=25 17度=26 18度=27 19-30度=8-19
+    //调节温度 升高温度67 降低温度68
     const delta = parseInt(e.currentTarget.dataset.delta);
-    let newTemp = this.data.temperature + delta;
-    newTemp = Math.max(16, Math.min(30, newTemp));
-    this.setData({ temperature: newTemp });
-    console.log("newTemp:"+newTemp);
-    if(newTemp==16){
-      this.sendKongtiaoControl(25);
-    }else  if(newTemp==17){
-      this.sendKongtiaoControl(26);
-    }else if(newTemp==18){
-      this.sendKongtiaoControl(27);
+    if(delta==1){
+      this.sendKongtiaoControl(67);
     }else{
-      //19-30度=8-19
-      this.sendKongtiaoControl(newTemp-11);
+      this.sendKongtiaoControl(68);
     }
-    
   },
   
   setMode(e) {

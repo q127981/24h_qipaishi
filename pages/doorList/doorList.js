@@ -127,7 +127,7 @@ Page({
           // wx.setStorageSync('cityName', data)
           that.getLocation();
           // that.getBannerdata();
-          that.getMainListdata('refresh');
+          // that.getMainListdata('refresh');
         },
       }
     })
@@ -193,7 +193,7 @@ Page({
     let message = "";
     if (e == "refresh") { //刷新，page变为1
       that.setData({
-        orderlist:[],//列表数组
+        MainStorelist:[],//列表数组
         canLoadMore: true,//是否还能加载更多
         pageindex: 1,
       })

@@ -58,7 +58,8 @@
         "pages/roomList/roomList",
         "pages/setStoreSound/setStoreSound",
         "pages/faceRecord/faceRecord",
-        "pages/faceBlacklist/faceBlacklist"
+        "pages/faceBlacklist/faceBlacklist",
+        "pages/addLock/addLock"
       ]
     }
   ],

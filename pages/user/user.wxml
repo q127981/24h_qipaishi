@@ -92,7 +92,7 @@
       </navigator>
     </view>
   </view>
-  <view class="version">版本{{sysinfo.version}}</view>
+  <view class="version">版本24.11.5</view>
   <!-- 按钮菜单 -->
   <block wx:if="{{isLogin && userinfo.userType!= 11}}">
     <view class="menu">

@@ -183,23 +183,26 @@ page{
 }
 
 .ac-control__temperature-control {
-  position: relative;
-  width: 100%;
-  height: 100rpx;
-  margin: 0 auto 20rpx;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 20rpx;
+  background-color: #f2f3f5;
+  border-radius: 16rpx;
+  padding: 10rpx;
 }
 
 .ac-control__temperature-display {
   flex-grow: 1;
-  height: 80rpx;
-  margin: 0 20rpx;
+  height: 100rpx;
+  margin: 10 20rpx;
   background-color: #f2f3f5;
   border-radius: 40rpx;
   overflow: hidden;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .ac-control__temperature-fill {
@@ -216,23 +219,23 @@ page{
   line-height: 80rpx;
   font-size: 36rpx;
   font-weight: bold;
-  color: #000;
+  color:  #108ee9;
 }
 
 .ac-control__control-button {
-  width: 100rpx;
+  width: 200rpx;
   height: 100rpx;
   text-align: center;
   align-items: center;
   line-height: 200rpx;
-  border-radius: 50%;
+  /* border-radius: 50%; */
   background-color: #f2f3f5;
   color: #108ee9;
   font-size: 75rpx;
   border: none;
   display: flex;
   justify-content: center;
-  padding: 0rpx;
+  padding: 30rpx;
   margin: 0rpx;
 }
 
@@ -311,6 +314,15 @@ page{
 .ac-control__fan-display {
   flex-grow: 1;
   text-align: center;
+}
+
+.ac-control__fan-display .text {
+  width: 100%;
+  text-align: center;
+  line-height: 80rpx;
+  font-size: 36rpx;
+  font-weight: bold;
+  color:  #108ee9;
 }
 
 .ac-control__fan-icon {

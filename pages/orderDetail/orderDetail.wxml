@@ -312,22 +312,21 @@
         <view class="ac-control__temperature-control">
           <button class="ac-control__control-button" bindtap="adjustTemperature" data-delta="-1" >-</button>
           <view class="ac-control__temperature-display">
-            <view class="ac-control__temperature-fill" style="width: {{(temperature - 15) / 14 * 100}}%"></view>
-            <view class="ac-control__temperature-text">{{temperature}}°C</view>
+                <text class="ac-control__temperature-text">温度</text>            
           </view>
           <button class="ac-control__control-button" bindtap="adjustTemperature" data-delta="1" >+</button>
         </view>
-        
         <view class="ac-control__fan-control">
           <button class="ac-control__control-button" bindtap="adjustFanSpeed" data-delta="-1" >-</button>
           <view class="ac-control__fan-display">
-            <text>风量</text>
+            <text class="text">风量</text>
             <view class="ac-control__fan-level">
               <view wx:for="{{5}}" wx:key="index" class="ac-control__fan-dot {{fanSpeed >= index + 1 ? 'ac-control__fan-dot--active' : ''}}"></view>
             </view>
           </view>
           <button class="ac-control__control-button" bindtap="adjustFanSpeed" data-delta="1" >+</button>
         </view>
+        
         
         <view class="ac-control__mode-grid">
           <view class="ac-control__mode-button {{mode === 'cool' ? 'ac-control__mode-button--active' : ''}} " bindtap="setMode" data-mode="cool">

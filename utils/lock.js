@@ -109,17 +109,19 @@ function setLockGateWay(lockData){
     lockData: lockData
   }).then(res => {
     wx.hideLoading();
-      if (res.errorCode === 0) {
-          wx.showToast({
-            title: '设置成功',
-            icon: 'success'
-          })
-      } else {
-        wx.showModal({
-          content: `设置失败：${res.errorMsg}`,
-          showCancel: false,
+    if (res.errorCode === 0) {
+        wx.showToast({
+          title: '设置成功',
+          icon: 'success'
         })
-      }
+        return res.lockData;
+    } else {
+      wx.showModal({
+        content: `设置失败：${res.errorMsg}`,
+        showCancel: false,
+      })
+      return 'error';
+    }
   })
 }
 
@@ -143,10 +145,37 @@ function setLockPwd(lockData,passcode){
       }
   })
 }
+
+function handleResetLock(lockData){
+  setTimeout(() => {
+    plugin.resetLock({ lockData }).then(res => {
+      if (res.errorCode == 0){
+        wx.showToast({
+          title: '智能锁已重置',
+          icon: 'success'
+        })
+      }else{
+        wx.showToast({
+          title: '重置失败',
+          icon: 'error'
+        })
+      }
+    });
+  }, 3000);
+  
+}
+
+function getPlugin(){
+  return plugin;
+}
+
+
 module.exports = {
   blueDoorOpen: blueDoorOpen,
   queryLockPwd: queryLockPwd,
   addCard: addCard,
   setLockPwd: setLockPwd,
   setLockGateWay: setLockGateWay,
+  handleResetLock: handleResetLock,
+  getPlugin: getPlugin,
 }
