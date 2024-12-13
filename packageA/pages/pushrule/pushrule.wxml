@@ -1,0 +1,105 @@
+<view class="container">
+  <!-- <view class="section">
+    <view class="title">接单方式</view>
+    <radio-group class="radio-group">
+      <label class="radio-item">
+        <radio value="{{orderMode}}" checked="{{orderMode==0}}" />
+        <text>自动接单</text>
+      </label>
+      <label class="radio-item">
+        <radio value="{{orderMode}}" checked="{{orderMode==1}}" />
+        <text>手动接单(不推荐)</text>
+      </label>
+    </radio-group>
+  </view> -->
+  <view class="form">
+  
+    <view class="section" >
+    <view class="title">是否允许已使用退款</view>
+    <radio-group class="radio-group" bindchange="irregularRefundChange">
+      <label class="radio-item">
+        <radio model:value="{{irregularRefund}}" checked="{{irregularRefund === false}}" />
+        <text>不允许</text>
+      </label>
+      <label class="radio-item">
+        <radio model:value="{{irregularRefund}}" checked="{{refundable === true}}" />
+        <text>允许</text>
+      </label>
+    </radio-group>
+  </view>
+
+  <view class="section" >
+    <view class="title">取消订单</view>
+    <radio-group class="radio-group" bindchange="radioCancelChange">
+      <label class="radio-item">
+        <radio model:value="{{refundable}}" checked="{{refundable === 0}}" />
+        <text>允许取消</text>
+      </label>
+      <label class="radio-item">
+        <radio model:value="{{refundable}}" checked="{{refundable === 1}}" />
+        <text>不可取消</text>
+      </label>
+    </radio-group>
+  </view>
+
+  <view class="section" wx:if="{{showRefund}}">
+    <view class="title">可退款时间</view>
+    <view class="input-row">
+      <text>允许订单开始前</text>
+      <view class="number-input">
+        <button class="btn" bindtap="decreaseRefundTime">-</button>
+        <input style="width: 50rpx;padding-left: 10rpx;" type="number" model:value="{{refundTime}}" />
+        <button class="btn" bindtap="increaseRefundTime">+</button>
+        <text class="unit">分钟退款</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="title">提前预定时间</view>
+    <view class="input-row">
+      <text>顾客需提前</text>
+      <view class="number-input">
+        <button class="btn" bindtap="decreasePreOrderTime">-</button>
+        <input style="width: 50rpx;padding-left: 10rpx;" type="number" model:value="{{preOrderTime}}" />
+        <button class="btn" bindtap="increasePreOrderTime">+</button>
+        <text class="unit">分钟预定</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+  <view class="title">最晚延迟时间点</view>
+    <view class="picker-container" bind:tap="setshowSelectHour">
+      <text>{{latestPeriodRulePoint || '请选择时间'}}</text>
+    </view>
+</view>
+
+  <!-- <view class="section">
+    <view class="title">预定间隔时间</view>
+    <view class="input-row">
+      <text>前订单结束</text>
+      <view class="number-input">
+        <button class="btn" bindtap="decreaseIntervalTime">-</button>
+        <input type="number" model:value="{{intervalTime}}"/>
+        <button class="btn" bindtap="increaseIntervalTime">+</button>
+        <text class="unit">分钟开放预定</text>
+      </view>
+    </view>
+  </view> -->
+
+  <view class="section">
+    <view class="title">联系电话</view>
+    <input type="number" maxlength="11" placeholder="请输入11位手机号" model:value="{{notifyPhone}}" />
+  </view>
+  <button class="save-btn" bindtap="saveSettings">保存</button>
+
+</view>
+
+  
+  </view>
+
+
+<van-popup show="{{ showtimefalge }}" position="bottom" custom-style="height: 60%">
+  <van-datetime-picker type="datetime" model:value="{{latestPeriodRulePointSelect}}" bind:confirm="timeChange" bind:cancel="timeCancel" formatter="{{formatter}}" min-date="{{minDay}}" max-date="{{maxDay}}" min-hour="{{minHour}}"></van-datetime-picker>
+</van-popup>

@@ -206,3 +206,34 @@ checkbox {
     -webkit-transform:translate(-50%, -50%) scale(1);
   }
   
+
+  .top-tabs-container {
+    width: 74%;
+    padding: 0 20rpx 20rpx;
+    background-color: #fff;
+  }
+  
+  .top-tabs {
+    width: 100%;
+    display: flex;
+  }
+  
+  .top-tabs .tab {
+    width: 50%;
+    height: 80rpx;
+    font-size: 32rpx;
+    line-height: 80rpx;
+    text-align: center;
+    background-color: #fff;
+    margin: 0;
+  }
+
+  .top-tabs .tab.active {
+    background: var(--main-color);
+    color: #fff;
+  }
+
+  .checkbox-group {
+    padding: 10rpx;
+    border: 1px solid var(--main-color);
+  }

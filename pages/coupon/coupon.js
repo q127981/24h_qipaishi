@@ -8,10 +8,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    tabs: [{id:0,name:'未使用'},{id:1,name:'已使用'},{id:2,name:'已过期'}],
+    tabs: [{ id: 0, name: '未使用' }, { id: 1, name: '已使用' }, { id: 2, name: '已过期' }],
     status: 0,
-    userinfo:{},//用户信息
-    MainList:[],//列表数组
+    userinfo: {},//用户信息
+    MainList: [],//列表数组
     canLoadMore: true,//是否还能加载更多
     pageNo: 1,
     from: false, //跳转来源（使用和展示）
@@ -19,12 +19,12 @@ Page({
     roomId: '', //房间
     storeId: '', //门店Id
     couponId: '', //选取的优惠券
-    pricestring:0,
-    submit_order_hour:0,
+    pricestring: 0,
+    submit_order_hour: 0,
     nightLong: false,
-    startTime:'',
-    endTime:'',
-    orderHour:'',
+    startTime: '',
+    endTime: '',
+    orderHour: '',
   },
 
   /**
@@ -33,8 +33,8 @@ Page({
   onLoad(options) {
     let that = this;
     console.log(options)
-    this.setData({from: options.from ? options.from : false})
-    if(options.roomId){
+    this.setData({ from: options.from ? options.from : false })
+    if (options.roomId) {
       that.setData({
         roomId: options.roomId,
         submit_order_hour: options.orderHours,
@@ -80,9 +80,9 @@ Page({
   onPullDownRefresh() {
     let that = this;
     that.setData({
-        pageNo: 1,
-        canLoadMore: true,//是否还能加载更多
-        MainList:[]
+      pageNo: 1,
+      canLoadMore: true,//是否还能加载更多
+      MainList: []
     })
     that.getListData('refresh');
     wx.stopPullDownRefresh();
@@ -109,20 +109,20 @@ Page({
 
   },
   // tab切换
-  tabChange:function(e){
+  tabChange: function (e) {
     var status = e.currentTarget.dataset.status;//获取当前点击的下标
-    this.setData({status: status})
+    this.setData({ status: status })
     this.getListData('refresh');
   },
   // 获取用户信息
-  getuserinfo:function(){
+  getuserinfo: function () {
     var that = this;
     if (app.globalData.isLogin) {
       http.request(
         "/member/user/get",
         "1",
         "get", {
-        },
+      },
         app.globalData.userDatatoken.accessToken,
         "",
         function success(info) {
@@ -130,12 +130,12 @@ Page({
           console.info(info);
           if (info.code == 0) {
             that.setData({
-              userinfo:info.data,
+              userinfo: info.data,
             })
           }
         },
         function fail(info) {
-          
+
         }
       )
     } else {
@@ -143,43 +143,42 @@ Page({
     }
   },
   //获取列表数据
-  getListData:function(e){
+  getListData: function (e) {
     var that = this;
     let message = "";
-    if (app.globalData.isLogin) 
-    {
+    if (app.globalData.isLogin) {
       if (e == "refresh") { //刷新，page变为1
         message = "正在加载"
         that.setData({
-          pageNo:1,
-          MainList:[]
+          pageNo: 1,
+          MainList: []
         })
       }
       http.request(
         "/member/user/getCouponPage",
         "1",
         "post", {
-          "pageNo": that.data.pageNo,
-          "pageSize": 10,
-          "status": that.data.status,
-          "roomId": that.data.roomId,
-          "nightLong": that.data.nightLong,
-          "startTime": that.data.startTime,
-          "endTime": that.data.endTime,
-        },
+        "pageNo": that.data.pageNo,
+        "pageSize": 10,
+        "status": that.data.status,
+        "roomId": that.data.roomId,
+        "nightLong": that.data.nightLong,
+        "startTime": that.data.startTime,
+        "endTime": that.data.endTime,
+      },
         app.globalData.userDatatoken.accessToken,
         message,
         function success(info) {
           console.info('返回111===');
           console.info(info);
           if (info.code == 0) {
-            if(info.data.list.length === 0){
+            if (info.data.list.length === 0) {
               that.setData({
                 canLoadMore: false
               })
-            }else{
-               //有数据
-              if(that.data.MainList){
+            } else {
+              //有数据
+              if (that.data.MainList) {
                 //列表已有数据  那么就追加
                 let arr = that.data.MainList;
                 let arrs = arr.concat(info.data.list);
@@ -188,25 +187,25 @@ Page({
                   pageNo: that.data.pageNo + 1,
                   canLoadMore: arrs.length < info.data.total
                 })
-              }else{
+              } else {
                 that.setData({
                   MainList: info.data.list,
                   pageNo: that.data.pageNo + 1,
                 });
               }
             }
-          }else{
+          } else {
             wx.showModal({
-              content: '请求服务异常，请稍后重试',
+              content: info.msg,
               showCancel: false,
             })
           }
         },
         function fail(info) {
-          
+
         }
       )
-    } else{
+    } else {
       wx.showModal({
         content: '请您先登录，再重试！',
         showCancel: false,
@@ -214,7 +213,7 @@ Page({
     }
   },
   // 个人中心进入，去使用，跳转到房间列表
-  touse:function(e){
+  touse: function (e) {
     // var storeId = storeIds[0]
     // wx.navigateTo({
     //   url: '../doorList/doorList?storeId='+storeId,
@@ -225,9 +224,9 @@ Page({
   },
   // 其他页面进入，选择
   // 选取优惠券
-  choose:function(e){
+  choose: function (e) {
     var that = this;
-    if(e.currentTarget.dataset.couponid=="0"){
+    if (e.currentTarget.dataset.couponid == "0") {
       const eventChannel = that.getOpenerEventChannel();
       // 通过触发相关事件传递数据
       eventChannel.emit('pageDataList_no', 1);
@@ -236,10 +235,10 @@ Page({
       })
       return
     }
-    if(!e.currentTarget.dataset.info.enable){
-        return
+    if (!e.currentTarget.dataset.info.enable) {
+      return
     }
-    if(!that.data.from){
+    if (!that.data.from) {
       return
     }
     var acouponId = e.currentTarget.dataset.couponId;//获取当前点击的下标
@@ -247,7 +246,7 @@ Page({
     var aboj = that.data.MainList[aindex];
     //判断当前优惠券是否可用
     var acouponbool = aboj.enable;
-    if(!acouponbool){
+    if (!acouponbool) {
       wx.showModal({
         title: '温馨提示',
         content: '当前优惠券不满足使用情况！',
@@ -257,28 +256,28 @@ Page({
     }
     console.info('点击优惠券===');
     console.info(aboj);
-    if(acouponId){
-      that.setData({couponId: acouponId})
+    if (acouponId) {
+      that.setData({ couponId: acouponId })
     }
     setTimeout(() => {
-        const eventChannel = that.getOpenerEventChannel();
-        // 通过触发相关事件传递数据
-        if(aboj){
-          eventChannel.emit('pageDataList', aboj);
-        }else{
-          eventChannel.emit('pageDataList_no', 1);
-        }
-        wx.navigateBack({
-          delta: 1,
-        })
+      const eventChannel = that.getOpenerEventChannel();
+      // 通过触发相关事件传递数据
+      if (aboj) {
+        eventChannel.emit('pageDataList', aboj);
+      } else {
+        eventChannel.emit('pageDataList_no', 1);
+      }
+      wx.navigateBack({
+        delta: 1,
+      })
     })
   },
   // 已使用点击跳转到订单详情
-  clickItem:function(e){
+  clickItem: function (e) {
     var info = e.currentTarget.dataset.info
-    if(info.status === 1){
+    if (info.status === 1) {
       wx.navigateTo({
-        url: '../orderDetail/orderDetail?toPage=true&OrderNo='+info.orderId,
+        url: '../orderDetail/orderDetail?toPage=true&OrderNo=' + info.orderId,
       })
     }
   }

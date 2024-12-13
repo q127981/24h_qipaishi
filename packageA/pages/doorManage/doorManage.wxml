@@ -1,0 +1,180 @@
+<view class="container">
+  <view class="top">
+    <view class="top-doorInfo">
+      <view class="top">
+        <iconfont name="iov-store" size="28"></iconfont>
+        {{storeName}}
+      </view>
+      <view class="info">
+        <view class="store-id">
+          <text class="store-text">门店ID：<text>{{storeId}}</text></text>
+        </view>
+        <view class="store-time">
+          <text class="store-text">{{expireTime}}到期</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="info-container">
+    <view class="control-box">
+      <view class="top">
+        店铺管理
+      </view>
+      <view class="control">
+        <navigator class="item" url="../setStoreInfo/setStoreInfo?storeId={{storeId}}">
+          <iconfont name="a-xiugai2" size="28"></iconfont>
+          <text>信息修改</text>
+        </navigator>
+        <navigator class="item" url="../setDoorList/setDoorList?storeId={{storeId}}">
+          <iconfont name="fangjian" size="28"></iconfont>
+          <text>房间管理</text>
+        </navigator>
+        <view class="item" data-src="{{qrCode}}" bind:tap="previewImage">
+          <iconfont name="erweima1" size="28"></iconfont>
+          <text>门店二维码</text>
+        </view>
+        <navigator class="item" url="/packageA/pages/doorPosition/doorPosition?storeId={{storeId}}">
+          <iconfont name="dingwei" size="28"></iconfont>
+          <text>门店定位</text>
+        </navigator>
+        <navigator class="item" url="/packageA/pages/noticeManage/noticeManage?storeId={{storeId}}">
+          <iconfont name="gonggao" size="28"></iconfont>
+          <text>公告提醒</text>
+        </navigator>
+        <navigator class="item" url="../setStoreSound/setStoreSound?storeId={{storeId}}">
+          <iconfont name="renwubobao" size="28"></iconfont>
+          <text>播报管理</text>
+        </navigator>
+        <navigator class="item" url="/packageA/pages/taskManager/taskManager?storeId={{storeId}}">
+          <iconfont name="baojie" size="28"></iconfont>
+          <text>保洁任务</text>
+        </navigator>
+        <navigator class="item" url="/packageA/pages/statics/statics?storeId={{storeId}}">
+          <iconfont name="tongjitu" size="28"></iconfont>
+          <text>数据统计</text>
+        </navigator>
+      </view>
+    </view>
+
+    <view class="control-box">
+      <view class="top">权限管理</view>
+      <view class="control">
+        <navigator class="item" url="/packageA/pages/admin/admin">
+          <iconfont name="yuangongguanli" size="28"></iconfont>
+          <text>员工管理</text>
+        </navigator>
+        <navigator class="item" url="/packageA/pages/cleaner/cleaner">
+          <iconfont name="shangmenjiazheng" size="28"></iconfont>
+          <text>保洁员管理</text>
+        </navigator>
+        <navigator class="item" url="../faceBlacklist/faceBlacklist?storeId={{storeId}}">
+          <iconfont name="heimingdan" size="28"></iconfont>
+          <text>人脸黑名单</text>
+        </navigator>
+        <navigator class="item" url="../faceRecord/faceRecord?storeId={{storeId}}">
+          <iconfont name="renlianshibie1" size="28"></iconfont>
+          <text>人脸识别记录</text>
+        </navigator>
+        <navigator class="item" url="/packageA/pages/vipBlacklist/vipBlacklist?storeId={{storeId}}">
+          <iconfont name="heimingdan1" size="28"></iconfont>
+          <text>会员黑名单</text>
+        </navigator>
+      </view>
+    </view>
+    <view class="control-box">
+      <view class="top">经营管理</view>
+      <view class="control">
+        <navigator class="item" url="../setDiscount/setDiscount?storeId={{storeId}}">
+          <iconfont name="chongzhi" size="28"></iconfont>
+          <text>充值规则</text>
+        </navigator>
+        <navigator class="item" url="/packageA/pages/packageManagement/packageManagement">
+          <iconfont name="taocan" size="28"></iconfont>
+          <text>套餐管理</text>
+        </navigator>
+        <navigator class="item" url="/packageA/pages/setCoupon/setCoupon">
+          <iconfont name="cuxiaohuodong-youhuiquan" size="28"></iconfont>
+          <text>优惠券</text>
+        </navigator>
+        <navigator class="item" url="/packageA/pages/goodsKindManage/goodsKindManage?storeId={{storeId}}">
+          <iconfont name="fenlei1" size="28"></iconfont>
+          <text>商品分类管理</text>
+        </navigator>
+        <navigator class="item" url="/packageA/pages/productManage/productManage?storeId={{storeId}}">
+          <iconfont name="shangpin" size="28"></iconfont>
+          <text>商品管理</text>
+        </navigator>
+        <navigator class="item" url="/packageA/pages/SetOrder/SetOrder">
+          <iconfont name="dingdan1" size="28"></iconfont>
+          <text>预定订单</text>
+        </navigator>
+        <navigator class="item" url="/pages/productOrder/productOrder?manager={{true}}">
+          <iconfont name="shangpindingdan" size="28"></iconfont>
+          <text>商品订单</text>
+        </navigator>
+
+      </view>
+    </view>
+    <view class="control-box">
+      <view class="top">团购营销</view>
+      <view class="control">
+        <!-- todo 页面新增 -->
+        <navigator class="item" bind:tap="meituanScope" data-id="{{storeId}}">
+          <iconfont name="meituan" size="28"></iconfont>
+          <text>美团授权</text>
+        </navigator>
+        <navigator class="item" bind:tap="douyinScope" data-id="{{storeId}}">
+          <iconfont name="douyin" size="28"></iconfont>
+          <text>抖音授权</text>
+        </navigator>
+        <!-- <navigator class="item" url="/packageA/pages/pushrule/pushrule?storeId={{storeId}}">
+          <iconfont name="meituan" size="28"></iconfont>
+          <text>预订配置</text>
+        </navigator> -->
+        <!-- todo 预定退款暂时不做 -->
+        <navigator class="item" url="/packageA/pages/ydCancel/index?storeId={{storeId}}">
+          <iconfont name="meituan" size="28"></iconfont>
+          <text>预订退款</text>
+        </navigator>
+
+      </view>
+    </view>
+    <view class="control-box">
+      <view class="top">设备管理</view>
+      <view class="control" wx:if="{{userinfo.userType!= 14}}">
+        <navigator class="item" url="/packageA/pages/deviceList/deviceList">
+          <iconfont name="shebeiguanli1" size="28"></iconfont>
+          <text>设备列表</text>
+        </navigator>
+        <navigator class="item" bindtap="queryLockPwd" data-lockdata="{{lockData}}">
+          <iconfont name="e23lock" size="28"></iconfont>
+          <text>查询锁密码</text>
+        </navigator>
+        <navigator class="item" bindtap="setLockPwdShow" data-lockdata="{{lockData}}">
+          <iconfont name="chengseyuechi" size="28"></iconfont>
+          <text>设置锁密码</text>
+        </navigator>
+        <navigator class="item" bindtap="addLockCard" data-lockdata="{{lockData}}" data-roomid="{{storeId}}">
+          <iconfont name="kapian" size="28"></iconfont>
+          <text>添加锁卡片</text>
+        </navigator>
+      </view>
+    </view>
+  </view>
+</view>
+
+<van-dialog use-slot title="设置门锁密码" show="{{ setLockPwdShow }}" show-cancel-button confirm-button-text="确认" bind:confirm="confirmSetLockPwd">
+  <view class="dialog">
+    <view class="item" style="align-items: center;padding: 20rpx;">
+      <label>新管理员密码：</label>
+      <input model:value="{{ lockPwd }}" type="number" maxlength="10" style="border: 1px solid var(--main-color);margin: 20rpx;" placeholder="请输入4-10位纯数字密码" />
+    </view>
+  </view>
+</van-dialog>
+
+<van-dialog use-slot title="门店二维码" show="{{erweima}}">
+  <view>
+    <image src="{{qrCode}}" mode="widthFix" />
+  </view>
+</van-dialog>

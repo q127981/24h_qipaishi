@@ -1,0 +1,145 @@
+<view class="container" style="{{isIpx?'padding-bottom:168rpx':'padding-bottom:120rpx'}}">
+    <view class="line">
+      <label style="margin: auto 0;">*商品封面</label>
+      <view class="right">
+        <van-uploader class="img" file-list="{{ image }}" 
+        bind:after-read="afterRead" data-info="1" bind:delete="delete" 
+        max-count="1" image-fit="aspectFit" preview-size="200rpx" />
+      </view>
+    </view>
+    <view class="line">
+      <label style="margin: auto 0;">*商品轮播图</label>
+      <view class="right">
+        <van-uploader class="img" file-list="{{ sliderImage }}" 
+        bind:after-read="afterRead" data-info="2" bind:delete="delete" 
+        max-count="3" image-fit="aspectFit" preview-size="200rpx" />
+      </view>
+    </view>
+    <van-cell-group >
+      <van-field required model:value="{{ storeName }}" placeholder="请输入商品名称" label="商品名称" />
+    </van-cell-group>
+    <van-cell-group >
+      <van-cell required title="商品分类" model:value="{{productKind}}" is-link bind:click="showPopup"></van-cell>
+    </van-cell-group>
+    <van-cell-group >
+      <van-field required model:value="{{ unitName }}" placeholder="请输入单位名称" label="单位名称" />
+    </van-cell-group>
+
+<!-- 商品规格 -->
+    <view style="margin-top: 15rpx;">
+    *商品规格
+    </view>
+    <view class="added-items" wx:if="{{productSpecificationList.length > 0}}">
+        <view style="margin-left: 10rpx;" wx:for="{{productSpecificationList}}"
+         wx:for-item="productSpecificationList" wx:key="index">
+        <view class="name">
+            <text>{{productSpecificationList.value}}
+            </text>
+            <iconfont name="guanbi1" size="15" data-closeIndex="{{index}}" bind:tap="removeValue"></iconfont>
+        </view>
+        <view style="display: flex;">
+            <view class="value" wx:for="{{productSpecificationList.detail}}" wx:for-index="idx"  wx:key="idx">
+                <view class="value-item">{{item}}
+                    <iconfont name="guanbi" size="15" data-closeIndex="{{index}}"
+                     data-detailIndex="{{idx}}" bind:tap="removeDetail"></iconfont>
+                </view>
+            </view>
+            <button class="add-button" bind:tap="addValue" data-index="{{index}}" size="mini">添加</button>
+        </view>
+        </view>
+    </view>
+    <view class="Specification">
+        <button size="mini" type="primary" bindtap="showAddForm">添加新规格</button>
+        <button size="mini" style="background-color: #fff8e6;color: #ffba00;" bindtap="generateProperty">生成属性</button>
+    </view>
+    <view style="margin-top: 15rpx;">
+    *商品属性
+    </view>
+    <view class="added-items" style="margin-bottom: 60rpx;" wx:if="{{propertyList.length > 0}}">
+        <view style="margin-left: 10rpx;display: flex;" wx:for="{{propertyList}}"
+         wx:for-item="propertyList" wx:key="index">
+            <view class="property-value">
+                <text>{{propertyList.value1}}</text>
+                <text style="margin-left: 20rpx;">{{propertyList.value2}}</text>
+            </view>
+            <view class="propertyImage">
+                <van-uploader class="img" file-list="{{ propertyList.pic}}" 
+                bind:after-read="propertyAfterRead" data-index="{{index}}" bind:delete="propertyDelete" 
+                max-count="1" image-fit="aspectFit" preview-size="200rpx" />
+            </view>
+            <view class="property-value">
+                <text>价格:</text>
+                <text style="margin-left: 20rpx;">{{propertyList.price}}</text>
+                <iconfont name="xiugai" size="25" data-index="{{index}}"
+                    bind:tap="updatePrice"></iconfont>
+                <text style="margin-left: 30rpx;">库存:</text>
+                <text style="margin-left: 20rpx;">{{propertyList.stock}}</text>
+                <iconfont name="xiugai" size="25" data-index="{{index}}"
+                    bind:tap="updateStock"></iconfont>
+            </view>
+        </view>
+    </view>
+    <view class="submit {{isIpx?'fix-iphonex-button':''}}">
+        <button hover-class="button-click" class="bg-primary" bindtap="submit">保存</button>
+    </view>
+</view>
+
+<van-dialog use-slot title="修改库存" show="{{ shwoUpdateStock }}" 
+    show-cancel-button confirm-button-text="确认" bind:confirm="comfrimUpdateStock" >
+  <view class="dialog">
+    <view class="dialog-item">
+      <label style="width: 20%;">库存:</label>
+      <input model:value="{{ updateStock }}"
+      style="border: 1px solid rgba(0, 0, 0, 0.377);width: 78%;"  placeholder = "请输入库存"/>
+    </view>
+  </view>
+</van-dialog>
+
+<van-dialog use-slot title="修改价格" show="{{ shwoUpdatePrice }}" 
+    show-cancel-button confirm-button-text="确认" bind:confirm="comfrimUpdatePrice" >
+  <view class="dialog">
+    <view class="dialog-item">
+      <label style="width: 20%;">价格:</label>
+      <input model:value="{{ updatePrice }}"
+      style="border: 1px solid rgba(0, 0, 0, 0.377);width: 78%;"  placeholder = "请输入价格"/>
+    </view>
+  </view>
+</van-dialog>
+
+<van-dialog use-slot title="添加规格值" show="{{ addValue }}" 
+    show-cancel-button confirm-button-text="确认" bind:confirm="addSpecificationValue" >
+  <view class="dialog">
+    <view class="dialog-item">
+      <label style="width: 20%;">规格值:</label>
+      <input model:value="{{ addSpecificationValue }}"
+      style="border: 1px solid rgba(0, 0, 0, 0.377);width: 78%;"  placeholder = "请输入规格值(例如:微辣/特辣..)"/>
+    </view>
+  </view>
+</van-dialog>
+
+<van-dialog use-slot title="添加规格" show="{{ showAddSpecification }}" 
+    show-cancel-button confirm-button-text="确认" bind:confirm="addSpecification" >
+  <view class="dialog">
+    <view class="dialog-item">
+      <label style="width: 20%;">规格：</label>
+      <input model:value="{{ specificationName }}" 
+      style="border: 1px solid rgba(0, 0, 0, 0.377);width: 78%;"  placeholder = "请输入规格(例如：口味)"/>
+    </view>
+    <view class="dialog-item">
+      <label style="width: 20%;">规格值:</label>
+      <input model:value="{{ specificationValue }}"
+      style="border: 1px solid rgba(0, 0, 0, 0.377);width: 78%;"  placeholder = "请输入规格值(例如:微辣/特辣)"/>
+    </view>
+  </view>
+</van-dialog>
+
+<van-popup show="{{ show }}" position="bottom" bind:close="onClose">
+    <van-picker 
+          show-toolbar
+          title="选择分类"
+          columns="{{ kindList }}"
+          bind:confirm="onConfirmCategory"
+          bind:cancel="cancelPicker"
+          value="{{ categoryIndex }}"
+        />
+</van-popup>

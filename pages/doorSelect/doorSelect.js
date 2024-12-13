@@ -333,7 +333,7 @@ Page({
             that.setroomlistHour(0);
           }else{
             wx.showModal({
-              content: '请求服务异常，请稍后重试',
+              content: info.msg,
               showCancel: false,
             })
           }
@@ -462,7 +462,7 @@ Page({
             }
           }else{
             wx.showModal({
-              content: '请求服务异常，请稍后重试',
+              content: info.msg,
               showCancel: false,
             })
           }

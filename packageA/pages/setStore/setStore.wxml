@@ -11,12 +11,9 @@
       <view class="item" wx:for="{{MainList}}" wx:key="item">
         <view class="top">
           <view class="img">
-            <image src="{{item.headImg}}" preview-size="200rpx" mode="widthFix" style="height: 50rpx;"></image>
-            <view class="{{item.status===0?'status green':item.status===1?'status yellow':'status gray'}}">
-              {{item.status===0?'开业':item.status===1?'审核中':'已到期'}}
-            </view>
+            <image src="{{item.headImg}}" preview-size="200rpx" mode="widthFix"></image>
           </view>
-          <view class="right">
+          <view class="right" bind:tap="goDoorManage" data-info="{{item}}">
             <view class="flex-space-between">
               <view class="name">{{item.storeName}}</view>
               <view class="about">
@@ -33,48 +30,14 @@
             <block wx:if="{{item.expireTime}}">
               <text class="label orage">{{item.expireTime}}到期</text>
             </block>
+            <view class="{{item.status===0?'status green':item.status===1?'status yellow':'status gray'}}">
+              {{item.status===0?'开业':item.status===1?'审核中':'已到期'}}
+            </view>
+            <view class="btns">
+              <iconfont name="open-door" size="32" class="opendoor" catch:tap="openStoreDoor" data-info="{{item.storeId}}"></iconfont>
+              <iconfont name="setting-01" size="32" class="opendoor" catch:tap="goDoorManage" data-info="{{item}}"></iconfont>
+            </view>
           </view>
-        </view>
-        <van-divider class="divider" contentPosition="center" customStyle="color: #108ee9;" bind:tap="foldTap" data-index="{{item.storeId}}">
-          {{foldIndex === item.storeId ? "隐藏":"显示管理功能"}}
-        </van-divider>
-        <view class="btns {{foldIndex === item.storeId ? 'show': ''}}">
-          <navigator class="btn orage" url="../setStoreInfo/setStoreInfo?storeId={{item.storeId}}">
-            信息修改
-          </navigator>
-          <navigator class="btn orage" bind:tap="meituanScope" data-id="{{item.storeId}}">
-            美团授权
-          </navigator>
-          <navigator class="btn orage" bind:tap="douyinScope" data-id="{{item.storeId}}">
-            抖音授权
-          </navigator>
-          <navigator class="btn orage" url="../setDoorList/setDoorList?storeId={{item.storeId}}">
-            房间管理
-          </navigator>
-          <view class="btn green" data-src="{{item.qrCode}}" bind:tap="previewImage">
-              门店二维码
-          </view>
-          <view class="btn green" bindtap="queryLockPwd" data-lockdata="{{item.lockData}}">
-              查询锁密码
-          </view>
-          <view class="btn green" bindtap="setLockPwdShow" data-lockdata="{{item.lockData}}">
-            设置锁密码
-          </view>
-          <navigator class="btn green" bind:tap="openStoreDoor" data-info="{{item.storeId}}">
-            开大门
-          </navigator>
-          <navigator class="btn yellow" url="../setDiscount/setDiscount?storeId={{item.storeId}}">
-            充值优惠
-          </navigator>
-          <navigator class="btn yellow" url="../setStoreSound/setStoreSound?storeId={{item.storeId}}">
-            自定义播报
-          </navigator>
-          <navigator class="btn yellow" url="../faceBlacklist/faceBlacklist?storeId={{item.storeId}}">
-            人脸黑名单
-          </navigator>
-          <navigator class="btn yellow" url="../faceRecord/faceRecord?storeId={{item.storeId}}">
-            人脸识别记录
-          </navigator>
         </view>
       </view>
     </view>
@@ -88,11 +51,11 @@
   新增门店
 </navigator>
 
-<van-dialog use-slot title="设置门锁密码" show="{{ setLockPwdShow }}" show-cancel-button confirm-button-text="确认" bind:confirm="confirmSetLockPwd" >
+<van-dialog use-slot title="设置门锁密码" show="{{ setLockPwdShow }}" show-cancel-button confirm-button-text="确认" bind:confirm="confirmSetLockPwd">
   <view class="dialog">
     <view class="item" style="align-items: center;">
       <label>新管理员密码：</label>
-      <input model:value="{{ lockPwd }}" type="number" maxlength="8" style="border: 1px solid var(--main-color);"  placeholder = "请输入6-8纯数字密码"/>
+      <input model:value="{{ lockPwd }}" type="number" maxlength="8" style="border: 1px solid var(--main-color);" placeholder="请输入6-8纯数字密码" />
     </view>
   </view>
 </van-dialog>

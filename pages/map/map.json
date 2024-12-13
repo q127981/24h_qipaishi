@@ -1,0 +1,10 @@
+{
+    "navigationBarTextStyle": "white",
+    "usingComponents": {
+        "tap-ball": "../../components/tapBall/tapBall",
+        "custom-tabbar": "../../custom-tab-bar"
+      },
+    "navigationBarBackgroundColor": "#5AAB6E",
+    "backgroundColor": "#5AAB6E",
+    "navigationBarTitleText": "地图"
+}

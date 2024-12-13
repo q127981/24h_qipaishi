@@ -1,23 +1,8 @@
-/* 在线链接服务仅供平台体验和调试使用，平台不承诺服务的稳定性，企业客户需下载字体包自行发布使用并做好备份。 */
-@font-face {
-  font-family: 'iconfont';  /* Project id 4312666 */
-  src: url('//at.alicdn.com/t/c/font_4312666_t5u3yhue24p.woff2?t=1722040257467') format('woff2'),
-       url('//at.alicdn.com/t/c/font_4312666_t5u3yhue24p.woff?t=1722040257467') format('woff'),
-       url('//at.alicdn.com/t/c/font_4312666_t5u3yhue24p.ttf?t=1722040257467') format('truetype');
-}
-
-@font-face {
-  font-family: "iconfont"; /* Project id 4182945 */
-  src: url('//at.alicdn.com/t/c/font_4182945_jznjyby33yb.woff2?t=1694080399094') format('woff2'),
-       url('//at.alicdn.com/t/c/font_4182945_jznjyby33yb.woff?t=1694080399094') format('woff'),
-       url('//at.alicdn.com/t/c/font_4182945_jznjyby33yb.ttf?t=1694080399094') format('truetype');
-}
-
-@font-face {
-  font-family: 'iconfont';  /* Project id 4537901 */
-  src: url('//at.alicdn.com/t/c/font_4537901_7m5hpys3dvs.woff2?t=1715157526095') format('woff2'),
-       url('//at.alicdn.com/t/c/font_4537901_7m5hpys3dvs.woff?t=1715157526095') format('woff'),
-       url('//at.alicdn.com/t/c/font_4537901_7m5hpys3dvs.ttf?t=1715157526095') format('truetype');
+/* @font-face {
+  font-family: 'iconfont';
+  src: url('//at.alicdn.com/t/c/font_4312666_6u90bequwln.woff2?t=1732159721719') format('woff2'),
+    url('//at.alicdn.com/t/c/font_4312666_6u90bequwln.woff?t=1732159721719') format('woff'),
+    url('//at.alicdn.com/t/c/font_4312666_6u90bequwln.ttf?t=1732159721719') format('truetype');
 }
 
 .iconfont {
@@ -26,6 +11,126 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-douyin:before {
+  content: "\e62f";
+}
+
+.icon-suo:before {
+  content: "\e881";
+}
+
+.icon-renlian:before {
+  content: "\e627";
+}
+
+.icon-heimdan:before {
+  content: "\e6b5";
+}
+
+.icon-suocard:before {
+  content: "\e6c6";
+}
+
+.icon-yaoshi:before {
+  content: "\e643";
+}
+
+.icon-doordindan:before {
+  content: "\e897";
+}
+
+.icon-setting:before {
+  content: "\e611";
+}
+
+.icon-search:before {
+  content: "\e653";
+}
+
+.icon-house:before {
+  content: "\e633";
+}
+
+.icon-tongji:before {
+  content: "\e64a";
+}
+
+.icon-wanle:before {
+  content: "\e642";
+}
+
+.icon-renwu:before {
+  content: "\e69e";
+}
+
+.icon-map:before {
+  content: "\e8ad";
+}
+
+.icon-grouponInspection:before {
+  content: "\e62c";
+}
+
+.icon-jointeam:before {
+  content: "\e6f2";
+}
+
+.icon-balancebill:before {
+  content: "\e624";
+}
+
+.icon-usehelp:before {
+  content: "\e600";
+}
+
+.icon-myorder:before {
+  content: "\e652";
+}
+
+.icon-postion:before {
+  content: "\e601";
+}
+
+.icon-opendoor:before {
+  content: "\e609";
+}
+
+.icon-openroom:before {
+  content: "\e809";
+}
+
+.icon-addorder:before {
+  content: "\e64e";
+}
+
+.icon-wxpay:before {
+  content: "\e639";
+}
+
+.icon-phoneicon:before {
+  content: "\e6c4";
+}
+
+.icon-navigation:before {
+  content: "\e60c";
+}
+
+.icon-exchange:before {
+  content: "\eb73";
+}
+
+.icon-balance:before {
+  content: "\e60d";
+}
+
+.icon-groupon:before {
+  content: "\e813";
+}
+
+.icon-discount:before {
+  content: "\e60e";
 }
 
 .icon-changeorder:before {
@@ -52,14 +157,6 @@
   content: "\e620";
 }
 
-.icon-paixu:before {
-  content: "\e67a";
-}
-
-.icon-wanle:before {
-  content: "\e8b9";
-}
-
 .icon-jiaru:before {
   content: "\e650";
 }
@@ -84,10 +181,6 @@
   content: "\e72a";
 }
 
-.icon-renwu:before {
-  content: "\e8cb";
-}
-
 .icon-dingdan:before {
   content: "\e628";
 }
@@ -102,10 +195,6 @@
 
 .icon-renyuanguanli:before {
   content: "\e623";
-}
-
-.icon-tongji:before {
-  content: "\e608";
 }
 
 .icon-diyongquan:before {
@@ -252,18 +341,35 @@
   content: "\e730";
 }
 
-.icon-map:before {
-  content: "\e609";
+
+.icon-taocanguanli:before {
+  content: '\e61b';
 }
-.icon-taocanguanli:before{
-  content:'\e61b';
+
+.icon-device:before {
+  content: '\ebb7';
 }
-.icon-device:before{
-  content:'\ebb7';
+
+.icon-dian:before {
+  content: '\e8b6';
 }
-.icon-dian:before{
-  content:'\e8b6';
+
+.icon-close:before {
+  content: '\e614';
 }
-.icon-close:before{
-  content:'\e614';
+
+.icon-close:before {
+  content: '\e614';
 }
+
+.icon-store:before {
+  content: '\e632';
+}
+
+.icon-time2:before {
+  content: '\e60a';
+}
+
+.icon-time3:before {
+  content: '\e60b';
+} */

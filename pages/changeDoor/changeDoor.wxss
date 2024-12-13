@@ -1,11 +1,13 @@
 /* pages/changeDoor/changeDoor.wxss */
-.container{
+.container {
   padding-bottom: 100rpx;
 }
-.lists{
+
+.lists {
   padding: 30rpx 30rpx 0;
 }
-.lists .title{
+
+.lists .title {
   border-width: 0;
   border-left-width: 6rpx;
   border-style: solid;
@@ -15,12 +17,14 @@
   line-height: 1;
   margin-bottom: 30rpx;
 }
-.lists .doors{
+
+.lists .doors {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 }
-.lists .doors .door{
+
+.lists .doors .door {
   width: 330rpx;
   border: 1rpx solid rgb(59, 58, 58);
   border-radius: 20rpx;
@@ -32,39 +36,47 @@
   align-items: center;
   margin-bottom: 30rpx;
 }
-.lists .doors .door .name{
+
+.lists .doors .door .name {
   margin-bottom: 10rpx;
   font-size: 32rpx;
-  
+
 }
-.lists .doors .door .current{
+
+.lists .doors .door .current {
   width: 50rpx;
   height: 50rpx;
   border-radius: 100%;
   border: 1rpx solid #ddd;
   overflow: hidden;
 }
-.lists .doors .door .current image{
+
+.lists .doors .door .current image {
   width: 100%;
 }
-.lists .doors .door .status{
+
+.lists .doors .door .status {
   line-height: 50rpx;
 }
-.lists .doors .disabled{
+
+.lists .doors .disabled {
   background: #f5f5f5;
   color: #999;
 }
-.note{
+
+.note {
   padding: 0 30rpx;
   display: flex;
   font-size: 24rpx;
 }
-.note text{
+
+.note text {
   margin-left: 10rpx;
   color: #999;
   text-decoration: underline;
 }
-.submit{
+
+.submit {
   position: fixed;
   bottom: 120rpx;
   left: 3%;

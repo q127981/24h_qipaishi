@@ -1,0 +1,16 @@
+<view class="floating-ball" style="left: {{ballLeft}}px; top: {{ballTop}}px;" bindtouchstart="handleTouchStart" capture-catch:touchmove="handleTouchMove" capture-catch:touchend="handleTouchEnd" bindtap="toggleMenu">
+  
+  <view class="menu {{isMenuOpen ? 'menu-open' : 'menu-close'}}">
+    <view class="tip">
+      <image src="../../img/arrow-down.png" mode="aspectFit"/>
+      <text>收起</text>
+    </view>
+    <view>
+      <view class="menu-item" wx:for="{{menuItems}}" wx:key="index" bindtap="handleMenuItemTap" data-value="{{item.value}}">
+        <image src="{{item.icon}}"/>
+        <view>{{item.text}}</view>
+      </view>
+    </view>
+  </view>
+  <image class="ball" src="../../img/ball.png" />
+</view>

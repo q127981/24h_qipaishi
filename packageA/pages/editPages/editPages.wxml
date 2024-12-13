@@ -30,22 +30,63 @@
   </view>
 </view>
 <view class="form-item">
+    <view class="label-container">
+      <text class="label">美团团购商品id</text>
+    </view>
+  <input name="mtId" class="input lt" placeholder="美团团购商品id" required type="number" value="{{item.mtId}}"/>
+</view>
+<view class="form-item">
+    <view class="label-container">
+      <text class="label">抖音团购商品id</text>
+    </view>
+  <input name="dyId" class="input lt" placeholder="抖音团购商品id" required type="number" value="{{item.dyId}}"/>
+</view>
+<view class="form-item">
+    <view class="label-container">
+      <text class="label">快手团购商品id</text>
+    </view>
+  <input name="ksId" class="input lt" placeholder="快手团购商品id" required type="number" value="{{item.ksId}}"/>
+</view>
+<view class="form-item">
   <view class="label-container">
-    <view class="label">限制房间</view>
+    <view class="label">包间限制：</view>
   </view>
-  <picker mode="selector" name="storeRoom" range="{{storesRoomList}}" range-key="value" value="{{storesRoomIndex}}" bindchange="handlePickerChange" class="picker lt">
-  <view class="picker-display">{{storesRoomName}}</view>
-  <view class="arrow-down"></view>
-</picker>
+  <view class="top-tabs-container">
+    <view class="top-tabs">
+      <block wx:for="{{roomLimit}}" wx:key="roomLimit">
+        <view data-index="{{item.value}}" class="tab {{tabIndex === item.value && 'active'}}" bind:tap="tabChange">{{item.text}}</view>
+      </block>
+    </view>
+    <view class="checkbox-group">
+      <checkbox-group name="roomType" wx:if="{{tabIndex === 0}}" bindchange="checkboxChange" value="{{checkedRoomList}}">
+        <block >
+          <block wx:for="{{storesRoomList}}" wx:key="storesRoomList">
+            <label class="checkbox">
+              <checkbox value="{{item.key}}" data-index="{{index}}" checked="{{roomTypeCheckd[index]}}" />{{item.value}}
+            </label>
+          </block>
+        </block>
+      </checkbox-group>
+      <checkbox-group name="enableRoom" wx:if="{{tabIndex === 1}}" bindchange="checkboxChange" value="{{checkedRoomList}}">
+        <block>
+          <block wx:for="{{doorList}}" wx:key="doorList">
+            <label class="checkbox">
+              <checkbox value="{{item.roomId}}" data-index="{{index}}" checked="{{enableRoomCheck[index]}}"  />{{item.roomName}}
+            </label>
+          </block>
+        </block>
+      </checkbox-group>
+    </view>
+  </view>
 </view>
 <view class="form-item">
     <view class="label">可用时间</view>
-      <checkbox-group name="enableTime" class="checkbox-containe-group">
+    <checkbox-group name="enableTime" class="checkbox-containe-group">
       <view wx:for="{{times}}" wx:key="index" class="checkbox-group-item" >
           <checkbox value="{{item.index}}" checked="{{item.checked}}" bindtap="toggleCheck" data-index="{{index}}"></checkbox>
           <text>{{item.index}}</text>
       </view>
-  </checkbox-group>
+    </checkbox-group>
     <view class="choose">
       <view bindtap="selectAllHours">全选</view>
       <view bindtap="invertSelection">反选</view>

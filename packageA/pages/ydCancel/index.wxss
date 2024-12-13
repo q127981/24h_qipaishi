@@ -1,0 +1,58 @@
+page {
+  background: #f5f5f5;
+}
+
+.container {}
+
+.list {
+  padding-top: 10rpx;
+}
+
+.list .item {
+  margin: 20rpx;
+  padding: 20rpx 30rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.list .item .info .line {
+  display: flex;
+  margin-bottom: 10rpx;
+}
+
+.list .item .info .line:last-child {
+  margin-bottom: 0;
+}
+
+.list .item .info .line label {
+  flex-shrink: 0;
+  font-size: 28rpx;
+}
+
+.list .item .info .line text {
+  font-size: 28rpx;
+}
+
+.list .item .btns .btn {
+  margin: 20rpx 0;
+  padding: 0;
+  width: 180rpx;
+  text-align: center;
+  height: 70rpx;
+  line-height: 70rpx;
+  font-size: 28rpx;
+  border-radius: 16rpx;
+  background: transparent;
+  color: #fff;
+}
+
+.list .item .btns .red {
+  background: var(--main-red);
+}
+
+.list .item .btns .green {
+  background: var(--main-green);
+}

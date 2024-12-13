@@ -49,6 +49,14 @@
       </view>
     </view>
     <view class="line">
+      <label>是否可预定：</label>
+      <view class="right">
+        <view>
+          <switch bindchange="changeReserveStatus" checked="{{reserve}}"/> 
+        </view>
+      </view>
+    </view>
+    <view class="line">
       <label>房间单价：</label>
       <view class="right">
         <view class="price">
@@ -100,12 +108,12 @@
         </view>
       </view>
     </view>
-    <view class="line">
+    <!-- <view class="line">
       <label>提前下单天数：</label>
       <view class="right">
         <input  style="width: 300rpx;" model:value="{{leadDay}}" type="text" placeholder="请输入1-5的数字"/>天
       </view>
-    </view>
+    </view> -->
     <view class="line">
       <label>排序位置：</label>
       <view class="right">

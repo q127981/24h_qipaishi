@@ -1,0 +1,79 @@
+<block>
+  <!-- <view class="tabs" style="top:{{statusBarHeight+titleBarHeight}}px"> -->
+  <view class="tabs">
+    <van-dropdown-menu active-color="{{mainColor}}">
+      <van-dropdown-item value="{{ kind }}" options="{{ kindOption }}" bind:change="kindFilter" />
+      <van-dropdown-item value="{{ value2 }}" options="{{ option2 }}" bind:change="productFilter" />
+    </van-dropdown-menu>
+  </view>
+</block>
+<scroll-view scroll-y="true" bindscrolltolower="onReachBottom">
+<view class="container">
+    <!-- 列表 -->
+  <view class="lists" style="flex: 1;">
+    <view class="list">
+    <block wx:if="{{productList.length>0}}">
+        <view wx:for="{{productList}}" wx:key="index">
+            <view class="store-card">
+            <view class="item">
+                <view class="image-container">
+                    <view>
+                        <image class="store-card__image" src="{{item.image}}" mode="aspectFill"></image>
+                    </view>
+                </view>
+                <view class="user-info">
+                    <view class="top-info">
+                        <text style="width: 100%">{{item.storeName}}</text>
+                        <view style="width: 100%;display: flex;justify-content: flex-end;margin-right: 50rpx;">
+                            <button size="mini" class="{{item.isShow == 1 ? 'down' : 'up'}}" bind:tap="changeShow" 
+                        data-id="{{item.id}}" data-isShow="{{item.isShow}}" data-index="{{index}}">
+                        {{item.isShow == 1 ? '下架' : '上架'}}</button>
+                        </view>
+                    </view>
+                    <view class="centerInfo">
+                        <text>分类:{{item.kindName}}</text>
+                        <text>销量:{{item.sales}}</text>
+                        <text>库存:{{item.stock}}</text>
+                    </view>
+                    <view class="vip-blacklist-item">
+                        <text class="productPrice">¥:{{item.price}}</text>
+                        <view class="button-end">
+                            <button size="mini" style="background-color: #ffeded;color: #ff9292;" 
+                            class="proButton" bind:tap="deleteProduct" data-id="{{item.id}}">删除</button>
+                            <button size="mini" style="background-color: #e7faf0;color: #71e2a3;" 
+                            class="proButton" bind:tap="goupdate" data-id="{{item.id}}">修改</button>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            </view>
+        </view>
+    </block>
+    <block wx:else>
+      <view style="display: flex;height: 80vh;width: 100%;">
+          <view class="noStoreInfo">
+                <view>
+                    <image class="noStore-image" src="/pages/static/img/no-blackList.png" mode="scaleToFill" />
+                </view>
+                <text>
+                暂无商品
+                </text>
+           </view>
+      </view>
+    </block>
+    </view>
+  </view>
+    <view class="submit {{isIpx?'fix-iphonex-button':''}}">
+        <button class="addBlacklist" bind:tap="gotoAdd">添加商品</button>
+    </view>
+</view>
+</scroll-view>
+
+<van-dialog use-slot title="提示" show="{{ showremove }}" show-cancel-button confirm-button-text="确认"
+ bind:confirm="remove" >
+  <view class="dialog">
+    <view class="dialog-item">
+      <text>您确定要删除该商品吗?</text>
+    </view>
+  </view>
+</van-dialog>

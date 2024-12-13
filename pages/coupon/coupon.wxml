@@ -8,9 +8,9 @@
     <!-- 暂不使用 -->
     <block wx:if="{{status==0}}">
       <view class="nouse" wx:if="{{from}}">
-      <text class="name">不使用优惠券</text>
-      <view class="{{couponId===0?'select iconfont icon-xuanzhong color-primary':'select iconfont icon-xuanze'}}" bindtap="choose" data-couponId="0"></view>
-    </view>
+        <text class="name">不使用优惠券</text>
+        <view class="{{couponId===0?'select iconfont icon-xuanzhong color-primary':'select iconfont icon-xuanze'}}" bindtap="choose" data-couponId="0"></view>
+      </view>
     </block>
     <view class="{{item.enable?'coupon':'coupon disable'}}" wx:for="{{MainList}}" wx:key="couponId" data-info="{{item}}" bindtap="choose" data-couponId="{{item.couponId}}" data-index="{{index}}">
       <block wx:if="{{from}}">
@@ -47,7 +47,7 @@
         <view class="name">{{item.couponName}}</view>
         <view class="line"><label>类型：</label>{{item.type===1?'抵扣券':item.type===2?'满减券':'加时券'}}</view>
         <view class="line"><label>适用门店：</label>{{item.storeName?item.storeName:'不限制门店'}}</view>
-        <view class="line"><label>适用包间：</label>{{item.roomType===1?'小包':item.roomType===2?'中包':item.roomType===3?'大包':item.roomType===4?'豪包':item.roomType===5?'商务包':'不限制'}}</view>
+        <view class="line"><label>适用包间：</label>{{item.type===1?'小包':item.type===2?'中包':item.type===3?'大包':item.type===4?'豪包':item.type===5?'商务包':item.type===6?'斯洛克':item.type===7?'中式黑八':item.type===8?'美式球桌':'不限制'}}</view>
         <view class="line"><label>过期时间：</label>{{item.expriceTime}}</view>
       </view>
       <block wx:if="{{item.type===1||item.type===3}}">
@@ -72,7 +72,7 @@
   </block>
   <view class="no-coupon" wx:else>
     <!-- 暂无数据 -->
-    <image src="../static/icon/coupon.png" class="coupon-icon"/>
+    <image src="../static/icon/coupon.png" class="coupon-icon" />
     <view class="text">暂无卡券</view>
   </view>
 </view>

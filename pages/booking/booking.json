@@ -1,4 +1,6 @@
 {
-  "navigationStyle": "custom",
-  "usingComponents": {}
+  "usingComponents": {
+    "van-search": "@vant/weapp/search/index",
+    "custom-tabbar": "../../custom-tab-bar"
+  }
 }

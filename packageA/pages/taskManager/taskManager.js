@@ -44,6 +44,9 @@ Page({
     if(options.endTime){
       this.setData({endTime: options.endTime})
     }
+    if(options.storeId){
+        this.setData({storeId: options.storeId})
+      }
     this.getuserinfo()
     this.getXiaLaListAdmin()
   },
@@ -165,7 +168,7 @@ Page({
            })
           }else{
             wx.showModal({
-              content: '请求服务异常，请稍后重试',
+              content: info.msg,
               showCancel: false,
             })
           }
@@ -244,7 +247,8 @@ Page({
   },
   //门店下拉菜单发生变化
   storeDropdown(event){
-    //console.log(event)
+    console.log("event")
+    console.log(event)
     this.data.stores.map(it => {
       if(it.value === event.detail){
         this.setData({

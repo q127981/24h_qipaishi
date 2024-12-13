@@ -1,0 +1,95 @@
+<scroll-view scroll-y="true" bindscrolltolower="onReachBottom">
+<view class="container">
+    <!-- 列表 -->
+  <view class="lists" style="flex: 1;">
+    <view class="list">
+    <block wx:if="{{kindList.length>0}}">
+        <view wx:for="{{kindList}}" wx:key="index">
+            <view class="store-card">
+            <view class="item">
+                <view class="image-container">
+                    <view>
+                        <image class="store-card__image" src="{{item.picUrl}}" mode="aspectFill"></image>
+                    </view>
+                </view>
+                <view class="user-info">
+                    <view class="vip-blacklist-item">
+                        <view class="productPrice">
+                        <text>{{item.name}}</text>
+                        </view>
+                        <view class="button-end">
+                            <button size="mini" style="background-color: #ffeded;color: #ff9292;" 
+                            class="proButton" bind:tap="deleteKind" data-id="{{item.id}}">删除</button>
+                            <button size="mini" style="background-color: #e7faf0;color: #71e2a3;" 
+                            class="proButton" bind:tap="goupdate" data-index="{{index}}">修改</button>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            </view>
+        </view>
+    </block>
+    <block wx:else>
+      <view style="display: flex;height: 80vh;width: 100%;">
+          <view class="noStoreInfo">
+                <view>
+                    <image class="noStore-image" src="/pages/static/img/no-blackList.png" mode="scaleToFill" />
+                </view>
+                <text>
+                暂无商品分类
+                </text>
+           </view>
+      </view>
+    </block>
+    </view>
+  </view>
+    <view class="submit {{isIpx?'fix-iphonex-button':''}}">
+        <button class="addBlacklist" bind:tap="gotoAdd">添加商品分类</button>
+    </view>
+</view>
+</scroll-view>
+
+<van-dialog use-slot title="提示" show="{{ showremove }}" show-cancel-button confirm-button-text="确认"
+ bind:confirm="remove" >
+  <view class="dialog">
+    <view class="dialog-item">
+      <text>您确定要删除该商品吗?</text>
+    </view>
+  </view>
+</van-dialog>
+
+<van-dialog use-slot title="添加分类" show="{{ showAddKind }}" 
+show-cancel-button confirm-button-text="确认" bind:cancel="cancel" bind:confirm="addKind" >
+  <view class="dialog">
+    <view class="dialog-item">
+      <label>分类名称:</label>
+      <input model:value="{{ name }}"  style="border: 1px solid var(--main-color);"  placeholder = "请输入分类名称"/>
+    </view>
+    <view class="dialog-item" style="margin-top: 20rpx;">
+      <label style="margin: auto 0;">分类图标</label>
+      <view class="right">
+        <van-uploader class="img" file-list="{{ picUrl }}" 
+        bind:after-read="afterRead" bind:delete="delete" 
+        max-count="1" image-fit="aspectFit" preview-size="200rpx" />
+      </view>
+    </view>
+  </view>
+</van-dialog>
+
+<van-dialog use-slot title="修改分类" show="{{ showUpKind }}" 
+show-cancel-button confirm-button-text="确认" bind:cancel="cancel" bind:confirm="upKind" >
+  <view class="dialog">
+    <view class="dialog-item">
+      <label>分类名称:</label>
+      <input model:value="{{ name }}"  style="border: 1px solid var(--main-color);"  placeholder = "请输入分类名称"/>
+    </view>
+    <view class="dialog-item" style="margin-top: 20rpx;">
+      <label style="margin: auto 0;">分类图标</label>
+      <view class="right">
+        <van-uploader class="img" file-list="{{ picUrl }}" 
+        bind:after-read="afterRead" bind:delete="delete" 
+        max-count="1" image-fit="aspectFit" preview-size="200rpx" />
+      </view>
+    </view>
+  </view>
+</van-dialog>

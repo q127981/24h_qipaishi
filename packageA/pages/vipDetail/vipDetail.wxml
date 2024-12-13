@@ -1,0 +1,87 @@
+<view class="container">
+  <view class="item">
+    <view class="top">
+      <view class="left">
+        <view class="img">
+          <image src="{{vipInfo.avatar?vipInfo.avatar:'/logo.png'}}" mode="widthFix"></image>
+        </view>
+        <view class="nick">{{vipInfo.nickname}}</view>
+        <view></view>
+      </view>
+      <view class="right">
+        <view class="info">
+          手机号 ：{{vipInfo.mobile}}
+        </view>
+        <view class="info">注册时间：{{vipInfo.createTime}}</view>
+        <view class="info">最近下单：{{vipInfo.orderTime?vipInfo.orderTime:''}}</view>
+        <view class="info">
+          总订单数：
+          <text>{{vipInfo.orderCount}}</text>
+          单
+        </view>
+        <!-- <view class="info">
+          总积分：
+          <text>{{99}}</text>
+          分
+        </view> -->
+      </view>
+    </view>
+  </view>
+  <view class="balance">
+    <view>余额: {{vipInfo.balance}}元</view>
+    <view>赠送: {{vipInfo.giftBalance}}元</view>
+    <button class="btn" bind:tap="recharge" data-info="{{vipInfo}}">余额充值</button>
+  </view>
+  <!-- 会员管理 -->
+  <view class="btns">
+    <navigator class="btn" url="../setCoupon/setCoupon?isSelect=1&&userId={{vipInfo.id}}">
+      赠送优惠券
+    </navigator>
+    <navigator class="btn" url="../SetOrder/SetOrder?userId={{vipInfo.id}}">查看订单</navigator>
+  </view>
+  <van-tabs>
+    <van-tab title="优惠券列表">
+      <view class="pack-time">
+        <view wx:for="{{couponList}}" wx:key="item" class="pack-box">
+          <view class="pack-item active" data-index="{{index}}">
+            <view class="top">
+              <view class="left">
+                <text>{{item.couponName}}</text>
+              </view>
+              <view class="price">
+                {{item.price}}{{item.type===1?'小时':item.type===2?'元':'时'}}
+              </view>
+            </view>
+            <view class="bottom">
+              <view class="desc">门店：{{item.storeName}}</view>
+              <view class="line"></view>
+              <view class="time-line">
+                <text>有效期至：{{item.expriceTime}}</text>
+                <view class="desc">{{item.type===1?'抵扣券':item.type===2?'满减券':'加时券'}}</view>
+              </view>
+            </view>
+          </view>
+          <button class="btn red" bindtap="onRevokeCoupon" data-item="{{item}}">回收</button>
+        </view>
+      </view>
+    </van-tab>
+  </van-tabs>
+</view>
+<van-dialog use-slot title="余额充值" show="{{ showRecharge }}" show-cancel-button bind:confirm="confirmRecharge" bind:cancel="cancelRecharge">
+  <view class="dialog">
+    <van-cell-group>
+      <van-field label="门店：" placeholder="请选择门店">
+        <picker slot="input" bindchange="bindStoreChange" value="{{index}}" range-key="text" range="{{stores}}">
+          <view class="picker">
+            <input type="text" disabled placeholder="请选择门店" placeholder-class="plh" value="{{stores[index].text}}" />
+            <van-icon name="arrow-down" />
+          </view>
+        </picker>
+      </van-field>
+      <van-field model:value="{{member.nickname}}" label="用户昵称：" />
+      <van-field model:value="{{member.mobile}}" label="手机号：" />
+      <van-field model:value="{{money}}" type="number" label="充值金额：" placeholder="请输入大于0的数字" border="{{ false }}" />
+      <view class="tip">金额输入0等于清空该会员余额</view>
+    </van-cell-group>
+  </view>
+</van-dialog>

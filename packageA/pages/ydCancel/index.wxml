@@ -1,0 +1,23 @@
+<view class="container" style="{{isIpx?'padding-bottom:168rpx':'padding-bottom:120rpx'}}">
+  <block wx:if="{{list.length}}">
+    <view class="list">
+      <view class="item" wx:for="{{list}}" wx:key="item">
+        <view class="info">
+          <view class="line"><label>订单编号：</label><text>{{item.orderId}}</text></view>
+          <view class="line"><label>开始时间：</label><text>{{item.beginTime}}</text></view>
+          <view class="line"><label>结束时间：</label><text>{{item.endTime}}</text></view>
+          <view class="line"><label>订单价格：</label><text>{{item.amount/100.0}}</text></view>
+          <view class="line"><label>预订时间：</label><text>{{item.bookTime}}</text></view>
+        </view>
+        <view class="btns">
+          <button hover-class="button-click" class="btn red" bindtap="setStatus" data-status="3" data-info="{{item}}">拒绝</button>
+          <button hover-class="button-click" class="btn bg-primary" bindtap="setStatus" data-status="2" data-info="{{item}}">同意</button>
+        </view>
+      </view>
+    </view>
+    <view class="noteMore">没有更多了</view>
+  </block>
+  <block wx:else>
+    <view class="nodata">暂无数据</view>
+  </block>
+</view>

@@ -1,0 +1,76 @@
+<view class="container">
+    <!-- <view class="control-box">
+      <view class="storeInfo">
+      <view>
+        <image mode="aspectFill" src="{{doorinfodata.headImg}}"></image>
+      </view>
+      <view class="info-name">
+        <text>{{doorinfodata.storeName}}</text>
+      </view>
+      </view>
+    </view> -->
+    <!-- <view class="control-box">
+        <view class="top">用户信息</view>
+        <view>
+            <view class="user-info">
+            <text>姓名:</text>
+            <input model:value="{{userName}}" type="text" placeholder="请输入用户姓名"/>
+            <text>手机号:</text>
+            <input model:value="{{userPhone}}" type="number" maxlength="11"  placeholder="请输入联系方式"/>
+            </view>
+        </view>
+    </view> -->
+
+    <view class="control-box">
+      <view class="top">商品信息</view>
+      <view class="item" wx:for="{{isShowAll ? payCart : showItems}}" wx:key="index">
+        <image mode="aspectFill" src="{{item.image}}" class="shopimage"></image>
+        <view class="left">
+          <view>{{ item.name }}</view>
+          <view>{{ item.valueStr }}</view>
+        </view>
+        <view>
+          <text>￥{{ item.price }}</text>
+        </view>
+        <view style="display: flex;">
+            <button size="mini" class="jian" data-index="{{index}}"
+                  bind:tap="handleCartItemReduce">
+                  <iconfont name="jian" size="20"></iconfont>
+            </button>
+          <text style="font-size: 30rpx;margin: 0 10rpx;">  {{ item.number }}  </text>
+          <button style="background-color: rgba(61, 202, 245, 0.753);" data-index="{{index}}"
+            class="jia" size="min" 	disabled="{{item.number>=item.stock}}"
+                  bind:tap="handleCartItemAdd">
+                  <iconfont name="jia" size="20"></iconfont>
+          </button>
+        </view>
+      </view>
+      <view wx:if="{{payCart.length>2}}" class="showmore" bind:tap="showMore">
+        <iconfont name="{{isShowAll ? 'jiantou_liebiaoshouqi_o' : 'jiantou_liebiaozhankai_o'}}" size="15"></iconfont>
+        <text>{{isShowAll ? '收起' : '展示更多'}}</text>
+      </view>
+      <view class="price-info">
+        <view class="price-postiion">
+        <text>总价：</text>
+        <text class="price">￥{{cartTotalPrice}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="control-box">
+        <view class="top">备注信息</view>
+        <input model:value="{{mark}}" type="text" placeholder="添加备注吧~"/>
+    </view>
+    <view class="control-box">
+        <view class="top">支付</view>
+        <view class="pay">
+            <view class="pay-left">
+            <text>合计：</text>
+            <text style="color: rgb(219, 101, 101);">￥{{cartTotalPrice}}</text>
+            </view>
+            <view class="right" bind:tap="topay">
+            <text>付款</text> 
+            </view>
+        </view>
+    </view>
+    
+</view>

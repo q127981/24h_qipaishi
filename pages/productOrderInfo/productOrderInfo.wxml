@@ -1,0 +1,80 @@
+<scroll-view scroll-y="true" bindscrolltolower="onReachBottom">
+<view class="container">
+    <view>
+        <view class="store-info">
+            <text>{{storeInfo.storeName}}</text>
+            <view wx:if="{{productOrderInfo.status ==0}}" class="status-css wait">
+                <text>待支付</text>
+            </view>
+            <view wx:if="{{productOrderInfo.status ==1}}" class="status-css send">
+                <text>待配送</text>
+            </view>
+            <view wx:if="{{productOrderInfo.status ==2}}" class="status-css end">
+                <text>已完成</text>
+            </view>
+            <view wx:if="{{productOrderInfo.status ==3}}" class="status-css cancel">
+                <text>已取消</text>
+            </view>
+        </view>
+        <view class="order-info">
+            <view class="xian"></view>
+                    <view wx:for="{{isShowAll ? productOrderInfo.productInfoVoList : productOrderInfo.productInfoVoListThree}}" wx:for-index="InfoIndex" wx:for-item="productInfoIndex" wx:key="InfoIndex">
+                        <view class="productInfo">
+                            <view class="image">
+                                <image src="{{productInfoIndex.image}}" style="height: 100rpx;width: 100rpx;"/>
+                            </view>
+                            <view class="attrs">
+                                <view> <text>{{productInfoIndex.name}}</text></view>
+                                <view> <text>{{productInfoIndex.valueStr}}</text> </view>
+                            </view>
+                            <view class="price-num">
+                                <view style="display: flex;">
+                                    <view class="product-price">￥{{productInfoIndex.price}}</view>
+                                    <view class="product-number">x{{productInfoIndex.number}}</view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="showmore" wx:if="{{productOrderInfo.productInfoVoList.length > 3}}" bind:tap="showMore">
+                        <iconfont name="{{isShowAll ? 'jiantou_liebiaoshouqi_o' : 'jiantou_liebiaozhankai_o'}}" size="15"></iconfont>
+                        <text>{{isShowAll ? '收起' : '展示更多'}}</text>
+                    </view>
+                <view class="xian"></view>
+            
+            <view class="info">
+                <text>商品总数：</text>
+                <text>{{productOrderInfo.productNum}}</text>
+            </view>
+            <view class="info">
+                <text>订单总金额：</text>
+                <text style="color: rgb(245, 82, 82);">￥{{productOrderInfo.totalPrice}}</text>
+            </view>
+            <view class="info">
+                <text>订单编号：</text>
+                <text>{{productOrderInfo.orderNo}}</text>
+            </view>
+            <view class="info">
+                <text>用户名：</text>
+                <text>{{productOrderInfo.userName}}</text>
+            </view>
+            <view class="info">
+                <text>手机号：</text>
+                <text>{{productOrderInfo.userPhone}}</text>
+            </view>
+            <view class="info">
+                <text>备注：</text>
+                <text>{{productOrderInfo.mark}}</text>
+            </view>
+            <view class="info">
+                <text>下单时间：</text>
+                <text>{{productOrderInfo.createTime}}</text>
+            </view>
+            <view class="info">
+                <text>支付方式：</text>
+                <text>微信支付</text>
+            </view>
+        </view>
+    </view>
+    
+</view>
+</scroll-view>

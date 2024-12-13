@@ -1,0 +1,109 @@
+@import "./assets/iconfont.wxss";
+page {
+  background: #f8f8f8;
+}
+.page-body{
+  padding-bottom: 100rpx;
+}
+.editor-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+}
+
+.editor-toolbar i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toolbar-1 {
+  padding: 5rpx 0;
+  background: #e4e4e4;
+}
+.editor-toolbar .tool-item {
+  display: inline-block;
+}
+
+.toolbar-2 {
+  padding: 5rpx 20px 5rpx 10px;
+  background: #f4f4f4;
+  display: flex;
+  align-items: center;
+  justify-content:space-between;
+  position: relative;
+}
+.toolbar-2 .tool-item-cell{
+  max-width: 80%;
+}
+.toolbar-2 .tool-item-box{
+  position: relative;
+}
+.toolbar-2 .cell-rg-shadow{
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  z-index: 999;
+   background:#dddddd;
+}
+.iconfont {
+  display: inline-block;
+  padding: 8px 8px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.toolbar {
+  box-sizing: border-box;
+  border-bottom: 0;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+}
+
+.ql-container {
+  box-sizing: border-box;
+  padding: 12px 15px;
+  width: 100%;
+  min-height: 30vh;
+  height: auto;
+  background: #fff;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.ql-active {
+  color: #06c;
+}
+
+.save-icon {
+  padding: 15rpx 30rpx;
+  font-size: 20rpx;
+  background: #bf98d2;
+  color: #fff;
+}
+.flex{
+  display: flex;
+}
+.flex-cc{
+  display: flex;
+  align-items: center;
+  -ms-flex-item-align: center;
+  justify-content: center;
+}
+.flex-sb{
+  display: flex;
+  align-items: center;
+  -ms-flex-item-align: center;
+  justify-content: space-between;
+}
+.flex-sa{
+  display: flex;
+  align-items: center;
+  -ms-flex-item-align: center;
+  justify-content: space-around;
+}

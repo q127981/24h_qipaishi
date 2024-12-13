@@ -1,36 +1,46 @@
 /* pages/roomList/roomList.wxss */
-page{
+page {
   /* background: #fff; */
 }
+
 .tabs {
   background-color: #fff;
   display: flex;
-  justify-content:space-around;
+  justify-content: space-around;
 }
-.tabs .item .van-dropdown-menu{
+
+.tabs .item .van-dropdown-menu {
   box-shadow: unset !important;
+  width: 350rpx;
 }
-.tabs .item .btn{
+.tabs .btns {
+  display: flex;
+  justify-content: center;
+}
+.tabs .btns .btn {
   margin: 10rpx;
-  border-radius: 20rpx;
-  width: 200rpx;
+  border-radius: 10rpx;
+  width: 150rpx;
   text-align: center;
-  height: 80rpx;
-  line-height: 80rpx;
-  font-size: 36rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 30rpx;
   color: #fff;
   background-color: #3ea7fd;
 }
-.container{
-}
-.list{
+
+.container {}
+
+.list {
   padding-top: 20rpx;
 }
-.list .item{
+
+.list .item {
   border-radius: 20rpx;
   margin: 0rpx 20rpx;
   padding: 20rpx;
-  background-image: linear-gradient(181.2deg, rgb(204, 235, 250) 10.5%, rgba(169, 232, 243, 0.678) 86.8%);
+  background-color: #fff;
+  /* background-image: linear-gradient(181.2deg, rgb(204, 235, 250) 10.5%, rgba(169, 232, 243, 0.678) 86.8%); */
   height: 150rpx;
   margin-bottom: 20rpx;
   display: flex;
@@ -38,20 +48,35 @@ page{
 }
 
 .list .item .left {
-    font-size: 28rpx;
-    color:#222e2b;
+  font-size: 28rpx;
+  color: #222e2b;
 }
-.list .item .left .name{
+
+.list .item .left .name {
   font-size: 32rpx;
   font-weight: 600;
-  color:#222e2b;
+  color: #222e2b;
+
 }
-.list .item .left .time{
+
+.list .item .left .info {
+  width: 450rpx;
+  white-space: nowrap;
+  /* 确保文本在一行内显示 */
+  overflow: hidden;
+  /* 隐藏超出容器的文本 */
+  text-overflow: ellipsis;
+  /* 使用省略号表示被截断的文本 */
+}
+
+
+.list .item .left .time {
   font-size: 26rpx;
   /* font-weight: 600; */
-  color:#222e2b;
+  color: #222e2b;
 }
-.list .item .right .btn{
+
+.list .item .right .btn {
   width: 180rpx;
   position: relative;
   top: 50rpx;
@@ -66,16 +91,17 @@ page{
 }
 
 
-.container .buttom{
+.container .buttom {
   margin-top: 20rpx;
   padding-bottom: 100rpx;
   text-align: center;
 }
 
-.dialog{
+.dialog {
   padding: 30rpx;
 }
-.dialog .item{
+
+.dialog .item {
   display: flex;
   justify-content: center;
   font-size: 28rpx;
@@ -83,7 +109,8 @@ page{
   padding: 10rpx 10rpx;
   margin: 15rpx;
 }
-.dialog .item .btn{
+
+.dialog .item .btn {
   text-align: center;
   border-radius: 10rpx;
   color: #fff;
@@ -94,21 +121,25 @@ page{
   font-size: 30rpx;
   flex-shrink: 0;
 }
-.dialog .item .btn.red{
+
+.dialog .item .btn.red {
   background-color: #108ee9;
 }
-.dialog .item .btn.waring{
+
+.dialog .item .btn.waring {
   background-color: #06bd34;
 }
-.dialog .item .btn.yellow{
+
+.dialog .item .btn.yellow {
   background-color: #bd3106;
 }
-.dialog .item text{
+
+.dialog .item text {
   font-weight: 600;
   font-size: 26rpx;
 }
 
-.dialog .item .name{
+.dialog .item .name {
   color: #108ee9;
   font-weight: 600;
   font-size: 36rpx;
@@ -219,7 +250,7 @@ page{
   line-height: 80rpx;
   font-size: 36rpx;
   font-weight: bold;
-  color:  #108ee9;
+  color: #108ee9;
 }
 
 .ac-control__control-button {
@@ -274,7 +305,7 @@ page{
 
 .ac-control__swing-row {
   display: flex;
-  justify-content:space-around;
+  justify-content: space-around;
   margin-bottom: 30rpx;
 }
 
@@ -322,7 +353,7 @@ page{
   line-height: 80rpx;
   font-size: 36rpx;
   font-weight: bold;
-  color:  #108ee9;
+  color: #108ee9;
 }
 
 .ac-control__fan-icon {
@@ -340,8 +371,13 @@ page{
 }
 
 @keyframes ac-control-rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .ac-control__fan-level {
@@ -381,6 +417,7 @@ page{
   background-color: #bbb9b9;
   color: white;
 }
+
 .ac-control__modal-content .btn {
   display: flex;
   justify-content: center;

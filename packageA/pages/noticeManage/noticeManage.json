@@ -1,0 +1,6 @@
+{
+    "navigationBarTitleText": "公告提醒",
+    "usingComponents": {
+        "richText":"../../../components/richText/richText"
+    }
+}

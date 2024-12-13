@@ -1,0 +1,7 @@
+<!-- components/custom-tabbar/custom-tabbar.wxml -->
+<view class="custom-tabbar"  style="padding-bottom: {{safeAreaInsetBottom}}rpx;">
+  <view class="tabbar-item" wx:for="{{list}}" wx:key="pagePath" bindtap="switchTab" data-path="{{item.pagePath}}" data-index="{{index}}">
+    <image class="tabbar-icon" src="{{selected === index ? item.selectedIconPath : item.iconPath}}"></image>
+    <view class="tabbar-text" style="color: {{selected === index ? selectedColor : color}}">{{item.text}}</view>
+  </view>
+</view>

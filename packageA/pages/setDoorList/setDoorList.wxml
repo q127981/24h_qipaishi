@@ -8,7 +8,7 @@
         <view class="top">
           <view class="name">
             {{item.roomName}}
-            <text class="type">（{{item.type===0?'特价包':item.type===1?'小包':item.type===2?'中包':item.type===3?'大包':item.type===4?'豪包':'商务包'}}）</text>
+            <text class="type">（{{item.type===0?'特价包':item.type===1?'小包':item.type===2?'中包':item.type===3?'大包':item.type===4?'豪包':item.type===5?'商务包':item.type===6?'斯洛克':item.type===7?'中式黑八':'美式球桌'}}）</text>
           </view>
           <view class="price color-attention">￥{{item.price}}/小时</view>
         </view>
@@ -69,7 +69,7 @@
               结束订单
             </view>
             <view class="btn red" bindtap="openBlueDoor" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">
-              蓝牙开锁
+              开锁密码
             </view>
             <view class="btn red" bindtap="openDoor" data-roomid="{{item.roomId}}">开电</view>
             <view class="btn red" bindtap="closeDoor" data-roomid="{{item.roomId}}">关电</view>

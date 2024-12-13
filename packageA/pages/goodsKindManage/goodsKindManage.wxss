@@ -1,0 +1,133 @@
+page{
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+}
+
+.container {
+    width: 100%;
+    height: 86vh; 
+}
+
+.user-info{
+    width: 100%;
+}
+
+.addBlacklist {
+    border-radius: 35rpx;
+    width: 40%;
+    background-color: #e7faf0;
+    color: #71e2a3;
+}
+
+.dialog-item {
+    display: flex;
+}
+
+.noStoreInfo {
+    font-size: 30rpx;
+    text-align: center;
+    margin: auto;
+    color: #BCBCBC;
+  }
+  
+  .noStoreInfo .noStore-image{
+      height: 220rpx;
+      width: 220rpx;
+    }
+
+.store-card{
+    display: flex;
+    width: 96%;
+    margin: 0 2%;
+}
+
+.store-card__image{
+    border-radius: 0;
+    width: 160rpx;
+    height: 160rpx;
+}
+
+.store-card .item{
+    margin-top: 30rpx;
+    width: 100%;
+    display: flex;
+}
+
+.submit{
+    width: 100%;
+    height: 7vh;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    background: #fff;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+    background-color: #f4f4f4;
+    justify-content: space-between;
+    padding-top: 30rpx;
+  }
+  .submit button{
+    width: 45%;
+    border-radius: 0;
+    font-size: 30rpx;
+    height:90rpx;
+    line-height: 90rpx;
+    padding: 0;
+    background-color: #fff;
+  }
+  .fix-iphonex-button {
+    bottom: 68rpx !important;
+  }
+  
+  .fix-iphonex-button::after {
+    content: ' ';
+    position: fixed;
+    bottom: 0 !important;
+    height: 68rpx !important;
+    width: 100%;
+    left: 0;
+    background: #f4f4f4;
+  }
+  
+  .fix-iphonex-button.transparent::after {
+    content: ' ';
+    position: fixed;
+    bottom: 0 !important;
+    height: 68rpx !important;
+    width: 100%;
+    left: 0;
+    background: none;
+  }
+  
+  .vip-blacklist-item{
+    height: 100%;
+    margin-left: 30rpx;
+    display: flex;
+    align-items: center;
+  }
+
+  .dialog-item{
+      display: flex;
+      justify-content: center;
+  }
+
+  .productPrice{
+    width: 50%;
+  }
+  .productPrice text{
+      font-size: 33rpx;
+  }
+
+  .proButton{
+    font-size: 30rpx;
+    margin: 0;
+    margin: 0 20rpx;
+  }
+  .button-end{
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+  }

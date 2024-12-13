@@ -1,0 +1,66 @@
+.container {
+    padding: 20px;
+  }
+  .container .form{
+    background-color: #fff;
+    padding: 20rpx 40rpx;
+    border-radius: 10rpx;
+
+  }
+  
+  .section {
+    margin-bottom: 20px;
+  }
+  
+  .title {
+    font-weight: bold;
+    width: 300rpx;
+    margin-bottom: 10px;
+  }
+  
+  .radio-group {
+    display: flex;
+  }
+  
+  .radio-item {
+    margin: auto;
+  }
+  
+  .input-row {
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .number-input {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+  }
+  
+  .btn {
+    width: 30px;
+    height: 30px;
+    line-height: 25px;
+    /* text-align: center; */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0 5px;
+  }
+  
+  .unit {
+    margin-left: 10px;
+    width: 180rpx;
+  }
+  
+  
+  .save-btn {
+    background-color: #FFD700; /* Gold color */
+    color: #000; /* Black text */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 20px;
+  }

@@ -5,8 +5,9 @@
       <van-dropdown-item value="{{ storeId }}" options="{{ stores }}"  bind:change="storeDropdown" />
   </van-dropdown-menu>
   </view>
-  <view class="item">
+  <view class="btns">
     <view class="btn red" bindtap="openStoreDoor">开大门</view>
+    <view class="btn red" bindtap="runStoreYunlaba">喇叭提醒</view>
   </view>
 </view>
 <view class="container">
@@ -14,11 +15,11 @@
     <view class="item" wx:for="{{doorList}}" wx:key="item">
       <view class="left">
         <view class="info">
-          <text class="name">{{item.roomName}}（{{item.type===1?'小包':item.type===2?'中包':item.type===3?'大包':item.type===4?'豪包':'商务包'}}）</text>
+            <text class="name">{{item.roomName}}（{{item.type===1?'小包':item.type===2?'中包':item.type===3?'大包':item.type===4?'豪包':item.type===5?'商务包':item.type===6?'斯洛克':item.type===7?'中式黑八':'美式球桌'}}）</text>
         </view>
         <view class="info">
           <label>门店：</label>
-          <text>{{item.storeName}}</text>
+          <text class="storeName">{{item.storeName}}</text>
         </view>
         <view class="info">
           <label>状态：</label>
@@ -60,7 +61,7 @@
     <view class="item">
         <view class="btn red" bindtap="openDoor">开电</view>
         <view class="btn red" bindtap="closeDoor">关电</view>
-        <view class="btn waring" bindtap="testYunlaba">测试喇叭</view>
+        <view class="btn waring" bindtap="testYunlaba">喇叭提醒</view>
     </view>
     <view class="item" wx:if="{{userinfo.userType!=14}}">
         <view class="btn waring" bindtap="showModal">空调控制</view>

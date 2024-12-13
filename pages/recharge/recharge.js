@@ -17,19 +17,34 @@ Page({
     payMoney: '',//选择的充值金额
     userId: '', //管理员为用户充值时的用户id
     giftBalance: '', //赠送余额
-    balance: ''
+    balance: '',
+    modeIndex: 0,
+    storeList: [],
+    showStoreSelect: false,
+    cardList: [],
+    selectedPackIndex: 0,
+    safeAreaInsetBottom: '',
+    isLogin:app.globalData.isLogin,
+    payType: 1
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    console.log('onLoad')
-    // this.getuserinfo()
-    if(options.storeId){
+    console.log("onLoad");
+    this.setData({
+      isLogin: app.globalData.isLogin
+    })
+    if (options.storeId) {
       this.setData({
-        storeId: Number(options.storeId)
-      })
+        storeId: Number(options.storeId),
+      });
+    }else{
+      const storeId = wx.getStorageSync('global_store_id') || '';
+      this.setData({
+        storeId: storeId,
+      });
     }
     this.getXiaLaListdata()
   },
@@ -45,6 +60,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
+    this.getListData();
   },
 
   /**
@@ -79,6 +95,50 @@ Page({
    */
   onShareAppMessage() {
 
+  },
+  modeChange(e) {
+    const { index } = e.target.dataset;
+    if (index == 1) {
+        // 暂无包时
+    //   this.getPackCards()
+    }
+    this.setData({
+      modeIndex: +index,
+    });
+  },
+  onSelect(event) {
+    console.log(event);
+    this.setData({
+      storeInfo: event.detail,
+      storeId: event.detail.storeId
+    });
+    this.getDiscount()
+  },
+  onClose() {
+    this.setData({ showStoreSelect: false });
+  },
+  getPackCards:function() {
+    var that = this;
+    http.request(
+      "/member/card/getSaleCardPage",
+      "1",
+      "post",
+      {
+        pageNo: 1,
+        pageSize: 20,
+        storeId: this.data.storeId
+      },
+      app.globalData.userDatatoken.accessToken,
+      "",
+      function success(info) {
+        if (info.code == 0) {
+          that.setData({
+            packCards: info.data.list
+          });
+        }
+      },
+      function fail(info) {}
+    );
   },
   // 获取赠送余额
   getStoreBalance:function(){
@@ -181,7 +241,7 @@ Page({
             that.getStoreBalance()
           }else{
             wx.showModal({
-              content: '请求服务异常，请稍后重试',
+              content: info.msg,
               showCancel: false,
             })
           }
@@ -192,14 +252,50 @@ Page({
       )
     } 
   },
+  getListData: function (e) {
+    var that = this;
+    let message = "";
+    http.request(
+      "/member/index/getStoreList",
+      "1",
+      "post",
+      {
+        pageNo: 1,
+        pageSize: 100,
+        name: "",
+      },
+      app.globalData.userDatatoken.accessToken,
+      message,
+      function success(info) {
+        if (info.code == 0) {
+          const storeList = info.data.list.map((el) => {
+            return {
+              name: el.storeName,
+              ...el
+            };
+          })
+          that.setData({
+            storeList: storeList
+          });
+        } else {
+          wx.showModal({
+            content: info.msg,
+            showCancel: false,
+          });
+        }
+      },
+      function fail(info) {}
+    );
+  },
   // 选择门店
   bindStoreChange: function(e) {
-    // console.log('picker发送选择改变，携带值为', e.detail.value)
+    console.log('picker发送选择改变，携带值为', e.detail.value)
     // console.log(this.data.stores[e.detail.value])
     this.setData({
       index: e.detail.value,
       storeId: this.data.stores[e.detail.value].value,
-      storeName: this.data.stores[e.detail.value].key
+      storeName: this.data.stores[e.detail.value].key,
+      payMoney: '',
     })
     this.getDiscount()
     this.getStoreBalance()
@@ -229,6 +325,16 @@ Page({
     } else {
       //console.log('未登录失败！')
     }
+  },
+  handleExchange () {
+    this.setData({
+      showStoreSelect: true,
+    });
+  },
+  showConfirm () {
+    this.setData({
+      showBuyConfirm: true
+    })
   },
   // 选择充值金额
   choose: function(e){

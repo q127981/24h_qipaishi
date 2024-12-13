@@ -2,9 +2,9 @@
 <view class="tabs">
   <view class="item">
     <van-dropdown-menu active-color="{{mainColor}}">
-      <van-dropdown-item value="{{ storeId }}" options="{{ stores }}"  bind:change="storeDropdown" />
-      <van-dropdown-item value="{{ deviceType }}" options="{{ deviceTypes }}"  bind:change="typeDropdown" />
-  </van-dropdown-menu>
+      <van-dropdown-item value="{{ storeId }}" options="{{ stores }}" bind:change="storeDropdown" />
+      <van-dropdown-item value="{{ deviceType }}" options="{{ deviceTypes }}" bind:change="typeDropdown" />
+    </van-dropdown-menu>
   </view>
 </view>
 
@@ -30,13 +30,13 @@
           <label>门店：</label>
           <text class="name">{{item.storeName}}</text>
         </view>
-        <view class="info" >
+        <view class="info">
           <block wx:if="{{item.roomName}}">
             <label>房间：</label>
-            <text>{{item.roomName}}</text>
+            <text class="name">{{item.roomName}}</text>
           </block>
           <block wx:else>
-             <view>-</view>
+            <view>-</view>
           </block>
         </view>
         <view class="del" bindtap="delDevice" data-id="{{item.deviceId}}">
@@ -50,66 +50,42 @@
 
 <!-- 底部按钮 -->
 <view class="bottom {{isIpx?'fix-iphonex-button':''}}">
-   <navigator class="btn bg-primary1" url="../addLock/addLock" >配置智能锁</navigator>
-   <view class="btn bg-primary" bindtap="add">添加设备</view>
+  <view class="btn bg-primary" bindtap="add">添加设备</view>
 </view>
 
 <!-- 添加弹窗 -->
-<van-dialog
-  use-slot
-  title="添加设备"
-  show="{{ showAdd }}"
-  show-cancel-button
-  bind:confirm="submitAdd"
-  bind:cancel="cancelAdd" 
-  before-close="{{beforeCloseFunction}}"
-  confirm-button-color="{{mainColor}}"
->
+<van-dialog use-slot title="添加设备" show="{{ showAdd }}" show-cancel-button bind:confirm="submitAdd" bind:cancel="cancelAdd" before-close="{{beforeCloseFunction}}" confirm-button-color="{{mainColor}}">
   <view class="dialog">
     <van-cell-group>
-      <van-field
-        model:value="{{deviceSn}}"
-        label="设备编号："
-        maxlength="10"
-        placeholder="请输入,最长10位数"
-      />
-       <van-field
-        label="设备类型："
-        placeholder="请选择"
-      >
-      <picker slot="input" bindchange="bindDeviceTypeSelect" value="{{deviceTypeIndex}}" range-key="text" range="{{deviceTypes}}">
+      <van-field model:value="{{deviceSn}}" label="设备编号：" maxlength="10" placeholder="请输入,最长10位数" />
+      <van-field label="设备类型：" placeholder="请选择">
+        <picker slot="input" bindchange="bindDeviceTypeSelect" value="{{deviceTypeIndex}}" range-key="text" range="{{deviceTypes}}">
           <view class="picker">
-            <input type="text" disabled placeholder="请选择类型" placeholder-class="plh" value="{{deviceTypes[deviceTypeIndex].text}}"/>
+            <input type="text" disabled placeholder="请选择类型" placeholder-class="plh" value="{{deviceTypes[deviceTypeIndex].text}}" />
             <van-icon name="arrow-down" />
           </view>
-      </picker>
+        </picker>
       </van-field>
-      <van-field
-        label="门店："
-        placeholder="请选择门店"
-      >
-      <picker slot="input" bindchange="bindStoreSelect" value="{{storeIndex}}" range-key="text" range="{{stores}}">
+      <van-field label="门店：" placeholder="请选择门店">
+        <picker slot="input" bindchange="bindStoreSelect" value="{{storeIndex}}" range-key="text" range="{{stores}}">
           <view class="picker">
-            <input type="text" disabled placeholder="请选择门店" placeholder-class="plh" value="{{stores[storeIndex].text}}"/>
+            <input type="text" disabled placeholder="请选择门店" placeholder-class="plh" value="{{stores[storeIndex].text}}" />
             <van-icon name="arrow-down" />
           </view>
-      </picker>
+        </picker>
       </van-field>
-      <van-field
-        label="房间："
-        placeholder="请选择房间"
-      >
-      <picker slot="input" bindchange="bindRoomSelect" value="{{roomIndex}}" range-key="text" range="{{roomList}}">
+      <van-field label="房间：" placeholder="请选择房间">
+        <picker slot="input" bindchange="bindRoomSelect" value="{{roomIndex}}" range-key="text" range="{{roomList}}">
           <view class="picker">
-            <input type="text" disabled placeholder="请选择房间" placeholder-class="plh" value="{{roomList[roomIndex].text}}"/>
+            <input type="text" disabled placeholder="请选择房间" placeholder-class="plh" value="{{roomList[roomIndex].text}}" />
             <van-icon name="arrow-down" />
           </view>
-      </picker>
+        </picker>
       </van-field>
       <view class="tips">注：网关、人脸识别机、前台云喇叭、门店大门门禁</view>
       <view class="tips">等设备不需要绑定房间，只绑定门店即可</view>
       <text style="font-size: 26rpx;margin-left:30rpx">共用设备：</text>
-      <switch bindchange="changeSwitchStatus" checked="{{shareDevice}}"/> 
+      <switch bindchange="changeSwitchStatus" checked="{{shareDevice}}" />
       <view class="tips">注:表示多个房间或台桌共用，常用于中央空调</view>
     </van-cell-group>
   </view>

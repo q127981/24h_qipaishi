@@ -1,4 +1,154 @@
-<!--pages/tuangou/tuangou.wxml-->
-<view class="container">
-  <image src="../static/img/tuangou.png" mode="widthFix" style="width: 100%;height: 100%;"></image>
+<view class="info-card">
+  <view class="top">
+    <view class="left">
+      <image class="show-img" src="{{doorinfodata.headImg}}" />
+      <view class="info">
+        <text class="name">{{doorinfodata.storeName}}</text>
+        <view class="distant">
+          <iconfont name="weibiaoti-3" color="#5AAB6E"></iconfont>
+          <text>{{doorinfodata.distance}}km</text>
+        </view>
+      </view>
+    </view>
+    <view class="change-btn" bind:tap="showSelect">
+      <text>切换门店</text>
+    </view>
+  </view>
+  <view class="bottom">
+    <text class="location">{{doorinfodata.address}}</text>
+    <view class="item" bind:tap="onClickShow" data-index="0">
+      <image src="../../pages/static/icon/navigation.png" />
+      <text>导航</text>
+    </view>
+    <view class="line"></view>
+    <view class="item" bind:tap="onClickShow" data-index="1">
+      <image src="../../pages/static/icon/phone.png" />
+      <text>电话</text>
+    </view>
+  </view>
 </view>
+<view class="logo">
+  <image src="../../pages/static/img/group.png" />
+</view>
+<view class="title">团购自助验券</view>
+<view class="code-box">
+  <view>
+    <image src="../../pages/static/icon/groupBuy.png" />
+    <input placeholder="输入/粘贴团购券码" value="{{groupPayNo}}" placeholder-style="text-align:center;" bindinput="bindKeyInput" />
+    <image src="../../pages/static/icon/scan.png" bind:tap="scanCode" />
+  </view>
+</view>
+<view class="btn" wx:if="{{!voucherInfo}}">
+  <button bind:tap="voucherCheck" bindtap="checkGroup">立即兑换</button>
+</view>
+<block wx:else>
+  <!-- <block> -->
+  <view class="voucher-info">
+    <!-- <view class="left"> -->
+    <!-- <view class="tag" wx:if="{{voucherInfo.hours&&voucherInfo.hours==99}}">通宵</view> -->
+    <!-- <view class="tag" wx:else="">{{voucherInfo.hours}}小时</view> -->
+    <!-- </view> -->
+    <text>{{voucherInfo.title}}</text>
+  </view>
+  <view class="control-box">
+    <view class="time-section">
+      <view class="time-slot">
+        <view class="{{dayIndex === index ? 'active' : ''}}" wx:for="{{daySlot}}" data-index="{{index}}" data-day="{{item.dayOrigin}}" bind:tap="handleDayChange">
+          <text>{{item.desc}}</text>
+          <text>{{item.day}}</text>
+        </view>
+      </view>
+      <view class="timer">
+        <text class="title">时间</text>
+        <view class="time active" bind:tap="setshowSelectHour">
+          <text>{{view_begin_time}}</text>
+          <image src="../../pages/static/icon/time-pick.png" />
+        </view>
+        <text class="divide">到</text>
+        <view class="time">
+          <text>{{view_end_time}}</text>
+        </view>
+      </view>
+      <view class="select-card">
+        <view class="item {{roomIndex === index ? 'active':''}}" wx:for="{{doorlistArr}}" bind:tap="selectRoom" data-index="{{index}}">
+          <view class="top">
+            <view class="tag">{{['不限制', '小包', '中包', '大包', '豪包', '商务包','斯洛克','中式黑八','美式球桌'][item.type] || '无限制'}}</view>
+            <view>{{item.roomName}}</view>
+          </view>
+          <view class="bottom">
+            <view class="orang" wx:if="{{item.status === 0}}">已预约</view>
+            <view class="primary" wx:if="{{item.status === 1}}">空闲</view>
+            <view class="blue" wx:if="{{item.status === 2}}">待清洁</view>
+            <view class="red" wx:if="{{item.status === 3}}">使用中</view>
+            <view class="gray" wx:if="{{item.status === 4}}">停用中</view>
+            <view class="more" catchtap="onShowReserve" data-list="{{item.orderTimeList}}" wx:if="{{item.orderTimeList.length}}">更多预约
+              <icon class="iconfont icon-right" />
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <button class="confirm-btn" bindtap="SubmitOrderInfoData">确认预约</button>
+</block>
+<van-popup show="{{ showtimefalge }}" position="bottom" custom-style="height: 60%">
+  <van-datetime-picker type="datetime" value="{{currentDate}}" bind:confirm="timeChange" bind:cancel="timeCancel" formatter="{{formatter}}" min-date="{{minDay}}" max-date="{{maxDay}}" min-hour="{{minHour}}"></van-datetime-picker>
+</van-popup>
+<van-overlay show="{{ show }}" bind:click="onClickHide">
+  <view class="popup navigation" wx:if="{{popupIndex === 0}}">
+    <view class="title">导航到店</view>
+    <view class="sub-title">可选择您所需要的服务</view>
+    <view class="btn" bind:tap="goTencentMap">
+      <image src="../../pages/static/icon/nav.png" />
+      地图导航
+    </view>
+    <view class="btn" bind:tap="goGuide">
+      <image src="../../pages/static/icon/guide.png" />
+      位置指引
+    </view>
+  </view>
+  <view class="popup service" wx:if="{{popupIndex === 1}}">
+    <view class="title">联系客服</view>
+    <view class="sub-title">可选择您所需要的服务</view>
+    <view class="btn" bind:tap="call">
+      <image src="../../pages/static/icon/phone-call.png" />
+      {{ doorinfodata.kefuPhone }}
+    </view>
+    <view class="btn" bind:tap="copy" wx:if="{{doorinfodata.kefuWx}}">
+      <image src="../../pages/static/icon/wechat.png" />
+      {{doorinfodata.kefuWx}}
+    </view>
+  </view>
+</van-overlay>
+<van-action-sheet show="{{ showStoreSelect }}" actions="{{ storeList }}" bind:close="onClose" bind:select="onSelect" />
+
+<!-- 是否展示团购券信息 -->
+<van-popup round show="{{ showGroupsPay }}" close-on-click-overlay="{{ true }}">
+  <scroll-view scroll-y class="groupInfo">
+    <view class="group-top">查询到您有{{groupPays.length}}张团购券待使用~</view>
+    <view class="group-item" wx:for="{{groupPays}}" data-index="{{index}}" wx:key="index">
+      <view class="itemInfo">
+        <view class="item-name">{{item.ticketName}}</view>
+        <view class="item-code">
+          <view>券码：{{item.ticketNo}}</view>
+          <button bind:tap="gotoUse" class="gotoUse" data-item="{{item}}">使用</button>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+  <view style="display: flex;">
+    <button bind:tap="cancelUser" class="cancelUser">关闭</button>
+  </view>
+</van-popup>
+
+<!-- 房间预定时间列表 -->
+<van-popup round show="{{ showReserve }}" bind:tap="onHideReserve">
+  <view class="reserve-box">
+    <view class="title">预定时间</view>
+    <view class="time-line" wx:for="{{orderTimeList}}">
+      <view class="dot"></view>
+      <view class="time-tag"><text>{{item}} </text><text>已预订</text></view>
+    </view>
+    <button>知道了</button>
+  </view>
+</van-popup>

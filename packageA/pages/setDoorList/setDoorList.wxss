@@ -1,11 +1,13 @@
 /* pages/setDoorList/setDoorList.wxss */
 .container{
   padding: 16rpx 16rpx 120rpx 16rpx;
+  background-color: #f5f5f5;
 }
 .list .item{
   margin-bottom: 20rpx;
   padding: 20rpx 30rpx;
-   background: linear-gradient( #a0e4fdd3, #f6fdcbb2);
+  background-color: #fff;
+   /* background: linear-gradient( #a0e4fdd3, #f6fdcbb2); */
   border-radius: 30rpx;
 }
 .list .doing{

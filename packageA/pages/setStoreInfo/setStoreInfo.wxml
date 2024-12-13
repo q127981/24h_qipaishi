@@ -11,12 +11,6 @@
       <van-field model:value="{{ address }}" autosize type="textarea" placeholder="请输入详细地址" border="{{ false }}" label="详细地址" />
     </van-cell-group>
     <van-cell-group>
-      <van-field model:value="{{ lat }}" placeholder="请输入经度" border="{{ false }}" label="经度" />
-    </van-cell-group>
-    <van-cell-group>
-      <van-field model:value="{{ lon }}" placeholder="请输入纬度" border="{{ false }}" label="纬度" />
-    </van-cell-group>
-    <van-cell-group>
       <van-field model:value="{{ kefuPhone }}" placeholder="请输入" border="{{ false }}" label="客服电话" />
     </van-cell-group>
     <van-cell-group>
@@ -25,11 +19,11 @@
     <van-cell-group>
       <van-field model:value="{{ wifiPwd }}" placeholder="请输入" border="{{ false }}" label="WIFI密码" />
     </van-cell-group>
-    <van-cell-group>
+    <!-- <van-cell-group>
       <van-cell center title="显示通宵价格">
         <switch checked="{{ showTxPrice }}" data-tag="showTxPrice" bindchange="onChangeSwitch"/>
       </van-cell>
-    </van-cell-group>
+    </van-cell-group> -->
     <van-cell-group>
       <van-field model:value="{{ txStartHour }}" placeholder="请输入18-23的数字,默认23" border="{{ false }}" label="通宵开始小时" />
     </van-cell-group>
@@ -60,9 +54,7 @@
         <switch checked="{{ clearOpenDoor }}" data-tag="clearOpenDoor" bindchange="onChangeSwitch"/>
       </van-cell>
     </van-cell-group>
-    <van-cell-group>
-      <van-field model:value="{{ notice }}" autosize type="textarea" maxlength="2000" placeholder="请输入" border="{{ false }}" label="门店公告" />
-    </van-cell-group>
+    
     <van-cell-group>
       <van-field model:value="{{ orderWebhook }}" autosize type="textarea" maxlength="200" placeholder="请输入" border="{{ false }}" label="企业微信webhook" />
     </van-cell-group>
@@ -97,7 +89,7 @@
         </view>
         <van-uploader file-list="{{ qhfileList }}" bind:after-read="afterRead" data-info="11" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="切换门店按钮图" />
         <van-uploader file-list="{{ tgfileList }}" bind:after-read="afterRead" data-info="12" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="团购兑换按钮图" />
-        <van-uploader file-list="{{ czfileList }}" bind:after-read="afterRead" data-info="13" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="会员充值按钮图" />
+        <van-uploader file-list="{{ czfileList }}" bind:after-read="afterRead" data-info="13" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="商品点单按钮图" />
         <van-uploader file-list="{{ openfileList }}" bind:after-read="afterRead" data-info="14" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="一键开门按钮图" />
         <van-uploader file-list="{{ wififileList }}" bind:after-read="afterRead" data-info="15" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="WIFI信息按钮图" />
         <van-uploader file-list="{{ kffileList }}" bind:after-read="afterRead" data-info="16" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="联系客服按钮图" />

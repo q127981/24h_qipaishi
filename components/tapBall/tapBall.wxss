@@ -1,0 +1,81 @@
+.floating-ball {
+    position: fixed;
+    width: 137rpx;
+    height: 137rpx;
+    border-radius: 50%;
+    z-index: 99;
+  }
+  
+  .tip {
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 21rpx;
+    padding-top: 22rpx;
+    margin-bottom: 26rpx;
+  }
+  
+  .tip image {
+    width: 22rpx;
+    height: 22rpx;
+    margin-right: 10rpx;
+  }
+  
+  .ball {
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    margin-left: 35.6rpx;
+  }
+  
+  .menu {
+    position: absolute;
+    left: 0;
+    bottom: 19rpx;
+    width: 180rpx;
+    background-color: var(--main-color);
+    border-radius: 5rpx;
+    box-shadow: 0 2rpx 5rpx rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    z-index: -1;
+    border-radius: 9rpx 9rpx 9rpx 9rpx;
+    padding: 0 12rpx;
+  }
+  
+  .menu-open {
+    height: 440rpx;
+  }
+  
+  .menu-close {
+    height: 0;
+  }
+  
+  .menu-item {
+    padding: 10rpx;
+    text-align: center;
+    background: #fff;
+    border-radius: 9rpx 9rpx 9rpx 9rpx;
+    margin-bottom: 18rpx;
+    color: var(--main-color);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 26rpx;
+    height: 44rpx;
+  }
+  
+  .menu-item:active {
+    background: #d4d1d1;
+  }
+  
+  .menu-item image {
+    width: 30rpx;
+    height: 30rpx;
+  }
+  
+  .menu-item view {
+    flex-grow: 1;
+    font-size: 21rpx;
+  }

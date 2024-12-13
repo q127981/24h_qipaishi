@@ -8,9 +8,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    storeId: 0, 
+    storeId: 0,
     doorList: [],
-    isIpx: app.globalData.isIpx?true:false,
+    isIpx: app.globalData.isIpx ? true : false,
     foldIndex: -1,
     setLockPwdShow: false,
     lockPwd: '',
@@ -25,9 +25,9 @@ Page({
       storeId: Number(options.storeId)
     })
   },
-  foldTap (e) {
+  foldTap(e) {
     console.log(e)
-    const {target: {dataset = {}} = {}} = e
+    const { target: { dataset = {} } = {} } = e
     this.setData({
       foldIndex: this.data.foldIndex === dataset.index ? -1 : dataset.index
     })
@@ -82,16 +82,15 @@ Page({
 
   },
   // 获取房间列表
-  getDoorList: function(){
+  getDoorList: function () {
     let that = this
-    if (app.globalData.isLogin) 
-    {
+    if (app.globalData.isLogin) {
       http.request(
-        "/member/store/getRoomInfoList/"+that.data.storeId,
+        "/member/store/getRoomInfoList/" + that.data.storeId,
         "1",
         "get", {
-          "storeId": that.data.storeId
-        },
+        "storeId": that.data.storeId
+      },
         app.globalData.userDatatoken.accessToken,
         "",
         function success(info) {
@@ -101,21 +100,21 @@ Page({
             that.setData({
               doorList: info.data
             })
-          }else{
+          } else {
             wx.showModal({
-              content: '请求服务异常，请稍后重试',
+              content: info.msg,
               showCancel: false,
             })
           }
         },
         function fail(info) {
-          
+
         }
       )
-    } 
+    }
   },
   // 开房间门
-  openDoor: function(e){
+  openDoor: function (e) {
     let roomId = e.currentTarget.dataset.roomid
     let that = this
     wx.showModal({
@@ -125,14 +124,13 @@ Page({
         if (res.cancel) {
         }
         if (res.confirm) {
-          if (app.globalData.isLogin) 
-          {
+          if (app.globalData.isLogin) {
             http.request(
-              "/member/store/openRoomDoor/"+roomId,
+              "/member/store/openRoomDoor/" + roomId,
               "1",
               "post", {
-                "roomId": roomId
-              },
+              "roomId": roomId
+            },
               app.globalData.userDatatoken.accessToken,
               "",
               function success(info) {
@@ -143,7 +141,7 @@ Page({
                     title: '开门成功',
                     icon: 'success'
                   })
-                }else{
+                } else {
                   wx.showModal({
                     content: info.msg,
                     showCancel: false,
@@ -151,16 +149,16 @@ Page({
                 }
               },
               function fail(info) {
-                
+
               }
             )
-          } 
+          }
         }
       }
     })
   },
   // 关房间门
-  closeDoor: function(e){
+  closeDoor: function (e) {
     let roomId = e.currentTarget.dataset.roomid
     let that = this
     wx.showModal({
@@ -170,14 +168,13 @@ Page({
         if (res.cancel) {
         }
         if (res.confirm) {
-          if (app.globalData.isLogin) 
-          {
+          if (app.globalData.isLogin) {
             http.request(
-              "/member/store/closeRoomDoor/"+roomId,
+              "/member/store/closeRoomDoor/" + roomId,
               "1",
               "post", {
-                "roomId": roomId
-              },
+              "roomId": roomId
+            },
               app.globalData.userDatatoken.accessToken,
               "",
               function success(info) {
@@ -188,7 +185,7 @@ Page({
                     title: '关门成功',
                     icon: 'success'
                   })
-                }else{
+                } else {
                   wx.showModal({
                     content: info.msg,
                     showCancel: false,
@@ -196,27 +193,53 @@ Page({
                 }
               },
               function fail(info) {
-                
+
               }
             )
-          } 
+          }
         }
       }
     })
   },
-  openBlueDoor: function(e){
+  openBlueDoor: function (e) {
     let that = this;
     let lockData = e.currentTarget.dataset.lockdata;
-    if(lockData){
-      //本地蓝牙开锁
-     lock.blueDoorOpen(lockData);
-   }else{
-     wx.showToast({
-       title: '未使用密码锁',
-     })
-   }
+    let roomId = e.currentTarget.dataset.roomid
+    if (lockData) {
+      //获取随机密码
+      http.request(
+        "/member/store/getLockPwd",
+        "1",
+        "post", {
+          "storeId": that.data.storeId,
+          "roomId": roomId
+        },
+        app.globalData.userDatatoken.accessToken,
+        "",
+        function success(info) {
+          if (info.code == 0) {
+            wx.showModal({
+              title: "提示",
+              content: "您的开门密码:"+info.data+"#,"+"该密码仅6小时内一次有效！使用后即失效！",
+              showCancel: false,
+            })
+          } else {
+            wx.showModal({
+              content: info.msg,
+              showCancel: false,
+            })
+          }
+        },
+        function fail(info) {
+        }
+      )
+    } else {
+      wx.showToast({
+        title: '未使用密码锁',
+      })
+    }
   },
-  disableRoom: function(e){
+  disableRoom: function (e) {
     let roomId = e.currentTarget.dataset.roomid;
     let that = this;
     wx.showModal({
@@ -226,14 +249,13 @@ Page({
         if (res.cancel) {
         }
         if (res.confirm) {
-          if (app.globalData.isLogin) 
-          {
+          if (app.globalData.isLogin) {
             http.request(
-              "/member/store/disableRoom/"+roomId,
+              "/member/store/disableRoom/" + roomId,
               "1",
               "post", {
-                "roomId": roomId
-              },
+              "roomId": roomId
+            },
               app.globalData.userDatatoken.accessToken,
               "",
               function success(info) {
@@ -245,7 +267,7 @@ Page({
                     icon: 'success'
                   })
                   that.getDoorList();
-                }else{
+                } else {
                   wx.showModal({
                     content: info.msg,
                     showCancel: false,
@@ -253,15 +275,15 @@ Page({
                 }
               },
               function fail(info) {
-                
+
               }
             )
-          } 
+          }
         }
       }
     })
   },
-  testYunlaba: function(e){
+  testYunlaba: function (e) {
     let roomId = e.currentTarget.dataset.roomid;
     let that = this;
     wx.showModal({
@@ -271,14 +293,13 @@ Page({
         if (res.cancel) {
         }
         if (res.confirm) {
-          if (app.globalData.isLogin) 
-          {
+          if (app.globalData.isLogin) {
             http.request(
-              "/member/store/testYunlaba/"+roomId,
+              "/member/store/testYunlaba/" + roomId,
               "1",
               "post", {
-                "roomId": roomId
-              },
+              "roomId": roomId
+            },
               app.globalData.userDatatoken.accessToken,
               "",
               function success(info) {
@@ -289,7 +310,7 @@ Page({
                     title: '操作成功',
                     icon: 'success'
                   })
-                }else{
+                } else {
                   wx.showModal({
                     content: info.msg,
                     showCancel: false,
@@ -297,16 +318,16 @@ Page({
                 }
               },
               function fail(info) {
-                
+
               }
             )
-          } 
+          }
         }
       }
     })
   },
   // 清洁并结单
-  clearAndFinish: function(e){
+  clearAndFinish: function (e) {
     let roomId = e.currentTarget.dataset.roomid;
     let that = this;
     wx.showModal({
@@ -316,13 +337,12 @@ Page({
         if (res.cancel) {
         }
         if (res.confirm) {
-          if (app.globalData.isLogin) 
-          {
+          if (app.globalData.isLogin) {
             http.request(
-              "/member/store/clearAndFinish/"+roomId,
+              "/member/store/clearAndFinish/" + roomId,
               "1",
               "get", {
-              },
+            },
               app.globalData.userDatatoken.accessToken,
               "",
               function success(info) {
@@ -334,7 +354,7 @@ Page({
                     icon: 'success'
                   })
                   that.getDoorList();
-                }else{
+                } else {
                   wx.showModal({
                     content: info.msg,
                     showCancel: false,
@@ -342,22 +362,30 @@ Page({
                 }
               },
               function fail(info) {
-                
+
               }
             )
-          } 
+          }
         }
       }
     })
   },
-  previewImage(e){
+  previewImage(e) {
     var currentUrl = e.currentTarget.dataset.src //获取当前点击图片链接
-    wx.previewImage({
-      urls: [currentUrl]
-    })
+    if (currentUrl) {
+      wx.previewImage({
+        urls: [currentUrl]
+      })
+    } else {
+      wx.showModal({
+        content: '请先完善房间信息',
+        showCancel: false,
+      })
+    }
+
   },
-   // 结单
-   finishOrder: function(e){
+  // 结单
+  finishOrder: function (e) {
     let roomId = e.currentTarget.dataset.roomid;
     let that = this
     wx.showModal({
@@ -367,13 +395,12 @@ Page({
         if (res.cancel) {
         }
         if (res.confirm) {
-          if (app.globalData.isLogin) 
-          {
+          if (app.globalData.isLogin) {
             http.request(
-              "/member/store/finishRoomOrder/"+roomId,
+              "/member/store/finishRoomOrder/" + roomId,
               "1",
               "get", {
-              },
+            },
               app.globalData.userDatatoken.accessToken,
               "",
               function success(info) {
@@ -385,7 +412,7 @@ Page({
                     icon: 'success'
                   })
                   that.getDoorList();
-                }else{
+                } else {
                   wx.showModal({
                     content: info.msg,
                     showCancel: false,
@@ -393,15 +420,15 @@ Page({
                 }
               },
               function fail(info) {
-                
+
               }
             )
-          } 
+          }
         }
       }
     })
   },
-  delRoom: function(e){
+  delRoom: function (e) {
     let roomId = e.currentTarget.dataset.id;
     let that = this
     wx.showModal({
@@ -411,13 +438,12 @@ Page({
         if (res.cancel) {
         }
         if (res.confirm) {
-          if (app.globalData.isLogin) 
-          {
+          if (app.globalData.isLogin) {
             http.request(
-              "/member/store/deleteRoomInfo/"+roomId,
+              "/member/store/deleteRoomInfo/" + roomId,
               "1",
               "post", {
-              },
+            },
               app.globalData.userDatatoken.accessToken,
               "",
               function success(info) {
@@ -429,7 +455,7 @@ Page({
                     icon: 'success'
                   })
                   that.getDoorList();
-                }else{
+                } else {
                   wx.showModal({
                     content: info.msg,
                     showCancel: false,
@@ -437,84 +463,84 @@ Page({
                 }
               },
               function fail(info) {
-                
+
               }
             )
-          } 
+          }
         }
       }
     })
   },
-  queryLockPwd: function(e){
+  queryLockPwd: function (e) {
     let that = this;
     let lockData = e.currentTarget.dataset.lockdata;
-    if(lockData){
-     lock.queryLockPwd(lockData);
-   }else{
-     wx.showToast({
-       title: '未使用密码锁',
-     })
-   }
-  },
-  addCard: function(e){
-    let that = this;
-    let lockData = e.currentTarget.dataset.lockdata;
-    if(lockData){
-     lock.addCard(lockData);
-   }else{
-     wx.showToast({
-       title: '未使用密码锁',
-     })
-   }
-  },
-  setLockPwdShow: function(e){
-    let that = this;
-    var lockData = e.currentTarget.dataset.lockdata;
-    if(lockData){
-      that.setData({
-        setLockPwdShow: true,
-        lockData: lockData
-      })
-    }else{
-      wx.showToast({
-       title: '未使用密码锁',
-       icon: 'error'
-     })
-    }
-  },
-  confirmSetLockPwd: function(e){
-     var that=this;
-     var lockData = that.data.lockData;
-     console.log('lockData');
-     console.log(lockData);
-     if(lockData){
-      if(!that.data.lockPwd||that.data.lockPwd<100000){
-        wx.showToast({
-          title: '密码不合法',
-          icon: 'error'
-        })
-      }else{
-        lock.setLockPwd(lockData,that.data.lockPwd);
-        that.setData({
-          setLockPwdShow:false,
-          lockData:'',
-        })
-      }
-    }else{
+    if (lockData) {
+      lock.queryLockPwd(lockData);
+    } else {
       wx.showToast({
         title: '未使用密码锁',
       })
     }
   },
-  addLockCard: function(e){
-    var that=this;
+  addCard: function (e) {
+    let that = this;
     let lockData = e.currentTarget.dataset.lockdata;
-    if(lockData){
+    if (lockData) {
       lock.addCard(lockData);
-   }else{
-     wx.showToast({
-       title: '未使用密码锁',
-     })
-   }
+    } else {
+      wx.showToast({
+        title: '未使用密码锁',
+      })
+    }
+  },
+  setLockPwdShow: function (e) {
+    let that = this;
+    var lockData = e.currentTarget.dataset.lockdata;
+    if (lockData) {
+      that.setData({
+        setLockPwdShow: true,
+        lockData: lockData
+      })
+    } else {
+      wx.showToast({
+        title: '未使用密码锁',
+        icon: 'error'
+      })
+    }
+  },
+  confirmSetLockPwd: function (e) {
+    var that = this;
+    var lockData = that.data.lockData;
+    console.log('lockData');
+    console.log(lockData);
+    if (lockData) {
+      if (!that.data.lockPwd || that.data.lockPwd < 100000) {
+        wx.showToast({
+          title: '密码不合法',
+          icon: 'error'
+        })
+      } else {
+        lock.setLockPwd(lockData, that.data.lockPwd);
+        that.setData({
+          setLockPwdShow: false,
+          lockData: '',
+        })
+      }
+    } else {
+      wx.showToast({
+        title: '未使用密码锁',
+      })
+    }
+  },
+  addLockCard: function (e) {
+    var that = this;
+    let lockData = e.currentTarget.dataset.lockdata;
+    if (lockData) {
+      lock.addCard(lockData);
+    } else {
+      wx.showToast({
+        title: '未使用密码锁',
+      })
+    }
   },
 })

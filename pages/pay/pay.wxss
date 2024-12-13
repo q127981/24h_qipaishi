@@ -1,0 +1,105 @@
+.container{
+    padding: 16rpx 16rpx 200rpx 16rpx;
+}
+
+.control-box {
+    background: #FFFFFF;
+    border-radius: 18rpx 18rpx 18rpx 18rpx;
+    padding: 22rpx 34rpx;
+    font-weight: 400;
+    font-size: 24rpx;
+    color: #252525;
+    margin-top: 26rpx;
+  }
+
+  .storeInfo{
+      display: flex;
+  }
+  .storeInfo image{
+      width: 130rpx;
+      height: 130rpx;
+  }
+  .info-name{
+      display: flex;
+  }
+  .storeInfo text{
+    font-size: 27rpx;
+    margin: auto 0;
+    margin-left: 30rpx;
+  }
+  .top{
+      font-size: 27rpx;
+  }
+  .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30rpx 0;
+    position: relative;  
+  }
+  .shopimage{
+      width: 160rpx;
+      height: 150rpx;
+  }
+  .showmore{
+      display: flex;
+      text-align: center;
+      justify-content: center;
+  }
+  .price-info{
+    border-top: 1px solid #b9b8b8f5;
+  }
+  .price-postiion{
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 20rpx;
+  }
+  .price-info text{
+      font-size: 27rpx;
+  }
+  .price{
+      color: rgb(219, 101, 101);
+  }
+  .pay{
+      display: flex;
+      
+  }
+  .pay text{
+      font-size: 27rpx;
+  }
+  .pay-left{
+      flex: 1;
+      margin: auto;
+  }
+  
+  .right{
+      display: flex;
+      height: 100rpx;
+      width:  200rpx;
+      background-color: rgb(9, 180, 241);
+  }
+  .right text{
+      color: #FFFFFF;
+      margin: auto;
+  }
+  .user-info{
+      display: flex;
+  }
+  .user-info text{
+      margin: auto 0;
+  }
+
+  .jian{
+    padding: 0 20rpx;
+    box-sizing: border-box;
+    height: 30rpx;
+    width: 60rpx;
+    background-color: #ffffff42;
+  }
+  .jia{
+    padding: 0 20rpx;
+    border-radius: 50rpx;
+    box-sizing: border-box;
+    height: 44rpx;
+    width: 60rpx;
+  }

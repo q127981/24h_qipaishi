@@ -120,7 +120,7 @@ Page({
            })
           }else{
             wx.showModal({
-              content: '请求服务异常，请稍后重试',
+              content: info.msg,
               showCancel: false,
             })
           }
@@ -153,7 +153,7 @@ Page({
             })
           }else{
             wx.showModal({
-              content: '请求服务异常，请稍后重试',
+              content: info.msg,
               showCancel: false,
             })
           }
@@ -352,12 +352,18 @@ Page({
       roomName:'',
     })
   },
-  testYunlaba: function(e){
-    let that = this;
-    let roomId = that.data.roomItem.roomId;
+  runStoreYunlaba: function(e){
+    var that = this;
+    if(!that.data.storeId){
+      wx.showModal({
+        content: '请选择门店',
+        showCancel: false,
+      })
+      return
+    }
     wx.showModal({
       title: '提示',
-      content: '房间喇叭将播放预设内容，确定操作吗？',
+      content: '喇叭将播放自定义提示内容，确定操作吗？',
       complete: (res) => {
         if (res.cancel) {
         }
@@ -365,10 +371,56 @@ Page({
           if (app.globalData.isLogin) 
           {
             http.request(
-              "/member/store/testYunlaba/"+roomId,
+              "/member/store/runYunlaba",
               "1",
               "post", {
-                "roomId": roomId
+                "storeId": that.data.storeId,
+              },
+              app.globalData.userDatatoken.accessToken,
+              "",
+              function success(info) {
+                console.info('返回111===');
+                console.info(info);
+                if (info.code == 0) {
+                  wx.showToast({
+                    title: '操作成功',
+                    icon: 'success'
+                  })
+                }else{
+                  wx.showModal({
+                    content: info.msg,
+                    showCancel: false,
+                  })
+                }
+              },
+              function fail(info) {
+                
+              }
+            )
+          } 
+        }
+      }
+    })
+  },
+  testYunlaba: function(e){
+    let that = this;
+    let roomId = that.data.roomItem.roomId;
+    let storeId = that.data.roomItem.storeId;
+    wx.showModal({
+      title: '提示',
+      content: '喇叭将播放自定义提示内容，确定操作吗？',
+      complete: (res) => {
+        if (res.cancel) {
+        }
+        if (res.confirm) {
+          if (app.globalData.isLogin) 
+          {
+            http.request(
+              "/member/store/runYunlaba",
+              "1",
+              "post", {
+                "roomId": roomId,
+                "storeId": storeId,
               },
               app.globalData.userDatatoken.accessToken,
               "",

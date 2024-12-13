@@ -1,4 +1,11 @@
 {
-  "navigationBarTitleText": "余额充值",
-  "usingComponents": {}
-}
+    "navigationBarTitleText": "优惠中心",
+    "usingComponents": {
+      "van-action-sheet": "@vant/weapp/action-sheet/index",
+      "van-radio": "@vant/weapp/radio/index",
+      "van-radio-group": "@vant/weapp/radio-group/index",
+      "custom-tabbar": "../../custom-tab-bar"
+    },
+    "navigationBarBackgroundColor": "#5AAB6E",
+    "navigationBarTextStyle": "white"
+  }

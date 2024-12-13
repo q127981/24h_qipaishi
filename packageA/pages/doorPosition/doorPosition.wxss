@@ -1,0 +1,71 @@
+.mapPage{
+    width: 100%;
+    height: 100%;
+}
+
+.positionInfo{
+    background-color: #fff;
+    margin: 0 5%;
+    width: 90%;
+    height: 100rpx; 
+    margin-top: 40rpx;
+    border-radius: 15rpx 15rpx 0 0;
+    display: flex; 
+    flex-direction: column; 
+}
+
+.infodetail {
+    display: flex;
+    align-items: center; 
+    height: 50%;
+    padding-top: 10rpx;
+    font-size: 32rpx;
+}
+
+.infodetail text {
+    margin-left: 30rpx;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+}
+
+.text-info{
+    color: #999;
+}
+
+.map{
+    margin: 0 5%;
+    width: 90%;
+    height: 560rpx;
+}
+
+.placeholder {
+    margin: 0 5%;
+    width: 90%;
+    display: flex;
+}
+
+.placeholder text {
+    margin: 0 auto;
+    margin-top: 20rpx;
+    color: rgba(129, 129, 129, 0.5);
+}
+
+.button{
+    margin: 30rpx 7%;
+    width: 86%;
+}
+
+.save{
+    background-color: var(--main-color);
+    border-radius: 60rpx;
+    color: #fff;
+}
+
+.back{
+    margin-top: 30rpx;
+    background-color: var(--main-color);
+    border-radius: 60rpx;
+    color: #fff;
+}

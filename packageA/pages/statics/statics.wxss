@@ -1,12 +1,14 @@
 /* pages/statics/statics.wxss */
-page{
+page {
   background: #c7dcfb;
   /* height: 200rpx; */
 }
+
 .container {
-  background:linear-gradient(#c7dcfb, #fff);
+  background: linear-gradient(#c7dcfb, #fff);
 }
-.section{
+
+.section {
   padding: 20rpx 30rpx;
   background: #fff;
   margin: 10rpx;
@@ -14,48 +16,58 @@ page{
   border-radius: 30rpx;
   box-shadow: none;
 }
-.section .title{
+
+.section .title {
   font-size: 32rpx;
   color: #000;
 }
-.section .tabs{
+
+.section .tabs {
   display: flex;
   justify-content: space-between;
 }
-.section .tabs .tab{
+
+.section .tabs .tab {
   width: 150rpx;
   height: 56rpx;
   text-align: center;
   line-height: 56rpx;
   border-radius: 30rpx;
 }
-.section .tabs .active{
-  background: linear-gradient(to right,#f7643b,#eb4f44);
+
+.section .tabs .active {
+  background: linear-gradient(to right, #f7643b, #eb4f44);
   color: #fff;
 }
-.van-tab{
+
+.van-tab {
   font-size: 28rpx !important;
   padding: 0 !important;
 }
-.van-tab--active{
+
+.van-tab--active {
   font-weight: 700 !important;
 }
-.top .box{
+
+.top .box {
   display: flex;
   justify-content: space-between;
 }
-.top .box .item{
+
+.top .box .item {
   width: 50%;
   text-align: center;
   position: relative;
 }
-.top .box .label{
+
+.top .box .label {
   font-size: 32rpx;
   font-weight: bold;
   text-align: center;
   position: relative;
 }
-.top .box .item::after{
+
+.top .box .item::after {
   content: "";
   display: block;
   width: 2rpx;
@@ -66,27 +78,32 @@ page{
   top: 50%;
   /* margin-top: -35rpx; */
 }
-.top .box .item:last-child::after{
+
+.top .box .item:last-child::after {
   display: none;
 }
-.top .box .item .price{
+
+.top .box .item .price {
   font-size: 40rpx;
   font-weight: 700;
   /* margin-top: 10rpx; */
   color: rgb(0, 0, 0);
 }
-.total .box .item .price2{
+
+.total .box .item .price2 {
   font-size: 32rpx;
   font-weight: 700;
   margin-top: 10rpx;
   color: rgb(0, 0, 0);
 }
-.top .btns{
+
+.top .btns {
   display: flex;
   justify-content: center;
   margin-top: 40rpx;
 }
-.top .btns .btn{
+
+.top .btns .btn {
   color: #fff;
   margin: 0 40rpx;
   width: 180rpx;
@@ -97,16 +114,19 @@ page{
   text-align: center;
   border-radius: 8rpx;
 }
-.top .btns .record{
+
+.top .btns .record {
   background: #1dcd42;
 }
-.search{
+
+.search {
   display: flex;
   justify-content: space-evenly;
   /* margin: 20rpx; */
   /* text-align: center; */
 }
-.van-dropdown-menu{
+
+.van-dropdown-menu {
   /* border: 1rpx solid #ddd; */
   height: 60rpx !important;
   border-radius: 50rpx;
@@ -114,20 +134,24 @@ page{
   background: transparent !important;
   box-shadow: none !important;
 }
-.van-dropdown-menu__item{
+
+.van-dropdown-menu__item {
   justify-content: flex-start !important;
 }
-.van-dropdown-menu__title{
+
+.van-dropdown-menu__title {
   width: 100% !important;
   font-size: 32rpx !important;
   text-align: right;
 }
-.total .box .line{
+
+.total .box .line {
   display: flex;
   justify-content: space-between;
   position: relative;
   margin-bottom: 20rpx;
 }
+
 .table-header {
   width: 100%;
   background: #dedede;
@@ -139,6 +163,7 @@ page{
   left: 0;
   z-index: 1;
 }
+
 .table-header view {
   width: 50%;
   justify-content: space-between;
@@ -146,14 +171,16 @@ page{
   line-height: 60rpx;
   margin: 0;
 }
+
 .table-line {
   display: flex;
   justify-content: space-between;
 }
 
-.table-line:first-child{
+.table-line:first-child {
   margin-top: 60rpx;
 }
+
 .table-line:nth-of-type(odd) {
   background: #ededed;
   display: flex;
@@ -167,40 +194,48 @@ page{
   line-height: 60rpx;
   margin: 0;
 }
+
 .table-left {
   border-left: 1rpx solid #ececec;
   border-right: 1rpx solid #ececec;
 }
+
 .table-right {
   border-right: 1rpx solid #ececec;
 }
+
 .box .table2 {
   width: 150rpx;
 }
+
 .box .table3 {
   width: 100rpx;
 }
 
-.total .box .item{
+.total .box .item {
   width: 33.33%;
   text-align: center;
   position: relative;
 }
-.total .box .item .price{
+
+.total .box .item .price {
   font-size: 40rpx;
   font-weight: 700;
   margin-top: 10rpx;
   color: #000;
 }
-.times{
+
+.times {
   display: flex;
   justify-content: space-between;
   margin-top: 40rpx;
 }
-.times .item{
+
+.times .item {
   text-align: center;
 }
-.times .item .time{
+
+.times .item .time {
   font-size: 26rpx;
   color: #666;
   width: 120rpx;
@@ -209,19 +244,23 @@ page{
   text-align: center;
   margin: 0 auto 10rpx;
 }
-.times .active .time{
+
+.times .active .time {
   background: #080808;
   color: #fff;
   border-radius: 30rpx;
 }
-.times .item .tip{
+
+.times .item .tip {
   font-size: 24rpx;
   visibility: hidden;
 }
-.times .active .tip{
+
+.times .active .tip {
   visibility: visible;
 }
-.dialog{ 
+
+.dialog {
   display: flex;
   border: 1rpx solid #ddd;
   border-radius: 10rpx;
@@ -230,37 +269,51 @@ page{
   margin: 30rpx 0;
   font-size: 28rpx;
 }
-.dialog input{
+
+.dialog input {
   height: 70rpx;
   line-height: 70rpx;
   width: 250rpx;
   text-align: center;
 }
-.charts{
+
+.charts {
   margin-top: 10rpx;
   width: 100%;
   height: 400rpx;
   position: relative;
 }
-.roomtime{
+
+.roomtime {
   width: 100%;
   height: 400rpx;
   position: relative;
   font-size: 28rpx;
 }
-.roomtime .box{
+
+.roomtime .box {
   /* writing-mode: vertical-lr; */
   width: 100%;
   height: 400rpx;
   overflow: auto;
   border-bottom: 1rpx solid #ececec;
 }
-.roomtime .title{
+
+.roomtime .title {
   color: #999;
   font-size: 28rpx;
 }
 
-.roomtime .item label{
+.roomtime .item label {
   color: #999;
   margin-right: 20rpx;
+}
+
+.storeName {
+  white-space: nowrap;
+  /* 确保文本在一行内显示 */
+  overflow: hidden;
+  /* 隐藏超出容器的文本 */
+  text-overflow: ellipsis;
+  /* 使用省略号表示被截断的文本 */
 }

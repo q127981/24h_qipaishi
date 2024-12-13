@@ -49,3 +49,13 @@ page{
 .success .info{
   text-align: left;
 }
+.line{
+    display: flex;
+    height: 100rpx;
+}
+.line label{
+    margin: auto 30rpx;
+}
+.line .right{ 
+    margin: auto 0;
+}

@@ -1,0 +1,32 @@
+<!--packageA/pages/configGateWay/index.wxml-->
+<view class="container">
+  <view class="info">
+    <view class="line">1. 打开手机蓝牙设置开关,并靠近网关</view>
+    <view class="line">2. 输入需要配置的Wifi名称和密码</view>
+    <view class="line">3. Wifi仅支持2.4G频段，名称不能有中文</view>
+    <view class="line">4. 将网关重新通电，灯光闪烁时点击“扫描”</view>
+    <view class="line">5. 选择目标网关进行初始化</view>
+  </view>
+  <view class="form">
+    <view class="sn">
+      <label class="label">Wifi：</label>
+      <input class="input" model:value="{{wifiSn}}" disabled="{{checkSuccess}}" type="text" placeholder="请输入WIFI名称" maxlength="16" />
+    </view>
+    <view class="sn">
+      <label class="label">密码：</label>
+      <input class="input" model:value="{{wifiPwd}}" disabled="{{checkSuccess}}" type="text" placeholder="请输入WIFI密码" minlength="8" />
+    </view>
+    <view class="btn" bind:tap="scanGateway">扫描网关</view>
+  </view>
+
+  <view class="list" wx:if="{{checkSuccess}}">
+    <view class="item" wx:for="{{list}}" wx:key="item" class="item">
+      <view class="lock enable">
+        <view>
+          {{item.deviceId}}({{item.deviceName}})
+        </view>
+        <view class="btn" bind:tap="initGateway" data-index="{{item.index}}" wx:if="{{item.isSettingMode}}">初始化</view>
+      </view>
+    </view>
+  </view>
+</view>

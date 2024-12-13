@@ -1,0 +1,192 @@
+/**index.wxss**/
+page{
+    width: 100%;
+    min-height: 100%;
+    padding-bottom: 148rpx;
+  }
+  
+  .mapPage .map{
+    width: 100%;
+    height: 1600rpx;
+  }
+  
+  .store-card {
+    height: 300rpx;
+    width: 630rpx;
+    background-color: #fff;
+    border-radius: 20rpx;
+    margin: 0 15rpx;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20rpx;
+  }
+  
+.store-card__image {
+    width: 200rpx;
+    height: 260rpx;
+    margin: 20rpx;
+    border-radius: 15rpx;
+}
+
+.text-container{
+  width: 100%;
+  position: relative;
+}
+
+.text-container .standard{
+  font-size: 24rpx;
+  line-height: 40rpx;
+  text-align: center;
+  position: absolute;
+  top: 15rpx;
+  width: 120rpx;
+  height: 42rpx;
+  right: 10rpx;
+  background-color: #FFFFFF;
+  color: #5AAB6E;
+  border: 1rpx #5AAB6E solid;
+  border-radius:20rpx;
+}
+
+.text-container .name {
+  width: 252rpx;
+  margin-top: 15rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 3.0em; /* 设置为行高的两倍 */
+  line-height: 1.5em; /* 这里的行高应与下面p标签中的行高一致 */
+}
+
+.text-container .address{
+  font-size: 23rpx;
+  margin-top: 8rpx;
+  color: #686464;
+  /* margin-bottom: 28rpx; */
+  height: 70rpx;
+  margin-right: 4rpx;
+  display: -webkit-box; /* 使用 Flexbox 布局 */
+  -webkit-line-clamp: 2; /* 最多显示两行 */
+  -webkit-box-orient: vertical; /* 设置垂直方向 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-container .room-reserve{
+  color: #5AAB6E ;
+  font-size: 23rpx;
+  display: flex;
+  margin-bottom: 10rpx;
+  margin-right: 20rpx;
+  justify-content: flex-end;
+}
+
+.text-container .tag-primary{
+  display: flex;
+}
+
+.text-container .item-buttom{
+    display: flex;
+    justify-content:space-between;
+}
+
+.text-container .item-buttom .info{
+    display: flex;
+}
+
+.text-container .item-buttom .info .position{
+    font-size: 22rpx;
+    line-height: 40rpx;
+    display: flex;
+    text-align: center;
+    margin: auto;
+    padding: 0rpx 10rpx;
+    border-radius: 10rpx;
+    width: fit-content;
+    color: #5AAB6E;
+    border: 1px solid #5AAB6E;
+}
+
+.text-container .item-buttom .door-button{
+  height: 58rpx;
+  line-height: 58rpx;
+  padding: 0rpx 20rpx;
+  font-size: 28rpx;
+  margin-right: 20rpx;
+  /* line-height: 40rpx; */
+  color: #fff;
+  border-radius: 5px; 
+  background-color: var(--main-color);
+}
+
+
+/* 头部搜索框 */
+.top-search{
+    position: sticky;
+    top: 0; /* 距离容器顶部的距离 */
+    display: flex;
+    z-index: 99;
+    padding: 5rpx 10rpx 20rpx 20rpx;
+    /* margin: 0rpx 0rpx 20rpx 20rpx; */
+    background-color: var(--main-color);
+  }
+  .top-search .left{
+    background: #f7f8fa;
+    margin-right: 20rpx;
+    margin-top: 10rpx;
+    display: flex;
+    padding: 10rpx 0;
+    box-sizing: border-box;
+    width: 100%;
+    height: 77rpx;
+    background: #F7F7F7;
+    border-radius: 52rpx 52rpx 52rpx 52rpx;
+    font-size: 23rpx;
+    align-items: center;
+  }
+  .top-search .label{
+    width: 100rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    border-right: 1rpx solid #ddd;
+  }
+  .top-search .label image {
+    width: 25rpx;
+    height: 25rpx;
+    margin-right: 6rpx;
+  }
+  .top-search .label text{
+    display: block;
+    max-width: 240rpx;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 6rpx;
+  }
+  .top-search .label icon{
+    width: 0;
+    height: 0;
+    border-top: 10rpx solid var(--main-color);
+    border-right: 10rpx solid transparent;
+    border-left: 10rpx solid transparent;
+  }
+  .top-search .input{
+    padding: 0 20rpx;
+  }
+  .top-search .right{
+    color: #F7F7F7;
+    text-align: center;
+    width: 90rpx;
+    padding-top: 16rpx;
+  }
+  
+  .top-search .right text{
+    display: block;
+    font-size: 24rpx;
+  }

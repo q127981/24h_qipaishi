@@ -1,0 +1,29 @@
+/* components/custom-tabbar/custom-tabbar.wxss */
+.custom-tabbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100rpx;
+    background-color: #fff;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .tabbar-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .tabbar-icon {
+    width: 48rpx;
+    height: 48rpx;
+    margin-bottom: 4rpx;
+  }
+  
+  .tabbar-text {
+    font-size: 24rpx;
+  }

@@ -1,0 +1,24 @@
+<view class="container">
+  <view class="info">
+    <view class="line">使用前请先确认目标设备是否支持此方式查找</view>
+    <view class="line">1. 打开手机蓝牙设置开关,并靠近设备</view>
+    <view class="line">2. 安卓手机必须开启定位权限和打开GPS</view>
+    <view class="line">3. 按住设备的开关按钮5秒以上，然后松开</view>
+    <view class="line">4. 看到设备指示灯交替闪烁后，点击扫描</view>
+    <view class="line">5. 将扫描出的结果，发送给客服查询</view>
+  </view>
+  <view class="form">
+    <view class="btn" bind:tap="scanStart">扫描</view>
+    <view class="btn" bind:tap="scanStop">停止</view>
+  </view>
+  <view class="text" wx:if="{{list.length>0}}">找到附近{{list.length}}个设备</view>
+  <view class="list" wx:if="{{list.length>0}}">
+    <view class="item" wx:for="{{list}}" wx:key="item" class="item">
+      <view class="lock">
+        <view>
+          {{item.name}}
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

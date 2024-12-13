@@ -1,8 +1,8 @@
 page {
-    --main-color: #1684fc;
-    --main-color-shadow: #92bce9;
-    --main-green: #65c768;
-    --main-red: #e24848;
+    --main-color: #5AAB6E;
+    --main-color-shadow: #4b905c;
+    --main-green: #6AB37C;
+    --main-red: #F8525E;
     --main-blue: #5abdff;
     --main-gray: #a4a4a4;
     --main-orange: #ffbb01;

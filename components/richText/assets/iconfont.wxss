@@ -1,0 +1,105 @@
+@font-face {
+    font-family: 'iconfont';
+      /* Project id 4312666 */
+    src: url('//at.alicdn.com/t/c/font_4312666_a6vdb3nkp8f.woff2?t=1731653943029') format('woff2'),
+         url('//at.alicdn.com/t/c/font_4312666_a6vdb3nkp8f.woff?t=1731653943029') format('woff'),
+         url('//at.alicdn.com/t/c/font_4312666_a6vdb3nkp8f.ttf?t=1731653943029') format('truetype');
+  }
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 富文本-右箭头 */
+.icon-backright::before {
+    content: "\e608";
+}
+
+/* 富文本-斜体 */
+.icon-xieti::before {
+    content: "\e700";
+}
+
+/* 富文本-日历 */
+.icon-rili::before {
+    content: "\e89e";
+}
+
+/* 富文本-居中对齐 */
+.icon-duiqicenter::before {
+    content: "\e882";
+}
+
+/* 富文本-todolist */
+.icon-todolist::before {
+    content: "\e6e0";
+}
+
+/* 富文本-左退回 */
+.icon-backleft::before {
+    content: "\e613";
+}
+
+/* 富文本-字体下划线 */
+.icon-xiahuaxian::before {
+    content: "\e65e";
+}
+
+/* 富文本-H1标签 */
+.icon-h1::before {
+    content: "\e61a";
+}
+
+/* 富文本-左对齐 */
+.icon-duiqileft::before {
+    content: "\e630";
+}
+
+/* 富文本-选择图片 */
+.icon-choosepicture::before {
+    content: "\e62d";
+}
+
+/* 富文本-垃圾桶 */
+.icon-rubbish::before {
+    content: "\e634";
+}
+
+/* 富文本-平分大小 */
+.icon-averagesize::before {
+    content: "\e688";
+}
+
+/* 富文本-字体功能 */
+.icon-moredo::before {
+    content: "\e68a";
+}
+
+/* 富文本-加粗字体 */
+.icon-weight::before {
+    content: "\e6eb";
+}
+
+/* 富文本-点排序 */
+.icon-diansort::before {
+    content: "\e60f";
+}
+
+/* 富文本-数字排序 */
+.icon-shuzisort::before {
+    content: "\e610";
+}
+
+/* 富文本-右对齐 */
+.icon-duiqiright::before {
+    content: "\e602";
+}
+
+/* 富文本-分割横线 */
+.icon-fengexian::before {
+    content: "\e603";
+}

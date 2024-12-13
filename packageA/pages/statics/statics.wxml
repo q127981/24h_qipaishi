@@ -1,10 +1,10 @@
 <!--pages/statics/statics.wxml-->
 <view class="container">
   <view class="search">
-      <van-dropdown-menu active-color="{{mainColor}}">
-        <van-dropdown-item value="{{ storeId }}" options="{{ stores }}"  bind:change="storeDropdown"/>
-      </van-dropdown-menu>
-    </view>
+    <van-dropdown-menu active-color="{{mainColor}}">
+      <van-dropdown-item value="{{ storeId }}" options="{{ stores }}" bind:change="storeDropdown" />
+    </van-dropdown-menu>
+  </view>
   <view class="section top">
     <view class="box">
       <view class="item">
@@ -24,44 +24,48 @@
       <button hover-class="button-click"  class="btn bg-primary" bindtap="cashOut">申请提现</button>
       <navigator class="btn record" url="../cashOut/cashOut">提现记录</navigator>
     </view> -->
-   
+
   </view>
   <view class="section total">
     <view class="box">
-    <view class="line">
-      <view class="item">
-        <view class="label color-primary">总收入</view>
-        <view class="price2">{{businfo.total}}</view>
+      <view class="line">
+        <view class="item">
+          <view class="label color-primary">总收入</view>
+          <view class="price2">{{businfo.total}}</view>
+        </view>
+        <view class="item">
+          <view class="label color-primary">订单数</view>
+          <view class="price2">{{businfo.orderCount}}</view>
+        </view>
+        <view class="item">
+          <view class="label color-primary">用户数</view>
+          <view class="price2">{{businfo.userCount}}</view>
+        </view>
+        <view class="item">
+          <view class="label color-primary">预订</view>
+          <view class="price2">{{businfo.ydMoney}}</view>
+        </view>
       </view>
-      <view class="item">
-        <view class="label color-primary">订单数</view>
-        <view class="price2">{{businfo.orderCount}}</view>
+      <view class="line">
+        <view class="item">
+          <view class="label color-primary">微信</view>
+          <view class="price2">{{businfo.money}}</view>
+        </view>
+        <view class="item">
+          <view class="label color-primary">美团</view>
+          <view class="price2">{{businfo.mtMoney}}</view>
+        </view>
+        <view class="item">
+          <view class="label color-primary">抖音</view>
+          <view class="price2">{{businfo.dyMoney}}</view>
+        </view>
+        <view class="item">
+          <view class="label color-primary">快手</view>
+          <view class="price2">{{businfo.ksMoney}}</view>
+        </view>
       </view>
-      <view class="item">
-        <view class="label color-primary">下单用户数</view>
-        <view class="price2">{{businfo.userCount}}</view>
-      </view>
-    </view>
-    <view class="line">
-      <view class="item">
-        <view class="label color-primary">微信</view>
-        <view class="price2">{{businfo.money}}</view>
-      </view>
-      <view class="item">
-        <view class="label color-primary">美团</view>
-        <view class="price2">{{businfo.mtMoney}}</view>
-      </view>
-      <view class="item">
-        <view class="label color-primary">抖音</view>
-        <view class="price2">{{businfo.dyMoney}}</view>
 
-      </view> <view class="item">
-        <view class="label color-primary">快手</view>
-        <view class="price2">{{businfo.ksMoney}}</view>
-      </view>
-    </view>
-     
-     
+
       <!-- <view class="item">
         <view class="label">下单人数</view>
         <view class="price">{{businfo.memberCount}}</view>
@@ -181,18 +185,18 @@
     <view class="title">收入统计</view>
     <van-tabs active="{{ active3 }}" bind:change="onChange" data-type="3" title-active-color="{{mainColor}}" color="{{mainColor}}" title-inactive-color="#333">
       <van-tab title="收入明细">
-      <view class="charts">
+        <view class="charts">
           <block wx:if="{{income.length}}">
             <view class="roomtime">
               <view class="item table-header">
-                  <view class="table1">门店名称</view>
-                  <view class="table2">金额(元)</view>
-                  <view class="table3">类型</view>
-                  <view class="table4">时间</view>
-                </view>
+                <view class="table1">门店名称</view>
+                <view class="table2">金额(元)</view>
+                <view class="table3">类型</view>
+                <view class="table4">时间</view>
+              </view>
               <view class="box">
                 <view class="item table-line" wx:for="{{income}}" wx:key="item">
-                  <view class="table1">{{item.storeName}}</view>
+                  <view class="table1 storeName">{{item.storeName}}</view>
                   <view class="table2">{{item.price}}</view>
                   <view class="table3">{{item.payType}}</view>
                   <view class="table4">{{item.createTime}}</view>
@@ -224,17 +228,17 @@
         </view>
       </van-tab>
       <van-tab title="充值明细">
-      <view class="charts">
+        <view class="charts">
           <block wx:if="{{recharge.length}}">
             <view class="roomtime">
               <view class="item table-header">
-                  <view class="table1">门店名称</view>
-                  <view class="table2">金额(元)</view>
-                  <view class="table4">时间</view>
-                </view>
+                <view class="table1">门店名称</view>
+                <view class="table2">金额(元)</view>
+                <view class="table4">时间</view>
+              </view>
               <view class="box">
                 <view class="item table-line" wx:for="{{recharge}}" wx:key="item">
-                  <view class="table1">{{item.storeName}}</view>
+                  <view class="table1 storeName">{{item.storeName}}</view>
                   <view class="table2">{{item.price}}</view>
                   <view class="table4">{{item.createTime}}</view>
                 </view>
@@ -266,8 +270,8 @@
       </van-tab>
     </van-tabs>
   </view>
-   <!-- 房间使用情况 -->
-   <view class="section">
+  <!-- 房间使用情况 -->
+  <view class="section">
     <view class="title">房间使用情况</view>
     <van-tabs active="{{ active2 }}" bind:change="onChange" data-type="2" title-active-color="{{mainColor}}" color="{{mainColor}}" title-inactive-color="#333">
       <van-tab title="使用率">
@@ -303,9 +307,9 @@
           <block wx:if="{{roomtime.length}}">
             <view class="roomtime">
               <view class="item table-header">
-                  <view class="table-left">日期</view>
-                  <view class="table-right">时长(小时)</view>
-                </view>
+                <view class="table-left">日期</view>
+                <view class="table-right">时长(小时)</view>
+              </view>
               <view class="box">
                 <view class="item table-line" wx:for="{{roomtime}}" wx:key="item">
                   <view class="table-left">{{item.key}}</view>
@@ -341,14 +345,7 @@
   </view>
 </view>
 <!-- 自定义弹窗 -->
-<van-dialog
-  use-slot
-  title="自定义"
-  show="{{ show }}"
-  zIndex="99"
-  bind:confirm="onConfirm2"
-  before-close="{{beforeCloseFunction}}"
->
+<van-dialog use-slot title="自定义" show="{{ show }}" zIndex="99" bind:confirm="onConfirm2" before-close="{{beforeCloseFunction}}">
   <view class="dialog" bindtap="goSearch">
     <view class="iconfont icon-date"></view>
     <input type="text" placeholder="开始时间" disabled value="{{start}}" />
@@ -357,12 +354,4 @@
   </view>
 </van-dialog>
 <!-- 日期选择弹窗 -->
-<van-calendar
-  show="{{ dateShow }}"
-  type="range"
-  bind:close="onClose"
-  bind:confirm="onConfirm"
-  show-confirm="{{ false }}"
-  allow-same-day
-  min-date="{{ minDate }}"
-/>
+<van-calendar show="{{ dateShow }}" type="range" bind:close="onClose" bind:confirm="onConfirm" show-confirm="{{ false }}" allow-same-day min-date="{{ minDate }}" />

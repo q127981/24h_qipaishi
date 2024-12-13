@@ -13,7 +13,7 @@ Page({
     orderInfo: '',
     doorList: [],
     roomId: '',
-    roomType:'',//房间类型
+    roomType: '',//房间类型
   },
 
   /**
@@ -23,10 +23,10 @@ Page({
     var orderInfo = JSON.parse(options.orderInfo)
     console.info('房间信息111===');
     console.info(orderInfo);
-    this.setData({orderInfo: orderInfo})
+    this.setData({ orderInfo: orderInfo })
     this.getuserinfo()
     this.getDoorList()
-    if(options.roomType){
+    if (options.roomType) {
       this.setData({
         roomType: orderInfo.roomType
       })
@@ -81,15 +81,15 @@ Page({
   onShareAppMessage() {
 
   },
-  
-  getuserinfo:function(){
+
+  getuserinfo: function () {
     var that = this;
     if (app.globalData.isLogin) {
       http.request(
         "/member/user/get",
         "1",
         "get", {
-        },
+      },
         app.globalData.userDatatoken.accessToken,
         "",
         function success(info) {
@@ -97,12 +97,12 @@ Page({
           console.info(info);
           if (info.code == 0) {
             that.setData({
-              userinfo:info.data,
+              userinfo: info.data,
             })
           }
         },
         function fail(info) {
-          
+
         }
       )
     } else {
@@ -110,16 +110,16 @@ Page({
     }
   },
   //获取房间列表
-  getDoorList:function(e){
+  getDoorList: function (e) {
     var that = this;
     //if (app.globalData.isLogin) 
     {
       http.request(
-        "/member/index/getRoomInfoList/"+that.data.orderInfo.storeId,
+        "/member/index/getRoomInfoList/" + that.data.orderInfo.storeId,
         "1",
         "post", {
-          "storeId": that.data.orderInfo.storeId
-        },
+        "storeId": that.data.orderInfo.storeId
+      },
         app.globalData.userDatatoken.accessToken,
         "获取中...",
         function success(info) {
@@ -129,7 +129,7 @@ Page({
             that.setData({
               doorList: info.data
             });
-          }else{
+          } else {
             wx.showModal({
               content: info.msg,
               showCancel: false,
@@ -137,58 +137,57 @@ Page({
           }
         },
         function fail(info) {
-          
+
         }
       )
-    } 
+    }
   },
-  call:function () {
+  call: function () {
     let that = this
-    if(that.data.orderInfo.kefuPhone.length>0){
+    if (that.data.orderInfo.kefuPhone.length > 0) {
       //console.log("拨打电话+++")
       wx.makePhoneCall({
-        phoneNumber:that.data.orderInfo.kefuPhone,
-        success:function () {
+        phoneNumber: that.data.orderInfo.kefuPhone,
+        success: function () {
           //console.log("拨打电话成功！")
         },
-        fail:function () {
+        fail: function () {
           //console.log("拨打电话失败！")
         }
       })
     }
   },
-  choose: function(e){
+  choose: function (e) {
     var that = this
     var info = e.currentTarget.dataset.info
     var roomId = info.roomId
     //禁用状态无法更换
-    if(that.data.roomType>=info.type || info.status==0 || info.type>this.data.orderInfo.roomType){
+    if (that.data.roomType >= info.type || info.status == 0 || info.type > this.data.orderInfo.roomType) {
       return
     }
     this.setData({
       roomId: roomId
     })
   },
-  submit: function(){
+  submit: function () {
     var that = this
     var roomId = that.data.roomId
     var orderId = that.data.orderInfo.orderId
-    if(roomId===''){
+    if (roomId === '') {
       wx.showToast({
         title: '请选择房间',
         icon: 'none'
       })
       return
     }
-    if (app.globalData.isLogin) 
-    {
+    if (app.globalData.isLogin) {
       http.request(
-        "/member/order/changeRoom/"+orderId+"/"+roomId,
+        "/member/order/changeRoom/" + orderId + "/" + roomId,
         "1",
         "post", {
-          "orderId": orderId,
-          "roomId": roomId,
-        },
+        "orderId": orderId,
+        "roomId": roomId,
+      },
         app.globalData.userDatatoken.accessToken,
         "",
         function success(info) {
@@ -201,7 +200,7 @@ Page({
             setTimeout(() => {
               wx.navigateBack()
             }, 1000);
-          }else{
+          } else {
             wx.showModal({
               content: info.msg,
               showCancel: false,
@@ -209,9 +208,9 @@ Page({
           }
         },
         function fail(info) {
-          
+
         }
       )
-    } 
+    }
   }
 })

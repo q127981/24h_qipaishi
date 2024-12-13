@@ -1,35 +1,94 @@
 <!--pages/recharge/recharge.wxml-->
-<view class="container">
-  <view class="section">
-    <view class="top">
-      <view class="item">账户余额:<text>{{balance}}</text>元</view>
-      <view class="item">赠送余额:<text>{{giftBalance}}</text>元</view>
-    </view>
+<block wx:if="{{isLogin}}">
+  <view class="container">
     <view class="name">
-      <text>充值门店：</text>
-      <picker bindchange="bindStoreChange" range-key="key" value="{{index}}" range="{{stores}}">
-        <view class="picker">{{stores[index].key}}<text class="iconfont icon-xuanzex"></text></view>
-      </picker>
-    </view>
-    <view class="color-primary label">充值金额</view>
-    <view class="list">
-      <view class="{{payMoney==item.payMoney?'border-primary item active':'border-primary item'}}" wx:for="{{discount}}" wx:key="item" bindtap="choose" data-info="{{item.payMoney}}">
-        <view class="price"><text>{{item.payMoney}}</text>元</view>
-        <view class="color-primary add">加赠{{item.giftMoney}}元</view>
+      <view class="info">
+        <iconfont name="iov-store" size="24"></iconfont>
+        <picker class="picker" bindchange="bindStoreChange" range-key="key" value="{{index}}" range="{{stores}}">
+          <view class="label">
+            <view>{{stores[index].key}}</view>
+            <view class="change-btn">
+              切换门店
+            </view>
+          </view>
+        </picker>
       </view>
-      <!-- <view class="border-primary item">
-        <view class="price"><text>150</text>元</view>
-        <view class="color-primary add">加赠40元</view>
-      </view> -->
     </view>
+    <view class="section">
+      <view class="top">
+        <image src="../static/icon/wallet.png" />
+        <text>我的余额</text>
+      </view>
+      <view class="account">
+        <view class="item" style="margin-right: 100rpx;">
+          <image src="../static/icon/balance-account.png" />
+          <view>
+            <text class="num">{{balance}}</text>
+            <text>账户余额</text>
+          </view>
+        </view>
+        <view class="item">
+          <image src="../static/icon/send.png" />
+          <view>
+            <text class="num">{{giftBalance}}</text>
+            <text>赠送余额</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="select-box">
+      <view class="{{payMoney==item.payMoney?'item active':'item'}}" wx:for="{{discount}}" wx:key="item" bindtap="choose" data-info="{{item.payMoney}}">
+        <view class="num">
+          ¥<text>{{item.payMoney}}</text>
+        </view>
+        <text class="red">到账{{item.payMoney + item.giftMoney}}元</text>
+        <view class="tag" wx:if="{{item.giftMoney}}">优惠</view>
+      </view>
+      <view wx:if="{{discount.length==0}}" class="noRules">
+        <view class="text">管理员未添加充值规则</view>
+      </view>
+    </view>
+    <view class="control-title">
+      {{ ['充值说明', '购买须知'][modeIndex] }}
+    </view>
+    <view class="section" wx:if="{{modeIndex === 0}}">
+      <view class="line">1. 余额终身有效!可以下单时支付、续费。</view>
+      <view class="line">2. 余额按门店独立结算，仅充值时选中的门店可使用,请仔细确认充值的门店是否正确！</view>
+      <view class="line">3. 您下单时系统会优先扣除账户余额，扣除完毕后再扣除赠送余额。</view>
+      <view class="line">4. 充值实时到账，如出现已扣费但未到账的情况，请您联系客服处理。</view>
+      <view class="line">5. 充值赠送活动以页面实时显示为准！</view>
+    </view>
+    <view class="section" wx:if="{{modeIndex === 1}}">
+      <view class="line">1、包时卡购买后，已使用过的不支持退款；未使用过的，到期后将自动退款，也可以主动申请退款;</view>
+      <view class="line">2、使用包时卡，在可用的门店、包间类型、可用星期、可用时间符合的情况下，允许免费使用一个包间；</view>
+      <view class="line">3、使用包时卡下单时，若房间后续时间已有其他用户下单，则会默认结束时间为其他订单开始前。</view>
+      <view class="line">4、包时卡订单预订后，该房间将被一直占用，直到订单结束。在此期间其他用户无法预订此房间；</view>
+      <view class="line">5、包时卡订单，必须点击主动离店才会结束订单、解除房间占用；或截止此卡可用时间后，系统自动结束订单，房间变为待清洁状态；</view>
+      <view class="line">6、若需在超过所购包时卡的可用时间范围外继续消费，则可以按照订单原件支付费用进行订单续费;</view>
+      <view class="line">7、本活动最终解释权归商家所有;</view>
+    </view>
+    <button class="bg-primary paybtn {{isIpx?'fix-iphonex-button':''}}" disabled="{{payMoney==''}}" wx:if="{{modeIndex === 0}}" bind:tap="submitpay">立即充值</button>
+    <button class="bg-primary paybtn {{isIpx?'fix-iphonex-button':''}}" disabled="{{selectedPackIndex==-1}}" wx:if="{{modeIndex === 1}}" bind:tap="showConfirm">立即支付</button>
   </view>
-  <view class="section">
-    <view class="title">温馨提示</view>
-    <view class="line">1. 余额终身有效!可以下单时支付、续费。</view>
-    <view class="linered">2. 余额按门店独立结算，仅充值时选中的门店可使用,请仔细确认充值的门店是否正确！</view>
-    <view class="linered">3. 您下单时系统会优先扣除账户余额，扣除完毕后再扣除赠送余额。</view>
-    <view class="line">4. 充值实时到账，如出现已扣费但未到账的情况，请您联系客服处理。</view>
-    <view class="line">5. 充值赠送活动以页面实时显示为准！</view>
+</block>
+<block wx:else="">
+  <view class="containerlogin">
+    <view class="photo">
+      <view class="img">
+        <image src="/logo.png" mode="widthFix" />
+      </view>
+      <view class="name">{{appName}}</view>
+    </view>
+    <button hover-class="button-click" class="loginBtn bg-primary" bindgetphonenumber="phone" open-type="getPhoneNumber">一键登录</button>
   </view>
-<button class="bg-primary paybtn" disabled="{{payMoney==''}}" bind:tap="submitpay">立即支付</button>
-</view>
+</block>
+
+<van-action-sheet show="{{ showStoreSelect }}" actions="{{ storeList }}" bind:close="onClose" bind:select="onSelect" />
+<van-dialog use-slot title="确认购买" show="{{ showBuyConfirm }}" show-cancel-button bind:close="onCloseBuy" bind:confirm="preBuyCard">
+  <view class="check-box">
+    <van-radio-group bind:change="onPayTypeChange" direction="horizontal" value="{{'1'}}">
+      <van-radio name="1" checked-color="#5AAB6E">微信支付</van-radio>
+      <van-radio name="2" checked-color="#5AAB6E" wx:if="{{currentPack.balanceBuy}}">余额支付</van-radio>
+    </van-radio-group>
+  </view>
+</van-dialog>

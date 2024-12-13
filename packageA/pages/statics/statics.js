@@ -363,6 +363,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    if(options.storeId){
+        this.setData({storeId: options.storeId})
+      }
     var date = Moment().format('YYYY-MM-DD'); //获取当前时间并格式化输出
     var date_2 = Moment().format('MM-DD');
     var date_3 = Moment().format('MM-DD');
@@ -479,7 +482,7 @@ Page({
             })
           }else{
             wx.showModal({
-              content: '请求服务异常，请稍后重试',
+              content: info.msg,
               showCancel: false,
             })
           }

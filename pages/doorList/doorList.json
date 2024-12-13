@@ -1,5 +1,10 @@
 {
-  "navigationStyle": "custom",
-  "navigationBarTextStyle": "white",
-  "usingComponents": {}
+    "navigationBarTextStyle": "white",
+    "usingComponents": {
+        "tap-ball": "../../components/tapBall/tapBall",
+        "custom-tabbar": "../../custom-tab-bar"
+      },
+    "navigationBarBackgroundColor": "#5AAB6E",
+    "backgroundColor": "#5AAB6E",
+    "navigationBarTitleText": "门店选择"
 }

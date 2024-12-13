@@ -265,6 +265,12 @@ Page({
       }
     )
   },
+  goDoorManage:function(e){
+    let storeInfo = e.currentTarget.dataset.info
+    wx.navigateTo({
+        url: '/packageA/pages/doorManage/doorManage?storeInfo='+encodeURIComponent(JSON.stringify(storeInfo)),
+      })
+  },
   // 打开大门
   openStoreDoor:function(e){
     let id = e.currentTarget.dataset.info
@@ -282,7 +288,7 @@ Page({
         console.info(info);
         if (info.code == 0) {
           wx.showToast({
-            title: "操作成功",
+            title: "开门成功",
             icon: 'success'
           })
         }else{

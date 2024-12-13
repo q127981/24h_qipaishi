@@ -1,0 +1,154 @@
+<!-- <block>
+  <view class="tabs">
+    <van-dropdown-menu active-color="{{mainColor}}">
+      <van-dropdown-item value="{{ store }}" options="{{ storeOption }}" bind:change="storeFilter" />
+      <van-dropdown-item value="{{ status }}" options="{{ statusOption }}" bind:change="statusFilter" />
+    </van-dropdown-menu>
+  </view>
+</block> -->
+<scroll-view scroll-y="true" bindscrolltolower="onReachBottom">
+<view class="container">
+    <view class="tabs">
+    <view class="{{item.id===status?'tab border-primary color-primary active':'tab'}}" wx:for="{{tabs}}" wx:key="item" bindtap="tabChange" data-status="{{item.id}}">{{item.name}}</view>
+  </view>
+    <!-- 列表 -->
+  <view class="lists" style="flex: 1;">
+    <view class="list">
+    <block wx:if="{{productOrderList.length>0}}">
+    <view style="width: 100%;margin-top: 120rpx;"></view>
+        <view wx:for="{{productOrderList}}" wx:key="index">
+            <view class="store-card">
+                <view class="item">
+                <view data-storeid="{{item.storeId}}" data-orderid="{{item.orderId}}" bind:tap="orderInfo">
+                <view class="order-top">
+                        <view class="store-name">
+                            <text class="name">{{item.storeName}}</text>
+                            <view wx:if="{{item.status ==0}}" class="status-css wait">
+                                <text>待支付</text>
+                            </view>
+                            <view wx:if="{{item.status ==1}}" class="status-css send">
+                                <text>待配送</text>
+                            </view>
+                            <view wx:if="{{item.status ==2}}" class="status-css end">
+                                <text>已完成</text>
+                            </view>
+                            <view wx:if="{{item.status ==3}}" class="status-css cancel">
+                                <text>已取消</text>
+                            </view>
+                        </view>
+                        <view class="price">
+                        <text>￥{{item.payPrice}}</text>
+                        </view>
+                    </view>
+                    <view class="time-num">
+                        <view class="order-time">
+                            <text>{{item.createTime}}</text>
+                        </view>
+                        <view class="buy-num">
+                            <text>共{{item.productNum}}件</text>
+                        </view>
+                    </view>
+                    </view>
+                    <view class="user-info">
+                        <view class="user-name">
+                            <text>{{item.userName}}</text>
+                        </view>
+                        <view class="user-phoen" bind:tap="call" data-orderid="{{item.orderId}}">
+                            <text>{{item.userPhone}}</text>
+                            <iconfont name="dianhua1" size="20"></iconfont>
+                        </view>
+                    </view>
+                    <view class="xian"></view>
+                    <view wx:for="{{isShowAll ? item.productInfoVoList : item.productInfoVoListThree}}" wx:for-index="InfoIndex" wx:for-item="productInfoIndex" wx:key="InfoIndex">
+                        <view class="productInfo">
+                            <view class="image">
+                                <image src="{{productInfoIndex.image}}" style="height: 100rpx;width: 100rpx;"/>
+                            </view>
+                            <view class="attrs">
+                                <view> <text>{{productInfoIndex.name}}</text></view>
+                                <view> <text>{{productInfoIndex.valueStr}}</text> </view>
+                            </view>
+                            <view class="price-num">
+                                <view style="display: flex;">
+                                    <view class="product-price">￥{{productInfoIndex.price}}</view>
+                                    <view class="product-number">x{{productInfoIndex.number}}</view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="showmore" wx:if="{{item.productInfoVoList.length > 3}}" bind:tap="showMore">
+                        <iconfont name="{{isShowAll ? 'jiantou_liebiaoshouqi_o' : 'jiantou_liebiaozhankai_o'}}" size="15"></iconfont>
+                        <text>{{isShowAll ? '收起' : '展示更多'}}</text>
+                    </view>
+                    <view class="xian"></view>
+                    <view class="remark">
+                        <view style="margin: auto 0;">
+                            <text style="margin-left: 10rpx;color: rgb(102, 101, 101); display: block; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">备注：{{item.mark}}</text>
+                        </view>
+                    </view>
+                <!-- </view> -->
+                    
+                    <view class="bottom-button" wx:if="{{item.status == 0 || item.status == 1}}">
+                        <button size="mini" class="to-pay" bind:tap="tpPay" wx:if="{{item.status == 0 && !manager}}" data-orderId="{{item.orderId}}">支付</button>
+                        <button size="mini" class="cancel-button" bind:tap="showCancel" data-orderNo="{{item.orderNo}}">取消</button>
+                        <button size="mini" class="to-pay" bind:tap="showFinish" wx:if="{{item.status == 1 && manager}}" data-orderId="{{item.orderId}}">完成</button>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view style="width: 100%;margin-bottom: 100rpx;display: flex;">
+            <view style="margin: auto;margin-top: 30rpx;" wx:if="{{!hasMore}}">没有更多啦~</view>
+        </view>
+    </block>
+    <block wx:else>
+      <view style="display: flex;height: 80vh;width: 100%;">
+          <view class="noStoreInfo">
+                <view>
+                    <image class="noStore-image" src="/pages/static/img/no-blackList.png" mode="scaleToFill" />
+                </view>
+                <text>
+                暂无订单
+                </text>
+           </view>
+      </view>
+    </block>
+    </view>
+  </view>
+</view>
+</scroll-view>
+
+<!-- 取消弹出层提示 -->
+<van-popup round show="{{ showCancel }}">
+  <view class="pop">
+    <view class="title">
+      <text>取消订单</text>
+    </view>
+    <view class="content">
+        <view>
+           <text>确定要取消订单吗？</text>
+        </view>
+    </view>
+    <view class="button-group">
+      <button size="mini" class="confrim" bindtap="cancelPay">确定</button>
+      <button size="mini" class="cancel" bindtap="closeShow">取消</button>
+    </view>
+  </view>
+</van-popup>
+
+<!-- 完成弹出层提示 -->
+<van-popup round show="{{ showFinish }}">
+  <view class="pop">
+    <view class="title">
+      <text>完成订单</text>
+    </view>
+    <view class="content">
+        <view>
+           <text>确定要完成订单吗？</text>
+        </view>
+    </view>
+    <view class="button-group">
+      <button size="mini" class="cancel" bindtap="finishOrder">确定</button>
+      <button size="mini" class="confrim" bindtap="closeFinishShow">取消</button>
+    </view>
+  </view>
+</van-popup>

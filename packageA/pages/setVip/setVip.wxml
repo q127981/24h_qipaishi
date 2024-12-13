@@ -44,7 +44,7 @@
               <text>{{item.orderCount}}</text>
               单
             </view>
-            <view class="info" wx:if="{{!isSelect}}">
+            <!-- <view class="info" wx:if="{{!isSelect}}">
               账户余额：
               <text>{{item.balance}}</text>
               元
@@ -53,11 +53,11 @@
               赠送余额：
               <text>{{item.giftBalance}}</text>
               元
-            </view>
+            </view> -->
           </view>
         </view>
          <!-- 会员管理 -->
-         <view class="btns">
+         <!-- <view class="btns">
             <button class="btn red" bind:tap="recharge" data-info="{{item}}">余额充值</button>
             <navigator class="btn red" url="../setCoupon/setCoupon?isSelect=1&&userId={{item.id}}">
               赠送优惠券
@@ -65,7 +65,10 @@
             <navigator class="btn red" url="../SetOrder/SetOrder?userId={{item.id}}">
               查看订单
             </navigator>
-          </view>
+          </view> -->
+          <view class="button-wrapper">  <!-- 添加一个包裹按钮的容器 -->
+            <button class="btn-more" bindtap="toDetail" data-info="{{item}}">详情</button>
+           </view>
       </view>
     </view>
     <view wx:if="{{canLoadMore}}" class="noteMore">下拉刷新查看更多...</view>

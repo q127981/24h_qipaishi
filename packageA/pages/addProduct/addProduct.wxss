@@ -1,0 +1,119 @@
+.container{
+    padding: 16rpx 16rpx 200rpx 16rpx;
+}
+
+.line{
+    display: flex;
+    margin-bottom: 16rpx;
+    padding-top: 30rpx;
+    background-color: #fff;
+  }
+
+  .line label{
+    width: 220rpx;
+    line-height: 60rpx;
+    color: #646566;
+    font-size: 25rpx;
+    padding-left: 30rpx;
+  }
+
+  .line .right{
+    width: 540rpx;
+  }
+
+  /* 商品规格 */
+  .Specification{
+      display: flex;
+  }
+  .added-items{
+      margin-top: 12rpx;
+      margin-bottom: 20rpx;
+      background-color: #fff;
+  }
+  .name{
+      display: flex;
+      font-size: 29rpx;
+  }
+  .property-value{
+    display: flex;
+    margin: auto 0;
+    font-size: 29rpx;
+  }
+  .value{
+      display: flex;
+      margin-top: 10rpx;
+  }
+  .value-item{
+    display: flex;
+    width: fit-content;
+    margin: auto;
+    margin-left: 8rpx;
+    text-align: center;
+    justify-content: center;
+    background-color: rgb(236, 245, 255);
+  }
+  .add-button{
+      margin: 0;
+      margin-left: 5rpx;
+  }
+  .dialog-item{
+      display: flex;
+      margin-left: 50rpx;
+      margin-bottom: 20rpx;
+  }
+  .propertyImage{
+    margin-left: 20rpx;
+    width: fit-content;
+  }
+  .submit{
+    width: 100%;
+    height: 90rpx;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    background: #fff;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 9999;
+    background-color: #f4f4f4;
+    justify-content: space-between;
+    padding-top: 30rpx;
+  }
+  .submit button{
+    width: 45%;
+    border-radius: 0;
+    font-size: 30rpx;
+    height:90rpx;
+    line-height: 90rpx;
+    padding: 0;
+    background-color: #fff;
+  }
+  .fix-iphonex-button {
+    bottom: 68rpx !important;
+  }
+  
+  .fix-iphonex-button::after {
+    content: ' ';
+    position: fixed;
+    bottom: 0 !important;
+    height: 68rpx !important;
+    width: 100%;
+    left: 0;
+    background: #f4f4f4;
+  }
+  
+  .fix-iphonex-button.transparent::after {
+    content: ' ';
+    position: fixed;
+    bottom: 0 !important;
+    height: 68rpx !important;
+    width: 100%;
+    left: 0;
+    background: none;
+  }
+  
+  .flex-space-between {
+    display: flex;
+    justify-content: space-between;
+  }

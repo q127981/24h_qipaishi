@@ -1,0 +1,43 @@
+<view class="container">
+  <view class="top-search">
+    <view class="left">
+      <view class="label" bindtap="goLocation">
+        <iconfont name="sousuo"></iconfont>
+      </view>
+      <input class="input" type="text" placeholder="{{'搜索位置查找附近门店'}}" value="{{name}}" bindinput="onInputChange" />
+    </view>
+  </view>
+  <view class="mapPage">
+    <map class="map" id="map" longitude="{{lon}}" latitude="{{lat}}" scale="10" show-location="true" markers="{{markers}}"  bindmarkertap="makertap"></map>
+  </view>
+</view>
+<!-- 底部弹窗 -->
+<van-popup round show="{{ showBottomDialog }}" bind:tap="closeDialog">
+  <view class="store-card" bind:tap="goStore" data-storeid="{{store.storeId}}">
+    <view class="image-container">
+      <view wx:if="{{store.headImg}}">
+        <image class="store-card__image" src="{{store.headImg}}" mode="aspectFill"></image>
+      </view>
+      <view wx:else>
+        <image class="store-card__image" src="/logo.png" mode="aspectFill"></image>
+      </view>
+    </view>
+    <view class="text-container">
+      <view class="standard">
+        空闲:
+        <text style="color:#e0260d">{{store.freeRoomNum}}</text>
+      </view>
+      <view class="name">{{store.storeName}}</view>
+      <view class="address">{{store.address}}</view>
+      <view class="item-buttom">
+        <view class="info">
+          <view class="position" catchtap="goTencentMap" data-info="{{store}}" wx:if="{{store.distance}}">
+            <view class="iconfont icon-postion color-primary"></view>
+            <text class="distance">{{store.distance}}</text>km
+          </view>
+        </view>
+        <view class="door-button">立即预定</view>
+      </view>
+    </view>
+  </view>
+</van-popup>

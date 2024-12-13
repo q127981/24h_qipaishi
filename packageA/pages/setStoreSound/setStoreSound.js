@@ -13,6 +13,7 @@ Page({
     endText30: '',
     endText5: '',
     nightText: '',
+    customizeText: '',
   },
 
   /**
@@ -92,11 +93,12 @@ Page({
                 welcomeText: info.data.welcomeText,
                 endText30: info.data.endText30,
                 endText5: info.data.endText5,
-                nightText:info.data.nightText,
+                nightText: info.data.nightText,
+                customizeText: info.data.customizeText,
              })
             }else{
               wx.showModal({
-                content: '请求服务异常，请稍后重试',
+                content: info.msg,
                 showCancel: false,
               })
             }
@@ -122,6 +124,7 @@ Page({
             "endText30": that.data.endText30,
             "endText5": that.data.endText5,
             "nightText": that.data.nightText,
+            "customizeText": that.data.customizeText,
           },
           app.globalData.userDatatoken.accessToken,
           "",

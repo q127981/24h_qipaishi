@@ -2,6 +2,7 @@
   "navigationStyle": "custom",
   "navigationBarTextStyle": "white",
   "usingComponents": {
-    "van-search": "@vant/weapp/search/index"
+    "van-search": "@vant/weapp/search/index",
+    "custom-tabbar": "../../custom-tab-bar"
   }
 }

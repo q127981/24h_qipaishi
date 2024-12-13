@@ -1,6 +1,9 @@
 {
-  "navigationBarTitleText": "我的订单",
-  "navigationStyle": "custom",
-  "usingComponents": {},
-  "enablePullDownRefresh": true
-}
+    "navigationBarTitleText": "我的订单",
+    "usingComponents": {
+      "custom-tabbar": "../../custom-tab-bar"
+    },
+    "enablePullDownRefresh": true,
+    "navigationBarBackgroundColor": "#5AAB6E",
+    "navigationBarTextStyle": "white"
+  }

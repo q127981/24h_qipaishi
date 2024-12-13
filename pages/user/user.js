@@ -9,13 +9,16 @@ Page({
    * 页面的初始数据
    */
   data: {
-    isLogin:app.globalData.isLogin,
+    statusBarHeight: 0,
+    titleBarHeight: 0,
+    isLogin: app.globalData.isLogin,
     sysinfo: '',
-    userinfo:{
-      couponCount:0,
-      giftBalance:0,
-      balance:0
+    userinfo: {
+      couponCount: 0,
+      giftBalance: 0,
+      balance: 0
     },//用户信息
+    cardList: []
   },
 
   /**
@@ -23,6 +26,10 @@ Page({
    */
   onLoad: function (options) {
     this.getSysInfo();
+    this.setData({
+      statusBarHeight: wx.getStorageSync("statusBarHeight"),
+      titleBarHeight: wx.getStorageSync("titleBarHeight"),
+    });
   },
 
   /**
@@ -38,17 +45,22 @@ Page({
   onShow: function () {
     let that = this;
     that.setData({
-      isLogin:app.globalData.isLogin,
+      isLogin: app.globalData.isLogin,
     })
 
-    if(!app.globalData.isLogin){
+    if (!app.globalData.isLogin) {
       that.setData({
-        couponCount:0,
-        giftBalance:0,
-        balance:0
+        couponCount: 0,
+        giftBalance: 0,
+        balance: 0
       })
     }
     that.getuserinfo();
+    // this.getTabBar().updateTabTar();
+    // this.getTabBar().setData({
+    //   selected: 3
+    // })
+    // this.getCardPage();
   },
 
   /**
@@ -85,66 +97,66 @@ Page({
   onShareAppMessage: function () {
 
   },
-  phone:function(e){
+  phone: function (e) {
     //console.log("授权用户手机号");
     var that = this;
-    if(e.detail.errMsg=="getPhoneNumber:fail user deny"){
-      wx.showToast({title: '已取消授权'})
+    if (e.detail.errMsg == "getPhoneNumber:fail user deny") {
+      wx.showToast({ title: '已取消授权' })
     }
-    if(e.detail.errMsg=="getPhoneNumber:ok"){
+    if (e.detail.errMsg == "getPhoneNumber:ok") {
       //console.log('手机号码授权+++++++');
       //console.log(e.detail);
       //console.log('手机号码授权+++++++');
       wx.login({
-        success: function(res) {
-            //console.log('111++++==');
-            //console.log(res);
-            //console.log('111++++==');
-            if (res.code != null) {
-              http.request(
-                "/member/auth/weixin-mini-app-login",
-                "1",
-                "post", {
-                  "phoneCode": e.detail.code,
-                  "loginCode": res.code
-                },
-                "",
-                "获取中...",
-                function success(info) {
-                  console.info('返回111===');
-                  console.info(info);
-                  if (info.code == 0) {
-                      if(info.data){
-                        app.globalData.userDatatoken = info.data;
-                        app.globalData.isLogin=true;
-                        that.setData({
-                          isLogin:true,
-                        })
-                        //缓存服务器返回的用户信息
-                        wx.setStorageSync("userDatatoken", info.data)
-                        that.getuserinfo()
-                      }
+        success: function (res) {
+          //console.log('111++++==');
+          //console.log(res);
+          //console.log('111++++==');
+          if (res.code != null) {
+            http.request(
+              "/member/auth/weixin-mini-app-login",
+              "1",
+              "post", {
+              "phoneCode": e.detail.code,
+              "loginCode": res.code
+            },
+              "",
+              "获取中...",
+              function success(info) {
+                console.info('返回111===');
+                console.info(info);
+                if (info.code == 0) {
+                  if (info.data) {
+                    app.globalData.userDatatoken = info.data;
+                    app.globalData.isLogin = true;
+                    that.setData({
+                      isLogin: true,
+                    })
+                    //缓存服务器返回的用户信息
+                    wx.setStorageSync("userDatatoken", info.data)
+                    that.getuserinfo()
                   }
-                },
-                function fail(info) {
-                  
                 }
-              )
-            } else {
-              //console.log('登录失败！' + res.errMsg)
-            }
+              },
+              function fail(info) {
+
+              }
+            )
+          } else {
+            //console.log('登录失败！' + res.errMsg)
           }
-        })
+        }
+      })
     }
   },
-  getuserinfo:function(){
+  getuserinfo: function () {
     var that = this;
     if (app.globalData.isLogin) {
       http.request(
         "/member/user/get",
         "1",
         "get", {
-        },
+      },
         app.globalData.userDatatoken.accessToken,
         "",
         function success(info) {
@@ -152,54 +164,95 @@ Page({
           console.info(info);
           if (info.code == 0) {
             that.setData({
-              userinfo:info.data,
+              userinfo: info.data,
             })
           }
         },
         function fail(info) {
-          
+
         }
       )
     } else {
       //console.log('未登录失败！')
     }
   },
-  getSysInfo:function(){
+  getSysInfo: function () {
     var that = this;
     http.request(
       "/member/index/getSysInfo",
       "1",
       "get", {
-      },
+    },
       "",
       "",
       function success(info) {
         console.info(info);
         if (info.code == 0) {
           that.setData({
-            sysinfo:info.data,
+            sysinfo: info.data,
           })
         }
       },
       function fail(info) {
-        
+
       }
     )
   },
-  gotosetuserinfo:function(){
+  gotosetuserinfo: function () {
     wx.navigateTo({
       url: '../setUserInfo/setUserInfo',
     })
   },
-  goOrder:function(){
+  goOrder: function () {
     wx.switchTab({
       url: '../orderList/orderList',
     })
   },
   //到登录界面
-  gotologin(){
+  gotologin() {
     wx.navigateTo({
       url: '../login/login',
     })
   },
+  getCardPage() {
+    const that = this
+    if (app.globalData.isLogin) {
+      http.request(
+        `/member/card/getMyCardPage`,
+        "1",
+        "post",
+        {
+          "pageNo": 1,
+          "pageSize": 100,
+          userId: app.globalData.userDatatoken.userId
+        },
+        app.globalData.userDatatoken.accessToken,
+        "",
+        function success(info) {
+          if (info.code == 0) {
+            that.setData({
+              cardList: info.data.list
+            })
+          } else {
+            wx.showModal({
+              content: info.msg || "请求服务异常，请稍后重试",
+              showCancel: false,
+            });
+          }
+        },
+        function fail(info) { }
+      );
+    }
+  },
+  goScore() {
+    wx.showToast({
+      title: '暂不支持',
+      icon: 'none'
+    })
+  },
+  goCoupon() {
+    wx.navigateTo({
+      url: '../coupon/coupon',
+    })
+  }
 })

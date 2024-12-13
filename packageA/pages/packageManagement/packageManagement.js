@@ -23,7 +23,7 @@ Page({
     pageNo: 1,
     pageSize: 10,
     canLoadMore: true,//是否还能加载更多
-    mainColor: app.globalData.mainColor
+    mainColor: app.globalData.mainColor,
   },
 
   /**
@@ -138,7 +138,10 @@ Page({
             }else{
               const newList = info.data.list.map(meal => ({
                 ...meal,
-                enableWeek: that.convertWeekday(meal.enableWeek)
+                weekQuantum: that.convertWeekday(meal.enableWeek),
+                timeQuantum: that.convertTime(meal.enableTime),
+                roomQuantum: that.convertRoomType(meal.roomType),
+                enableRoomQuantum: that.convertEnableRoomType(meal.roomListRespVOList,meal.enableRoom)
               }));
                //有数据
               if(that.data.pkgList){
@@ -200,7 +203,7 @@ Page({
           })
           }else{
             wx.showModal({
-              content: '请求服务异常，请稍后重试',
+              content: info.msg,
               showCancel: false,
             })
           }
@@ -251,7 +254,49 @@ Page({
   //定义一个函数来将数字转换为星期名称：
   convertWeekday(numbers) {
     const weekDays = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
-    return numbers.map(num => weekDays[num % 7]).join(", ");
+    return numbers.map(num => weekDays[num % 7]).join(" | ");
+  },
+  convertRoomType(numbers) {
+    if (numbers === null) {
+        return [];
+      }
+    if (numbers.length === 0) {
+        return [];
+      }
+    const weekDays = ["不限","小包", "中包", "大包", "豪包", "商务包","斯洛克","中式黑八","‌美式球桌"];
+    return numbers.map(num => weekDays[num]).join("、");
+  },
+  convertEnableRoomType(doorRoomList,enableRoom) {
+    if (doorRoomList === null || enableRoom === null) {
+        return [];
+      }
+    if (doorRoomList.length === 0) {
+        return [];
+      }
+    const enabledRoomIds = enableRoom.filter(roomId => doorRoomList.some(room => room.roomId === roomId));
+
+    return enabledRoomIds.map(roomId => {
+    const room = doorRoomList.find(room => room.roomId === roomId);
+    return room ? room.roomName : ""; }).join("、");
+  },
+  convertTime(numbers) {
+    if (numbers.length === 0) {
+        return [];
+      }
+      let result = [];
+      let start = numbers[0];
+      let end = numbers[0];
+      for (let i = 1; i < numbers.length; i++) {
+        if (numbers[i] === end + 1) {
+          end = numbers[i];
+        } else {
+          result.push(`${start}~${end}`);
+          start = numbers[i];
+          end = numbers[i];
+        }
+      }
+      result.push(`${start}~${end}`);
+      return result;
   },
   changeStatus: function(e){
       var that=this;
@@ -286,27 +331,11 @@ Page({
     var that=this;
     let item = e.currentTarget.dataset.item;
     const params = JSON.stringify(item);
+    console.log(params)
     wx.navigateTo({
       url: '../editPages/editPages?item=' + params,
     })
-}
+    },
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   
 })

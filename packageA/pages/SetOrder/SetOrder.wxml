@@ -9,7 +9,7 @@
   <!-- <view class="tabs" style="top:{{statusBarHeight+titleBarHeight}}px"> -->
   <view class="tabs">
     <van-dropdown-menu active-color="{{mainColor}}">
-      <van-dropdown-item value="{{ storeId }}" options="{{ stores }}"  bind:change="storeDropdown" />
+      <van-dropdown-item value="{{ storeId }}" options="{{ stores }}" bind:change="storeDropdown" />
       <van-dropdown-item value="{{ value1 }}" options="{{ option1 }}" bind:change="OrderStatusDropdown" />
       <van-dropdown-item value="{{ value2 }}" options="{{ option2 }}" bind:change="orderColumnDropdown" />
     </van-dropdown-menu>
@@ -23,7 +23,7 @@
       <view class="lists" wx:for="{{orderlist}}" wx:key="orderlist">
         <view class="item">
           <view class="orderNo icon iconfont icon-quanbudingdan color-primary"> {{item.orderNo}}</view>
-           <block wx:if="{{item.status == 0}}">
+          <block wx:if="{{item.status == 0}}">
             <view class="tag blue">未开始</view>
           </block>
           <block wx:elif="{{item.status == 1}}">
@@ -36,15 +36,15 @@
             <view class="tag gray">已取消</view>
           </block>
           <ul class="info">
-          <li>
-            <image class="roomImg" src="{{item.roomImg}}"></image>
-          </li>
-          <li class="li">
-              <view class="title">{{item.roomName}}({{item.roomType===1?'小包':item.roomType===2?'中包':item.roomType===3?'大包':item.roomType===4?'豪包':'商务包'}}) 
+            <li>
+              <image class="roomImg" src="{{item.roomImg}}"></image>
+            </li>
+            <li class="li">
+              <view class="title">{{item.roomName}}({{item.roomType===1?'小包':item.roomType===2?'中包':item.roomType===3?'大包':item.roomType===4?'豪包':item.roomType===5?'商务包':item.roomType===6?'斯洛克':item.roomType===7?'中式黑八':'美式球桌'}})
               </view>
               <view><span class="name">{{item.storeName}}</span></view>
-            <!-- <view class="name">{{item.storeName}}</view> -->
-          </li>
+              <!-- <view class="name">{{item.storeName}}</view> -->
+            </li>
           </ul>
           <!-- 时间段 -->
           <view class="timeBox">
@@ -65,13 +65,13 @@
               <view class="info" wx:if="{{item.couponName}}">使用卡券：<label>{{item.couponName}}</label></view>
               <view class="info">预订用户：{{item.nickname}}</view>
               <view class="info">手机号码：{{item.mobile}}
-              <text  class="copyMobile" bindtap='copyText' data-text="{{item.mobile}}">复制</text>
+                <text class="copyMobile" bindtap='copyText' data-text="{{item.mobile}}">复制</text>
               </view>
             </view>
             <view>
-              <view>支付方式：<text>{{item.payType===1?'微信':item.payType===2?'余额':item.payType===3?'团购':'套餐'}}</text></view>
+              <view>支付方式：<text>{{item.payType===0?'管理员':item.payType===1?'微信':item.payType===2?'余额':item.payType===3?'团购':item.payType===4?'套餐':'预订'}}</text></view>
               <view>实际支付：<text class="price">￥{{item.payPrice}}</text></view>
-               <block wx:if="{{item.status == 3}}">
+              <block wx:if="{{item.status == 3}}">
                 <view>订单退款：<text class="color-attention">￥{{item.refundPrice}}</text></view>
               </block>
             </view>
@@ -79,20 +79,20 @@
           <view class="btns">
             <block wx:if="{{item.status == 0 || item.status == 1}}">
               <view class="line1">
-                <button hover-class="button-click"  class="btn bg-warning" catchtap="refundOrder" data-info="{{item}}">退款</button>
-                <button hover-class="button-click"  class="btn cancel" catchtap="cancelOrder" data-info="{{item}}">取消</button>
+                <button hover-class="button-click" class="btn bg-warning" catchtap="refundOrder" data-info="{{item}}">退款</button>
+                <button hover-class="button-click" class="btn cancel" catchtap="cancelOrder" data-info="{{item}}">取消</button>
               </view>
               <view class="line2">
-                <button hover-class="button-click"  class="btn bg-primary1" catchtap="changeOrderUser" data-info="{{item}}">订单转移</button>
-                <button hover-class="button-click"  class="btn bg-primary1" catchtap="changeOrder" data-info="{{item}}">订单修改</button>
+                <button hover-class="button-click" class="btn bg-primary1" catchtap="changeOrderUser" data-info="{{item}}">订单转移</button>
+                <button hover-class="button-click" class="btn bg-primary1" catchtap="changeOrder" data-info="{{item}}">订单修改</button>
               </view>
               <view class="line3">
-                <button hover-class="button-click"  class="btn bg-primary" catchtap="callMobile" data-mobile="{{item.mobile}}">拨打电话</button>
+                <button hover-class="button-click" class="btn bg-primary" catchtap="callMobile" data-mobile="{{item.mobile}}">拨打电话</button>
                 <block wx:if="{{item.renewBtn}}">
-                  <button hover-class="button-click"  class="btn bg-primary" catchtap="renewClick" data-info="{{item}}">续费</button>
-               </block>
+                  <button hover-class="button-click" class="btn bg-primary" catchtap="renewClick" data-info="{{item}}">续费</button>
+                </block>
               </view>
-          </block>
+            </block>
           </view>
         </view>
       </view>
@@ -110,21 +110,20 @@
         </view>
         <view class="name">{{appName}}</view>
       </view>
-      <button hover-class="button-click"  class="loginBtn bg-primary" bindgetphonenumber="phone" open-type="getPhoneNumber">一键登录</button>
+      <button hover-class="button-click" class="loginBtn bg-primary" bindgetphonenumber="phone" open-type="getPhoneNumber">一键登录</button>
     </view>
   </block>
 </view>
 <!-- 续单弹窗 -->
-<van-dialog use-slot title="订单续费" show="{{ renewShow }}" show-cancel-button 
-  before-close="{{beforeCloseFunction}}">
+<van-dialog use-slot title="订单续费" show="{{ renewShow }}" show-cancel-button before-close="{{beforeCloseFunction}}">
   <view class="dialog">
     <view class="item" style="align-items: center;">
       <label>请选择增加的小时：</label>
-      <van-stepper value="{{ addTimeH }}" step="0.5" min="-8" max="8" disable-input  bind:change="onChangeH" /> 小时
+      <van-stepper value="{{ addTimeH }}" step="0.5" min="-8" max="8" disable-input bind:change="onChangeH" /> 小时
     </view>
     <view class="item" style="align-items: center;">
       <label>请选择增加的分钟：</label>
-      <van-stepper value="{{ addTimeM }}" step="5" min="0" max="60" disable-input  bind:change="onChangeM" /> 分钟
+      <van-stepper value="{{ addTimeM }}" step="5" min="0" max="60" disable-input bind:change="onChangeM" /> 分钟
     </view>
     <view class="item">
       <label>订单原结束时间：</label><text>{{orderInfo.endTime}}</text>
@@ -149,7 +148,7 @@
     </view>
     <view class="item">
       <label>当前房间：</label>
-      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':orderInfo.roomType===3?'大包':orderInfo.roomType===4?'豪包':'商务包'}}）</text>
+      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':orderInfo.roomType===3?'大包':orderInfo.roomType===4?'豪包':orderInfo.roomType===5?'商务包':orderInfo.roomType===6?'斯洛克':orderInfo.roomType===7?'中式黑八':'美式球桌'}}）</text>
     </view>
     <view class="item">
       <label>开始时间：</label><text>{{orderInfo.startTime}}</text>
@@ -159,7 +158,7 @@
     </view>
     <view class="item">
       <label>会员手机：</label>
-      <input model:value="{{mobile}}" type="text" placeholder="请输入目标手机号" maxlength="11"/>
+      <input model:value="{{mobile}}" type="text" placeholder="请输入目标手机号" maxlength="11" />
     </view>
   </view>
 </van-dialog>
@@ -186,7 +185,7 @@
     </view>
     <view class="item" style="align-items: center;">
       <label>调整开始时间：</label>
-      <van-stepper value="{{ changeTime }}" step="0.5" min="-8" max="8" disable-input  bind:change="onChangeTime" /> 时
+      <van-stepper value="{{ changeTime }}" step="0.5" min="-8" max="8" disable-input bind:change="onChangeTime" /> 时
     </view>
     <view class="item">
       <label>新开始时间：</label><text>{{changeStartTime}}</text>
@@ -205,7 +204,7 @@
     </view>
     <view class="item">
       <label>当前房间：</label>
-      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':orderInfo.roomType===3?'大包':orderInfo.roomType===4?'豪包':'商务包'}}）</text>
+      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':orderInfo.roomType===3?'大包':orderInfo.roomType===4?'豪包':orderInfo.roomType===5?'商务包':orderInfo.roomType===6?'斯洛克':orderInfo.roomType===7?'中式黑八':'美式球桌'}}）</text>
     </view>
     <view class="item">
       <label>开始时间：</label><text>{{orderInfo.startTime}}</text>
@@ -227,7 +226,7 @@
     </view>
     <view class="item">
       <label>当前位置：</label>
-      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':orderInfo.roomType===3?'大包':orderInfo.roomType===4?'豪包':'商务包'}}）</text>
+      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':orderInfo.roomType===3?'大包':orderInfo.roomType===4?'豪包':orderInfo.roomType===5?'商务包':orderInfo.roomType===6?'斯洛克':orderInfo.roomType===7?'中式黑八':'美式球桌'}}）</text>
     </view>
     <view class="item">
       <label>开始时间：</label><text>{{orderInfo.startTime}}</text>
@@ -248,7 +247,7 @@
     </view>
     <view class="item">
       <label>当前房间：</label>
-      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':orderInfo.roomType===3?'大包':orderInfo.roomType===4?'豪包':'商务包'}}）</text>
+      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':orderInfo.roomType===3?'大包':orderInfo.roomType===4?'豪包':orderInfo.roomType===5?'商务包':orderInfo.roomType===6?'斯洛克':orderInfo.roomType===7?'中式黑八':'美式球桌'}}）</text>
     </view>
     <view class="item">
       <label>开始时间：</label><text>{{orderInfo.startTime}}</text>
@@ -270,7 +269,7 @@
     </view>
     <view class="item">
       <label>当前位置：</label>
-      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':orderInfo.roomType===3?'大包':orderInfo.roomType===4?'豪包':'商务包'}}）</text>
+      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':orderInfo.roomType===3?'大包':orderInfo.roomType===4?'豪包':orderInfo.roomType===5?'商务包':orderInfo.roomType===6?'斯洛克':orderInfo.roomType===7?'中式黑八':'美式球桌'}}）</text>
     </view>
     <view class="item">
       <label>开始时间：</label><text>{{orderInfo.startTime}}</text>

@@ -18,7 +18,8 @@ Page({
     roomId: "",
     roomName: "",
     name: "",
-    phone: ""
+    phone: "",
+    money: "",
   },
 
   onLoad: function (options) {
@@ -296,7 +297,8 @@ Page({
         roomId: that.data.roomId,
         startTime: that.data.startTime,
         endTime: that.data.endTime,
-        mobile: that.data.phone
+        mobile: that.data.phone,
+        statistics: that.data.statistics
       },
       app.globalData.userDatatoken.accessToken,
       "",
@@ -318,7 +320,13 @@ Page({
           });
         }
       },
-      function fail(info) {}
+      function fail(info) { }
     );
-  }
+  },
+  changeStatisticsStatus: function () {
+    let that = this
+    that.setData({
+      statistics: !that.data.statistics
+    })
+  },
 });

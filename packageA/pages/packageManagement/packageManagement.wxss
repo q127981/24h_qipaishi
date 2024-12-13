@@ -34,10 +34,11 @@ page{
 }
 
 .container .item{
-  margin-bottom: 30rpx;
+  margin: 30rpx 0;
 }
 .container .item .item-top{
-  background-color: #CEEEF4;
+  /* background-color: #CEEEF4; */
+  background: linear-gradient( 180deg, #CEEEF4 0%, #FFFFFF 100%);
   border-top-left-radius: 15rpx;
   border-top-right-radius:15rpx ;
   padding: 30rpx;

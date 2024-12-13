@@ -1,11 +1,13 @@
 /* pages/setVip/setVip.wxss */
-page{
+page {
   background: #f5f5f5;
 }
-.container{
+
+.container {
   padding: 84px 16rpx 40rpx 16rpx;
 }
-.search{
+
+.search {
   background: #fff;
   width: 100%;
   height: 90px;
@@ -15,15 +17,18 @@ page{
   left: 0;
   border-bottom: 1rpx solid #ddd;
 }
-.van-search__action{
+
+.van-search__action {
   padding: 0 20rpx;
 }
-.search .sorts{
+
+.search .sorts {
   display: flex;
   justify-content: space-between;
   padding: 0 30rpx 20rpx;
 }
-.search .sorts .sort{
+
+.search .sorts .sort {
   display: flex;
   font-size: 26rpx;
   border-width: 1rpx;
@@ -33,74 +38,91 @@ page{
   border-radius: 10rpx;
   line-height: 48rpx;
 }
-.search .sorts .sort .iconfont{
+
+.search .sorts .sort .iconfont {
   font-size: 24rpx;
   margin-left: 10rpx;
 }
+
 .list {
   padding-top: 30rpx;
 }
-.list .item{
+
+.list .item {
   margin-bottom: 20rpx;
   padding: 20rpx;
   background: #fff;
   border-radius: 12rpx;
 }
-.list .item .top{
+
+.list .item .top {
   width: 100%;
   display: flex;
   justify-content: space-between;
   font-size: 26rpx;
   align-items: center;
 }
-.list .item .left{
+
+.list .item .left {
   width: 200rpx;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.list .item .img{
+
+.list .item .img {
   width: 160rpx;
   height: 160rpx;
   overflow: hidden;
   background: #eee;
+  border-radius: 10rpx;
   /* margin: 0 auto; */
 }
-.list .item .img image{
+
+.list .item .img image {
   width: 100%;
 }
-.list .item .nick{
+
+.list .item .nick {
   text-align: center;
   margin-top: 20rpx;
 }
-.list .item .right{
+
+.list .item .right {
   width: 420rpx;
 }
-.list .item .link{
+
+.list .item .link {
   margin-left: 30rpx;
 }
-.list .item .info{
+
+.list .item .info {
   line-height: 50rpx;
 }
-.list .item .info text{
+
+.list .item .info text {
   margin-right: 10rpx;
 }
-.list .item .green{
+
+.list .item .green {
   /* color: #fff; */
   /* border: 1rpx solid var(--main-green); */
   /* color: var(--main-green); */
 }
-.list .item .yellow{
+
+.list .item .yellow {
   border: 1rpx solid var(--main-orange);
   color: var(--main-orange);
 }
-.list .item .btns{
+
+.list .item .btns {
   display: flex;
   justify-content: center;
   margin-top: 20rpx;
   flex-wrap: wrap;
 }
-.list .item .btns .btn{
+
+.list .item .btns .btn {
   margin: 0 10rpx;
   padding: 0;
   width: 160rpx;
@@ -112,26 +134,30 @@ page{
   /* background: transparent;/ */
   color: #fff;
 }
-.list .item .btns .red{
-  border:1px solid var(--main-red);
+
+.list .item .btns .red {
+  border: 1px solid var(--main-red);
   color: var(--main-red);
 }
-.list .item .btns .yellow{
-  border:1px solid var(--main-orange);
+
+.list .item .btns .yellow {
+  border: 1px solid var(--main-orange);
   color: var(--main-orange);
 
-} 
-.list .item .btns .green{
+}
+
+.list .item .btns .green {
   color: #fff;
   background-color: var(--main-color);
   /* border:1px solid var(--main-green); */
   /* color: var(--main-green); */
 }
 
-.dialog{
+.dialog {
   margin-top: 20rpx;
 }
-.dialog .tip{
+
+.dialog .tip {
   font-size: 26rpx;
   color: red;
   text-align: center;
@@ -142,3 +168,23 @@ page{
   display: flex;
 }
 
+.item {
+  position: relative;
+  padding: 20rpx;
+  border-bottom: 1px solid #eee;
+}
+
+.button-wrapper {
+  position: absolute;
+  bottom: 12rpx;
+  right: 20rpx;
+}
+
+.btn-more {
+  background: var(--main-color);
+  width: 120rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 24rpx;
+  color: #fff;
+}

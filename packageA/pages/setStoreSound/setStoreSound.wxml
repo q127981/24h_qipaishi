@@ -33,6 +33,13 @@
       </view>
     </view>
     <view class="tips">注:凌晨第一个整点播报</view>
+    <view class="line">
+      <label>自定义提醒</label>
+      <view class="right">
+          <textarea model:value="{{customizeText}}" type="text" placeholder="最大150个字"/>
+      </view>
+    </view>
+    <view class="tips">注:可以用来临时提示客户等</view>
   </view>
   <!-- 底部按钮 -->
   <view class="submit border-primary {{isIpx?'fix-iphonex-button':''}}">

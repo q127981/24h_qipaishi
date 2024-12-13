@@ -1,4 +1,8 @@
 {
-  "navigationBarTitleText": "团购验券",
-  "usingComponents": {}
-}
+    "navigationBarTitleText": "团购验券",
+    "usingComponents": {
+      "van-overlay": "@vant/weapp/overlay/index"
+    },
+    "navigationBarBackgroundColor": "#5AAB6E",
+    "navigationBarTextStyle": "white"
+  }

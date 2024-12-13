@@ -1,0 +1,24 @@
+<view class="container">
+  <view class="mapPage">
+  <view class="positionInfo">
+    <view class="infodetail">
+        <text>定位经纬度</text>
+        <text class="text-info">{{lagitude == '' ? storeInfo.lat : lagitude}},{{longitude == '' ? storeInfo.lon : longitude}}</text>
+    </view>
+  </view>
+    <map class="map" id="map" 
+    longitude="{{longitude == '' ? storeInfo.lon : longitude}}" 
+    latitude="{{lagitude == '' ? storeInfo.lat : lagitude}}"
+    scale="10" show-location="true" markers="{{markers}}" bindtap='mapclick'></map>
+    <view class="placeholder">
+        <text>点击地图,<text style="color: rgb(247, 112, 112);">并选择下方精准位置定位</text>~</text>
+    </view>
+
+    <view class="button">
+        <button class="save" bindtap="updatePositon">保存</button>
+        <button class="back" bindtap="callback">返回</button>
+    </view>
+
+  </view>
+
+</view>

@@ -1,0 +1,176 @@
+<view class="container" wx:if="{{!isLogin}}">
+  <view class="main">
+    <view class="nav">
+      <view class="header">
+        <view class="left overflow-hidden">
+          <view class="store-name" bind:tap="selectShop">
+            <view>{{ doorinfodata.storeName }}</view>
+            <view class="iconfont iconarrow-right"></view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <!-- #ifdef H5 -->
+    <view class="content">
+      <!-- #endif -->
+      <!-- #ifndef H5 -->
+      <view class="content">
+        <!-- #endif -->
+        <scroll-view class="menus" scroll-into-view="{{menuScrollIntoView}}" scroll-with-animation scroll-y>
+          <view class="wrapper">
+            <view class="menu" wx:for="{{goods}}" wx:key="index" id="menu-{{item.id}}" :class="{'current': item.id === currentCateId}" bind:tap="handleMenuTap">
+              <text>{{ item.name }}</text>
+              <view class="dot" wx:if="{{item.kindNum >0}}">{{ item.kindNum }}</view>
+            </view>
+          </view>
+        </scroll-view>
+        <!-- goods list begin -->
+        <scroll-view class="goods {{cart.length > 0 && isCartShow ? 'goods-bommon' :''}}" scroll-with-animation scroll-y scroll-into-view="{{menuScrollIntoView}}">
+          <!--  -->
+          <view class="wrapper">
+            <view class="list">
+              <!-- category begin -->
+              <view class="category" wx:for="{{goods}}" wx:for-item="category" wx:key="index" id="cate-{{category.id}}">
+                <view class="title">
+                  <text>{{ category.name }}</text>
+                  <image mode="aspectFill" src="{{category.picUrl}}" class="icon"></image>
+                </view>
+                <view class="items">
+                  <!-- 商品 begin -->
+                  <view class="good" wx:for="{{category.goodsList}}" wx:key="key" :class="{'backgroud-grey': good.stock <= 0}">
+                    <image mode="aspectFill" src="{{item.image}}" class="image" bind:tap="showGoodDetailModal" data-item="{{category}}" data-good="{{item}}"></image>
+                    <view class="right">
+                      <text class="name">{{ item.storeName }}</text>
+                      <text class="tips">{{ item.storeInfo }}</text>
+                      <view class="price_and_action">
+                        <text class="price">￥{{ item.price }}</text>
+                        <view class="btn-group" wx:if="{{item.stock > 0}}">
+                          <button type="primary" class="btn property_btn" hover-class="none" size="mini" bind:tap="showGoodDetailModal" data-item="{{category}}" data-good="{{item}}">选规格
+                          </button>
+                          <view class="dot" wx:if="{{item.carNum>0}}">
+                            {{ item.carNum }}
+                          </view>
+                        </view>
+                        <view wx:if="{{good.stock == 0}}">已售罄</view>
+                      </view>
+
+                    </view>
+                  </view>
+                  <!-- 商品 end -->
+                </view>
+              </view>
+              <!-- category end -->
+            </view>
+          </view>
+        </scroll-view>
+        <!-- goods list end -->
+      </view>
+      <!-- content end -->
+      <!-- 购物车栏 begin -->
+      <view class="cart-box" wx:if="{{cart.length > 0 && isCartShow}}">
+        <view class="mark">
+          <image src="/pages/static/img/cart.png" class="cart-img" bind:tap="openCartPopup"></image>
+          <view class="tag">{{ goodNum }}</view>
+        </view>
+        <view class="price" bind:tap="openCartShow">￥{{ cartTotalPrice }}</view>
+        <button class="pay-btn" bind:tap="toPay" disabled="{{!(cart.length > 0)}}">
+          去结算
+        </button>
+      </view>
+      <!-- 购物车栏 end -->
+    </view>
+    <!-- 购物车详情popup -->
+    <view class="mask" wx:if="{{popupVisible}}" bind:tap="closePopup"></view>
+    <view class="cart-popup" wx:if="{{popupVisible}}" animation="{{animationData}}">
+      <view class="top">
+        <text bind:tap="handleCartClear">清空</text>
+      </view>
+      <scroll-view class="cart-list" scroll-y>
+        <view class="wrapper">
+          <view class="item" wx:for="{{cart}}" wx:key="index">
+            <image mode="aspectFill" src="{{item.image}}" class="shopimage"></image>
+            <view class="left">
+              <view class="name">{{ item.name }}</view>
+              <view class="props">{{ item.valueStr }}</view>
+            </view>
+            <view class="center">
+              <text>￥{{ item.price }}</text>
+            </view>
+            <view class="right">
+              <button size="mini" class="btn" hover-class="none" data-index="{{index}}" bind:tap="handleCartItemReduce">
+                <iconfont name="jian" size="26"></iconfont>
+              </button>
+              <view class="number">{{ item.number }}</view>
+              <button style="background-color: rgba(61, 202, 245, 0.753);" class="btn" size="min" hover-class="none" disabled="{{item.number>=item.stock}}" data-index="{{index}}" bind:tap="handleCartItemAdd">
+                <iconfont name="jia" size="26"></iconfont>>
+              </button>
+            </view>
+          </view>
+
+        </view>
+      </scroll-view>
+    </view>
+    <!-- 购物车详情popup -->
+  </view>
+  <!--轻提示-->
+</view>
+
+<van-popup round show="{{ goodDetailModalVisible }}">
+  <!-- 商品详情模态框 begin -->
+  <view class="good-detail-modal" wx:if="{{ goodDetailModalVisible }}" style="padding: 0rpx;border-radius: 12rpx;">
+    <view class="cover">
+      <view class="btn-group">
+        <iconfont name="close" size="21" bind:tap="closeGoodDetailModal"></iconfont>
+      </view>
+    </view>
+    <scroll-view class="detail" scroll-y>
+      <view wx:if="{{good.image}}" class="image">
+        <image src="{{good.image}}"></image>
+      </view>
+      <view class="wrapper">
+        <view class="basic">
+          <view class="name">{{ good.storeName }}</view>
+          <view class="tips flex justify-between">{{ good.storeInfo }}
+            <!-- <text style="color: red;">可获积分:10</text> -->
+          </view>
+        </view>
+        <view class="properties">
+          <view class="property" wx:for="{{good.productAttr}}" wx:for-item="item" wx:for-index="idx" wx:key="index">
+            <view class="title">
+              <text class="name">{{ item.attrName }}</text>
+            </view>
+            <view class="values">
+              <view class="value" wx:for="{{item.attrValueArr}}" wx:for-item="itemvalue" wx:key="key" data-index="{{idx}}" data-key="{{index}}" bind:tap="changeDefault">
+                <view class="{{itemvalue == newValue[idx] ? 'default':''}}">
+                  {{ itemvalue }}
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+    <view class="action">
+      <view class="left">
+        <view class="price">￥{{ good.price }}</view>
+        <view class="props">
+          {{ good.valueStr }}
+        </view>
+      </view>
+      <view class="btn-group">
+        <text style="margin-right: 20rpx;">库存：{{good.stock}} </text>
+        <button size="mini" class="btn" hover-class="none" bind:tap="handlePropertyReduce">
+          <iconfont name="jian" size="26"></iconfont>
+        </button>
+        <view class="number">{{ good.number }}</view>
+        <button style="background-color: rgba(61, 202, 245, 0.753);" class="btn" size="min" hover-class="none" disabled="{{good.number>=good.stock}}" bind:tap="handlePropertyAdd">
+          <iconfont name="jia" size="26"></iconfont>>
+        </button>
+      </view>
+    </view>
+    <view class="add-to-cart-btn" bind:tap="handleAddToCartInModal">
+      <view>加入购物车</view>
+    </view>
+  </view>
+  <!-- 商品详情模态框 end -->
+</van-popup>

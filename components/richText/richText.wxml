@@ -1,0 +1,87 @@
+<view class="whole" id="richText">
+  <view style="height:{{textTool?'200':'100'}}rpx;"></view>
+  <view class="page-body">
+    <view class='wrapper'>
+      <editor id="editor" class="ql-container" placeholder="{{placeholder}}" showImgSize showImgToolbar showImgResize bindstatuschange="onStatusChange" read-only="{{readOnly}}" bindready="onEditorReady" bindfocus='bindfocus' bindblur='bindblur' bindinput='bindinput'>
+      </editor>
+    </view>
+  </view>
+  <view class="editor-toolbar" bindtap="format">
+    <view class="toolbar-2">
+      <view class="tool-item-cell">
+        <view class="tool-item-box">
+          <view class="cell-rg-shadow"></view>
+          <scroll-view scroll-x class="flex-sb" style="height:70rpx;white-space: nowrap;">
+            <view class="tool-item">
+              <i class="iconfont icon-choosepicture" data-tool_name='insertImage' bindtap="toolEvent"></i>
+            </view>
+            <view class="tool-item">
+              <i class="iconfont icon-moredo" data-tool_name='showTextTool' bindtap="toolEvent"></i>
+            </view>
+            <view class="tool-item">
+              <i class="iconfont icon-h1 {{formats.header === 1 ? 'ql-active' : ''}}"
+                data-tool_name='text_H1' data-name="header" data-value="{{1}}" bindtap="toolEvent"></i>
+            </view>
+            <view class="tool-item">
+              <i class="iconfont icon-rili" data-tool_name='insertDate' bindtap="toolEvent"></i>
+            </view>
+            <view class="tool-item">
+              <i class="iconfont icon-backleft" data-tool_name='undo' bindtap="toolEvent"></i>
+            </view>
+            <view class="tool-item">
+              <i class="iconfont icon-backright" data-tool_name='redo' bindtap="toolEvent"></i>
+            </view>
+            <view class="tool-item">
+              <i class="iconfont icon-rubbish" data-tool_name='clear' bindtap="toolEvent"></i>
+            </view>
+          </scroll-view>
+        </view>
+      </view>
+      <lable class='save-icon' style='background:{{appColorConfig.check_color}}' bindtap="getEditorContent">
+        {{buttonTxt}}
+      </lable>
+    </view>
+    
+    <view class="toolbar-1" wx:if="{{textTool}}">
+      <scroll-view scroll-x style="height:70rpx;white-space: nowrap;">
+        <view class="tool-item">
+          <i class="iconfont icon-weight {{formats.bold ? 'ql-active' : ''}}" data-name="bold"></i>
+        </view>
+        <view class="tool-item">
+          <i class="iconfont icon-xieti {{formats.italic ? 'ql-active' : ''}}" data-name="italic"></i>
+        </view>
+        <view class="tool-item">
+          <i class="iconfont icon-xiahuaxian {{formats.underline ? 'ql-active' : ''}}" data-name="underline"></i>
+        </view>
+        <view class="tool-item">
+          <i class="iconfont icon-fengexian" bindtap='insertDivider'></i>
+        </view>
+        <view class="tool-item">
+          <i class="iconfont icon-duiqileft {{formats.align === 'left' ? 'ql-active' : ''}}" data-name="align"
+            data-value="left"></i>
+        </view>
+        <view class="tool-item">
+          <i class="iconfont icon-duiqicenter {{formats.align === 'center' ? 'ql-active' : ''}}" data-name="align"
+            data-value="center"></i>
+        </view>
+        <view class="tool-item">
+          <i class="iconfont icon-duiqiright {{formats.align === 'right' ? 'ql-active' : ''}}" data-name="align"
+            data-value="right"></i>
+        </view>
+        <view class="tool-item">
+          <i class="iconfont icon-averagesize {{formats.align === 'justify' ? 'ql-active' : ''}}" data-name="align" data-value="justify"></i>
+        </view>
+        <view class="tool-item">
+          <i class="iconfont icon-todolist" data-name="list" data-value="check"></i>
+        </view>
+        <view class="tool-item">
+          <i class="iconfont icon-shuzisort {{formats.list === 'ordered' ? 'ql-active' : ''}}" data-name="list" data-value="ordered"></i>
+        </view>
+        <view class="tool-item">
+          <i class="iconfont icon-diansort {{formats.list === 'bullet' ? 'ql-active' : ''}}" data-name="list"
+            data-value="bullet"></i>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+</view>

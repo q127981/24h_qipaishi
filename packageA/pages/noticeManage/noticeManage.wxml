@@ -1,0 +1,19 @@
+<view class="container">
+    <richText 
+  id='richText' 
+  readOnly='{{readOnly}}'
+  placeholder='{{placeholder}}' 
+  formatDate='YY-MM-DD HH:MM'
+  buttonTxt='保存'
+  html="{{storeInfo.notice}}"
+  bind:clearBeforeEvent='clearBeforeEvent'
+  bind:clearSuccess='clearSuccess'
+  bind:undo='undo'
+  bind:restore='restore'
+  bind:onEditorReady='onEditorReady' 
+  bind:bindfocus='bindfocus' 
+  bind:bindblur='bindblur' 
+  bind:bindinput='bindinput' 
+  bind:insertImageEvent='insertImageEvent' 
+  bind:getEditorContent='getEditorContent'></richText>
+</view>

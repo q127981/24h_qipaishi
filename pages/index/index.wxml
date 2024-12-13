@@ -1,71 +1,94 @@
 <wxs src="../../utils/magic.wxs" module="magic" />
-<view class="container" >
-  <view class="simple" wx:if="{{simpleModel}}">
-  <!-- banner -->
-    <view class="banner">
-      <swiper autoplay indicator-dots>
-        <block wx:if="{{bannerImg.length}}">
-        <block wx:for="{{bannerImg}}" wx:key="bannerImg">
-          <swiper-item>
-            <image src="{{item}}" mode="scaleToFill"></image>
-          </swiper-item>
-        </block>
-      </block>
-      </swiper>
+<view class="simple" wx:if="{{simpleModel}}">
+  <view class="logo-top" wx:if="{{simpleModel}}" style="padding-top:{{statusBarHeight+80}}rpx">
+    <view class="logo-name">
+      <text class="name">{{doorinfodata.storeName}}</text>
     </view>
-  <!-- 门店信息-->
-  <view class="intro">
-    <view class="line1">
-        <image class="image" src="/logo.png"></image> 
-        <text class="name">{{doorinfodata.storeName}}</text>
-        <button class="qhBtn" bindtap="goIndexPage">切换门店 ></button>
-    </view>
-    <view class="line2">
-      <view class="address" bindtap="goDoorDetail">
-        {{doorinfodata.address}}
+    <view class="controller">
+      <view class="item" bind:tap="openDoor">
+        <image src="../static/icon/open.png" />
+        <text>开门</text>
       </view>
-      <view class="btns">
-        <text class="iconfont icon-weizhi btn" bindtap="goTencentMap" data-info="{{doorinfodata}}"></text>
-        <text class="iconfont icon-phone btn" bind:tap="call"></text>
+      <view class="item" bind:tap="roomRenew">
+        <image src="../static/icon/reorder.png" />
+        <text>续单</text>
+      </view>
+      <view class="item" bind:tap="toShop">
+        <image src="../static/icon/discount.png" />
+        <text>商品</text>
+      </view>
+      <view class="item" bind:tap="gototuangou">
+        <image src="../static/icon/coupon-check.png" />
+        <text>验券</text>
+      </view>
+      <view class="item" bind:tap="onClickShow" data-index="1">
+        <image src="../static/icon/service.png" />
+        <text>客服</text>
       </view>
     </view>
   </view>
-  <!-- 快捷入口 -->
-  <view class="toolbar" id="toolbar">
-    <view class="item" bind:tap="showWifi">
-      <view class="bg-primary iconfont icon-wifi"></view>
-      <view class="name">WiFi连接</view>
+  <!-- 轮播图 -->
+  <view class="banner">
+    <swiper autoplay indicator-dots>
+      <block wx:for="{{bannerImg}}" wx:key="banner">
+        <swiper-item>
+          <image style="height: 100%;width: 100%;" class="banner" src="{{item}}" mode="scaleToFill"></image>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+  <!-- 门店信息 -->
+  <view class="info-card">
+    <view class="top">
+      <view class="left">
+        <view class="iconfont icon-house color-primary"></view>
+        <view class="info">
+          <iconfont name="iov-store" size="24"></iconfont>
+          <text class="name"> {{doorinfodata.storeName}}</text>
+        </view>
+      </view>
+      <view class="change-btn" bind:tap="goIndexPage">
+        <!-- <image src="../static/icon/exchange.png" /> -->
+        <view class="iconfont icon-exchange"></view>
+        <text>切换门店</text>
+      </view>
     </view>
-    <view class="item" bind:tap="gototuangou">
-      <view class="bg-primary iconfont icon-quan"></view>
-      <view class="name">团购验券</view>
+    <view class="bottom">
+      <text class="location">{{doorinfodata.address}}</text>
+      <view class="item" bind:tap="onClickShow" data-index="0">
+        <image src="../static/icon/navigation.png" />
+        <!-- <view class="iconfont icon-navigation color-primary"></view> -->
+        <text>导航</text>
+      </view>
+      <view class="line"></view>
+      <view class="item" bind:tap="onClickShow" data-index="1">
+        <image src="../static/icon/phone.png" />
+        <!-- <view class="iconfont icon-phoneicon color-primary"></view> -->
+        <text>电话</text>
+      </view>
     </view>
-    <view class="item" bind:tap="goRecharge">
-      <view class="bg-primary iconfont icon-chongzhi"></view>
-      <view class="name">优惠充值</view>
-    </view>
-    <view class="item" bind:tap="call">
-      <view class="bg-primary iconfont icon-kefu"></view>
-      <view class="name">联系客服</view>
+    <view class="distant" catchtap="goTencentMap">
+      <iconfont name="weibiaoti-3" color="#5AAB6E"></iconfont>
+      <text style="color: var(--main-color);" catchtap="goTencentMap">{{doorinfodata.distance}}km</text>
     </view>
   </view>
   <view class="top-tabs-container" wx:if="{{roomClass&&roomClass.length>1}}">
-    <view class="top-tabs" >
+    <view class="top-tabs">
       <block wx:for="{{roomClass}}" wx:key="roomClass">
         <view data-index="{{item.value}}" class="tab {{tabIndex === item.value && 'active'}}" bind:tap="tabChange">{{item.text}}</view>
       </block>
     </view>
   </view>
-    <!-- 房间列表 -->
-  <view class="lists" wx:for="{{doorlistArr}}" wx:key="doorlistArr" id="roomList">
+  <!-- 棋牌、自习室 房间列表 -->
+  <view class="lists" wx:if="{{tabIndex == 0 || tabIndex == 2}}" wx:for="{{doorlistArr}}" wx:key="doorlistArr" id="roomList">
     <view class="item">
       <view class="top">
         <view class="left">
           <block wx:if="{{item.imageUrls.length>0}}">
-            <image class="img" src="{{magic.split(item.imageUrls)[0]}}" catchtap="imgYu" data-index="{{index}}"></image>
+            <image class="img" src="{{magic.split(item.imageUrls)[0]}}" catchtap="imgYu" data-index="{{index}}" mode="scaleToFill"></image>
           </block>
           <block wx:else>
-            <image class="img" src="/logo.png"></image>
+            <image class="img" src="/logo.png" mode="aspectFit"></image>
           </block>
           <block wx:if="{{item.status == 0}}">
             <view class="flag disabled">禁用</view>
@@ -86,25 +109,36 @@
         <view class="right" bind:tap="goOrder" data-status="{{item.status}}" data-index="{{index}}" data-info="{{item.roomId}}">
           <view class="info">
             <view class="name">
+              <view class="type">
+                <block wx:if="{{item.type == 0}}">
+                  <text>特价包</text>
+                </block>
+                <block wx:elif="{{item.type == 1}}">
+                  <text>小包</text>
+                </block>
+                <block wx:elif="{{item.type == 2}}">
+                  <text>中包</text>
+                </block>
+                <block wx:elif="{{item.type == 3}}">
+                  <text>大包</text>
+                </block>
+                <block wx:elif="{{item.type == 4}}">
+                  <text>豪包</text>
+                </block>
+                <block wx:elif="{{item.type == 5}}">
+                  <text>商务包</text>
+                </block>
+                <block wx:elif="{{item.type == 6}}">
+                  <text>斯洛克</text>
+                </block>
+                <block wx:elif="{{item.type == 7}}">
+                  <text>中式黑八</text>
+                </block>
+                <block wx:else>
+                  <text>美式球桌</text>
+                </block>
+              </view>
               {{item.roomName}}
-              (<block wx:if="{{item.type == 0}}">
-                <text class="type">特价包</text>
-              </block>
-              <block wx:elif="{{item.type == 1}}">
-                <text class="type">小包</text>
-              </block>
-              <block wx:elif="{{item.type == 2}}">
-                <text class="type">中包</text>
-              </block>
-              <block wx:elif="{{item.type == 3}}">
-                <text class="type">大包</text>
-              </block>
-              <block wx:elif="{{item.type == 4}}">
-                <text class="type">豪包</text>
-              </block>
-              <block wx:else>
-                <text class="type">商务包</text>
-              </block>)
             </view>
             <view class="tags">
               <block wx:for="{{magic.split(item.label)}}" wx:for-item="labelitem" wx:key="label">
@@ -115,8 +149,8 @@
           <view class="line2">
             <view class="priceLabel">
               <view class="price">
-                每小时
-                <label class="color-attention">￥{{item.price}}元</label>
+                <label class="color-attention">￥{{item.price}}</label>
+                元/小时
               </view>
             </view>
             <view class="bottom">
@@ -126,107 +160,196 @@
               </block>
               <block wx:else="">
                 <view class="btn bg-primary">
-                    预约
-                  </view>
+                  立即预定
+                </view>
               </block>
             </view>
           </view>
-        </view>
-      </view>
-      <view class="foot">
-        <view class="foot-top">
-          <view class="labels">
-            <view class="label disabled">不可用</view>
-            <view class="label">可预约</view>
+          <view class="pkgInfo" wx:if="{{item.pkgName}}">
+            {{item.pkgName}}
           </view>
-          <block wx:if="{{item.status == 3}}">
-            <view class="tip color-attention" wx:if="{{item.endTime}}">
-              使用中 | {{item.endTime}}结束
+          <view class="line3">
+            <view class="time-line">
+              <image src="../static/icon/order-time.png" wx:if="{{item.timeText}}" />
+              <text wx:if="{{item.timeText}}">{{item.timeText}}已被预定</text>
             </view>
-          </block>
-          <!-- <block wx:elif="{{item.status == 4 ||item.status == 2}}">
-            <view class="tip color-attention" wx:if="{{item.endTime}}">
-              已预订 | {{item.startTime}}开始
+            <view class="more" catchtap="onShowReserve" data-list="{{item.orderTimeList}}" wx:if="{{item.orderTimeList.length}}">
+              更多预约
+              <icon class="iconfont icon-right"></icon>
             </view>
-          </block> -->
-        </view>
-        <view class="times">
-          <block wx:for="{{timeHourAllArr[index]}}" wx:for-item="houritem2">
-            <view class="time {{houritem2.disable?'disabled':''}}">{{houritem2.hour}}</view>
-          </block>
+          </view>
         </view>
       </view>
     </view>
   </view>
-  <!-- <view class="notes">
-    <view class="title border-primary">温馨提示</view>
-    <view class="line">1.下单5分钟内可以取消订单或更换房间，超时将无法取消！</view>
-    <view class="line">2.订单可以提前开始消费，提前开始提前结束。</view>
-    <view class="line">3.消费时间不足时，我们进行提醒。若房间后续时间已被他人预定，将无法续费！请您留意消费时长！</view>
-    <view class="line">4.预约时间结束后，房间将断电，灯光会自动熄灭。为了不影响下一位朋友使用，请您及时收拾物品离席。</view>
-    <view class="line">5.严禁黄、赌、毒打架斗殴等一切违法活动！</view>
-    <view class="line">6.破坏或带走本场所提供的设备设施请照价赔偿！</view>
-    <view class="line">7.请自行保管好私人物品，如有遗失概不负责！</view>
-    <view class="line">8.特殊情况，或需要帮助，请联系客服处理！</view>
-  </view> -->
+  <!-- 台球房间列表 -->
+  <view class="tab-container" wx:if="{{tabIndex == 1}}" wx:key="doorlistArr" id="roomList">
+    <view class="tab-item" wx:for="{{doorlistArr}}">
+      <view class="tab-left">
+        <view class="tab-left-top">
+          <!-- 无订单立即开台 状态  1空闲 2待清洁  4已预约  -->
+          <view class="tab-img-box-begin" wx:if="{{item.status==1 || item.status==2 || item.status==4}}" bind:tap="goOrder" data-status="{{item.status}}" data-index="{{index}}" data-info="{{item.roomId}}">
+            <view class="tab-info">
+              <text class="tab-roomName">{{item.roomName}}</text>
+              <view></view>
+              <view class="price">
+                <label class="color-attention">￥{{item.price}}</label>
+                元/小时
+              </view>
+            </view>
+            <view class="tab-button">
+              <button class="begin-button">开台</button>
+            </view>
+          </view>
+          <!-- 有订单 显示等待时间 -->
+          <view class="tab-img-box-wait" wx:if="{{item.status==3}}">
+            <view class="tab-wait">
+              <text class="tab-wait-roomName">{{item.roomName}}</text>
+              <view></view>
+              <text style="font-size: 30rpx;">预计等待：</text>
+            </view>
+            <view class="tab-wait-time">
+              <view class="time-number">{{item.waitTime.hours}}</view>
+              <view style="width: 10rpx;"></view>
+              <view class="time-date">时</view>
+              <view style="width: 10rpx;"></view>
+              <view class="time-number">{{item.waitTime.minutes}}</view>
+              <view style="width: 10rpx;"></view>
+              <view class="time-date">分</view>
+            </view>
+          </view>
+          <!-- 禁用状态 -->
+          <view class="tab-img-box-wait" wx:if="{{item.status==0}}">
+            <view class="tab-wait">
+              <text class="tab-wait-roomName">{{item.roomName}}</text>
+              <view></view>
+            </view>
+            <view class="tab-wait-time">
+              <view class="time-disable">禁用</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
   </view>
-
-  <view class="custom" wx:else>
-    <!-- banner -->
-    <block wx:if="{{storeEnvImg.length}}">
-      <view class="banner">
-        <swiper autoplay indicator-dots>
-          <block wx:for="{{bannerImg}}" wx:key="bannerImg">
-            <swiper-item>
-              <image src="{{item}}" mode="scaleToFill"></image>
-            </swiper-item>
-          </block>
-        </swiper>
-      </view>
-    </block>
-    <!-- 地点 -->
-    <view class="intro">
-      <view class="address" bindtap="goDoorDetail">
-        <view class="iconfont icon-dingwei"></view>
-        <text style="font-size: 20rpx;">{{doorinfodata.address}}</text>
-      </view>
-      <view class="btns">
-        <view class="iconfont icon-weizhi btn" bindtap="goTencentMap" data-info="{{doorinfodata}}"></view>
-      </view>
-    </view>
-    <!-- 快捷入口 -->
-    <view class="toolbar" id="toolbar">
-      <view class="line1">
-        <!-- 预约 -->
-        <view hover-class="button-click" class="yuyue" bind:tap="goYuyue" style="background-image: url({{doorinfodata.btnImg}})"></view>
-        <!-- <view hover-class="button-click" class="yuyue" bind:tap="gotest" style="background-image: url({{doorinfodata.btnImg}})"></view> -->
-        <view class="right-box">
-          <!-- 切换门店 -->
-          <view class="storename sub-item" bindtap="goIndexPage" style="background-image: url({{doorinfodata.qhImg}})"></view>
-          <!-- 团购验券 -->
-          <view hover-class="button-click" class="group-buying sub-item" bind:tap="gototuangou" style="background-image: url({{doorinfodata.tgImg}})"></view>
-        </view>
-      </view>
-      <view class="line2">
-        <!-- 余额充值 -->
-        <view hover-class="button-click" class="slim sub-item margin-t-26" bind:tap="goRecharge" style="background-image: url({{doorinfodata.czImg}})"></view>
-        <view hover-class="button-click" class="sub-item margin-t-26 slim" bind:tap="openDoor" style="background-image: url({{doorinfodata.openImg}})"></view>
-        <view hover-class="button-click" class="sub-item margin-t-26 slim" bind:tap="showWifi" style="background-image: url({{doorinfodata.wifiImg}})"></view>
-        <view hover-class="button-click" class="sub-item margin-t-26 slim" bind:tap="call" style="background-image: url({{doorinfodata.kfImg}})"></view>
-      </view>
-    </view>
-    <view class="section">
-      <block wx:if="{{storeEnvImg.length}}">
-        <view class="title">门店介绍</view>
-        <view class="content">
-          <block wx:for="{{storeEnvImg}}" wx:key="storeEnvImg">
-            <image src="{{item}}" mode="widthFix"></image>
-          </block>
-        </view>
-      </block>
-    </view>
+  <!-- 温馨提示 -->
+  <view class="notes">
+    <image src="../static/icon/more.png" />
+    到底了，没有更多房间啦~
   </view>
 </view>
+<view class="custom" wx:else>
+  <!-- banner -->
+  <block wx:if="{{storeEnvImg.length}}">
+    <view class="banner">
+      <swiper autoplay indicator-dots>
+        <block wx:for="{{bannerImg}}" wx:key="bannerImg">
+          <swiper-item>
+            <image src="{{item}}" mode="scaleToFill"></image>
+          </swiper-item>
+        </block>
+      </swiper>
+    </view>
+  </block>
+  <!-- 地点 -->
+  <view class="intro">
+    <view class="address" bindtap="goTencentMap" data-info="{{doorinfodata}}">
+      <iconfont name="weibiaoti-3" size="15"></iconfont>
+      <view class="text">{{doorinfodata.address}}</view>
+    </view>
+  </view>
+  <!-- 快捷入口 -->
+  <view class="toolbar" id="toolbar">
+    <view class="line1">
+      <!-- 预约 -->
+      <view hover-class="button-click" class="yuyue" bind:tap="goYuyue" style="background-image: url({{doorinfodata.btnImg}})"></view>
+      <!-- <view hover-class="button-click" class="yuyue" bind:tap="gotest" style="background-image: url({{doorinfodata.btnImg}})"></view> -->
+      <view class="right-box">
+        <!-- 切换门店 -->
+        <view class="storename sub-item" bindtap="goIndexPage" style="background-image: url({{doorinfodata.qhImg}})"></view>
+        <!-- 团购验券 -->
+        <view hover-class="button-click" class="group-buying sub-item" bind:tap="gototuangou" style="background-image: url({{doorinfodata.tgImg}})"></view>
+      </view>
+    </view>
+    <view class="line2">
+      <!-- 余额充值 -->
+      <view hover-class="button-click" class="slim sub-item margin-t-26" bind:tap="toShop" style="background-image: url({{doorinfodata.czImg}})"></view>
+      <view hover-class="button-click" class="sub-item margin-t-26 slim" bind:tap="openDoor" style="background-image: url({{doorinfodata.openImg}})"></view>
+      <view hover-class="button-click" class="sub-item margin-t-26 slim" bind:tap="showWifi" style="background-image: url({{doorinfodata.wifiImg}})"></view>
+      <view hover-class="button-click" class="sub-item margin-t-26 slim" bind:tap="call" style="background-image: url({{doorinfodata.kfImg}})"></view>
+    </view>
+  </view>
+  <view class="section">
+    <block wx:if="{{storeEnvImg.length}}">
+      <view class="title">门店介绍</view>
+      <view class="content">
+        <block wx:for="{{storeEnvImg}}" wx:key="storeEnvImg">
+          <image src="{{item}}" mode="widthFix"></image>
+        </block>
+      </view>
+    </block>
+  </view>
+</view>
+
+
+<!-- 导航提示框 -->
+<van-popup round show="{{ show }}" bind:tap="onClickHide">
+  <view class="popup navigation" wx:if="{{popupIndex === 0}}">
+    <view class="title">导航到店</view>
+    <view class="sub-title">可选择您所需要的服务</view>
+    <view class="btn" bind:tap="goTencentMap">
+      <image src="../static/icon/nav.png" />
+      地图导航
+    </view>
+    <view class="btn" bind:tap="goGuide">
+      <image src="../static/icon/guide.png" />
+      位置指引
+    </view>
+  </view>
+  <view class="popup service" wx:if="{{popupIndex === 1}}">
+    <view class="title">联系客服</view>
+    <view class="sub-title">可选择您所需要的服务</view>
+    <view class="btn" bind:tap="call">
+      <image src="../static/icon/phone-call.png" />
+      {{ doorinfodata.kefuPhone }}
+    </view>
+    <view class="btn" bind:tap="copy" wx:if="{{doorinfodata.kefuWx}}">
+      <image src="../static/icon/wechat.png" />
+      {{doorinfodata.kefuWx}}
+    </view>
+  </view>
+</van-popup>
+
+<!-- 房间预定时间列表 -->
+<van-popup round show="{{ showReserve }}" bind:tap="onHideReserve">
+  <view class="reserve-box">
+    <view class="title">预定时间</view>
+    <view class="time-line" wx:for="{{orderTimeList}}">
+      <view class="dot"></view>
+      <view class="time-tag"><text>{{item}} </text><text>已预订</text></view>
+    </view>
+    <button>知道了</button>
+  </view>
+</van-popup>
+
+<!-- 是否展示团购券信息 -->
+<van-popup round show="{{ showGroupsPay }}" close-on-click-overlay="{{ true }}">
+  <scroll-view scroll-y class="groupInfo">
+    <view class="group-top">查询到您有{{groupPays.length}}张团购券待使用~</view>
+    <view class="group-item" wx:for="{{groupPays}}" data-index="{{index}}" wx:key="index">
+      <view class="itemInfo">
+        <view class="item-name">{{item.ticketName}}</view>
+        <view class="item-code">
+          <view>券码：{{item.ticketNo}}</view>
+          <button bind:tap="gotoUse" class="gotoUse" data-item="{{item}}">使用</button>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+  <view style="display: flex;">
+    <button bind:tap="cancelUser" class="cancelUser">关闭</button>
+  </view>
+</van-popup>
 
 <!-- 弹出层提示 -->
 <van-popup round show="{{ popshow }}">
@@ -239,7 +362,7 @@
   </view>
 </van-popup>
 
-<van-dialog use-slot title="WiFi信息"  class="wifiDialog" show="{{ wifiShow }}" >
+<van-dialog use-slot title="WiFi信息" class="wifiDialog" show="{{ wifiShow }}">
   <view class="dialog">
     <view class="item">
       <label>WiFi名称: </label>
@@ -251,10 +374,10 @@
     </view>
     <view class="btn">
       <button class="copy" bind:tap="copyWifi" data-ssid="{{doorinfodata.wifiInfo}}" data-pwd="{{doorinfodata.wifiPwd}}">
-         复制密码
+        复制密码
       </button>
       <button class="connect" bind:tap="connectWifi" data-ssid="{{doorinfodata.wifiInfo}}" data-pwd="{{doorinfodata.wifiPwd}}">
-         一键连接
+        一键连接
       </button>
     </view>
     <view class="info">

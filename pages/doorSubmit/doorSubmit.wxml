@@ -45,8 +45,17 @@
             <block wx:elif="{{roomInfo.type == 4}}">
               <text class="type">（豪包）</text>
             </block>
-            <block wx:else>
+            <block wx:elif="{{roomInfo.type == 5}}">
               <text class="type">（商务包）</text>
+            </block>
+            <block wx:elif="{{roomInfo.type == 6}}">
+              <text class="type">（斯洛克）</text>
+            </block>
+            <block wx:elif="{{roomInfo.type == 7}}">
+              <text class="type">（中式黑八）</text>
+            </block>
+            <block wx:else>
+              <text class="type">（美式球桌）</text>
             </block>
           </view>
           <view class="tags">

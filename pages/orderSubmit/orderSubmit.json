@@ -1,4 +1,9 @@
 {
-  "navigationBarTitleText": "提交订单",
-  "usingComponents": {"van-datetime-picker": "@vant/weapp/datetime-picker/index"}
+    "navigationBarTitleText": "订单提交",
+    "navigationBarBackgroundColor": "#5AAB6E",
+    "navigationBarTextStyle": "white",
+    "usingComponents": {
+      "van-datetime-picker": "@vant/weapp/datetime-picker/index"
+    }
 }
+  

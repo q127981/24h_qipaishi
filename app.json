@@ -1,7 +1,10 @@
 {
   "pages": [
-    "pages/index/index",
     "pages/doorList/doorList",
+    "pages/productOrder/productOrder",
+    "pages/productOrderInfo/productOrderInfo",
+    "pages/index/index",
+    "pages/shop/shop",
     "pages/cashOut/cashOut",
     "pages/doorSubmit/doorSubmit",
     "pages/door/door",
@@ -27,7 +30,9 @@
     "pages/login/login",
     "pages/booking/booking",
     "pages/placeOrder/placeOrder",
-    "pages/roomRenew/roomRenew"
+    "pages/roomRenew/roomRenew",
+    "pages/map/map",
+    "pages/pay/pay"
   ],
   "subpackages": [
     {
@@ -35,6 +40,10 @@
       "name": "p1",
       "pages": [
         "pages/admin/admin",
+        "pages/doorManage/doorManage",
+        "pages/noticeManage/noticeManage",
+        "pages/doorPosition/doorPosition",
+        "pages/vipBlacklist/vipBlacklist",
         "pages/statics/statics",
         "pages/setVip/setVip",
         "pages/cleaner/cleaner",
@@ -58,8 +67,18 @@
         "pages/roomList/roomList",
         "pages/setStoreSound/setStoreSound",
         "pages/faceRecord/faceRecord",
+        "pages/guide/guide",
+        "pages/meituanreserve/meituanreserve",
+        "pages/pushrule/pushrule",
         "pages/faceBlacklist/faceBlacklist",
-        "pages/addLock/addLock"
+        "pages/addLock/addLock",
+        "pages/productManage/productManage",
+        "pages/addProduct/addProduct",
+        "pages/goodsKindManage/goodsKindManage",
+        "pages/bleList/bleList",
+        "pages/configGateWay/index",
+        "pages/vipDetail/vipDetail",
+        "pages/ydCancel/index"
       ]
     }
   ],
@@ -79,12 +98,13 @@
   },
   "plugins": {
     "myPlugin": {
-      "version": "3.0.5",
+      "version": "3.0.6",
       "provider": "wx43d5971c94455481"
     }
   },
   "tabBar": {
-    "selectedColor": "#1684fc",
+    "selectedColor": "#5AAB6E",
+    "color": "#BCBCBC",
     "borderStyle": "white",
     "list": [
       {
@@ -92,6 +112,12 @@
         "text": "首页",
         "iconPath": "pages/static/icon/home.png",
         "selectedIconPath": "pages/static/icon/home-in.png"
+      },
+      {
+        "pagePath": "pages/recharge/recharge",
+        "text": "优惠中心",
+        "iconPath": "pages/static/icon/bar-coupon.png",
+        "selectedIconPath": "pages/static/icon/coupon-in.png"
       },
       {
         "pagePath": "pages/orderList/orderList",
@@ -128,7 +154,8 @@
     "van-tabs": "@vant/weapp/tabs/index",
     "van-popup": "@vant/weapp/popup/index",
     "van-icon": "@vant/weapp/icon/index",
-    "van-divider": "@vant/weapp/divider/index"
+    "van-divider": "@vant/weapp/divider/index",
+    "iconfont": "./iconfont/iconfont"
   },
   "requiredPrivateInfos": [
     "getLocation",
