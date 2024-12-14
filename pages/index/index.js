@@ -760,7 +760,7 @@ Page({
           console.info('订单信息===');
           if (info.code === 0 && info.data) {
             wx.navigateTo({
-              url: `/pages/roomRenew/roomRenew?storeId=${this.data.storeId}&roomId=${info.data.roomId}`,
+              url: `/pages/roomRenew/roomRenew?storeId=${info.data.storeId}&roomId=${info.data.roomId}`,
             });
           } else {
             wx.showToast({

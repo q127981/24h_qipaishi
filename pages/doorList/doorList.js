@@ -700,10 +700,13 @@ Page({
   handleMenu(value) {
     console.log(value)
     const { detail } = value;
-    if (!this.data.orderDetail) return wx.showToast({
-      title: "当前无订单",
-      icon: "none",
-    });
+    if (!this.data.orderDetail){
+      wx.showToast({
+        title: "当前无订单",
+        icon: "none",
+      });
+      return
+    } 
     switch (detail.value) {
       case "openDoor":
         this.openDoor();
