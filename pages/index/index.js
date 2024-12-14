@@ -357,7 +357,7 @@ Page({
           console.info('返回111===');
           console.info(info);
           if (info.code == 0) {
-            that.setData({
+            that.setData({ 
               doorlistArr: info.data.map((el) => {
                 el.timeText = that.timeFilter(el.startTime, el.endTime);
                 if (el.orderTimeList) {

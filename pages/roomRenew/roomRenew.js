@@ -205,7 +205,7 @@ Page({
         "1",
         "post", {
         roomId: that.data.OrderInfodata.roomId,
-        couponId: "",
+        couponId: that.data.couponId,
         startTime: that.data.OrderInfodata.endTime,
         endTime: that.data.newTime,
         orderId: that.data.OrderInfodata.orderId

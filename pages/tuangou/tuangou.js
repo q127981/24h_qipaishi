@@ -497,6 +497,11 @@ Page({
                 title: "预定成功！",
                 icon: "success",
               });
+              setTimeout(() => {
+                wx.navigateTo({
+                  url: '../orderDetail/orderDetail',
+                })
+              }, 1000);
             }
             setTimeout(function () {
               wx.navigateTo({
@@ -589,13 +594,24 @@ Page({
       function fail(info) { }
     );
   },
+  timeFilter(startTime, endTime) {
+    if (startTime && !endTime) {
+      return moment(startTime).format("MM月DD日HH:mm");
+    } else if (startTime && endTime) {
+      const start = moment(startTime);
+      const end = moment(endTime);
+      return `${start.format("MM月DD日HH:mm")}-${end.format("HH:mm")}`;
+    } else {
+      return "";
+    }
+  },
   //获取房间列表数据
   getDoorListdata: function (storeId) {
     var that = this;
     //if (app.globalData.isLogin)
     {
       http.request(
-        `/member/index/getRoomInfoList/${storeId}`,
+        `/member/index/getRoomInfoList`,
         "1",
         "post",
         {
@@ -606,7 +622,30 @@ Page({
         function success(info) {
           if (info.code == 0) {
             that.setData({
-              doorlistArr: info.data,
+              doorlistArr: info.data.map((el) => {
+                el.timeText = that.timeFilter(el.startTime, el.endTime);
+                if (el.orderTimeList) {
+                  el.orderTimeList = el.orderTimeList.map((item) =>
+                    that.timeFilter(item.startTime, item.endTime)
+                  );
+                }
+                // 新增逻辑：计算当前时间到endTime的等待时间
+                if (el.endTime) {
+                  const currentTime = new Date();
+                  const endDateTime = new Date(el.endTime);
+                  const diffInMilliseconds = endDateTime - currentTime;
+                  const diffInMinutes = Math.floor(diffInMilliseconds / (1000 * 60));
+                  const hours = Math.floor(diffInMinutes / 60);
+                  const minutes = diffInMinutes % 60;
+                  const timeNumber1 = hours < 10 ? `0${hours}` : `${hours}`;
+                  const timeNumber2 = minutes < 10 ? `0${minutes}` : `${minutes}`;
+                  el.waitTime = {
+                    hours: timeNumber1,
+                    minutes: timeNumber2
+                  };
+                }
+                return el;
+              }),
             });
             // that.setroomlistHour(0);
           } else {

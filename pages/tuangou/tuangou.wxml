@@ -76,11 +76,11 @@
             <view>{{item.roomName}}</view>
           </view>
           <view class="bottom">
-            <view class="orang" wx:if="{{item.status === 0}}">已预约</view>
+            <view class="gray" wx:if="{{item.status === 0}}">禁用</view>
             <view class="primary" wx:if="{{item.status === 1}}">空闲</view>
             <view class="blue" wx:if="{{item.status === 2}}">待清洁</view>
             <view class="red" wx:if="{{item.status === 3}}">使用中</view>
-            <view class="gray" wx:if="{{item.status === 4}}">停用中</view>
+            <view class="orang" wx:if="{{item.status === 4}}">已预约</view>
             <view class="more" catchtap="onShowReserve" data-list="{{item.orderTimeList}}" wx:if="{{item.orderTimeList.length}}">更多预约
               <icon class="iconfont icon-right" />
             </view>

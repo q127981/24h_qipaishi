@@ -159,15 +159,15 @@
         <view class="control" wx:else>
           <!-- 保洁端 -->
           <navigator class="item" url="/packageA/pages/task/task">
-            <view class="iconfont icon-renwu color-primary"></view>
+            <iconfont name="iov-store" size="32" color="#5AAB6E"></iconfont>
             <view>任务大厅</view>
           </navigator>
           <navigator class="item" url="/packageA/pages/roomList/roomList">
-            <view class="iconfont icon-wanle color-primary"></view>
+            <iconfont name="shebeiguanli" size="32" color="#5AAB6E"></iconfont>
             <view>房间状态</view>
           </navigator>
           <navigator class="item" url="/packageA/pages/taskStatics/taskStatics">
-            <view class="iconfont icon-tongji color-primary"></view>
+            <iconfont name="duiqifangshi2" size="32" color="#5AAB6E"></iconfont>
             <view>任务统计</view>
           </navigator>
         </view>

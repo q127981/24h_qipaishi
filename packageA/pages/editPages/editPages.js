@@ -25,27 +25,27 @@ Page({
     weekNum: ["1", "2", "3", "4", "5", "6", "7"],
     roomTypeNum: ["1", "2", "3", "4", "5"],
     checkedStates: Array(7).fill(false), // 初始未选中状态
-    roomTypeCheckd: Array(5).fill(false), 
+    roomTypeCheckd: Array(5).fill(false),
     enableRoomCheck: [],
-    storesRoomList: [{key: "1",value: "小包"},{key: "2",value: "中包"},{key: "3",value: "大包"},{key: "4",value: "豪包"},{key: "5",value: "商务包"},{key:"6",value:"斯洛克"},{key:"7",value:"中式黑八"},{key:"8",value:"‌美式球桌"}], //用于储存限制房间数据
+    storesRoomList: [{ key: "1", value: "小包" }, { key: "2", value: "中包" }, { key: "3", value: "大包" }, { key: "4", value: "豪包" }, { key: "5", value: "商务包" }, { key: "6", value: "斯洛克" }, { key: "7", value: "中式黑八" }, { key: "8", value: "‌美式球桌" }], //用于储存限制房间数据
     storesRoomIndex: 0, //默认第一个
     storesRoomName: '', //选中的限制房间类型
     item: {}, //回显数据
     price: '', //价格
     balanceBuy: false,//支持余额支付
-    roomStoreId:'',//门店id
+    roomStoreId: '',//门店id
     roomClass: [],//房间种类筛选
-    doorinfodata:{},//门店信息
-    roomLimit: [{ text: '按大小设置', value: 0},{text: '按包厢设置',value: 1}],
+    doorinfodata: {},//门店信息
+    roomLimit: [{ text: '按大小设置', value: 0 }, { text: '按包厢设置', value: 1 }],
     tabIndex: 0,
-    checkedRoomList:[],
-    doorList:[], // 房间列表存放
+    checkedRoomList: [],
+    doorList: [], // 房间列表存放
   },
   tabChange(e) {
-    const {target} = e
+    const { target } = e
     this.setData({
       tabIndex: Number(target.dataset.index),
-      checkedRoomList:[]
+      checkedRoomList: []
     })
   },
   checkboxChange(event) {
@@ -64,52 +64,52 @@ Page({
     //         checkedRoomList: newCheckedList
     //     });
     // } else {
-        this.setData({
-            checkedRoomList: event.detail.value
-        })
+    this.setData({
+      checkedRoomList: event.detail.value
+    })
     // }
 
     console.log(this.data.checkedRoomList);
-},
+  },
   //获取门店相信信息
-  getStoreInfodata:function(e){
+  getStoreInfodata: function (e) {
     var that = this;
     //if (app.globalData.isLogin) 
     {
       http.request(
-        "/member/index/getStoreInfo"+'/'+that.data.storeId,
+        "/member/index/getStoreInfo" + '/' + that.data.storeId,
         "1",
         "get", {
-        },
+      },
         app.globalData.userDatatoken.accessToken,
         "获取中...",
         function success(info) {
           console.info('门店信息===');
           // console.info(info);
           if (info.code == 0) {
-            if(null!=info.data){
+            if (null != info.data) {
               that.setData({
                 doorinfodata: info.data,
               });
               //增加房间类别的筛选条件
-            if(null!=info.data.roomClassList&&info.data.roomClassList.length>0){
-              const classArr=[];
-              info.data.roomClassList.forEach(e=>{
-                if(e===0){
-                  classArr.push( { text: '棋牌', value: 0});
-                }else if(e===1){
-                  classArr.push( { text: '台球', value: 1});
-                }else if(e===2){
-                  classArr.push( { text: '自习室', value: 2});
-                }
-              });
-              that.setData({
-                roomClass: classArr
-              });
+              if (null != info.data.roomClassList && info.data.roomClassList.length > 0) {
+                const classArr = [];
+                info.data.roomClassList.forEach(e => {
+                  if (e === 0) {
+                    classArr.push({ text: '棋牌', value: 0 });
+                  } else if (e === 1) {
+                    classArr.push({ text: '台球', value: 1 });
+                  } else if (e === 2) {
+                    classArr.push({ text: '自习室', value: 2 });
+                  }
+                });
+                that.setData({
+                  roomClass: classArr
+                });
+              }
+            } else {
             }
-            }else{
-            }
-          }else{
+          } else {
             wx.showModal({
               content: info.msg,
               showCancel: false,
@@ -119,7 +119,7 @@ Page({
         function fail(info) {
         }
       )
-    } 
+    }
   },
   // 获取适用门店列列表
   //获取门店下拉列表数据
@@ -131,19 +131,19 @@ Page({
         "/member/store/getStoreList",
         "1",
         "get", {
-          cityName: ''
-        },
+        cityName: ''
+      },
         app.globalData.userDatatoken.accessToken,
         "获取中...",
         function success(info) {
           console.info('下拉门店数据===');
-          console.log(info,'门店数据');
+          console.log(info, '门店数据');
           if (info.code == 0 && info.data.length > 0) {
             // 更新门店列表和默认选中的门店
             let storeIndex = 0
-            info.data.map((it,index) => {
+            info.data.map((it, index) => {
               console.log(it);
-              if(it.value === that.data.storeId){
+              if (it.value === that.data.storeId) {
                 storeIndex = index
               }
             })
@@ -151,7 +151,7 @@ Page({
               stores: info.data,
               storeName: that.formatString(info.data[storeIndex].key, 10), // 默认选中第一个门店的名称
               storeIndex: storeIndex, // 默认选中门店的索引
-              roomStoreId:info.data[storeIndex].value
+              roomStoreId: info.data[storeIndex].value
             });
           } else {
             wx.showModal({
@@ -176,16 +176,18 @@ Page({
   },
   // 选择门店
   handlePickerChanges: function (e) {
+    var that = this;
     const newIndex = e.detail.value;
     const newStore = this.data.stores[newIndex];
-    console.log(newStore,'newStore');
+    console.log(newStore, 'newStore');
     this.setData({
       storeIndex: e.detail.value,
-      roomStoreId:newStore.value,
-      storeName:newStore.key
+      roomStoreId: newStore.value,
+      storeName: newStore.key
       // storeIndex:newStore.value
     });
-    console.log(this.data.storeIndex,'storeIndex');
+    // 查看该门店有哪些房间
+    console.log(this.data.storeIndex, 'storeIndex');
   },
   //
   // 处理用户选择变更：限制房间的类型
@@ -199,10 +201,10 @@ Page({
   },
   chackRoomType(e) {
     const index = e.currentTarget.dataset.index;
-    const checkedStates = this.data.roomTypeCheckd.slice(); 
+    const checkedStates = this.data.roomTypeCheckd.slice();
     checkedStates[index] = !checkedStates[index];
     this.setData({
-        roomTypeCheckd: checkedStates
+      roomTypeCheckd: checkedStates
     });
   },
   chackWeek(e) {
@@ -348,7 +350,7 @@ Page({
   },
   // 表单验证
   onSubmit: function (e) {
-  
+
     const formData = e.detail.value;
     const selectedTimes = this.data.times
       .filter(item => item.checked)
@@ -396,8 +398,8 @@ Page({
       });
       return;
     }
-    console.log('formData.store'+formData.store);
-    console.log('this.data.roomStoreId'+this.data.roomStoreId);
+    console.log('formData.store' + formData.store);
+    console.log('this.data.roomStoreId' + this.data.roomStoreId);
     //所有验证成功之后提交数据保存
     // if(app.globalData.isLogin)
     {
@@ -405,25 +407,25 @@ Page({
         "/member/pkg/admin/saveAdminPkg",
         "1",
         "post", {
-          "pkgId": this.data.item.pkgId,
-          "pkgName": formData.pkg_name, //套餐名称
-          "hours": formData.duration, //时长
-          "storeId": this.data.roomStoreId, //门店id
-          "roomType": formData.roomType, //限制房间类型
-          "enableTime": formData.enableTime, //可用时间 0-23数字
-          "enableWeek": formData.enableWeek, //可用星期 1-7 数字
-          "enableHoliday": formData.enableHoliday, //节假日可用
-          "balanceBuy": formData.balanceBuy, //节假日可用
-          "price": formData.price, //销售价格	
-          "expireDay": formData.expireDay, //购买后过期时间(天) 0=不过期	
-          "maxNum": formData.maxNum, //单用户最大购买数量 0=不限	
-          "sortId": formData.sortId, //排序
-          "mtId" : formData.mtId,
-          "dyId" : formData.dyId,
-          "ksId" : formData.ksId,
-          "enableRoom" : formData.enableRoom,
-          // enable                           //是否启用	
-        },
+        "pkgId": this.data.item.pkgId,
+        "pkgName": formData.pkg_name, //套餐名称
+        "hours": formData.duration, //时长
+        "storeId": this.data.roomStoreId, //门店id
+        "roomType": formData.roomType, //限制房间类型
+        "enableTime": formData.enableTime, //可用时间 0-23数字
+        "enableWeek": formData.enableWeek, //可用星期 1-7 数字
+        "enableHoliday": formData.enableHoliday, //节假日可用
+        "balanceBuy": formData.balanceBuy, //节假日可用
+        "price": formData.price, //销售价格	
+        "expireDay": formData.expireDay, //购买后过期时间(天) 0=不过期	
+        "maxNum": formData.maxNum, //单用户最大购买数量 0=不限	
+        "sortId": formData.sortId, //排序
+        "mtId": formData.mtId,
+        "dyId": formData.dyId,
+        "ksId": formData.ksId,
+        "enableRoom": formData.enableRoom,
+        // enable                           //是否启用	
+      },
         app.globalData.userDatatoken.accessToken,
         "",
         function success(info) {
@@ -451,8 +453,8 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-   onLoad(options) {
-    var that=this;
+  onLoad(options) {
+    var that = this;
     console.log("1111")
     if (options.item) {
       const item = JSON.parse(options.item);
@@ -468,25 +470,25 @@ Page({
         roomType: item.roomType,
       });
       // 查看该门店有哪些房间
-       that.getDoorList((val)=>{
+      that.getDoorList((val) => {
         that.setData({
-              doorList: val.data
-            })
+          doorList: val.data
+        })
         if (item.enableRoom) {
-             const enableRoomString = String(item.enableRoom);
-            const enableRoomSet = new Set(enableRoomString.split(',').map(item => item.trim()));
-            const checkedStates = val.data.map(item =>
-                enableRoomSet.has(String(item.roomId))
-            );
-            this.setData({
-                  tabIndex: 1,
-                   enableRoomCheck: checkedStates,
-             });
-            }
-       })
+          const enableRoomString = String(item.enableRoom);
+          const enableRoomSet = new Set(enableRoomString.split(',').map(item => item.trim()));
+          const checkedStates = val.data.map(item =>
+            enableRoomSet.has(String(item.roomId))
+          );
+          this.setData({
+            tabIndex: 1,
+            enableRoomCheck: checkedStates,
+          });
+        }
+      })
       //选中指定房间
-      that.data.storesRoomList.forEach(function(v, i){
-        if(v.key==item.roomType){
+      that.data.storesRoomList.forEach(function (v, i) {
+        if (v.key == item.roomType) {
           console.log(v);
           that.setData({
             storesRoomIndex: i,
@@ -509,7 +511,7 @@ Page({
         const roomTypeSet = new Set(roomTypeString.split(',').map(item => item.trim()));
         const checkedStates = this.data.roomTypeNum.map(item => roomTypeSet.has(item));
         this.setData({
-            roomTypeCheckd: checkedStates
+          roomTypeCheckd: checkedStates
         });
       }
       // 解析 enableTime 字符串
@@ -540,7 +542,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady() {
-    
+
   },
 
   /**
@@ -586,16 +588,16 @@ Page({
   },
 
   // 获取房间列表
-  getDoorList: function(callback){
-      
+  getDoorList: function (callback) {
+
     let that = this
-    if (app.globalData.isLogin) 
-    {
+    if (app.globalData.isLogin) {
       http.request(
-        "/member/store/getRoomInfoList?storeId="+that.data.storeId,
+        "/member/store/getRoomInfoList",
         "1",
         "post", {
-        },
+        storeId: that.data.storeId
+      },
         app.globalData.userDatatoken.accessToken,
         "",
         function success(info) {
@@ -603,7 +605,7 @@ Page({
           console.info(info);
           if (info.code == 0) {
             callback(info);
-          }else{
+          } else {
             wx.showModal({
               content: info.msg,
               showCancel: false,
@@ -611,10 +613,10 @@ Page({
           }
         },
         function fail(info) {
-          
+
         }
       )
-    } 
+    }
   },
 
 

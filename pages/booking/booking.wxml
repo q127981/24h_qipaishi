@@ -44,158 +44,158 @@
         </view>
       </view>
       <!-- 棋牌、自习室 房间列表 -->
-  <view class="lists" wx:if="{{tabIndex == 0 || tabIndex == 2}}" wx:for="{{doorlistArr}}" wx:key="doorlistArr" id="roomList">
-    <view class="item">
-      <view class="top">
-        <view class="left">
-          <block wx:if="{{item.imageUrls.length>0}}">
-            <image class="img" src="{{magic.split(item.imageUrls)[0]}}" catchtap="imgYu" data-index="{{index}}" mode="scaleToFill"></image>
-          </block>
-          <block wx:else>
-            <image class="img" src="/logo.png" mode="aspectFit"></image>
-          </block>
-          <block wx:if="{{item.status == 0}}">
-            <view class="flag disabled">禁用</view>
-          </block>
-          <block wx:elif="{{item.status == 1}}">
-            <view class="flag undo">空闲中</view>
-          </block>
-          <block wx:elif="{{item.status == 2}}">
-            <view class="flag daiqingjie">待清洁</view>
-          </block>
-          <block wx:elif="{{item.status == 3}}">
-            <view class="flag doing">使用中</view>
-          </block>
-          <block wx:else>
-            <view class="flag bukeyong">已预约</view>
-          </block>
-        </view>
-        <view class="right" bind:tap="goOrder" data-status="{{item.status}}" data-index="{{index}}" data-info="{{item.roomId}}">
-          <view class="info">
-            <view class="name">
-              <view class="type">
-                <block wx:if="{{item.type == 0}}">
-                  <text>特价包</text>
-                </block>
-                <block wx:elif="{{item.type == 1}}">
-                  <text>小包</text>
-                </block>
-                <block wx:elif="{{item.type == 2}}">
-                  <text>中包</text>
-                </block>
-                <block wx:elif="{{item.type == 3}}">
-                  <text>大包</text>
-                </block>
-                <block wx:elif="{{item.type == 4}}">
-                  <text>豪包</text>
-                </block>
-                <block wx:elif="{{item.type == 5}}">
-                  <text>商务包</text>
-                </block>
-                <block wx:elif="{{item.type == 6}}">
-                  <text>斯洛克</text>
-                </block>
-                <block wx:elif="{{item.type == 7}}">
-                  <text>中式黑八</text>
-                </block>
-                <block wx:else>
-                  <text>美式球桌</text>
-                </block>
-              </view>
-              {{item.roomName}}
-            </view>
-            <view class="tags">
-              <block wx:for="{{magic.split(item.label)}}" wx:for-item="labelitem" wx:key="label">
-                <view class="tag">{{labelitem}}</view>
+      <view class="lists" wx:if="{{tabIndex == 0 || tabIndex == 2}}" wx:for="{{doorlistArr}}" wx:key="doorlistArr" id="roomList">
+        <view class="item">
+          <view class="top">
+            <view class="left">
+              <block wx:if="{{item.imageUrls.length>0}}">
+                <image class="img" src="{{magic.split(item.imageUrls)[0]}}" catchtap="imgYu" data-index="{{index}}" mode="scaleToFill"></image>
               </block>
-            </view>
-          </view>
-          <view class="line2">
-            <view class="priceLabel">
-              <view class="price">
-                <label class="color-attention">￥{{item.price}}</label>
-                元/小时
-              </view>
-            </view>
-            <view class="bottom">
+              <block wx:else>
+                <image class="img" src="/logo.png" mode="aspectFit"></image>
+              </block>
               <block wx:if="{{item.status == 0}}">
-                <!-- 禁用状态 -->
-                <view class="btn disabled">禁用</view>
+                <view class="flag disabled">禁用</view>
               </block>
-              <block wx:else="">
-                <view class="btn bg-primary">
-                  立即预定
+              <block wx:elif="{{item.status == 1}}">
+                <view class="flag undo">空闲中</view>
+              </block>
+              <block wx:elif="{{item.status == 2}}">
+                <view class="flag daiqingjie">待清洁</view>
+              </block>
+              <block wx:elif="{{item.status == 3}}">
+                <view class="flag doing">使用中</view>
+              </block>
+              <block wx:else>
+                <view class="flag bukeyong">已预约</view>
+              </block>
+            </view>
+            <view class="right" bind:tap="goOrder" data-status="{{item.status}}" data-index="{{index}}" data-info="{{item.roomId}}">
+              <view class="info">
+                <view class="name">
+                  <view class="type">
+                    <block wx:if="{{item.type == 0}}">
+                      <text>特价包</text>
+                    </block>
+                    <block wx:elif="{{item.type == 1}}">
+                      <text>小包</text>
+                    </block>
+                    <block wx:elif="{{item.type == 2}}">
+                      <text>中包</text>
+                    </block>
+                    <block wx:elif="{{item.type == 3}}">
+                      <text>大包</text>
+                    </block>
+                    <block wx:elif="{{item.type == 4}}">
+                      <text>豪包</text>
+                    </block>
+                    <block wx:elif="{{item.type == 5}}">
+                      <text>商务包</text>
+                    </block>
+                    <block wx:elif="{{item.type == 6}}">
+                      <text>斯洛克</text>
+                    </block>
+                    <block wx:elif="{{item.type == 7}}">
+                      <text>中式黑八</text>
+                    </block>
+                    <block wx:else>
+                      <text>美式球桌</text>
+                    </block>
+                  </view>
+                  {{item.roomName}}
                 </view>
-              </block>
-            </view>
-          </view>
-          <view class="pkgInfo" wx:if="{{item.pkgName}}">
-            {{item.pkgName}}
-          </view>
-          <view class="line3">
-            <view class="time-line">
-              <image src="../static/icon/order-time.png" wx:if="{{item.timeText}}" />
-              <text wx:if="{{item.timeText}}">{{item.timeText}}已被预定</text>
-            </view>
-            <view class="more" catchtap="onShowReserve" data-list="{{item.orderTimeList}}" wx:if="{{item.orderTimeList.length}}">
-              更多预约
-              <icon class="iconfont icon-right"></icon>
-            </view>
-          </view>
-        </view>
-      </view>
-    </view>
-  </view>
-  <!-- 台球房间列表 -->
-  <view class="tab-container" wx:if="{{tabIndex == 1}}" wx:key="doorlistArr" id="roomList">
-    <view class="tab-item" wx:for="{{doorlistArr}}">
-      <view class="tab-left">
-        <view class="tab-left-top">
-          <!-- 无订单立即开台 状态  1空闲 2待清洁  4已预约  -->
-          <view class="tab-img-box-begin" wx:if="{{item.status==1 || item.status==2 || item.status==4}}" bind:tap="goOrder" data-status="{{item.status}}" data-index="{{index}}" data-info="{{item.roomId}}">
-            <view class="tab-info">
-              <text class="tab-roomName">{{item.roomName}}</text>
-              <view></view>
-              <view class="price">
-                <label class="color-attention">￥{{item.price}}</label>
-                元/小时
+                <view class="tags">
+                  <block wx:for="{{magic.split(item.label)}}" wx:for-item="labelitem" wx:key="label">
+                    <view class="tag">{{labelitem}}</view>
+                  </block>
+                </view>
+              </view>
+              <view class="line2">
+                <view class="priceLabel">
+                  <view class="price">
+                    <label class="color-attention">￥{{item.price}}</label>
+                    元/小时
+                  </view>
+                </view>
+                <view class="bottom">
+                  <block wx:if="{{item.status == 0}}">
+                    <!-- 禁用状态 -->
+                    <view class="btn disabled">禁用</view>
+                  </block>
+                  <block wx:else="">
+                    <view class="btn bg-primary">
+                      立即预定
+                    </view>
+                  </block>
+                </view>
+              </view>
+              <view class="pkgInfo" wx:if="{{item.pkgName}}">
+                {{item.pkgName}}
+              </view>
+              <view class="line3">
+                <view class="time-line">
+                  <image src="../static/icon/order-time.png" wx:if="{{item.timeText}}" />
+                  <text wx:if="{{item.timeText}}">{{item.timeText}}已被预定</text>
+                </view>
+                <view class="more" catchtap="onShowReserve" data-list="{{item.orderTimeList}}" wx:if="{{item.orderTimeList.length}}">
+                  更多预约
+                  <icon class="iconfont icon-right"></icon>
+                </view>
               </view>
             </view>
-            <view class="tab-button">
-              <button class="begin-button">开台</button>
-            </view>
           </view>
-          <!-- 有订单 显示等待时间 -->
-          <view class="tab-img-box-wait" wx:if="{{item.status==3}}">
-            <view class="tab-wait">
-              <text class="tab-wait-roomName">{{item.roomName}}</text>
-              <view></view>
-              <text style="font-size: 30rpx;">预计等待：</text>
-            </view>
-            <view class="tab-wait-time">
-              <view class="time-number">{{item.waitTime.hours}}</view>
-              <view style="width: 10rpx;"></view>
-              <view class="time-date">时</view>
-              <view style="width: 10rpx;"></view>
-              <view class="time-number">{{item.waitTime.minutes}}</view>
-              <view style="width: 10rpx;"></view>
-              <view class="time-date">分</view>
-            </view>
-          </view>
-          <!-- 禁用状态 -->
-          <view class="tab-img-box-wait" wx:if="{{item.status==0}}">
-            <view class="tab-wait">
-              <text class="tab-wait-roomName">{{item.roomName}}</text>
-              <view></view>
-            </view>
-            <view class="tab-wait-time">
-              <view class="time-disable">禁用</view>
+        </view>
+      </view>
+      <!-- 台球房间列表 -->
+      <view class="tab-container" wx:if="{{tabIndex == 1}}" wx:key="doorlistArr" id="roomList">
+        <view class="tab-item" wx:for="{{doorlistArr}}">
+          <view class="tab-left">
+            <view class="tab-left-top">
+              <!-- 无订单立即开台 状态  1空闲 2待清洁  4已预约  -->
+              <view class="tab-img-box-begin" wx:if="{{item.status==1 || item.status==2 || item.status==4}}" bind:tap="goOrder" data-status="{{item.status}}" data-index="{{index}}" data-info="{{item.roomId}}">
+                <view class="tab-info">
+                  <text class="tab-roomName">{{item.roomName}}</text>
+                  <view></view>
+                  <view class="price">
+                    <label class="color-attention">￥{{item.price}}</label>
+                    元/小时
+                  </view>
+                </view>
+                <view class="tab-button">
+                  <button class="begin-button">开台</button>
+                </view>
+              </view>
+              <!-- 有订单 显示等待时间 -->
+              <view class="tab-img-box-wait" wx:if="{{item.status==3}}">
+                <view class="tab-wait">
+                  <text class="tab-wait-roomName">{{item.roomName}}</text>
+                  <view></view>
+                  <text style="font-size: 30rpx;">预计等待：</text>
+                </view>
+                <view class="tab-wait-time">
+                  <view class="time-number">{{item.waitTime.hours}}</view>
+                  <view style="width: 10rpx;"></view>
+                  <view class="time-date">时</view>
+                  <view style="width: 10rpx;"></view>
+                  <view class="time-number">{{item.waitTime.minutes}}</view>
+                  <view style="width: 10rpx;"></view>
+                  <view class="time-date">分</view>
+                </view>
+              </view>
+              <!-- 禁用状态 -->
+              <view class="tab-img-box-wait" wx:if="{{item.status==0}}">
+                <view class="tab-wait">
+                  <text class="tab-wait-roomName">{{item.roomName}}</text>
+                  <view></view>
+                </view>
+                <view class="tab-wait-time">
+                  <view class="time-disable">禁用</view>
+                </view>
+              </view>
             </view>
           </view>
         </view>
       </view>
-    </view>
-  </view>
       <!-- 温馨提示 -->
       <view class="notes">
         <image src="../static/icon/more.png" />
@@ -268,3 +268,15 @@
     </view>
   </view>
 </van-dialog>
+
+<!-- 房间预定时间列表 -->
+<van-popup round show="{{ showReserve }}" bind:tap="onHideReserve">
+  <view class="reserve-box">
+    <view class="title">预定时间</view>
+    <view class="time-line" wx:for="{{orderTimeList}}">
+      <view class="dot"></view>
+      <view class="time-tag"><text>{{item}} </text><text>已预订</text></view>
+    </view>
+    <button>知道了</button>
+  </view>
+</van-popup>

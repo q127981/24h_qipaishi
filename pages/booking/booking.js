@@ -2,6 +2,7 @@
 const app = getApp();
 var http = require('../../utils/http');
 var util1 = require('../../utils/util.js');
+var Moment = require("../../lib/moment.js");
 Page({
 
   /**
@@ -313,6 +314,17 @@ Page({
       })
     }
   },
+  timeFilter(startTime, endTime) {
+    if (startTime && !endTime) {
+      return Moment(startTime).format("MM月DD日HH:mm");
+    } else if (startTime && endTime) {
+      const start = Moment(startTime);
+      const end = Moment(endTime);
+      return `${start.format("MM月DD日HH:mm")}-${end.format("HH:mm")}`;
+    } else {
+      return "";
+    }
+  },
   //获取房间列表数据
   getDoorListdata: function (e) {
     var that = this;
@@ -331,7 +343,30 @@ Page({
           console.info(info);
           if (info.code == 0) {
             that.setData({
-              doorlistArr: info.data
+              doorlistArr: info.data.map((el) => {
+                el.timeText = that.timeFilter(el.startTime, el.endTime);
+                if (el.orderTimeList) {
+                  el.orderTimeList = el.orderTimeList.map((item) =>
+                    that.timeFilter(item.startTime, item.endTime)
+                  );
+                }
+                // 新增逻辑：计算当前时间到endTime的等待时间
+                if (el.endTime) {
+                  const currentTime = new Date();
+                  const endDateTime = new Date(el.endTime);
+                  const diffInMilliseconds = endDateTime - currentTime;
+                  const diffInMinutes = Math.floor(diffInMilliseconds / (1000 * 60));
+                  const hours = Math.floor(diffInMinutes / 60);
+                  const minutes = diffInMinutes % 60;
+                  const timeNumber1 = hours < 10 ? `0${hours}` : `${hours}`;
+                  const timeNumber2 = minutes < 10 ? `0${minutes}` : `${minutes}`;
+                  el.waitTime = {
+                    hours: timeNumber1,
+                    minutes: timeNumber2
+                  };
+                }
+                return el;
+              }),
             });
             that.setroomlistHour(0);
           } else {
@@ -750,5 +785,19 @@ Page({
         //console.log('获取位置失败', res.errMsg)
       }
     })
+  },
+  onShowReserve(e) {
+    const list = e.currentTarget.dataset.list;
+    console.log(list);
+    this.setData({
+      orderTimeList: list,
+      showReserve: true,
+    });
+  },
+  onHideReserve() {
+    this.setData({
+      showReserve: false,
+      // orderTimeList: [],
+    });
   },
 })
