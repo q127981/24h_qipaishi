@@ -25,7 +25,7 @@
     <!-- 订单详情 -->
     <view class="orderInfo">
       <view class="top">
-        <view class="tag">{{['小包', '中包', '大包', '豪包', '商务包','斯洛克','中式黑八','美式球桌'][OrderInfodata.roomType]}}</view>
+        <view class="tag">{{['未知','小包', '中包', '大包', '豪包', '商务包','斯洛克','中式黑八','美式球桌'][OrderInfodata.roomType]}}</view>
         <text>{{OrderInfodata.roomName}}</text>
       </view>
       <view class="name">{{OrderInfodata.storeName}}</view>

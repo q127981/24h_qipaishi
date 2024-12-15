@@ -72,7 +72,7 @@
       <view class="select-card">
         <view class="item {{roomIndex === index ? 'active':''}}" wx:for="{{doorlistArr}}" bind:tap="selectRoom" data-index="{{index}}">
           <view class="top">
-            <view class="tag">{{['不限制', '小包', '中包', '大包', '豪包', '商务包','斯洛克','中式黑八','美式球桌'][item.type] || '无限制'}}</view>
+            <view class="tag">{{['不限制', '小包', '中包', '大包', '豪包', '商务包','斯洛克','中式黑八','美式球桌'][item.type] || '不限制'}}</view>
             <view>{{item.roomName}}</view>
           </view>
           <view class="bottom">

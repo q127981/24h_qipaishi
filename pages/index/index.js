@@ -30,7 +30,7 @@ Page({
     wifiShow: false,
     simpleModel: '',//简洁模式
     maoHeight: 0,//锚链接跳转高度
-    tabIndex: 0,
+    tabIndex: '',
     show: false,
     lat: '',
     lon: '',
@@ -52,24 +52,19 @@ Page({
     })
     console.log("onLoad index");
     that.getTap();
-    console.log(options);
     var storeId = '';
-    if (options.storeId) {
-      storeId = options.storeId;
-    }
     var query = wx.getEnterOptionsSync().query;
-    console.log(query);
+    console.log('query',query);
     if (query && query.storeId) {
       storeId = query.storeId;
     }
     if (storeId) {
-      console.log("从页面获取到门店id");
+      console.log("获取到门店id");
       that.setData({
         storeId: storeId
       });
       wx.setStorageSync('global_store_id', storeId);
     }
-
   },
 
   /**
@@ -94,6 +89,12 @@ Page({
       //都有 优先缓存
       that.setData({
         storeId: storeId_1,
+      })
+    }else{
+      console.log("没有门店id1");
+      //返回门店列表 让选择门店
+      wx.navigateTo({
+        url: "../doorList/doorList",
       })
     }
     console.log('门店id:' + that.data.storeId)
@@ -228,7 +229,7 @@ Page({
   goIndexPage() {
     console.log(this.data.storeId)
     wx.navigateTo({
-      url: '/pages/doorList/doorList?storeId=' + this.data.storeId,
+      url: '/pages/doorList/doorList',
     })
   },
   goDoorDetail() {
@@ -401,7 +402,6 @@ Page({
   setroomlistHour: function (aindex) {
     //aindex代表选的第几天  从0开始
     var that = this;
-    console.log(aindex);
     var atemplist = [];
     //根据门店循环
     for (var i = 0; i < that.data.doorlistArr.length; i++) {
@@ -409,12 +409,11 @@ Page({
       atemplist.push(atemp);
       // console.log(atemp);
     }
-    console.log(atemplist);
     that.setData({
       timeHourAllArr: atemplist
     });
   },
-  //获取门店相信信息
+  //获取门店信息
   getStoreInfodata: function (e) {
     var that = this;
 

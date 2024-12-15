@@ -56,7 +56,7 @@ Page({
       })
     }
     that.getuserinfo();
-    // this.getTabBar().updateTabTar();
+    // that.getTabBar().updateTabTar();
     // this.getTabBar().setData({
     //   selected: 3
     // })

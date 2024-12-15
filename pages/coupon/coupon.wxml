@@ -47,7 +47,7 @@
         <view class="name">{{item.couponName}}</view>
         <view class="line"><label>类型：</label>{{item.type===1?'抵扣券':item.type===2?'满减券':'加时券'}}</view>
         <view class="line"><label>适用门店：</label>{{item.storeName?item.storeName:'不限制门店'}}</view>
-        <view class="line"><label>适用包间：</label>{{item.type===1?'小包':item.type===2?'中包':item.type===3?'大包':item.type===4?'豪包':item.type===5?'商务包':item.type===6?'斯洛克':item.type===7?'中式黑八':item.type===8?'美式球桌':'不限制'}}</view>
+        <view class="line"><label>适用包间：</label>{{item.roomType===1?'小包':item.roomType===2?'中包':item.roomType===3?'大包':item.roomType===4?'豪包':item.roomType===5?'商务包':item.roomType===6?'斯洛克':item.roomType===7?'中式黑八':item.roomType===8?'美式球桌':'不限制'}}</view>
         <view class="line"><label>过期时间：</label>{{item.expriceTime}} 00:00</view>
       </view>
       <block wx:if="{{item.type===1||item.type===3}}">

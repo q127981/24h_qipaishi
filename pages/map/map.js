@@ -282,35 +282,26 @@ Page({
                 console.log(marker)
                 allMarkers.push(marker);
               }
-              //如果只有一个店 那么直接进入门店主页
-              if(list.length===1&&that.data.cityName=='选择城市'&&that.data.name==''){
-                // 缓存门店ID
-                wx.setStorageSync('global_store_id',list[0].storeId);
-                wx.switchTab({
-                  url: '/pages/index/index'
-                });
+              if(that.data.MainStorelist){
+                //列表已有数据  那么就追加
+                let arr = that.data.MainStorelist;
+                let arrs = arr.concat(info.data.list);
+                let markers = that.data.markers;
+                let newMarkers = markers.concat(allMarkers);
+                that.setData({
+                  MainStorelist: arrs,
+                  markers: newMarkers,
+                  store: list[0],
+                  pageNo: that.data.pageNo + 1,
+                  canLoadMore: arrs.length < info.data.total
+                })
               }else{
-                if(that.data.MainStorelist){
-                  //列表已有数据  那么就追加
-                  let arr = that.data.MainStorelist;
-                  let arrs = arr.concat(info.data.list);
-                  let markers = that.data.markers;
-                  let newMarkers = markers.concat(allMarkers);
-                  that.setData({
-                    MainStorelist: arrs,
-                    markers: newMarkers,
-                    store: list[0],
-                    pageNo: that.data.pageNo + 1,
-                    canLoadMore: arrs.length < info.data.total
-                  })
-                }else{
-                  that.setData({
-                    MainStorelist: info.data.list,
-                    markers: allMarkers,
-                    store: list[0],
-                    pageNo: that.data.pageNo + 1,
-                  });
-                }
+                that.setData({
+                  MainStorelist: info.data.list,
+                  markers: allMarkers,
+                  store: list[0],
+                  pageNo: that.data.pageNo + 1,
+                });
               }
             }
           }else{

@@ -2,7 +2,7 @@
 const app = getApp()
 const defaultTabList = [
   {
-    pagePath: "/pages/index/index",
+    pagePath: "/pages/doorList/doorList",
     text: "首页",
     iconPath: "../pages/static/icon/home.png",
     selectedIconPath: "../pages/static/icon/home-in.png",
@@ -29,7 +29,7 @@ const defaultTabList = [
 
 const selectedTabList = [
   {
-    pagePath: "/pages/doorList/doorList",
+    pagePath: "/pages/index/index",
     text: "首页",
     iconPath: "../pages/static/icon/home.png",
     selectedIconPath: "../pages/static/icon/home-in.png",
@@ -66,6 +66,7 @@ Component({
   methods: {
     switchTab(e) {
       const { path, index } = e.currentTarget.dataset;
+      console.log('path:',path);
       wx.switchTab({
         url: path,
       });
@@ -74,12 +75,23 @@ Component({
       });
     },
     updateTabTar() {
-     const storeId = wx.getStorageSync('global_store_id') || '';
+     const storeId = wx.getStorageSync('global_store_id');
+     console.log('updateTabTar',storeId);
+     if(storeId){
+      console.log('selectedTabList')
       this.getTabBar((tabBar) => {
         tabBar.setData({
-          list: storeId !== '' ? selectedTabList : defaultTabList,
+          list: selectedTabList,
         })
       })
+     }else{
+      console.log('defaultTabList')
+      this.getTabBar((tabBar) => {
+        tabBar.setData({
+          list: defaultTabList,
+        })
+      })
+     }
     },
     setSafeAreaInsetBottom() {
       if (app.globalData.isIpx) {
