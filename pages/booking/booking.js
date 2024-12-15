@@ -50,18 +50,16 @@ Page({
     var storeId = '';
     if (options.storeId) {
       storeId = options.storeId;
-    }
-    var query = wx.getEnterOptionsSync().query;
-    console.log(query);
-    if (query && query.storeId) {
-      storeId = query.storeId;
-    }
-    if (storeId) {
-      that.setData({
-        storeId: storeId
-      });
       wx.setStorageSync('global_store_id', storeId);
     }
+    if(!storeId){
+      storeId=wx.getStorageSync('global_store_id', storeId);
+    }
+    that.setData({
+      storeId: storeId
+    })
+
+
   },
 
   /**
