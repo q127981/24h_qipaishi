@@ -94,7 +94,7 @@ App({
   onShow() {
     console.log('app.js onShow');
     var _this = this;
-    wx.getStorageSync({
+    wx.getStorage({
       key: 'userDatatoken',
       success: function (res) {
         _this.globalData.userDatatoken = res.data;
