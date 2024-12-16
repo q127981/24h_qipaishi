@@ -45,7 +45,7 @@ Page({
    */
   onLoad(options) {
     var that = this;
-    that.getLocation();
+    that.getLocation().then((res) => { });;
     that.setData({
       isLogin: app.globalData.isLogin,
       popshow: true
@@ -98,7 +98,6 @@ Page({
       })
     }
     console.log('门店id:' + that.data.storeId)
-    that.getLocation();
     that.loadingtime();
     that.getStoreInfodata();
     that.getDoorListdata();
@@ -801,31 +800,29 @@ Page({
   },
   // 在需要获取位置的页面的Page函数中定义获取位置的方法
   getLocation: function () {
-    let that = this;
-    console.log("====getLocation");
-    wx.getLocation({
-      type: 'gcj02',
-      success: function (res) {
-        const latitude = res.latitude
-        const longitude = res.longitude
-        console.log("====latitude");
-        console.log(latitude);
-        console.log(longitude);
-        that.setData({
-          lat: latitude,
-          lon: longitude,
-        });
-        // that.getMainListdata('refresh');
-        // 处理位置信息，比如将位置信息显示在页面上
-        // 示例中使用的是util.js中的函数，开发者可以根据需要自行编写
-        //util.showLocation(latitude, longitude)
-      },
-      fail: function (res) {
-        // that.getMainListdata('refresh');
-        // 如果获取位置信息失败，可以处理错误情况
-        //console.log('获取位置失败', res.errMsg)
-      }
-    })
+    return new Promise((r, t) => {
+      let that = this;
+      wx.getLocation({
+        type: 'gcj02',
+        success: function (res) {
+          const latitude = res.latitude
+          const longitude = res.longitude
+          that.setData({
+            lat: latitude,
+            lon: longitude,
+          });
+          // that.getMainListdata('refresh');
+          // 处理位置信息，比如将位置信息显示在页面上
+          // 示例中使用的是util.js中的函数，开发者可以根据需要自行编写
+          //util.showLocation(latitude, longitude)
+        },
+        fail: function (res) {
+          // that.getMainListdata('refresh');
+          // 如果获取位置信息失败，可以处理错误情况
+          //console.log('获取位置失败', res.errMsg)
+        }
+      })
+    });
   },
   //   获取团购券
   getGroupPay: function () {

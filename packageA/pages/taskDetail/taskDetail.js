@@ -21,29 +21,29 @@ Page({
     const { file } = event.detail;
     // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
     wx.uploadFile({
-      url: app.globalData.baseUrl+'/member/store/uploadImg',
+      url: app.globalData.baseUrl + '/member/store/uploadImg',
       filePath: file.url,
       name: 'file',
       header: {
         'tenant-id': app.globalData.tenantId,
         'Content-Type': 'application/json',
-        'Authorization':'Bearer '+app.globalData.userDatatoken.accessToken,
+        'Authorization': 'Bearer ' + app.globalData.userDatatoken.accessToken,
       },
       success(res) {
         var data = JSON.parse(res.data)
         // 上传完成需要更新 fileList
         var data = JSON.parse(res.data)
         const { fileList = [] } = that.data;
-          fileList.push({ url: data.data });
-          that.setData({ fileList: fileList });
+        fileList.push({ url: data.data });
+        that.setData({ fileList: fileList });
       },
     });
   },
-  delete(event){
+  delete(event) {
     let index = event.detail.index
     const { fileList = [] } = this.data;
-    fileList.splice(index,1)
-    this.setData({fileList})
+    fileList.splice(index, 1)
+    this.setData({ fileList })
   },
 
   /**
@@ -51,9 +51,9 @@ Page({
    */
   onLoad(options) {
     this.getuserinfo()
-    this.getLocation()
-    if(options.id){
-      this.setData({clearId: parseInt(options.id)})
+    this.getLocation().then((res) => { });
+    if (options.id) {
+      this.setData({ clearId: parseInt(options.id) })
       this.getData()
     }
   },
@@ -107,14 +107,14 @@ Page({
 
   },
   // 获取用户信息
-  getuserinfo:function(){
+  getuserinfo: function () {
     var that = this;
     if (app.globalData.isLogin) {
       http.request(
         "/member/user/get",
         "1",
         "get", {
-        },
+      },
         app.globalData.userDatatoken.accessToken,
         "",
         function success(info) {
@@ -122,12 +122,12 @@ Page({
           console.info(info);
           if (info.code == 0) {
             that.setData({
-              userinfo:info.data,
+              userinfo: info.data,
             })
           }
         },
         function fail(info) {
-          
+
         }
       )
     } else {
@@ -135,16 +135,15 @@ Page({
     }
   },
   // 获取详情
-  getData: function(){
+  getData: function () {
     let that = this
-    if (app.globalData.isLogin) 
-    {
+    if (app.globalData.isLogin) {
       http.request(
-        "/member/clear/getDetail/"+that.data.clearId,
+        "/member/clear/getDetail/" + that.data.clearId,
         "1",
         "get", {
-          "clearId": that.data.clearId
-        },
+        "clearId": that.data.clearId
+      },
         app.globalData.userDatatoken.accessToken,
         "",
         function success(info) {
@@ -152,17 +151,17 @@ Page({
           console.info(info);
           if (info.code == 0) {
             var fileList = []
-            if(info.data.imgs){
+            if (info.data.imgs) {
               info.data.imgs = info.data.imgs.split(",")
               info.data.imgs.map(it => {
-                fileList.push({url:it})
+                fileList.push({ url: it })
               })
             }
             that.setData({
               info: info.data,
               fileList: fileList
             })
-          }else{
+          } else {
             wx.showModal({
               content: info.msg,
               showCancel: false,
@@ -170,37 +169,36 @@ Page({
           }
         },
         function fail(info) {
-          
+
         }
       )
-    } 
+    }
   },
   // 开大门
-  open:function(e){
+  open: function (e) {
     let id = this.data.info.clearId
     var that = this;
-    console.log("id"+id)
-    if (app.globalData.isLogin) 
-    {
+    console.log("id" + id)
+    if (app.globalData.isLogin) {
       http.request(
-        "/member/clear/openStoreDoor/"+id,
+        "/member/clear/openStoreDoor/" + id,
         "1",
         "post", {
-          "id": id,
-        },
+        "id": id,
+      },
         app.globalData.userDatatoken.accessToken,
         '',
         function success(info) {
           console.info('返回111===');
           console.info(info);
           if (info.code == 0) {
-              wx.showToast({
-                title: '开大门成功',
-              })
-              setTimeout(() => {
-                that.getData()
-              }, 1000);
-          }else{
+            wx.showToast({
+              title: '开大门成功',
+            })
+            setTimeout(() => {
+              that.getData()
+            }, 1000);
+          } else {
             wx.showModal({
               content: info.msg,
               showCancel: false,
@@ -214,33 +212,32 @@ Page({
           })
         }
       )
-    } 
+    }
   },
   // 开房间门
-  openDoor:function(){
+  openDoor: function () {
     let id = this.data.info.clearId
     var that = this;
-    if (app.globalData.isLogin) 
-    {
+    if (app.globalData.isLogin) {
       http.request(
-        "/member/clear/openRoomDoor/"+id,
+        "/member/clear/openRoomDoor/" + id,
         "1",
         "post", {
-          "id": id,
-        },
+        "id": id,
+      },
         app.globalData.userDatatoken.accessToken,
         '',
         function success(info) {
           console.info('返回111===');
           console.info(info);
           if (info.code == 0) {
-              wx.showToast({
-                title: '开房间门成功',
-              })
-              setTimeout(() => {
-                that.getData()
-              }, 5000);
-          }else{
+            wx.showToast({
+              title: '开房间门成功',
+            })
+            setTimeout(() => {
+              that.getData()
+            }, 5000);
+          } else {
             wx.showModal({
               content: info.msg,
               showCancel: false,
@@ -248,37 +245,39 @@ Page({
           }
         },
         function fail(info) {
-          
+
         }
       )
-    } 
+    }
   },
   // 获取定位
-  getLocation: function() {
-    let that = this;
-    wx.getLocation({
-      type: 'gcj02',
-      success: function(res) {
-        console.info('位置信息===');
-        console.info(res);
-        const latitude = res.latitude
-        const longitude = res.longitude
-        that.setData({
-          lat: latitude,
-          lon:longitude,
-        });
-      },
-      fail: function(res) {
-        // 如果获取位置信息失败，可以处理错误情况
-        //console.log('获取位置失败', res.errMsg)
-      }
+  getLocation: function () {
+    return new Promise((r, t) => {
+      let that = this;
+      wx.getLocation({
+        type: 'gcj02',
+        success: function (res) {
+          console.info('位置信息===');
+          console.info(res);
+          const latitude = res.latitude
+          const longitude = res.longitude
+          that.setData({
+            lat: latitude,
+            lon: longitude,
+          });
+        },
+        fail: function (res) {
+          // 如果获取位置信息失败，可以处理错误情况
+          //console.log('获取位置失败', res.errMsg)
+        }
+      })
     })
   },
   // 完成任务
-  finish:function(){
+  finish: function () {
     let id = this.data.info.clearId
     var that = this;
-    if(!that.data.fileList.length){
+    if (!that.data.fileList.length) {
       wx.showToast({
         title: '请上传图片',
         icon: 'error'
@@ -289,30 +288,29 @@ Page({
     that.data.fileList.map(it => {
       urls.push(it.url)
     })
-    if (app.globalData.isLogin) 
-    {
+    if (app.globalData.isLogin) {
       http.request(
-        "/member/clear/finish/"+id,
+        "/member/clear/finish/" + id,
         "1",
         "post", {
-          "id": id,
-          "lat": that.data.lat,
-          "lon": that.data.lon,
-          "imgs": urls.join(",")
-        },
+        "id": id,
+        "lat": that.data.lat,
+        "lon": that.data.lon,
+        "imgs": urls.join(",")
+      },
         app.globalData.userDatatoken.accessToken,
         '',
         function success(info) {
           console.info('返回111===');
           console.info(info);
           if (info.code == 0) {
-              wx.showToast({
-                title: '完成成功',
-              })
-              setTimeout(() => {
-                wx.navigateBack()
-              }, 1000);
-          }else{
+            wx.showToast({
+              title: '完成成功',
+            })
+            setTimeout(() => {
+              wx.navigateBack()
+            }, 1000);
+          } else {
             wx.showModal({
               content: info.msg,
               showCancel: false,
@@ -320,51 +318,50 @@ Page({
           }
         },
         function fail(info) {
-          
+
         }
       )
-    } 
+    }
   },
   // 驳回
-  complaint:function(){
+  complaint: function () {
     let id = this.data.info.clearId
     var that = this;
     var complaint = true
-    if(that.data.info.status === 3){
+    if (that.data.info.status === 3) {
       complaint = true
-      if(!this.data.complaintDesc){
+      if (!this.data.complaintDesc) {
         wx.showToast({
           title: '请填写驳回原因',
           icon: 'error'
         })
         return
       }
-    }else if(that.data.info.status === 5){
+    } else if (that.data.info.status === 5) {
       complaint = false
     }
-    if (app.globalData.isLogin) 
-    {
+    if (app.globalData.isLogin) {
       http.request(
         "/member/manager/complaintClearInfo",
         "1",
         "post", {
-          "clearId": id,
-          "complaint": complaint,
-          "complaintDesc": that.data.complaintDesc
-        },
+        "clearId": id,
+        "complaint": complaint,
+        "complaintDesc": that.data.complaintDesc
+      },
         app.globalData.userDatatoken.accessToken,
         '',
         function success(info) {
           console.info('返回111===');
           console.info(info);
           if (info.code == 0) {
-              wx.showToast({
-                title: '操作成功',
-              })
-              setTimeout(() => {
-                wx.navigateBack()
-              }, 1000);
-          }else{
+            wx.showToast({
+              title: '操作成功',
+            })
+            setTimeout(() => {
+              wx.navigateBack()
+            }, 1000);
+          } else {
             wx.showModal({
               content: info.msg,
               showCancel: false,
@@ -372,13 +369,13 @@ Page({
           }
         },
         function fail(info) {
-          
+
         }
       )
-    } 
+    }
   },
   // 返回
-  back: function(){
+  back: function () {
     wx.navigateBack()
   }
 })

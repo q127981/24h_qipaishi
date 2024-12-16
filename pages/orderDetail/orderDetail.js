@@ -189,6 +189,15 @@ Page({
       payType: 1,
       select_pkg_index: -1,
     });
+    if (index == 0) {
+      //小时模式
+      console.log('小时模式');
+      this.setData({
+        pkgId: '',
+        addTime: 0
+      })
+      this.timeChange(0);
+    }
   },
   //点击的套餐
   selectPkgInfo: function (event) {

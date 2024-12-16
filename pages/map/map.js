@@ -45,7 +45,7 @@ Page({
    */
   onShow() {
     let that = this
-    that.getLocation();
+    that.getLocation().then((res) => { });;
   },
   /**
    * 页面相关事件处理函数--监听用户下拉动作
@@ -107,24 +107,6 @@ Page({
   onLoad(options) {
       var that = this;
       that.goMapSeach()
-    // this.data.userId = options.userId ? parseInt(options.userId) : ''
-    // if(options.storeId){
-    //   that.setData({
-    //     storeId: options.storeId
-    //   });
-    // }
-    // this.setData({
-    //   statusBarHeight: wx.getStorageSync('statusBarHeight'),
-    //   titleBarHeight: wx.getStorageSync('titleBarHeight'),
-    //   // cityName: wx.getStorageSync('cityName') ? wx.getStorageSync('cityName') : ''
-    // })
-    // that.getLocation();
-    // that.getBannerdata();
-    // // that.getMainListdata('refresh');
-    // // 实例化API核心类
-    // // qqmapsdk = new QQMapWX({
-    // //   key: 'FQGBZ-OY4CQ-XM35H-BWLYV-2U2V2-SRBZ6'
-    // // });
   },
   goStore(e){
     var storeId = e.currentTarget.dataset.storeid
@@ -149,7 +131,7 @@ Page({
             cityName: data
           });
           wx.setStorageSync('cityName', data)
-          that.getLocation();
+          
           that.getBannerdata();
         //   that.getMainListdata('refresh');
         },
@@ -344,29 +326,7 @@ Page({
     }
   },
   // 在需要获取位置的页面的Page函数中定义获取位置的方法
-  getLocation: function() {
-    let that = this;
-    wx.getLocation({
-      type: 'gcj02',
-      success: function(res) {
-        const latitude = res.latitude
-        const longitude = res.longitude
-        that.setData({
-          lat: latitude,
-          lon:longitude,
-        });
-        that.getMainListdata('refresh');
-        // 处理位置信息，比如将位置信息显示在页面上
-        // 示例中使用的是util.js中的函数，开发者可以根据需要自行编写
-        //util.showLocation(latitude, longitude)
-      },
-      fail: function(res) {
-        that.getMainListdata('refresh');
-        // 如果获取位置信息失败，可以处理错误情况
-        //console.log('获取位置失败', res.errMsg)
-      }
-    })
-  },
+
   call:function (e) {
     // let that = this;
     // var aphoneinfo = e.currentTarget.dataset.info;//获取当前点击的下标
@@ -670,28 +630,29 @@ Page({
             showBottomDialog: false
           })
       },
-      // 在需要获取位置的页面的Page函数中定义获取位置的方法
-  getLocation: function() {
-    let that = this;
-    wx.getLocation({
-      type: 'gcj02',
-      success: function(res) {
-        const latitude = res.latitude
-        const longitude = res.longitude
-        that.setData({
-          lat: latitude,
-          lon: longitude,
+      getLocation: function () {
+        return new Promise((r, t) => {
+          let that = this;
+          wx.getLocation({
+            type: 'gcj02',
+            success: function (res) {
+              const latitude = res.latitude
+              const longitude = res.longitude
+              that.setData({
+                lat: latitude,
+                lon: longitude,
+              });
+              // that.getMainListdata('refresh');
+              // 处理位置信息，比如将位置信息显示在页面上
+              // 示例中使用的是util.js中的函数，开发者可以根据需要自行编写
+              //util.showLocation(latitude, longitude)
+            },
+            fail: function (res) {
+              // that.getMainListdata('refresh');
+              // 如果获取位置信息失败，可以处理错误情况
+              //console.log('获取位置失败', res.errMsg)
+            }
+          })
         });
-        // that.getMainListdata('refresh');
-        // 处理位置信息，比如将位置信息显示在页面上
-        // 示例中使用的是util.js中的函数，开发者可以根据需要自行编写
-        //util.showLocation(latitude, longitude)
       },
-      fail: function(res) {
-        // that.getMainListdata('refresh');
-        // 如果获取位置信息失败，可以处理错误情况
-        //console.log('获取位置失败', res.errMsg)
-      }
-    })
-  },
 })

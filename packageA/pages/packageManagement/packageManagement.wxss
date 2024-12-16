@@ -1,27 +1,32 @@
-page{
+page {
   background: #f5f5f5;
 }
-.tabs{
+
+.tabs {
   position: fixed;
   z-index: 9;
   width: 100%;
   height: 45px;
 }
-.tabs .van-dropdown-menu{
+
+.tabs .van-dropdown-menu {
   border-bottom: 1rpx solid #ddd;
   height: 45px;
 }
-.tabs .van-dropdown-menu__title{
+
+.tabs .van-dropdown-menu__title {
   font-size: 30rpx !important;
 }
-.tabs .van-dropdown-menu{
+
+.tabs .van-dropdown-menu {
   box-shadow: none !important;
 }
-.container{
+
+.container {
   padding: 120rpx 30rpx;
 }
 
-.bottom{
+.bottom {
   width: 530rpx;
   height: 90rpx;
   text-align: center;
@@ -33,68 +38,84 @@ page{
   font-size: 36rpx;
 }
 
-.container .item{
+.container .item {
   margin: 30rpx 0;
 }
-.container .item .item-top{
-  /* background-color: #CEEEF4; */
-  background: linear-gradient( 180deg, #CEEEF4 0%, #FFFFFF 100%);
+
+.container .item .item-top {
+  background-color: var(--main-color);
+  color: #fff;
   border-top-left-radius: 15rpx;
-  border-top-right-radius:15rpx ;
-  padding: 30rpx;
+  border-top-right-radius: 15rpx;
+  padding: 10rpx 10rpx;
+  font-weight: 600;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 }
-.container .item .item-top .price{
+
+.container .item .item-top .price {
   display: flex;
   flex-direction: column;
   align-items: center;
   font-size: 26rpx;
   color: #7CC3D1;
 }
-.container .item .item-top .info{
+
+.container .item .item-top .info {
   display: flex;
   flex-direction: column;
   font-size: 26rpx;
   margin-left: 30rpx;
 }
-.container .item .item-top .info .title{
+
+.container .item .item-top .info .title {
   font-size: 32rpx;
   margin-bottom: 10rpx;
+  width: 500rpx;
+  white-space: nowrap;
+  /* 确保文本在一行内显示 */
+  overflow: hidden;
+  /* 隐藏超出容器的文本 */
+  text-overflow: ellipsis;
+  /* 使用省略号表示被截断的文本 */
+
 }
-.container .item .item-top .info .time{
+
+.container .item .item-top .info .time {
   color: #2593A7;
 }
-.container .item .item-info{
+
+.container .item .item-info {
   background-color: #fff;
   border-bottom-left-radius: 15rpx;
-  border-bottom-right-radius:15rpx ;
+  border-bottom-right-radius: 15rpx;
   padding: 25rpx;
   overflow: hidden;
 }
-.container .item .item-bottom{
+
+.container .item .item-bottom {
   background-color: #fff;
   border-bottom-left-radius: 15rpx;
-  border-bottom-right-radius:15rpx ;
+  border-bottom-right-radius: 15rpx;
   padding: 25rpx;
   overflow: hidden;
-  
+
 }
 
 
-.container .item .item-bottom .line2{
+.container .item .item-bottom .line2 {
   display: flex;
   justify-content: space-between;
 }
 
-.container .item .item-bottom .line3{
+.container .item .item-bottom .line3 {
   display: flex;
   justify-content: space-between;
   margin-top: 5rpx;
 }
 
-.enableBtn{
+.enableBtn {
   width: 160rpx;
   height: 60rpx;
   line-height: 60rpx;
@@ -103,7 +124,7 @@ page{
   color: #fff;
 }
 
-.editBtn{
+.editBtn {
   width: 160rpx;
   height: 60rpx;
   line-height: 60rpx;

@@ -435,6 +435,15 @@ Page({
       payType: 1,
       select_pkg_index: -1,
     });
+    if (index == 0) {
+      //小时模式
+      console.log('小时模式');
+      this.setData({
+        pkgId: '',
+        addTime: 0
+      })
+      this.timeChange(0);
+    }
   },
   timeChange(addTime) {
     var newTime = moment(this.data.currentOrder.endTime)
@@ -549,14 +558,6 @@ Page({
       case 6:
         return that.data.currentOrder.roomPrice;
     }
-  },
-  modeChange(e) {
-    const { index } = e.target.dataset;
-    this.setData({
-      modeIndex: +index,
-      payType: 1,
-      select_pkg_index: -1,
-    });
   },
   handleScroll(e) {
     const { scrollLeft, scrollWidth } = e.detail;

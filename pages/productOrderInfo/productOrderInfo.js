@@ -42,7 +42,7 @@ Page({
    */
   onShow() {
     let that = this
-    that.getLocation()
+    that.getLocation().then((res) => { });
     that.getOrderInfo()
   },
 
@@ -114,27 +114,30 @@ Page({
       )
   },
   // 获取当前位置
-  // 获取定位
-  getLocation: function() {
-    let that = this;
-    wx.getLocation({
-      type: 'gcj02',
-      success: function(res) {
-        console.info('位置信息===');
-        console.info(res);
-        const latitude = res.latitude
-        const longitude = res.longitude
-        that.setData({
-          lat: latitude,
-          lon:longitude,
-        });
-        that.getStoreInfodata()
-      },
-      fail: function(res) {
-        // 如果获取位置信息失败，可以处理错误情况
-        //console.log('获取位置失败', res.errMsg)
-      }
-    })
+  getLocation: function () {
+    return new Promise((r, t) => {
+      let that = this;
+      wx.getLocation({
+        type: 'gcj02',
+        success: function (res) {
+          const latitude = res.latitude
+          const longitude = res.longitude
+          that.setData({
+            lat: latitude,
+            lon: longitude,
+          });
+          // that.getMainListdata('refresh');
+          // 处理位置信息，比如将位置信息显示在页面上
+          // 示例中使用的是util.js中的函数，开发者可以根据需要自行编写
+          //util.showLocation(latitude, longitude)
+        },
+        fail: function (res) {
+          // that.getMainListdata('refresh');
+          // 如果获取位置信息失败，可以处理错误情况
+          //console.log('获取位置失败', res.errMsg)
+        }
+      })
+    });
   },
   // 获取订单详情
   getOrderInfo:function(){

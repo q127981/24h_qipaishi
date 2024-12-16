@@ -3,7 +3,7 @@ App({
   globalData: {
     //接口地址
     baseUrl: "https://wq.scyanzu.com/app-api",
-    // baseUrl: "http://localhost:8900/app-api",
+    // baseUrl: "http://localhost:8900/app-api",
     // baseUrl: "http://test.mzj.com:8900/app-api",
     //租户id
     tenantId: "150",
@@ -92,8 +92,9 @@ App({
     //console.log('启动程序==');
   },
   onShow() {
-    var _this = this
-    wx.getStorage({
+    console.log('app.js onShow');
+    var _this = this;
+    wx.getStorageSync({
       key: 'userDatatoken',
       success: function (res) {
         _this.globalData.userDatatoken = res.data;

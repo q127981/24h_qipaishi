@@ -467,6 +467,15 @@ Page({
       payType: 1,
       select_pkg_index: -1,
     });
+    if (index == 0) {
+      //小时模式
+      console.log('小时模式');
+      this.setData({
+        pkgId: '',
+        addTime: 0
+      })
+      this.timeChange(0);
+    }
   },
   handleScroll(e) {
     const { scrollLeft, scrollWidth } = e.detail;

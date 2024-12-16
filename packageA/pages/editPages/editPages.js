@@ -18,12 +18,11 @@ Page({
     selectedStoreId: null, // 选中的门店ID
     storeName: '', // 选中的门店名称
     storeIndex: -1, // 确保有一个有效的初始索引
-    storeId: '',
     switchChecked: false,
     checked: [], // 默认选中复选框 a
     weekDays: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
     weekNum: ["1", "2", "3", "4", "5", "6", "7"],
-    roomTypeNum: ["1", "2", "3", "4", "5"],
+    roomTypeNum: ["1", "2", "3", "4", "5","6","7","8"],
     checkedStates: Array(7).fill(false), // 初始未选中状态
     roomTypeCheckd: Array(5).fill(false),
     enableRoomCheck: [],
@@ -77,7 +76,7 @@ Page({
     //if (app.globalData.isLogin) 
     {
       http.request(
-        "/member/index/getStoreInfo" + '/' + that.data.storeId,
+        "/member/index/getStoreInfo" + '/' + that.data.roomStoreId,
         "1",
         "get", {
       },
@@ -143,7 +142,7 @@ Page({
             let storeIndex = 0
             info.data.map((it, index) => {
               console.log(it);
-              if (it.value === that.data.storeId) {
+              if (it.value === that.data.roomStoreId) {
                 storeIndex = index
               }
             })
@@ -176,6 +175,7 @@ Page({
   },
   // 选择门店
   handlePickerChanges: function (e) {
+    console.log(e)
     var that = this;
     const newIndex = e.detail.value;
     const newStore = this.data.stores[newIndex];
@@ -183,10 +183,15 @@ Page({
     this.setData({
       storeIndex: e.detail.value,
       roomStoreId: newStore.value,
-      storeName: newStore.key
+      storeName: newStore.key,
       // storeIndex:newStore.value
     });
-    // 查看该门店有哪些房间
+    // 查看该门店有哪些房间  只查询
+    that.getDoorList((val) => {
+        that.setData({
+          doorList: val.data
+        })
+      })
     console.log(this.data.storeIndex, 'storeIndex');
   },
   //
@@ -454,9 +459,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+      console.log(options)
     var that = this;
     console.log("1111")
     if (options.item) {
+        console.log("进入if")
       const item = JSON.parse(options.item);
       console.log(item, 'options');
       that.setData({
@@ -466,7 +473,7 @@ Page({
         switchChecked: item.enableHoliday, //节假日是否可用
         balanceBuy: item.balanceBuy,
         price: item.price,
-        storeId: item.storeId,
+        roomStoreId: item.storeId,
         roomType: item.roomType,
       });
       // 查看该门店有哪些房间
@@ -484,17 +491,6 @@ Page({
             tabIndex: 1,
             enableRoomCheck: checkedStates,
           });
-        }
-      })
-      //选中指定房间
-      that.data.storesRoomList.forEach(function (v, i) {
-        if (v.key == item.roomType) {
-          console.log(v);
-          that.setData({
-            storesRoomIndex: i,
-            storesRoomName: v.value
-          })
-          return;
         }
       })
       // 解析 enableWeek 字符串
@@ -528,6 +524,13 @@ Page({
           times: times
         });
       }
+    }else{
+        // 查看该门店有哪些房间  点击的新增 不需要判断哪些被选中
+      that.getDoorList((val) => {
+        that.setData({
+          doorList: val.data
+        })
+      })
     }
     that.setData({
       storesRoomIndex: 0,
@@ -589,14 +592,14 @@ Page({
 
   // 获取房间列表
   getDoorList: function (callback) {
-
+      console.log(12321321)
     let that = this
     if (app.globalData.isLogin) {
       http.request(
-        "/member/store/getRoomInfoList",
+        "/member/store/getRoomInfoList?storeId="+that.data.roomStoreId,
         "1",
         "post", {
-        storeId: that.data.storeId
+        // storeId: that.data.roomStoreId
       },
         app.globalData.userDatatoken.accessToken,
         "",

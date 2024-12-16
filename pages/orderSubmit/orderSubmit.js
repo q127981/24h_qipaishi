@@ -109,6 +109,9 @@ Page({
     console.log("打开房间页面");
     console.log(options);
     var that = this;
+    that.setData({
+      isLogin: app.globalData.isLogin,
+    });
     var storeId = options.storeId;
     var roomId = options.roomId;
     var timeselectindex = options.timeselectindex;
@@ -132,14 +135,14 @@ Page({
       }
     }
     that.setData({
-      isLogin: app.globalData.isLogin,
       storeId: storeId,
       roomId: roomId,
       storeName: storeName,
       // daytime: options.daytime,
+      // startDate: new Date(),
       timeselectindex: timeselectindex,
     });
-    that.getPkgList();
+
     wx.setStorageSync("global_store_id", storeId);
     if (app.globalData.isLogin) {
       that.getroomInfodata(roomId).then((res) => { });
@@ -746,7 +749,6 @@ Page({
       });
       that.MathDate(startDate);
     }
-    that.getPkgList();
   },
 
   getuserinfo: function () {
@@ -1138,7 +1140,7 @@ Page({
         app.globalData.userDatatoken.accessToken,
         "",
         function success(info) {
-          if (info.code == 0) {
+          if (info.code == 0 && info.data.list.length > 0) {
             const newMeals = info.data.list.map((el) => ({
               ...el,
               desc: that.convertEnableWeek(el.enableWeek),
@@ -1146,10 +1148,16 @@ Page({
               timeQuantum: that.convertTime(el.enableTime),
               // that.convertEnableTime(el.enableTime),
             }));
-
             that.setData({
               pkgList: newMeals,
             });
+            console.log('info.data.list[0]', info.data.list[0]);
+            that.setData({
+              select_pkg_index: 0,
+              pkgId: info.data.list[0].pkgId,
+              order_hour: info.data.list[0].hours,
+            })
+            that.MathDate(new Date(that.data.submit_begin_time));
           } else {
             wx.showModal({
               content: info.msg,
@@ -1193,8 +1201,7 @@ Page({
       var pkgIndex = event.currentTarget.dataset.index; //选中的时间索引
       var pkgId = event.currentTarget.dataset.id; //选中的时间索引
       var hour = event.currentTarget.dataset.hour; //选中的时间索引
-      if (pkgIndex == that.data.select_pkg_index) {
-        pkgIndex = -1;
+      if (pkgIndex == -1) {
         pkgId = "";
       }
       var startDate = new Date(that.data.submit_begin_time); //显示的开始时间
@@ -1323,27 +1330,30 @@ Page({
     });
   },
   modeChange(e) {
+    var that = this;
     const { index } = e.target.dataset;
-    this.setData({
+    that.setData({
       modeIndex: +index,
       scrollPosition: 0,
       packCardIndex: - 1
     });
     if (index == 0) {
       //小时模式
-      this.setData({
+      that.setData({
         select_time_index: 0,
-        select_pkg_index: -1
+        select_pkg_index: -1,
+        pkgId: '',
+        order_hour: that.data.hour_options[0]
       })
+      that.MathDate(new Date(that.data.submit_begin_time));
     } else if (index == 1) {
+      that.getPkgList();
       //套餐模式
-      this.setData({
+      that.setData({
         select_time_index: -1,
-        select_pkg_index: 0,
         scanCodeMsg: ''
       })
     }
-    this.MathPrice();
   },
   convertEnableTime(enableTime) {
     if (
