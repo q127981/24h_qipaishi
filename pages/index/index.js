@@ -54,7 +54,7 @@ Page({
     that.getTap();
     var storeId = '';
     var query = wx.getEnterOptionsSync().query;
-    console.log('query',query);
+    console.log('query', query);
     if (query && query.storeId) {
       storeId = query.storeId;
     }
@@ -90,7 +90,7 @@ Page({
       that.setData({
         storeId: storeId_1,
       })
-    }else{
+    } else {
       console.log("没有门店id1");
       //返回门店列表 让选择门店
       wx.navigateTo({
@@ -357,7 +357,7 @@ Page({
           console.info('返回111===');
           console.info(info);
           if (info.code == 0) {
-            that.setData({ 
+            that.setData({
               doorlistArr: info.data.map((el) => {
                 el.timeText = that.timeFilter(el.startTime, el.endTime);
                 if (el.orderTimeList) {
@@ -415,7 +415,11 @@ Page({
   //获取门店信息
   getStoreInfodata: function (e) {
     var that = this;
-
+    if (!that.data.storeId) {
+      wx.navigateTo({
+        url: '../doorList/doorList',
+      })
+    }
     console.log("getStoreInfodata");
     console.log(that.data.lat);
     console.log(that.data.lon);

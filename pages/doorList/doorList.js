@@ -47,7 +47,9 @@ Page({
     this.setData({
       isLogin: app.globalData.isLogin
     })
-    this.getOrderDetail('')
+    this.getMainListdata('refresh');
+    this.getOrderDetail('');
+
   },
   /**
    * 页面相关事件处理函数--监听用户下拉动作
@@ -110,6 +112,7 @@ Page({
     this.data.userId = options.userId ? parseInt(options.userId) : ''
     var that = this;
     that.getLocation();
+    that.getBannerdata();
     if (options.storeId) {
       that.setData({
         storeId: options.storeId
@@ -118,14 +121,8 @@ Page({
     this.setData({
       statusBarHeight: wx.getStorageSync('statusBarHeight'),
       titleBarHeight: wx.getStorageSync('titleBarHeight'),
-      // cityName: wx.getStorageSync('cityName') ? wx.getStorageSync('cityName') : ''
     })
-    that.getBannerdata();
-    // that.getMainListdata('refresh');
-    // 实例化API核心类
-    // qqmapsdk = new QQMapWX({
-    //   key: 'FQGBZ-OY4CQ-XM35H-BWLYV-2U2V2-SRBZ6'
-    // });
+
   },
   goStore(e) {
     var storeId = e.currentTarget.dataset.storeid
@@ -160,11 +157,6 @@ Page({
     wx.navigateTo({
       url: '../map/map'
     })
-    // this.setData({
-    //   isMap: true
-    // })
-    // this.setData({name:''})
-    // this.getMainListdata('refresh')
   },
   goListSeach() {
     this.setData({
@@ -275,7 +267,7 @@ Page({
                 let arrs = arr.concat(info.data.list);
                 let markers = that.data.markers;
                 let newMarkers = markers.concat(allMarkers);
-                console.log('arr length',arrs.length,"total",info.data.total)
+                console.log('arr length', arrs.length, "total", info.data.total)
                 that.setData({
                   MainStorelist: arrs,
                   markers: newMarkers,
@@ -596,46 +588,7 @@ Page({
     });
     this.getMainListdata('refresh')
   },
-  openDoor(e) {
-    var that = this;
-    // let aindex = e.currentTarget.dataset.index;
-    if (app.globalData.isLogin) {
-      http.request(
-        "/member/order/getOrderPage",
-        "1",
-        "post",
-        {
-          pageNo: 1,
-          pageSize: 10,
-          status: 1,
-          orderColumn: "startTime",
-        },
-        app.globalData.userDatatoken.accessToken,
-        "",
-        function success(info) {
-          if (info.code == 0) {
-            if (!info.data.list.length) {
-              wx.showToast({
-                title: "暂无可用订单",
-                icon: "none",
-              });
-            } else {
-              that.getOrderDetail(info.data.list[0].orderId)
-            }
-          } else {
-            wx.showModal({
-              title: "温馨提示",
-              content: info.msg,
-              showCancel: false,
-            });
-          }
-        },
-        function fail(info) { }
-      );
-    } else {
-      that.gotologin();
-    }
-  },
+
   goUser: function () {
     wx.switchTab({
       url: "/pages/user/user",
@@ -701,13 +654,13 @@ Page({
   handleMenu(value) {
     console.log(value)
     const { detail } = value;
-    if (!this.data.orderDetail){
+    if (!this.data.orderDetail) {
       wx.showToast({
         title: "当前无订单",
         icon: "none",
       });
       return
-    } 
+    }
     switch (detail.value) {
       case "openDoor":
         this.openDoor();

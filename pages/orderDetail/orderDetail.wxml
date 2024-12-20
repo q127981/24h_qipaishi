@@ -65,7 +65,7 @@
       </view>
       <view class="info-line">
         <text class="bold">订单总价：</text>
-        <text>¥ {{OrderInfodata.price}}</text>
+        <text>¥ {{OrderInfodata.payPrice}}</text>
       </view>
       <view class="info-line">
         <text class="bold">订单押金：</text>

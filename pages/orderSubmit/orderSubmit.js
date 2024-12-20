@@ -722,21 +722,26 @@ Page({
   selectTimeHour: function (event) {
     var that = this;
     var atimeindex = event.currentTarget.dataset.index; //选中的时间索引
-    var hour = null;
-    // 点击通宵无时间
-    if (event.currentTarget.dataset.index != 99) {
-      hour = event.currentTarget.dataset.hour
-    } else {
-      hour = 12
-    }
+    var hour = event.currentTarget.dataset.hour;
+    var startDate = null;
+    var payselectindex = 1;
     if (atimeindex == that.data.select_time_index) {
       that.setData({
         select_time_index: -1,
-        pkgId: "",
-      });
+        pkgId: '',
+      })
     } else {
-      var startDate = new Date(that.data.submit_begin_time); //显示的开始时间
-      var payselectindex = 1;
+      if (atimeindex == 99) {
+        startDate = new Date();
+        hour = 99;//计算时间时会自动设置成正确的时长
+      } else {
+        //如果之前是通宵，又点的小时，那么开始时间设置为现在开始
+        if (that.data.select_time_index == 99) {
+          startDate = new Date();
+        } else {
+          startDate = new Date(that.data.submit_begin_time);//显示的开始时间
+        }
+      }
       if (that.data.scanCodeMsg) {
         payselectindex = 3;
       }
@@ -744,9 +749,9 @@ Page({
         payselectindex: payselectindex,
         select_time_index: atimeindex,
         select_pkg_index: -1,
-        pkgId: "",
-        order_hour: hour,
-      });
+        pkgId: '',
+        order_hour: hour
+      })
       that.MathDate(startDate);
     }
   },
@@ -981,7 +986,9 @@ Page({
   },
   setshowSelectHour: function () {
     let that = this;
+    console.log('setshowSelectHour:', that.data.submit_begin_time);
     that.setData({
+      currentDate: new Date(that.data.submit_begin_time),
       showtimefalge: true,
     });
   },
@@ -1057,7 +1064,7 @@ Page({
     //先得出订单的时长
     var order_hour = that.data.order_hour;
     var nightLong = false;
-    console.log("先得出订单的时长");
+    console.log("先得出订单的时长:", order_hour);
     if (!order_hour) {
       order_hour = that.data.minHour;
       that.setData({

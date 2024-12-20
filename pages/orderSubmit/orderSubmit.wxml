@@ -69,7 +69,7 @@
       </view>
       <view class="mode-slot" bind:tap="modeChange">
         <view data-index="0" class="{{ modeIndex === 0 ? 'active' : '' }}">小时模式</view>
-        <view  data-index="1" class="{{ modeIndex === 1 ? 'active' : '' }}">套餐模式</view>
+        <view data-index="1" class="{{ modeIndex === 1 ? 'active' : '' }}">套餐模式</view>
         <!-- todo 包时卡缺少表暂时隐藏 -->
         <!-- <view data-index="2" class="{{ modeIndex === 2 ? 'active' : '' }}">包时卡模式</view> -->
       </view>
@@ -87,8 +87,8 @@
             <view class="bottom">{{item.desc}}</view>
             <view class="bottom">可用时段：{{item.timeQuantum}}</view>
             <view class="pkgInfo">
-            <view class="bottom">{{item.balanceBuy?"可余额支付":"不支持余额支付"}}</view>
-            <view class="bottom">{{item.enableHoliday?"节假日可用":"节假日不可用"}}</view>
+              <view class="bottom">{{item.balanceBuy?"可余额支付":"不支持余额支付"}}</view>
+              <view class="bottom">{{item.enableHoliday?"节假日可用":"节假日不可用"}}</view>
             </view>
           </view>
         </view>
@@ -180,7 +180,7 @@
         </view>
         <view class="right">
           <input class="input" maxlength="35" placeholder="输入/粘贴团购券码" value="{{scanCodeMsg}}" bindinput='bindscanCode' style="text-align: right; color: #f19b1a;font-size: 28rpx;margin-right: 10rpx;" />
-          <iconfont name="scan-qr-code" size="28"  bind:tap="scanCode"></iconfont>
+          <iconfont name="scan-qr-code" size="28" bind:tap="scanCode"></iconfont>
         </view>
       </view>
       <view class="line" wx:if="{{scanCodeMsg}}">
@@ -230,7 +230,7 @@
       <view class="line" style="margin-bottom: 20rpx;">
         <view class="left" bind:tap="goSelectPayType" data-index="1">
           <view class="item">
-            <iconfont name="weixinzhifu"  size="26"></iconfont>            
+            <iconfont name="weixinzhifu" size="26"></iconfont>
             <text>微信</text>
           </view>
           <view>
@@ -238,14 +238,14 @@
           </view>
         </view>
         <view class="right-item" bind:tap="goSelectPayType" data-index="2">
-          <iconfont name="yue" size="26"></iconfont>      
+          <iconfont name="yue" size="26"></iconfont>
           <view class="desc">
             <view>
               余额：
               {{balance}}元
             </view>
             <view>
-              赠送：      
+              赠送：
               {{giftBalance}}元
             </view>
           </view>
