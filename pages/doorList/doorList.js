@@ -22,7 +22,6 @@ Page({
     storeId: '',
     isLogin: app.globalData.isLogin,
     canLoadMore: true,//是否还能加载更多
-    userId: '', //管理员代下单用户id
     tabIndex: 0,
     orderDetail: ''
   },
@@ -43,6 +42,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
+    this.getLocation().then((res) => { });
     this.data.tabIndex = 0
     this.setData({
       isLogin: app.globalData.isLogin
@@ -109,9 +109,8 @@ Page({
     }
   },
   onLoad(options) {
-    this.data.userId = options.userId ? parseInt(options.userId) : ''
     var that = this;
-    that.getLocation();
+
     that.getBannerdata();
     if (options.storeId) {
       that.setData({
@@ -419,7 +418,6 @@ Page({
             lat: latitude,
             lon: longitude,
           });
-          that.getMainListdata('refresh');
           // 处理位置信息，比如将位置信息显示在页面上
           // 示例中使用的是util.js中的函数，开发者可以根据需要自行编写
           //util.showLocation(latitude, longitude)

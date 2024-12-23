@@ -22,7 +22,7 @@
     <block wx:if="{{orderlist.length>0}}">
       <view class="lists" wx:for="{{orderlist}}" wx:key="orderlist">
         <view class="item">
-          <view class="orderNo icon iconfont icon-quanbudingdan color-primary"> {{item.orderNo}}</view>
+          <view class="orderNo color-primary"> {{item.orderNo}}</view>
           <block wx:if="{{item.status == 0}}">
             <view class="tag blue">未开始</view>
           </block>

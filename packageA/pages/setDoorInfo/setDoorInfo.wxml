@@ -4,13 +4,13 @@
     <view class="line">
       <label>房间名称：</label>
       <view class="right">
-        <input model:value="{{roomName}}" type="text" placeholder="请输入"/>
+        <input model:value="{{roomName}}" type="text" placeholder="请输入" />
       </view>
     </view>
     <view class="line">
       <label>房间简称：</label>
       <view class="right">
-        <input model:value="{{roomCallName}}" type="text" placeholder="请输入"/>
+        <input model:value="{{roomCallName}}" type="text" placeholder="请输入" />
       </view>
     </view>
     <view class="tips">注:云喇叭播报的房间名称,尽量简短,不要超过6个字.例:VIP1</view>
@@ -20,7 +20,7 @@
         <view class="city">
           <picker bindchange="bindRoomClassChange" value="{{rcIndex}}" range-key="name" range="{{roomClassList}}">
             <view class="picker">
-              <input type="text" disabled placeholder="请选择" placeholder-class="plh" value="{{roomClassList[rcIndex].name}}"/>
+              <input type="text" disabled placeholder="请选择" placeholder-class="plh" value="{{roomClassList[rcIndex].name}}" />
               <view class="iconfont icon-xuanzex"></view>
             </view>
           </picker>
@@ -33,7 +33,7 @@
         <view class="city">
           <picker bindchange="bindTypeChange" value="{{index}}" range-key="name" range="{{types}}">
             <view class="picker">
-              <input type="text" disabled placeholder="请选择" placeholder-class="plh" value="{{types[index].name}}"/>
+              <input type="text" disabled placeholder="请选择" placeholder-class="plh" value="{{types[index].name}}" />
               <view class="iconfont icon-xuanzex"></view>
             </view>
           </picker>
@@ -44,7 +44,7 @@
       <label>不需要清洁：</label>
       <view class="right">
         <view>
-          <switch bindchange="changeSwitchStatus" checked="{{jumpClear}}"/> 
+          <switch bindchange="changeSwitchStatus" checked="{{jumpClear}}" />
         </view>
       </view>
     </view>
@@ -52,7 +52,7 @@
       <label>是否可预定：</label>
       <view class="right">
         <view>
-          <switch bindchange="changeReserveStatus" checked="{{reserve}}"/> 
+          <switch bindchange="changeReserveStatus" checked="{{reserve}}" />
         </view>
       </view>
     </view>
@@ -65,7 +65,7 @@
         </view>
       </view>
     </view>
-     <view class="line">
+    <view class="line">
       <label>房间押金：</label>
       <view class="right">
         <view class="price">
@@ -87,7 +87,7 @@
       <label>通宵价格：</label>
       <view class="right">
         <view class="price">
-          <input model:value="{{tongxiaoPrice}}" type="digit" placeholder="请输入"/>
+          <input model:value="{{tongxiaoPrice}}" type="digit" placeholder="请输入" />
           <text>元/场</text>
         </view>
       </view>
@@ -96,7 +96,7 @@
       <label>最低下单小时：</label>
       <view class="right">
         <view class="price">
-        <input  model:value="{{minHour}}" type="text" placeholder="请输入1-12的数字"/>小时
+          <input model:value="{{minHour}}" type="text" placeholder="请输入1-12的数字" />小时
         </view>
       </view>
     </view>
@@ -104,7 +104,7 @@
       <label>提前开始时间：</label>
       <view class="right">
         <view class="price">
-        <input model:value="{{leadHour}}" type="text" placeholder="请输入1-12的数字"/>小时
+          <input model:value="{{leadHour}}" type="text" placeholder="请输入1-12的数字" />小时
         </view>
       </view>
     </view>
@@ -135,7 +135,7 @@
           <text>至</text>
           <input bindtap="chooseTime" data-type="end" type="text" placeholder="结束" disabled value="{{banTimeEnd}}" />
         </view>
-        <view class="icon iconfont icon-close" bind:tap="clearBanTime"> </view>
+        <iconfont name="close" bind:tap="clearBanTime"></iconfont>
       </view>
     </view>
     <view class="tips">注:每日固定时间段该房间不可用，不禁用就不填写</view>
@@ -143,7 +143,7 @@
       <label>房间标签：</label>
       <view class="right">
         <view class="tags">
-          <textarea model:value="{{label}}" type="text" placeholder="输入标签，用逗号分隔"/>
+          <textarea model:value="{{label}}" type="text" placeholder="输入标签，用逗号分隔" />
         </view>
       </view>
     </view>
@@ -157,28 +157,21 @@
   </view>
   <!-- 底部按钮 -->
   <view class="submit border-primary {{isIpx?'fix-iphonex-button':''}}">
-    <button hover-class="button-click"  class="color-primary cancel" bindtap="cancel">取消</button>
-    <button hover-class="button-click"  class="bg-primary" bindtap="submit">保存</button>
+    <button hover-class="button-click" class="color-primary cancel" bindtap="cancel">取消</button>
+    <button hover-class="button-click" class="bg-primary" bindtap="submit">保存</button>
   </view>
 </view>
 <!-- 时间选择弹窗 -->
-<van-popup show="{{ showtime }}" position="bottom"
-  custom-style="height: 60%">
-  <van-datetime-picker type="time" value="{{currentDate}}"  filter="{{filter}}" bind:confirm="timeChange" bind:cancel="timeCancel">
+<van-popup show="{{ showtime }}" position="bottom" custom-style="height: 60%">
+  <van-datetime-picker type="time" value="{{currentDate}}" filter="{{filter}}" bind:confirm="timeChange" bind:cancel="timeCancel">
   </van-datetime-picker>
 </van-popup>
-<van-dialog
-  use-slot
-  title="选择房间标签"
-  show="{{ showLabel }}"
-  show-cancel-button
-  bind:confirm="saveLabel"
->
+<van-dialog use-slot title="选择房间标签" show="{{ showLabel }}" show-cancel-button bind:confirm="saveLabel">
   <view class="dialog">
     <checkbox-group bindchange="checkboxChange">
       <view class="checkbox">
         <label class="label" wx:for="{{labels}}" wx:key="labels">
-            <checkbox value="{{item.label}}" checked="{{item.checked}}"/>{{item.label}}
+          <checkbox value="{{item.label}}" checked="{{item.checked}}" />{{item.label}}
         </label>
       </view>
     </checkbox-group>

@@ -45,7 +45,7 @@ Page({
    */
   onLoad(options) {
     var that = this;
-    that.getLocation().then((res) => { });;
+
     that.setData({
       isLogin: app.globalData.isLogin,
       popshow: true
@@ -80,6 +80,7 @@ Page({
   onShow() {
     console.log("onShow index");
     var that = this;
+    that.getLocation().then((res) => { });;
     that.setData({
       isLogin: app.globalData.isLogin,
     })
