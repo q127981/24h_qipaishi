@@ -1,10 +1,6 @@
 <!--pages/SetOrder/SetOrder.wxml-->
 <wxs src="../../../utils/magic.wxs" module="magic" />
 
-<!-- <view class="navigtor" style="padding-top:{{statusBarHeight}}px;height:{{titleBarHeight}}px;line-height:{{titleBarHeight}}px;">
-  <navigator class="left iconfont icon-help" url="../help/help"></navigator>
-  <view class="title">订单管理</view>
-</view> -->
 <block wx:if="{{isLogin}}">
   <!-- <view class="tabs" style="top:{{statusBarHeight+titleBarHeight}}px"> -->
   <view class="tabs">

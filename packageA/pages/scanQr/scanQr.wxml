@@ -23,12 +23,12 @@
         use-button-slot
         >
         <van-button slot="button" size="small" type="primary" bind:tap="scanCode">
-          <view class="iconfont icon-saomiao" ></view>
+        <iconfont name="scan-qr-code"></iconfont>
         </van-button>
         </van-field>
       </van-cell-group>
     <!-- </view> -->
-    
+ 
   </view>
   <view class="btns">
     <button hover-class="button-click" class="btn submit bg-primary" bindtap="submit">提交验券</button>

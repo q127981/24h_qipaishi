@@ -254,8 +254,8 @@ page {
 .lists .item .top .right {
   width: 470rpx;
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
+  flex-direction: column;
 }
 
 .lists .item .top .right .name {
@@ -275,6 +275,7 @@ page {
   color: #fff;
   padding: 4rpx 16rpx;
   margin-right: 8rpx;
+  white-space: nowrap;
 }
 
 .lists .item .top .right .tags {
@@ -372,7 +373,7 @@ page {
 }
 
 .lists .item .foot {
-  margin-top: 30rpx;
+  /* margin-top: 30rpx; */
 }
 
 .lists .item .foot .foot-top {

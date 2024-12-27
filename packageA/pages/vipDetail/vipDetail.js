@@ -31,7 +31,7 @@ Page({
     that.setData({
       vipInfo: info,
     });
-    that.getCouponList();
+
     console.log(that.data.couponList);
     that.getXiaLaListAdmin();
 
@@ -46,7 +46,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+    this.getCouponList();
   },
 
   /**

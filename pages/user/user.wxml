@@ -21,7 +21,7 @@
       </button>
     </block>
     <block wx:else>
-      <button hover-class="button-click" class="userInfo" bindgetphonenumber="phone" open-type="getPhoneNumber">
+      <navigator hover-class="button-click" class="userInfo" url="../login/login">
         <view class="left">
           <!-- <image class="photo" src="/logo.png"></image> -->
           <!-- <button hover-class="button-click"  class="photo" src="/logo.png" bindgetphonenumber="phone" open-type="getPhoneNumber">地图</button> -->
@@ -30,8 +30,8 @@
             <view class="name">点击登录</view>
           </view>
         </view>
-        <view class="iconfont icon-right"></view>
-      </button>
+        <iconfont name="right"></iconfont>
+      </navigator>
     </block>
     <navigator class="balance-box" wx:if="{{isLogin}}" url="{{isLogin?'../getBalance/getBalance':'../login/login'}}">
       <view class="item">
@@ -174,5 +174,5 @@
       </view>
     </block>
   </view>
-  <view class="version">版本:24.12.23</view>
+  <view class="version">版本:24.12.27</view>
 </view>

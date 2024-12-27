@@ -1,108 +1,104 @@
 <!--index.wxml-->
 <view class="top">
-    <!-- <view class="top-back">
+  <!-- <view class="top-back">
         <image class="backgroud-iamge" src="/pages/static/img/top-Background-image.png" mode="scaleToFill" />
     </view> -->
-    <view class="top-search">
-        <view class="left">
-        <view class="label" bindtap="goLocation">
+  <view class="top-search">
+    <view class="left">
+      <view class="label" bindtap="goLocation">
         <image src="../static/icon/city.png" mode="aspectFit" />
         <text>{{cityName}}</text>
-            <icon></icon>
-        </view>
-        <input class="input" type="text" placeholder="{{'输入关键字搜索门店'}}" value="{{name}}"  bindinput="onInputChange"/>
-        </view>
-        <view wx:if="{{isMap}}" class="right" bindtap="goListSeach">
-        <view class="iconfont icon-list"></view><text>列表</text>
-        </view>
-        <view wx:else class="right" bindtap="goMapSeach">
-        <!-- <button hover-class="button-click"  class="iconfont icon-map" bindgetphonenumber="phone" open-type="getPhoneNumber">地图</button> -->
-        <!-- <text style="color: rgba(255, 255, 255, 0.897);">地图</text> -->
-        <iconfont name="dingwei" size="30"></iconfont>
-        </view>
+        <icon></icon>
+      </view>
+      <input class="input" type="text" placeholder="{{'输入关键字搜索门店'}}" value="{{name}}" bindinput="onInputChange" />
     </view>
-    <view class="banner">
-        <swiper autoplay indicator-dots wx:if="{{bannershowlist.length>0}}">
-            <block wx:for="{{bannershowlist}}" wx:key="banner">
-            <swiper-item>
-                <image src="{{item.imgUrl}}" mode="widthFix"></image>
-            </swiper-item>
-            </block>
-        </swiper>
-        <image wx:else="" class="top-image" src="/pages/static/img/top-backImage.png" mode="aspectFit">
-        </image>
+    <view wx:if="{{isMap}}" class="right" bindtap="goListSeach">
+      <text>列表</text>
     </view>
+    <view wx:else class="right" bindtap="goMapSeach">
+      <iconfont name="dingwei" size="30"></iconfont>
+    </view>
+  </view>
+  <view class="banner">
+    <swiper autoplay indicator-dots wx:if="{{bannershowlist.length>0}}">
+      <block wx:for="{{bannershowlist}}" wx:key="banner">
+        <swiper-item>
+          <image src="{{item.imgUrl}}" mode="widthFix"></image>
+        </swiper-item>
+      </block>
+    </swiper>
+    <image wx:else="" class="top-image" src="/pages/static/img/top-backImage.png" mode="aspectFit">
+    </image>
+  </view>
 </view>
 <view class="tab" bind:tap="handleTabChange">
-    <view class="tab-left">
-        <view class="{{ tabIndex === 0 ? 'active' : '' }}" data-index="0">
-            附近门店
-        </view>
+  <view class="tab-left">
+    <view class="{{ tabIndex === 0 ? 'active' : '' }}" data-index="0">
+      附近门店
     </view>
-    <view class="tab-rigth">
-        <view class="{{ tabIndex === 1 ? 'active' : '' }}" data-index="1">
-            常用门店
-        </view>
+  </view>
+  <view class="tab-rigth">
+    <view class="{{ tabIndex === 1 ? 'active' : '' }}" data-index="1">
+      常用门店
     </view>
+  </view>
 </view>
 <view class="container">
   <!-- 列表 -->
   <view class="lists">
     <view class="list">
-    <block wx:if="{{MainStorelist.length>0}}">
+      <block wx:if="{{MainStorelist.length>0}}">
         <view wx:for="{{MainStorelist}}" wx:key="MainStorelist">
-            <view class="store-card" bind:tap="goStore" data-storeid="{{item.storeId}}">
-                <view class="image-container">
-                    <view wx:if="{{item.headImg}}">
-                        <image class="store-card__image" src="{{item.headImg}}" mode="aspectFill"></image>
-                    </view>
-                    <view wx:else>
-                        <image class="store-card__image"  src="/logo.png" mode="aspectFill"></image>
-                    </view>
-                </view>
-                <view class="text-container">
-                    <view class="standard">
-                      空闲:
-                      <text style="color:#e0260d">{{item.freeRoomNum}}</text>
-                    </view>
-                    <view class="name">{{item.storeName}}</view>
-                    <view class="address">{{item.address}}</view>
-                    <view class="item-buttom">
-                        <view class="info">
-                            <view class="position" catchtap="goTencentMap" data-info="{{item}}" wx:if="{{item.distance}}">
-                            <!-- <view style="margin-top: 15rpx;" class="iconfont icon-weizhi btn"></view> -->
-                              <view class="iconfont icon-postion color-primary"></view>
-                              <text class="distance">{{item.distance}}</text>km
-                            </view>
-                        </view>
-                        <view class="door-button">立即预定</view>
-                    </view>
-                </view>
+          <view class="store-card" bind:tap="goStore" data-storeid="{{item.storeId}}">
+            <view class="image-container">
+              <view wx:if="{{item.headImg}}">
+                <image class="store-card__image" src="{{item.headImg}}" mode="aspectFill"></image>
+              </view>
+              <view wx:else>
+                <image class="store-card__image" src="/logo.png" mode="aspectFill"></image>
+              </view>
             </view>
+            <view class="text-container">
+              <view class="standard">
+                空闲:
+                <text style="color:#e0260d">{{item.freeRoomNum}}</text>
+              </view>
+              <view class="name">{{item.storeName}}</view>
+              <view class="address">{{item.address}}</view>
+              <view class="item-buttom">
+                <view class="info">
+                  <view class="position" catchtap="goTencentMap" data-info="{{item}}" wx:if="{{item.distance}}">
+                    <text class="distance">{{item.distance}}</text>km
+                  </view>
+                </view>
+                <view class="door-button">立即预定</view>
+              </view>
+            </view>
+          </view>
         </view>
-    </block>
-    <block wx:else>
-      <view>
+      </block>
+      <block wx:else>
+        <view>
           <view class="noStoreInfo">
             <view>
-                <image class="noStore-image" src="/pages/static/img/no-store.png" mode="scaleToFill" />
+              <image class="noStore-image" src="/pages/static/img/no-store.png" mode="scaleToFill" />
             </view>
             <text wx:if="{{tabIndex==1}}">
-                暂无常用门店 
+              暂无常用门店
             </text>
             <text wx:else="">
-                暂无门店 
+              暂无门店
             </text>
             <text wx:if="{{tabIndex==1}}">
-                去附近门店看看吧 
+              去附近门店看看吧
             </text>
             <button class="go-near" bind:tap="goNear" wx:if="{{tabIndex==1}}">
-            查看附近门店
+              查看附近门店
             </button>
-           </view>
+          </view>
           <!-- <button bind:tap="goUser" class="noStoreBtn">个人中心</button> -->
-      </view>
-    </block>
+        </view>
+      </block>
     </view>
   </view>
 </view>
@@ -111,4 +107,3 @@
 <view style="margin-bottom: 80rpx;"></view>
 <custom-tabbar></custom-tabbar>
 <view class="bt"></view>
-

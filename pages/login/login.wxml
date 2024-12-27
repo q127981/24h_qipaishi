@@ -1,8 +1,29 @@
 <!--pages/login/login.wxml-->
 <view class="container">
   <view class="photo">
-    <view class="img"><image src="{{userinfo.avatar?userinfo.avatar:'/logo.png'}}" mode="widthFix" /></view>
+    <view class="img">
+      <image src="{{userinfo.avatar?userinfo.avatar:'/logo.png'}}" mode="widthFix" />
+    </view>
     <view class="name">{{appName}}</view>
   </view>
-  <button hover-class="button-click"  class="loginBtn bg-primary theme-color-shadow" bindgetphonenumber="phone" open-type="getPhoneNumber">一键登录</button>
+  <block wx:if="{{fastLogin}}">
+    <button hover-class="button-click" class="loginBtn bg-primary theme-color-shadow" bindgetphonenumber="phone" open-type="getPhoneNumber">一键登录</button>
+    <view class="pwdlogin" bind:tap="pwdlogin">密码登录</view>
+  </block>
+  <block wx:else="">
+    <view class="userLogin">
+      <view class="item">
+        <label class="label">账号:</label>
+        <input class="input" model:value="{{username}}" type="number" placeholder="请输入11位手机号" maxlength="11" />
+      </view>
+      <view class="item">
+        <label class="label">密码:</label>
+        <input class="input" model:value="{{password}}" type="password" placeholder="请输入8-16位密码" maxlength="16" />
+      </view>
+      <view class="item">
+        <view class="btn" bind:tap="userLogin">登录</view>
+        <view class="wxLogin" bind:tap="wxLogin">一键登录</view>
+      </view>
+    </view>
+  </block>
 </view>

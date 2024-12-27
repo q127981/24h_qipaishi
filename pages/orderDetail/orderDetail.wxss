@@ -203,6 +203,7 @@ page {
   margin-right: 20rpx;
   font-size: 26rpx;
   color: #fff;
+  white-space: nowrap;
 }
 
 .orderInfo .name {
@@ -465,6 +466,7 @@ page {
 .doors .door.m-b-20 {
   margin-bottom: 26rpx;
 }
+
 .doors .door.m-b-20.start {
   background-color: var(--main-color);
   color: #fff;

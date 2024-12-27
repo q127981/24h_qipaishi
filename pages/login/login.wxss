@@ -2,30 +2,74 @@
 page {
   background: #fff;
 }
-.container{
+
+.container {
   padding: 0 60rpx;
 }
-.photo{
+
+.photo {
   padding: 60rpx 0;
   text-align: center;
 }
-.photo .img{
+
+.photo .img {
   width: 200rpx;
   height: 200rpx;
   margin: 0 auto;
 }
-.photo .img image{
+
+.photo .img image {
   width: 100%;
   height: 100%;
   border-radius: 100%;
 }
-.photo .name{
+
+.photo .name {
   margin-top: 20rpx;
 }
-.loginBtn{
+
+.pwdlogin {
+  margin-top: 30rpx;
+  text-align: right;
+  font-size: 24rpx;
+  margin-left: 30rpx;
+  color: #108ee9;
+  line-height: 36rpx;
+}
+
+.loginBtn {
   margin-top: 60rpx;
   border-radius: 50rpx;
   font-size: 28rpx;
   height: 90rpx;
   line-height: 90rpx;
+}
+
+.userLogin .item {
+  display: flex;
+  justify-content: center;
+  margin: 30rpx;
+  font-size: 36rpx;
+  line-height: 36rpx;
+}
+
+.userLogin .item .label {
+  font-weight: 600;
+  margin-right: 20rpx;
+}
+
+.userLogin .item .btn {
+  text-align: center;
+  padding: 20rpx;
+  width: 260rpx;
+  background-color: var(--main-color);
+  color: #fff;
+  border-radius: 10rpx;
+}
+
+.userLogin .item .wxLogin {
+  font-size: 24rpx;
+  margin-left: 30rpx;
+  color: #0095ff;
+  line-height: 36rpx;
 }

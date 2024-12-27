@@ -1,5 +1,5 @@
 <!--pages/recharge/recharge.wxml-->
-<block wx:if="{{isLogin}}">
+<block>
   <view class="container">
     <view class="name">
       <view class="info">
@@ -69,17 +69,6 @@
     </view>
     <button class="bg-primary paybtn {{isIpx?'fix-iphonex-button':''}}" disabled="{{payMoney==''}}" wx:if="{{modeIndex === 0}}" bind:tap="submitpay">立即充值</button>
     <button class="bg-primary paybtn {{isIpx?'fix-iphonex-button':''}}" disabled="{{selectedPackIndex==-1}}" wx:if="{{modeIndex === 1}}" bind:tap="showConfirm">立即支付</button>
-  </view>
-</block>
-<block wx:else="">
-  <view class="containerlogin">
-    <view class="photo">
-      <view class="img">
-        <image src="/logo.png" mode="widthFix" />
-      </view>
-      <view class="name">{{appName}}</view>
-    </view>
-    <button hover-class="button-click" class="loginBtn bg-primary" bindgetphonenumber="phone" open-type="getPhoneNumber">一键登录</button>
   </view>
 </block>
 

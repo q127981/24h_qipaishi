@@ -21,7 +21,6 @@
           <picker bindchange="bindRoomClassChange" value="{{rcIndex}}" range-key="name" range="{{roomClassList}}">
             <view class="picker">
               <input type="text" disabled placeholder="请选择" placeholder-class="plh" value="{{roomClassList[rcIndex].name}}" />
-              <view class="iconfont icon-xuanzex"></view>
             </view>
           </picker>
         </view>
@@ -34,7 +33,6 @@
           <picker bindchange="bindTypeChange" value="{{index}}" range-key="name" range="{{types}}">
             <view class="picker">
               <input type="text" disabled placeholder="请选择" placeholder-class="plh" value="{{types[index].name}}" />
-              <view class="iconfont icon-xuanzex"></view>
             </view>
           </picker>
         </view>
@@ -130,7 +128,6 @@
       <label>禁用时间：</label>
       <view class="right">
         <view class="search">
-          <view class="iconfont icon-date"></view>
           <input bindtap="chooseTime" data-type="start" type="text" placeholder="开始" disabled value="{{banTimeStart}}" />
           <text>至</text>
           <input bindtap="chooseTime" data-type="end" type="text" placeholder="结束" disabled value="{{banTimeEnd}}" />

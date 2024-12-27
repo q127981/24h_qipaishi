@@ -321,6 +321,7 @@ page {
   color: #fff;
   padding: 4rpx 16rpx;
   margin-right: 8rpx;
+  white-space: nowrap;
 }
 
 .lists .item .top .right .tags {
@@ -418,7 +419,7 @@ page {
 }
 
 .lists .item .foot {
-  margin-top: 30rpx;
+  /* margin-top: 30rpx; */
 }
 
 .lists .item .foot .foot-top {
@@ -1126,4 +1127,42 @@ page {
   height: 80rpx;
   color: #fff;
   background-image: linear-gradient(to right, rgb(149, 245, 157), rgb(74, 187, 51));
+}
+
+.svg-style {
+  background-color: #fff;
+  border: 0.5px solid black;
+}
+
+.color-mean {
+  display: flex;
+  background-color: #fff;
+  justify-content: space-between;
+}
+
+.out-common {
+  display: flex;
+  align-items: center;
+  margin: auto;
+}
+
+.color-common {
+  height: 20px;
+  width: 20px;
+  margin: 5px 5px;
+  border-radius: 4px;
+}
+
+.fixed-button-wrapper {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.to-comfrim {
+  background-color: #fa9b01;
+  color: #fff;
+  height: 30px;
 }

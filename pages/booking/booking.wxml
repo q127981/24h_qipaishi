@@ -6,14 +6,13 @@
       <view class="info-card">
         <view class="top">
           <view class="left">
-            <view class="iconfont icon-house color-primary"></view>
+            <iconfont name="iov-store" size="22"></iconfont>
             <view class="info">
               <text class="name">{{doorinfodata.storeName}}</text>
             </view>
           </view>
           <view class="change-btn" bind:tap="goIndexPage">
             <!-- <image src="../static/icon/exchange.png" /> -->
-            <view class="iconfont icon-exchange"></view>
             <text>切换门店</text>
           </view>
         </view>
@@ -21,18 +20,16 @@
           <text class="location">{{doorinfodata.address}}</text>
           <view class="item" bind:tap="onClickShow" data-index="0">
             <image src="../static/icon/navigation.png" />
-            <!-- <view class="iconfont icon-navigation color-primary"></view> -->
             <text>导航</text>
           </view>
           <view class="line"></view>
           <view class="item" bind:tap="onClickShow" data-index="1">
             <image src="../static/icon/phone.png" />
-            <!-- <view class="iconfont icon-phoneicon color-primary"></view> -->
             <text>电话</text>
           </view>
         </view>
         <view class="distant">
-          <view catchtap="goTencentMap" class="iconfont icon-postion color-primary"></view>
+          <view catchtap="goTencentMap" class="color-primary"></view>
           <text style="color: var(--main-color);" catchtap="goTencentMap">距我{{doorinfodata.distance}}km</text>
         </view>
       </view>
@@ -138,10 +135,22 @@
                   <text wx:if="{{item.timeText}}">{{item.timeText}}已被预定</text>
                 </view>
                 <view class="more" catchtap="onShowReserve" data-list="{{item.orderTimeList}}" wx:if="{{item.orderTimeList.length}}">
-                  更多预约
-                  <icon class="iconfont icon-right"></icon>
+                  更多
                 </view>
               </view>
+            </view>
+          </view>
+          <view class="foot">
+            <view class="foot-top">
+              <view class="labels">
+                <view class="label disabled">不可用</view>
+                <view class="label">可预约</view>
+              </view>
+            </view>
+            <view class="times">
+              <block wx:for="{{timeHourAllArr[index]}}" wx:for-item="houritem2">
+                <view class="time {{houritem2.disable?'disabled':''}}">{{houritem2.hour}}</view>
+              </block>
             </view>
           </view>
         </view>

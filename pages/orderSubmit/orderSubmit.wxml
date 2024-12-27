@@ -54,10 +54,14 @@
             <view>{{timeText}}已被预定</view>
           </view>
           <view class="more" bindtap="onShowReserve" wx:if="{{orderTimeList.length>1}}">
-            <view>更多预约</view>
-            <view class="iconfont icon-right"></view>
+            <view>更多</view>
           </view>
         </view>
+      </view>
+      <view class="timeSlot">
+        <block wx:for="{{timeHourAllArr}}" wx:for-item="houritem2">
+          <view class="time {{houritem2.disable?'disabled':''}}">{{houritem2.hour}}</view>
+        </block>
       </view>
     </view>
     <view class="time-section">
@@ -134,7 +138,6 @@
                 <text>有效期至：{{item.enableTimeText}}</text>
                 <view>
                   <text>详细规则</text>
-                  <icon class="iconfont icon-right" />
                 </view>
               </view>
             </view>
@@ -218,8 +221,6 @@
               <text class="price-coupon default">暂无可用优惠券</text>
             </block>
           </block>
-          <iconfont name="right"></iconfont>
-          <!-- <view class="iconfont icon-right {{couponCount>0 ? 'more':'default'}}"></view> -->
         </view>
       </view>
     </view>

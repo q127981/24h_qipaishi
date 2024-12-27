@@ -40,7 +40,6 @@
             <label>玩家：</label>
             <view class="users">
               <view class="user" wx:for="{{item.playUserList}}" wx:for-item="user" wx:key="user">
-                <!-- <view class="iconfont icon-wangguan" wx:if="{{user.userId == item.userId}}"></view> -->
                 <view class="iconfont icon-del" wx:if="{{userinfo.id == item.userId && userinfo.id != user.userId}}" bindtap="delUser" data-gameId="{{item.gameId}}" data-userId="{{user.userId}}"></view>
                 <view class="photo">
                   <image src="{{user.avatar}}" mode="widthFix"></image>

@@ -994,6 +994,7 @@ Page({
   },
   //时间选择，点击确定
   timeChange: function (event) {
+    console.log('.timeChange:', this.data.nightLong);
     const { year, month, day, hour, minute } = this.formatDate(event.detail);
     let that = this;
     var begin_time = year + "/" + month + "/" + day + " " + `${hour}:${minute}`;
@@ -1147,7 +1148,7 @@ Page({
         app.globalData.userDatatoken.accessToken,
         "",
         function success(info) {
-          if (info.code == 0 && info.data.list.length > 0) {
+          if (info.code == 0) {
             const newMeals = info.data.list.map((el) => ({
               ...el,
               desc: that.convertEnableWeek(el.enableWeek),
@@ -1158,13 +1159,14 @@ Page({
             that.setData({
               pkgList: newMeals,
             });
-            console.log('info.data.list[0]', info.data.list[0]);
-            that.setData({
-              select_pkg_index: 0,
-              pkgId: info.data.list[0].pkgId,
-              order_hour: info.data.list[0].hours,
-            })
-            that.MathDate(new Date(that.data.submit_begin_time));
+            if (info.data.list.length > 0) {
+              that.setData({
+                select_pkg_index: 0,
+                pkgId: info.data.list[0].pkgId,
+                order_hour: info.data.list[0].hours,
+              })
+              that.MathDate(new Date(that.data.submit_begin_time));
+            }
           } else {
             wx.showModal({
               content: info.msg,

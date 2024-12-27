@@ -181,8 +181,6 @@
       <radio-group class="pays" bindchange="radioChange">
         <label class="pay" wx:for="{{payTypes}}" wx:key="value">
           <view class="left">
-            <view wx:if="{{item.value === 1}}" class="iconfont icon-weixinzhifu color-primary"></view>
-            <view wx:if="{{item.value === 2}}" class="iconfont icon-pay color-primary"></view>
             {{item.name}}
           </view>
           <view class="wallet-info" wx:if="{{item.value === 2}}">
@@ -409,7 +407,6 @@
             <view class="price-coupon">暂无</view>
           </block>
         </block>
-        <view class="iconfont icon-right"></view>
       </view>
     </view>
     <scroll-view wx:if="{{modeIndex === 1 && pkgList.length>0}}" scroll-x class="mode" bindscroll="handleScroll" bindscrolltoupper="handleScrollStart">

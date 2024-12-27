@@ -1,8 +1,8 @@
 <!--pages/myBalance/myBalance.wxml-->
 <view class="container" style="{{isIpx?'padding-bottom:168rpx':'padding-bottom:120rpx'}}">
-<!-- 日期搜索 -->
+  <!-- 日期搜索 -->
   <view class="search" bindtap="goSearch">
-    <view class="iconfont icon-date"></view>
+    <iconfont name="rili"></iconfont>
     <input type="text" placeholder="开始时间" disabled value="{{sdt}}" />
     <text>至</text>
     <input type="text" placeholder="结束时间" disabled value="{{edt}}" />
@@ -14,33 +14,35 @@
   </view> -->
   <!-- 明细 -->
   <view class="list">
-    <view class="title"><view class="border bg-primary"></view>余额使用明细</view>
+    <view class="title">
+      <view class="border bg-primary"></view>余额使用明细
+    </view>
     <block wx:if="{{MainList.length}}">
       <view class="item" wx:for="{{MainList}}" wx:key="MainList">
         <view class="line"><label>门店：</label><label wx:if="{{item.storeName}}">{{item.storeName}}</label></view>
         <view class="line"><label>时间：</label>{{item.createTime}}</view>
         <view class="line"><label>类型：</label>
-        <block wx:if="{{item.type==6}}">
-          管理员清空
-        </block>
-        <block wx:if="{{item.type==5}}">
-          管理员赠送
-        </block>
-        <block wx:elif="{{item.type==4}}">
-          订单退款
-        </block>
-        <block wx:elif="{{item.type==3}}">
-          订单支付
-        </block>
-        <block wx:elif="{{item.type==2}}">
-          充值赠送
-        </block>
-        <block wx:elif="{{item.type==1}}">
-          在线充值
-        </block>
-        <block wx:else> 
-          {{item.moneyType===1?'账户余额':'赠送余额'}}
-        </block>
+          <block wx:if="{{item.type==6}}">
+            管理员清空
+          </block>
+          <block wx:if="{{item.type==5}}">
+            管理员赠送
+          </block>
+          <block wx:elif="{{item.type==4}}">
+            订单退款
+          </block>
+          <block wx:elif="{{item.type==3}}">
+            订单支付
+          </block>
+          <block wx:elif="{{item.type==2}}">
+            充值赠送
+          </block>
+          <block wx:elif="{{item.type==1}}">
+            在线充值
+          </block>
+          <block wx:else>
+            {{item.moneyType===1?'账户余额':'赠送余额'}}
+          </block>
         </view>
         <view class="line"><label>备注：</label>{{item.remark}}</view>
         <view class="tip">
@@ -77,12 +79,4 @@
   <view class="footer"></view>
 </view>
 <!-- 日期选择弹窗 -->
-<van-calendar
-  show="{{ show }}"
-  type="range"
-  bind:close="onClose"
-  bind:confirm="onConfirm"
-  show-confirm="{{ false }}"
-  allow-same-day
-  min-date="{{ minDate }}"
-/>
+<van-calendar show="{{ show }}" type="range" bind:close="onClose" bind:confirm="onConfirm" show-confirm="{{ false }}" allow-same-day min-date="{{ minDate }}" />

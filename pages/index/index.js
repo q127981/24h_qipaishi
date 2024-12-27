@@ -38,6 +38,17 @@ Page({
     showGroupsPay: false, // 是否展示团购券信息
     groupPays: [], // 优惠券信息
     clickItem: 0, // 点击的团购券位置 默认0
+    selectedRoomId: null,   // 选择的id
+    svgWidth: 0, // 初始化宽度
+    svgHeight: 0 // 初始化高度
+  },
+
+  imageLoad(e) {
+    // 获取加载完成的 SVG 的自然尺寸
+    this.setData({
+      svgWidth: e.detail.width,
+      svgHeight: e.detail.height
+    });
   },
 
   /**
@@ -73,7 +84,39 @@ Page({
   onReady() {
 
   },
+  handleClick: function (e) {
+    const room = e.currentTarget.dataset.item;
+    let that = this;
 
+    if (room.status === 0) {
+      wx.showToast({
+        title: '该房间不可使用',
+        icon: 'none',
+      });
+      return;
+    } else if (room.status === 1 || room.status === 2) {
+      const newDoorListArr = that.data.doorlistArr.map(item => {
+        if (that.data.selectedRoomId && that.data.selectedRoomId !== room.roomId && item.roomId === that.data.selectedRoomId) {
+          return { ...item, fill: item.status === 1 ? '#fff' : '#7FDBFF' }; // 重置之前的选择
+        } else if (item.roomId === room.roomId) {
+          return { ...item, fill: 'green' }; // 设置当前选择
+        } else {
+          return item; // 其他保持不变
+        }
+      });
+
+      that.setData({
+        selectedRoomId: room.roomId,
+        doorlistArr: newDoorListArr
+      });
+    } else if (room.status === 3 || room.status === 4) {
+      wx.showToast({
+        title: '房间已被预定或正在使用',
+        icon: 'none',
+      });
+      return;
+    }
+  },
   /**
    * 生命周期函数--监听页面显示
    */
@@ -243,6 +286,53 @@ Page({
       requestArr.push(key + '=' + aobject.disabledTimeSlot[key]);
     });
   },
+  goStudy() {
+    let that = this
+    let roomid = that.data.selectedRoomId
+    if (roomid == null) {
+      wx.showToast({
+        title: '请先选择座位',
+      })
+      return
+    }
+    let list = that.data.doorlistArr
+    let selectedRoom = list.find(item => item.roomId === roomid);
+    console.log(selectedRoom)
+
+    var atime = '';
+    if (that.data.timeselectindex >= 0)
+      atime = that.data.timeDayArr[that.data.timeselectindex];
+    var storeId = that.data.storeId
+    if (selectedRoom.status == 2) {
+      if (that.data.doorinfodata.clearOpen) {
+        wx.showModal({
+          title: '提示',
+          content: '您选择的此场地暂未清洁，介意请勿预订！',
+          confirmText: '继续预定',
+          complete: (res) => {
+            if (res.confirm) {
+              wx.navigateTo({
+                url: '../orderSubmit/orderSubmit?roomId=' + selectedRoom.roomId + '&daytime=' + atime + '&storeId=' + storeId + '&timeselectindex=' + that.data.timeselectindex,
+              })
+            } else if (res.cancel) {
+              //console.log('用户点击取消')
+            }
+          }
+        })
+      } else {
+        wx.showModal({
+          title: '提示',
+          content: '房间暂未清洁，禁止预订！',
+          showCancel: false
+        })
+      }
+    } else {
+      wx.navigateTo({
+        url: '../orderSubmit/orderSubmit?roomId=' + selectedRoom.roomId + '&daytime=' + atime + '&storeId=' + storeId + '&timeselectindex=' + that.data.timeselectindex,
+      })
+    }
+
+  },
   goOrder(e) {
     var that = this;
     let status = e.currentTarget.dataset.status;
@@ -356,7 +446,6 @@ Page({
         "获取中...",
         function success(info) {
           console.info('返回111===');
-          console.info(info);
           if (info.code == 0) {
             that.setData({
               doorlistArr: info.data.map((el) => {
@@ -381,6 +470,30 @@ Page({
                     minutes: timeNumber2
                   };
                 }
+
+                if (el.roomClass == 2) {
+                  // 禁用
+                  if (el.status == 0) {
+                    el.fill = '#e5e5e5' // 灰色
+                  }
+                  // 空闲
+                  if (el.status == 1) {
+                    el.fill = '#fff'   //  白色
+                  }
+                  // 待清洁
+                  if (el.status == 2) {
+                    el.fill = '#7FDBFF'  // 蓝色
+                  }
+                  // 使用中
+                  if (el.status == 3) {
+                    el.fill = '#DC143C'  //  红色
+                  }
+                  // 预约
+                  if (el.status == 4) {
+                    el.fill = '#F0E68C'  // 黄色
+                  }
+                }
+
                 return el;
               }),
             });
@@ -704,6 +817,7 @@ Page({
     const { target } = e
     this.setData({
       tabIndex: Number(target.dataset.index),
+      doorlistArr: []
     }, () => {
       this.getDoorListdata()
     })

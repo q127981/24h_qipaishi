@@ -347,7 +347,7 @@
 <!-- 自定义弹窗 -->
 <van-dialog use-slot title="自定义" show="{{ show }}" zIndex="99" bind:confirm="onConfirm2" before-close="{{beforeCloseFunction}}">
   <view class="dialog" bindtap="goSearch">
-    <view class="iconfont icon-date"></view>
+    <iconfont name="rili"></iconfont>
     <input type="text" placeholder="开始时间" disabled value="{{start}}" />
     <text>至</text>
     <input type="text" placeholder="结束时间" disabled value="{{end}}" />

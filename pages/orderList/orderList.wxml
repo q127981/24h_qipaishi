@@ -185,7 +185,6 @@
             <view class="price-coupon">暂无</view>
           </block>
         </block>
-        <view class="iconfont icon-right"></view>
       </view>
     </view>
     <scroll-view wx:if="{{modeIndex === 1 && pkgList.length>0}}" scroll-x class="mode" bindscroll="handleScroll" bindscrolltoupper="handleScrollStart">

@@ -52,8 +52,8 @@ Page({
       storeId = options.storeId;
       wx.setStorageSync('global_store_id', storeId);
     }
-    if(!storeId){
-      storeId=wx.getStorageSync('global_store_id', storeId);
+    if (!storeId) {
+      storeId = wx.getStorageSync('global_store_id', storeId);
     }
     that.setData({
       storeId: storeId
@@ -338,7 +338,6 @@ Page({
         "获取中...",
         function success(info) {
           console.info('返回111===');
-          console.info(info);
           if (info.code == 0) {
             that.setData({
               doorlistArr: info.data.map((el) => {
@@ -675,6 +674,7 @@ Page({
     const { target } = e
     this.setData({
       tabIndex: Number(target.dataset.index),
+      doorlistArr: []
     }, () => {
       this.getDoorListdata()
     })
