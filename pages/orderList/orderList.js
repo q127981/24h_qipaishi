@@ -718,8 +718,8 @@ Page({
       success: function (res) {
         //console.log('*************支付成功');
         // that.renewConfirm();
-        that.getrorderInfodata();
         that.renewCancel();
+		that.getOrderListdata("refresh");
       },
       fail: function (res) {
         wx.showToast({
