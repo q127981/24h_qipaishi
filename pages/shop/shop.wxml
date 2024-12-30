@@ -4,7 +4,7 @@
       <view class="header">
         <view class="left overflow-hidden">
           <view class="store-name" bind:tap="selectShop">
-            <view>{{ doorinfodata.storeName }}</view>
+            <view>全部商品</view>
           </view>
         </view>
       </view>
@@ -18,7 +18,7 @@
         <scroll-view class="menus" scroll-into-view="{{menuScrollIntoView}}" scroll-with-animation scroll-y>
           <view class="wrapper">
             <view class="menu" wx:for="{{goods}}" wx:key="index" id="menu-{{item.id}}" :class="{'current': item.id === currentCateId}" bind:tap="handleMenuTap">
-              <text>{{ item.name }}</text>
+              <text class="name">{{ item.name }}</text>
               <view class="dot" wx:if="{{item.kindNum >0}}">{{ item.kindNum }}</view>
             </view>
           </view>
@@ -32,7 +32,6 @@
               <view class="category" wx:for="{{goods}}" wx:for-item="category" wx:key="index" id="cate-{{category.id}}">
                 <view class="title">
                   <text>{{ category.name }}</text>
-                  <image mode="aspectFill" src="{{category.picUrl}}" class="icon"></image>
                 </view>
                 <view class="items">
                   <!-- 商品 begin -->

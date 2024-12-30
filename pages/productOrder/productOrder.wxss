@@ -1,227 +1,226 @@
 .noStoreInfo {
-    font-size: 30rpx;
-    text-align: center;
-    margin: auto;
-    color: #BCBCBC;
-  }
-  
-  .noStoreInfo .noStore-image{
-      height: 220rpx;
-      width: 220rpx;
-    }
+  font-size: 30rpx;
+  text-align: center;
+  margin: auto;
+  color: #BCBCBC;
+}
 
-    .store-card{
-        display: flex;
-        width: 90%;
-        margin: 0 5%;
-        background-color: #fff;
-        margin-top: 40rpx;
-        border-radius: 16rpx;
-    }
-    
-    .store-card__image{
-        border-radius: 0;
-        width: 160rpx;
-        height: 160rpx;
-    }
-    
-    .store-card .item{
-        margin-top: 30rpx;
-        margin-left: 30rpx;
-        width: 100%;
-    }
+.noStoreInfo .noStore-image {
+  height: 220rpx;
+  width: 220rpx;
+}
 
-    .tabs {
-        position: fixed;
-        z-index: 9;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 80rpx;
-        background: #fff;
-        display: flex;
-        justify-content: space-between;
-        padding: 0 30rpx;
-        box-sizing: border-box;
-      }
-      
-      .tabs .tab {
-        line-height: 80rpx;
-        width: 200rpx;
-        text-align: center;
-      }
-      
-      .tabs .active {
-        border-width: 0;
-        border-bottom-width: 2rpx;
-        border-style: solid;
-      }
-      .lists{
-          margin-top: 80rpx;
-      }
-      .order-top{
-          display: flex;
-          width: 100%;
-      }
-      .store-name{
-          display: flex;
-          flex: 1;
-      }
-      .store-name .name{
-          font-size: 30rpx;
-          color: rgba(40, 128, 243, 0.85);
-          font-weight: 600;
-      }
-      .status-css{
-          display: flex;
-          text-align: center;
-          justify-content: center;
-          font-size: 30rpx;
-          font-weight: 550;
-          width: 140rpx;
-          border-radius: 100rpx;
-          margin-left: 10rpx;
-      }
-      .wait{
-          background-color: rgb(248, 203, 4);
-          color: #fff;
-      }
-      .send{
-        background-color: rgb(113, 188, 250);
-        color: #fff;
-      }
-      .end{
-        background-color: rgb(129, 250, 113);
-        color: #fff;
-      }
-      .cancel{
-        background-color: rgb(83, 87, 87,0.2);
-        color: #fff;
-      }
-      .price{
-          margin-right: 30rpx;
-      }
-      .price text{
-        font-size: 30rpx;
-        color: rgba(40, 128, 243, 0.85);
-        font-weight: 600;
-      }
-      .time-num{
-          display: flex;
-          width: 100%;
-          margin-top: 20rpx;
-          font-size: 26rpx;
-      }
-      .order-time{
-          flex: 1;
-          font-size: 24rpx;
-      }
-      .buy-num{
-        margin-right: 30rpx;
-      }
-      .user-info{
-          display: flex;
-          margin-top: 20rpx;
-          width: 100%;
-      }
-      .user-name{
-          flex: 1;
-      }
-      .user-phoen{
-          display: flex;
-          margin-right: 30rpx;
-      }
-      .xian{
-          margin-top: 20rpx;
-          width: 95%;
-          background-color: rgba(86, 87, 87, 0.205);
-          height: 1rpx;
-      }
-      .productInfo{
-          display: flex;
-          width: 100%;
-          height: 100%;
-          margin-top: 20rpx;
-      }
-      .image{
-          width: 15%;
-          height: 100%;
-      }
-      .attrs{
-          width: 30%;
-          margin-left: 20rpx;
-      }
-      .attrs view{
-          display: flex;
-          height: 50%;
-      }
-      .price-num{
-          display: flex;
-          width: 55%;
-          justify-content: center;
-          margin: auto 0;
-      }
-      .product-price{
-          width: 200rpx;
-      }
-      .showmore{
-        display: flex;
-        text-align: center;
-        justify-content: center;
-    }
-    .remark{
-        margin-top: 20rpx;
-        margin-bottom: 20rpx;
-        width: 95%;
-        height: 80rpx;
-        background-color: rgba(228, 228, 224, 0.4);
-        border-radius: 8rpx;
-        display: flex;
-    }
-    .bottom-button{
-        display: flex;
-        justify-content: flex-end;
-        margin-bottom: 20rpx;
-    }
-    .cancel-button{
-        margin-left: 0 !important;
-        margin-right: 30rpx !important;
-        background-color: #a1aca68e;
-        color: #ffffff;
-    }
-    .to-pay{
-        margin-left: 0 !important;
-        margin-right: 30rpx !important;
-        background-color: #a1ebc28e;
-        color: #13ce66;
-    }
+.store-card {
+  display: flex;
+  width: 90%;
+  margin: 0 5%;
+  background-color: #fff;
+  margin-top: 40rpx;
+  border-radius: 16rpx;
+}
 
-    .pop {
-        height: 260rpx;
-        width: 500rpx;
-      }
-      .title {
-        margin-left: 30rpx;
-      }
-      
-      .content {
-        height: 130rpx;
-        display: flex;
-      }
-      .content view{
-          margin: auto;
-      }
-    
-      .button-group {
-        display: flex;
-      }
+.store-card__image {
+  border-radius: 0;
+  width: 160rpx;
+  height: 160rpx;
+}
 
-      .confrim{
-        color: #fff;
-        background-color: #bcbcbc8f;
-      }
+.store-card .item {
+  margin-top: 30rpx;
+  margin-left: 30rpx;
+  width: 100%;
+}
 
-      .cancel{
-        color: #fff;
-        background-color: #89e5f58f;
-      }
+.tabs {
+  position: fixed;
+  z-index: 9;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80rpx;
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 30rpx;
+  box-sizing: border-box;
+}
+
+.tabs .tab {
+  line-height: 80rpx;
+  width: 200rpx;
+  text-align: center;
+}
+
+.tabs .active {
+  border-width: 0;
+  border-bottom-width: 2rpx;
+  border-style: solid;
+}
+
+.lists {
+  margin-top: 80rpx;
+}
+
+.order-top {
+  display: flex;
+  width: 100%;
+}
+
+.store-name {
+  display: flex;
+  flex: 1;
+}
+
+.store-name .name {
+  font-size: 30rpx;
+  color: rgba(40, 128, 243, 0.85);
+  font-weight: 600;
+}
+
+.status-css {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  font-size: 30rpx;
+  font-weight: 550;
+  width: 140rpx;
+  border-radius: 100rpx;
+  margin-left: 10rpx;
+}
+
+.wait {
+  background-color: rgb(248, 203, 4);
+  color: #fff;
+}
+
+.send {
+  background-color: rgb(113, 188, 250);
+  color: #fff;
+}
+
+.end {
+  background-color: rgb(129, 250, 113);
+  color: #fff;
+}
+
+.cancel {
+  background-color: rgb(83, 87, 87, 0.2);
+  color: #fff;
+}
+
+.price {
+  margin-right: 30rpx;
+}
+
+.price text {
+  font-size: 30rpx;
+  color: rgba(40, 128, 243, 0.85);
+  font-weight: 600;
+}
+
+.time-num {
+  display: flex;
+  width: 100%;
+  margin-top: 20rpx;
+  font-size: 26rpx;
+}
+
+.order-time {
+  flex: 1;
+  font-size: 24rpx;
+}
+
+.buy-num {
+  margin-right: 30rpx;
+}
+
+.user-info {
+  display: flex;
+  margin-top: 20rpx;
+  width: 100%;
+}
+
+.user-name {
+  flex: 1;
+}
+
+.user-phoen {
+  display: flex;
+  margin-right: 30rpx;
+}
+
+.xian {
+  margin-top: 20rpx;
+  width: 95%;
+  background-color: rgba(86, 87, 87, 0.205);
+  height: 1rpx;
+}
+
+.productInfo {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  margin-top: 20rpx;
+}
+
+.image {
+  width: 15%;
+  height: 100%;
+}
+
+.attrs {
+  width: 30%;
+  margin-left: 20rpx;
+}
+
+.attrs view {
+  display: flex;
+  height: 50%;
+}
+
+.price-num {
+  display: flex;
+  width: 55%;
+  justify-content: center;
+  margin: auto 0;
+}
+
+.product-price {
+  width: 200rpx;
+}
+
+.showmore {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
+.remark {
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+  width: 95%;
+  height: 80rpx;
+  background-color: rgba(228, 228, 224, 0.4);
+  border-radius: 8rpx;
+  display: flex;
+}
+
+.bottom-button {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20rpx;
+}
+
+.cancel-button {
+  margin-left: 0 !important;
+  margin-right: 30rpx !important;
+  background-color: #a1aca68e;
+  color: #ffffff;
+}
+
+.to-pay {
+  margin-left: 0 !important;
+  margin-right: 30rpx !important;
+  background-color: #a1ebc28e;
+  color: #13ce66;
+}

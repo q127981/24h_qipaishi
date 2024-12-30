@@ -13,7 +13,7 @@
         <input model:value="{{roomCallName}}" type="text" placeholder="请输入" />
       </view>
     </view>
-    <view class="tips">注:云喇叭播报的房间名称,尽量简短,不要超过6个字.例:VIP1</view>
+    <view class="tips">注：云喇叭播报的房间名称,尽量简短,不要超过6个字.例:VIP1</view>
     <view class="line">
       <label>房间类别：</label>
       <view class="right">
@@ -54,6 +54,7 @@
         </view>
       </view>
     </view>
+    <view class="tips">注:不可预订代表不能修改下单开始时间，只能当前时间开始</view>
     <view class="line">
       <label>房间单价：</label>
       <view class="right">
@@ -72,6 +73,7 @@
         </view>
       </view>
     </view>
+    <view class="tips">注：押金只能使用微信支付，即使团购下单也要微信支付额外的押金，押金在订单结束后自动退还</view>
     <!-- <view class="line">
       <label>闲时单价：</label>
       <view class="right">
@@ -90,6 +92,7 @@
         </view>
       </view>
     </view>
+    <view class="tips">注：通宵场价格不能为0，并且不能超过凌晨4点下单</view>
     <view class="line">
       <label>最低下单小时：</label>
       <view class="right">
@@ -124,6 +127,7 @@
         <input style="width: 400rpx;" model:value="{{yunlabaSound}}" type="number" placeholder="请输入，数字1-5" />
       </view>
     </view>
+    <view class="tips">注:旧版本云喇叭兼容字段，新设备可以不用填</view>
     <view class="line">
       <label>禁用时间：</label>
       <view class="right">
@@ -135,7 +139,7 @@
         <iconfont name="close" bind:tap="clearBanTime"></iconfont>
       </view>
     </view>
-    <view class="tips">注:每日固定时间段该房间不可用，不禁用就不填写</view>
+    <view class="tips">注：每日固定时间段该房间不可用，不禁用就不填写</view>
     <view class="line">
       <label>房间标签：</label>
       <view class="right">
@@ -144,7 +148,7 @@
         </view>
       </view>
     </view>
-    <view class="tips">注:请使用英文的逗号进行分隔</view>
+    <view class="tips">注：请使用英文的逗号进行分隔</view>
     <view class="line">
       <label>房间图片：</label>
       <view class="right">

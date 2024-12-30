@@ -318,8 +318,8 @@ Page({
         var price = that.getPrice(startDate);
         console.log("订单时长:" + hour);
         priceResult = (hour * price).toFixed(2);
-        if (that.data.couponInfo) {
-          const acoupon = that.data.couponInfo;
+        if (that.data.submit_couponInfo) {
+          const acoupon = that.data.submit_couponInfo;
           if (acoupon.type == 1) {
             //减去时间对应费用
             priceResult = (priceResult - acoupon.price * price).toFixed(2);
@@ -723,6 +723,8 @@ Page({
     var that = this;
     var atimeindex = event.currentTarget.dataset.index; //选中的时间索引
     var hour = event.currentTarget.dataset.hour;
+    var nightLong = false;
+    console.log("点击的小时：", hour);
     var startDate = null;
     var payselectindex = 1;
     if (atimeindex == that.data.select_time_index) {
@@ -734,6 +736,7 @@ Page({
       if (atimeindex == 99) {
         startDate = new Date();
         hour = 99;//计算时间时会自动设置成正确的时长
+        nightLong = true;
       } else {
         //如果之前是通宵，又点的小时，那么开始时间设置为现在开始
         if (that.data.select_time_index == 99) {
@@ -749,8 +752,10 @@ Page({
         payselectindex: payselectindex,
         select_time_index: atimeindex,
         select_pkg_index: -1,
+        submit_couponInfo: {},
         pkgId: '',
-        order_hour: hour
+        order_hour: hour,
+        nightLong: nightLong,
       })
       that.MathDate(startDate);
     }
@@ -1056,7 +1061,7 @@ Page({
   setshowpayMoney: function (acoupon) {
     var that = this;
     that.setData({
-      couponInfo: acoupon,
+      submit_couponInfo: acoupon,
     });
     that.MathPrice();
   },
@@ -1064,16 +1069,15 @@ Page({
     var that = this;
     //先得出订单的时长
     var order_hour = that.data.order_hour;
-    var nightLong = false;
-    console.log("先得出订单的时长:", order_hour);
+    //没有选时间 默认为最低下单时间
     if (!order_hour) {
       order_hour = that.data.minHour;
       that.setData({
         order_hour: order_hour,
       });
     }
-    if (order_hour == 99) {
-      nightLong = true;
+    var nightLong = that.data.nightLong;
+    if (nightLong || order_hour == 99) {
       //取通宵的时长
       order_hour = that.data.txHour;
       //判断开始时间 是否在通宵场的范围内 有两种情况 结束时间在当日和次日
@@ -1250,6 +1254,7 @@ Page({
       select_time_index: 999,
       select_pkg_index: -1,
       pkgId: "",
+      nightLong: false,
     });
     that.MathDate(startDate);
   },

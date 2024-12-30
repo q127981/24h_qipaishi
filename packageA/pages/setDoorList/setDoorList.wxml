@@ -7,6 +7,7 @@
       <view class="item doing" wx:for="{{doorList}}" wx:key="item" class="item">
         <view class="top">
           <view class="name">
+            {{item.roomId}}-
             {{item.roomName}}
             <text class="type">（{{item.type===0?'特价包':item.type===1?'小包':item.type===2?'中包':item.type===3?'大包':item.type===4?'豪包':item.type===5?'商务包':item.type===6?'斯洛克':item.type===7?'中式黑八':'美式球桌'}}）</text>
           </view>
@@ -41,10 +42,10 @@
             <view class="btn warning" bindtap="disableRoom" data-roomid="{{item.roomId}}">
               启用禁用
             </view>
-             <navigator class="btn warning" url="../setDoorInfo/setDoorInfo?roomId={{item.roomId}}&&storeId={{storeId}}">
+            <navigator class="btn warning" url="../setDoorInfo/setDoorInfo?roomId={{item.roomId}}&&storeId={{storeId}}">
               修改信息
             </navigator>
-             <view class="btn yellow" data-src="{{item.qrCode}}" bind:tap="previewImage">
+            <view class="btn yellow" data-src="{{item.qrCode}}" bind:tap="previewImage">
               房间预定码
             </view>
             <view class="btn yellow" data-src="{{item.renewCode}}" bind:tap="previewImage">
@@ -62,7 +63,7 @@
             </view>
           </view>
           <view class="line2">
-           <view class="btn warning" bindtap="clearAndFinish" data-roomid="{{item.roomId}}">
+            <view class="btn warning" bindtap="clearAndFinish" data-roomid="{{item.roomId}}">
               设置空闲
             </view>
             <view class="btn warning" bindtap="finishOrder" data-roomid="{{item.roomId}}">
@@ -87,11 +88,11 @@
   新增房间
 </navigator>
 
-<van-dialog use-slot title="设置门锁密码" show="{{ setLockPwdShow }}" show-cancel-button confirm-button-text="确认" bind:confirm="confirmSetLockPwd" >
+<van-dialog use-slot title="设置门锁密码" show="{{ setLockPwdShow }}" show-cancel-button confirm-button-text="确认" bind:confirm="confirmSetLockPwd">
   <view class="dialog">
     <view class="item" style="align-items: center;">
       <label>新管理员密码：</label>
-      <input model:value="{{ lockPwd }}" type="number" maxlength="8" style="border: 1px solid var(--main-color);"  placeholder = "请输入6-8纯数字密码"/>
+      <input model:value="{{ lockPwd }}" type="number" maxlength="8" style="border: 1px solid var(--main-color);" placeholder="请输入6-8纯数字密码" />
     </view>
   </view>
 </van-dialog>

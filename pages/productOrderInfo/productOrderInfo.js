@@ -11,7 +11,6 @@ Page({
     isIpx: app.globalData.isIpx ? true : false,
     lat:'',
     lot:'',
-    storeInfo:{}, // 门店详情
     productOrderInfo:{}, // 商品订单详情
     storeId:'', // 门店id
     orderId:'', // 商品订单id

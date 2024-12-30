@@ -9,7 +9,7 @@ Page({
       store: null,
       location: null,
       isLogin: app.globalData.isLogin,
-      title: '点餐',
+      title: '商品点单',
       text: '滚动通知',
       goods: [],
       ads: [],

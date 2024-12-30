@@ -1,7 +1,6 @@
 // packageA/pages/addLock/addLock.js
 const app = getApp()
 var http = require('../../utils/http');
-var lock = require('../../utils/lock');
 Page({
 
   /**
@@ -10,16 +9,18 @@ Page({
   data: {
     isIpx: app.globalData.isIpx ? true : false,
     isLogin: app.globalData.isLogin,
-    storeId:'', // 门店id
-    payCart:[], // 需要支付的商品信息
-    doorinfodata:{},  //门店信息
-    cartTotalPrice:0.00, // 总价
-    showItems:[], // 默认展示的内容 前三个商品
-    isShowAll:false, // 是否展示全部商品
-    userName:'', //用户姓名
-    userPhone:'', // 用户联系方式
-    mark:'', // 订单备注
-    productNum:0, // 商品数量
+    storeId: '', // 门店id
+    payCart: [], // 需要支付的商品信息
+    roomList: [],  //房间信息
+    roomIndex: '',
+    roomId: '', //下单房间
+    cartTotalPrice: 0.00, // 总价
+    showItems: [], // 默认展示的内容 前三个商品
+    isShowAll: false, // 是否展示全部商品
+    userName: '', //用户姓名
+    userPhone: '', // 用户联系方式
+    mark: '', // 订单备注
+    productNum: 0, // 商品数量
   },
 
   /**
@@ -27,18 +28,18 @@ Page({
    */
   onLoad(options) {
     let that = this
-    let cart =  wx.getStorageSync("payCart")
+    let cart = wx.getStorageSync("payCart")
     that.setData({
-        storeId: options.storeId,
-        payCart: cart,
-        showItems:cart.slice(0, 2)
+      storeId: options.storeId,
+      payCart: cart,
+      showItems: cart.slice(0, 2)
     })
     let num = 0
     cart.forEach(item => {
-        num += item.number
+      num += item.number
     });
     that.setData({
-        productNum:num
+      productNum: num
     })
   },
 
@@ -54,9 +55,8 @@ Page({
    */
   onShow() {
     let that = this
-    that.getStoreInfodata()
-    that.calculateCartTotalPrice()
-    console.log(that.data.cartTotalPrice)
+    that.getRoomList();
+    that.calculateCartTotalPrice();
   },
 
   /**
@@ -93,191 +93,194 @@ Page({
   onShareAppMessage() {
 
   },
-  //获取门店相信信息
-  getStoreInfodata: function (e) {
-    var that = this;
-    //if (app.globalData.isLogin) 
-    {
-      http.request(
-        "/member/index/getStoreInfo" + '/' + that.data.storeId,
-        "1",
-        "get", {
-      },
-        app.globalData.userDatatoken.accessToken,
-        "获取中...",
-        function success(info) {
-          if (info.code == 0) {
-              that.setData({
-                doorinfodata: info.data,
-              });
-          } else {
-            wx.showModal({
-              content: info.msg,
-              showCancel: false,
-            })
-          }
-        },
-        function fail(info) {
-        }
-      )
-    }
-  },
+
   //计算价格 
   calculateCartTotalPrice() {
-    let that  = this
+    let that = this
     let totalPrice = that.data.payCart.reduce((acc, cur) => acc + cur.number * cur.price, 0);
     that.setData({
       cartTotalPrice: parseFloat(totalPrice).toFixed(2)
     });
-},
+  },
   // 默认展示两个，点击取反
-  showMore:function(){
+  showMore: function () {
     let that = this
     let show = that.data.isShowAll
     that.setData({
-        isShowAll: !show
+      isShowAll: !show
     })
   },
   // 点击付款
-  topay:function(){
+  topay: function () {
     let that = this
-    if(that.data.payCart.length <= 0){
-        wx.showToast({ title: '非法操作，无购买商品', icon: 'none' });
-        return
+    if (that.data.payCart.length <= 0) {
+      wx.showToast({ title: '非法操作，无购买商品', icon: 'none' });
+      return
+    }
+    if (!that.data.roomIndex) {
+      wx.showToast({ title: '请选择下单房间', icon: 'none' });
+      return
     }
     wx.showLoading({
       title: '努力加载中',
     })
-    if(app.globalData.isLogin){
-        http.request(
-            "/product/order/create",
-            "1",
-            "post",
-            {
-              "productInfo": that.data.payCart,
-              "storeId": that.data.storeId,
-              "storeName": that.data.doorinfodata.storeName,
-              "totalPrice": that.data.cartTotalPrice,
-              "mark":that.data.mark
-            },
-            app.globalData.userDatatoken.accessToken,
-            "",
-            function success(info) {
-                if (info.code == 0) {
-                    wx.hideLoading()
-                    // 直接微信支付
-                    that.payMent(info);
-                  }
-                  let pay = that.data.payCart
-    let cart =  []
-    cart = wx.getStorageSync("cart");
-
-    let newcart = []
-    console.log(cart)
-    for(let i = 0;i<cart.length;i++){
-        console.log(222)
-        for(let j =0;j<pay.length;j++){
-            console.log(111)
-            if(cart[i].id==pay[j].id){
+    if (app.globalData.isLogin) {
+      http.request(
+        "/product/order/create",
+        "1",
+        "post",
+        {
+          "productInfo": that.data.payCart,
+          "roomId": that.data.roomList[that.data.roomIndex].value,
+          "mark": that.data.mark
+        },
+        app.globalData.userDatatoken.accessToken,
+        "",
+        function success(info) {
+          if (info.code == 0) {
+            wx.hideLoading()
+            // 直接微信支付
+            that.payMent(info);
+          }
+          let pay = that.data.payCart
+          let cart = []
+          cart = wx.getStorageSync("cart");
+          let newcart = []
+          console.log(cart)
+          for (let i = 0; i < cart.length; i++) {
+            console.log(222)
+            for (let j = 0; j < pay.length; j++) {
+              console.log(111)
+              if (cart[i].id == pay[j].id) {
                 let payItem = pay[j]
                 let carItem = cart[i]
                 console.log(payItem)
                 console.log(carItem)
-                let num =  carItem.number-payItem.number
-                if(num>0){
-                    carItem.number = num
-                    newcart.push(carItem)
+                let num = carItem.number - payItem.number
+                if (num > 0) {
+                  carItem.number = num
+                  newcart.push(carItem)
                 }
-            }else{
+              } else {
                 newcart.push(cart[i])
+              }
             }
+          }
+          wx.setStorageSync("cart", JSON.parse(JSON.stringify(newcart)));
+        },
+        function fail(info) {
+          wx.stopPullDownRefresh();
         }
-    }
-    wx.setStorageSync("cart", JSON.parse(JSON.stringify(newcart)));
-            },
-            function fail(info) {
-              wx.stopPullDownRefresh();
-            }
-          );
+      );
     }
   },
   //支付
-  payMent: function(pay) {
+  payMent: function (pay) {
     var that = this;
     wx.requestPayment({
-        'timeStamp': pay.data.timeStamp,
-        'nonceStr': pay.data.nonceStr,
-        'package': pay.data.pkg,
-        'signType': pay.data.signType,
-        'paySign': pay.data.paySign,
-        'success': function(res) {
-            wx.navigateTo({
-              url: '../productOrder/productOrder',
-            })
-        },
-        'fail': function(res) {
-            wx.showToast({
-                title: '支付失败!',
-                icon:'error'
-            })
-            wx.navigateBack(1)
-            // 不修改订单状态
-            // that.cancelPay(pay.data.orderNo)
-        },
-        'complete': function(res) {
+      'timeStamp': pay.data.timeStamp,
+      'nonceStr': pay.data.nonceStr,
+      'package': pay.data.pkg,
+      'signType': pay.data.signType,
+      'paySign': pay.data.paySign,
+      'success': function (res) {
+        wx.navigateTo({
+          url: '../productOrder/productOrder',
+        })
+      },
+      'fail': function (res) {
+        wx.showToast({
+          title: '支付失败!',
+          icon: 'error'
+        })
+        wx.navigateBack(1)
+        // 不修改订单状态
+        // that.cancelPay(pay.data.orderNo)
+      },
+      'complete': function (res) {
 
-        }
+      }
     })
   },
   // 取消支付 修改订单状态
-  cancelPay:function(orderNo){
-    if(app.globalData.isLogin){
-        http.request(
-            "/product/order/cancel",
-            "1",
-            "post",
-            {
-              "orderNo": orderNo
-            },
-            app.globalData.userDatatoken.accessToken,
-            "",
-            function success(info) {
-            }
-          );
+  cancelPay: function (orderNo) {
+    if (app.globalData.isLogin) {
+      http.request(
+        "/product/order/cancel",
+        "1",
+        "post",
+        {
+          "orderNo": orderNo
+        },
+        app.globalData.userDatatoken.accessToken,
+        "",
+        function success(info) {
+        }
+      );
     }
   },
   // 减少
-  handleCartItemReduce:function(e){
+  handleCartItemReduce: function (e) {
     let that = this
-    let index =  e.currentTarget.dataset.index
+    let index = e.currentTarget.dataset.index
     let cart = that.data.payCart
     if (cart[index].number === 1) {
-        cart.splice(index, 1)
+      cart.splice(index, 1)
     } else {
-        cart[index].number -= 1
+      cart[index].number -= 1
     }
-    if(cart.length==0){
-        wx.navigateBack(1)
+    if (cart.length == 0) {
+      wx.navigateBack(1)
     }
     that.setData({
-        payCart: cart,
-        showItems:cart.slice(0, 2)
+      payCart: cart,
+      showItems: cart.slice(0, 2)
     })
     that.calculateCartTotalPrice()
   },
   // 加
-  handleCartItemAdd:function (e){
-  let that = this
-  let index =  e.currentTarget.dataset.index
-  let cart = that.data.payCart
+  handleCartItemAdd: function (e) {
+    let that = this
+    let index = e.currentTarget.dataset.index
+    let cart = that.data.payCart
 
-  cart[index].number += 1
-  that.setData({
+    cart[index].number += 1
+    that.setData({
       payCart: cart,
-      showItems:cart.slice(0, 2)
+      showItems: cart.slice(0, 2)
     })
     that.calculateCartTotalPrice()
-
-},
-
+  },
+  getRoomList: function () {
+    var that = this;
+    http.request(
+      "/member/index/getRoomList/" + that.data.storeId,
+      "1",
+      "get",
+      {
+        // "storeId": that.data.storeId,
+      },
+      app.globalData.userDatatoken.accessToken,
+      "",
+      function success(info) {
+        if (info.code == 0) {
+          let roomList = []
+          info.data.map(it => {
+            roomList.push({ text: it.key, value: it.value })
+          })
+          roomList.unshift({ text: "请选择房间", value: "" })
+          that.setData({
+            roomList: roomList,
+          })
+        }
+      },
+      function fail(info) {
+      }
+    );
+  },
+  bindRoomSelect: function (e) {
+    this.setData({
+      roomIndex: e.detail.value,
+    })
+  },
 })

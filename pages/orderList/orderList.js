@@ -719,7 +719,7 @@ Page({
         //console.log('*************支付成功');
         // that.renewConfirm();
         that.renewCancel();
-		that.getOrderListdata("refresh");
+        that.getOrderListdata("refresh");
       },
       fail: function (res) {
         wx.showToast({

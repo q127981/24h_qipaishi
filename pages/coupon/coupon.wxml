@@ -7,9 +7,9 @@
   <block wx:if="{{MainList.length}}">
     <!-- 暂不使用 -->
     <block wx:if="{{status==0}}">
-      <view class="nouse" wx:if="{{from}}">
+      <view class="nouse" wx:if="{{from}}" bindtap="choose" data-couponId="0">
         <text class="name">不使用优惠券</text>
-        <view class="{{couponId===0?'select iconfont icon-xuanzhong color-primary':'select iconfont icon-xuanze'}}" bindtap="choose" data-couponId="0"></view>
+        <view class="{{couponId===0?'select iconfont icon-xuanzhong color-primary':'select iconfont icon-xuanze'}}"></view>
       </view>
     </block>
     <view class="{{item.enable?'coupon':'coupon disable'}}" wx:for="{{MainList}}" wx:key="couponId" data-info="{{item}}" bindtap="choose" data-couponId="{{item.couponId}}" data-index="{{index}}">
