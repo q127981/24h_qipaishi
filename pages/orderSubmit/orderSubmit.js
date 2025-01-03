@@ -1342,6 +1342,7 @@ Page({
       dayIndex: e.currentTarget.dataset.index,
       submit_begin_time: updatedMoment.format("YYYY/MM/DD HH:mm"),
     });
+    this.MathDate(new Date(this.data.submit_begin_time));
   },
   modeChange(e) {
     var that = this;
