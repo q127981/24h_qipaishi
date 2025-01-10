@@ -23,6 +23,7 @@ Page({
     fanSpeed: '',
     fanDelta: '',
     power: false,
+    wifiShow: false,
     OrderNo: '',//订单id
     orderKey: '',//订单key  用于分享好友 直接打开使用
     isLogin: app.globalData.isLogin,
@@ -432,32 +433,7 @@ Page({
       totalPay: (addTime * that.data.OrderInfodata.roomPrice).toFixed(2)
     })
   },
-  connectWifi: function (e) {
-    var that = this;
-    let ssid = e.currentTarget.dataset.ssid;
-    let pwd = e.currentTarget.dataset.pwd;
-    wx.startWifi({
-      success(res) {
-        // console.log(res.errMsg)
-        wx.connectWifi({
-          SSID: ssid,
-          password: pwd,
-          success(res) {
-            this.setData({
-              wifiShow: false
-            })
-            wx.showToast({ title: '自动连接WiFi成功' })
-          },
-          fail(res) {
-            wx.showToast({ title: res })
-          }
-        })
-      },
-      fail(res) {
-        wx.showToast({ title: res })
-      }
-    })
-  },
+
   // 支付方式选择
   radioChange(e) {
     const type = e.detail.value;
@@ -1295,4 +1271,76 @@ Page({
       );
     }
   },
+  showWifi() {
+    this.setData({
+      wifiShow: true
+    })
+  },
+  copyWifi: function () {
+    var that = this;
+    let ssid = that.data.OrderInfodata.wifiInfo;
+    let pwd = that.data.OrderInfodata.wifiPwd;
+    wx.setClipboardData({
+      data: pwd,
+      success: function (res) {
+        wx.showToast({ title: '已复制到剪贴板！' })
+      }
+    })
+    this.setData({
+      wifiShow: false
+    })
+  },
+  //初始化 Wi-Fi 模块
+  startWifi: function () {
+    var that = this;
+    wx.startWifi({
+      success: function () {
+        //请求成功连接Wifi
+        that.wifiConnected();
+      },
+      fail: function (res) {
+        wx.showToast({
+          title: '打开WIFI失败',
+          icon: 'error'
+        });
+      }
+    });
+  },
+  wifiConnected: function () {
+    var that = this;
+    let ssid = that.data.OrderInfodata.wifiInfo;
+    let pwd = that.data.OrderInfodata.wifiPwd;
+    wx.connectWifi({
+      SSID: ssid,// wifi名称
+      password: pwd,// wifi密码
+      success: function (res) {
+        wx.showToast({
+          title: 'wifi连接成功'
+        });
+        setTimeout(() => {
+          this.showWifi();
+        }, 2000)
+      },
+      fail: function (res) {
+        let errMsg = '自动连接失败';
+        if (res.errCode == "12001") errMsg = "自动连接失败";// 当前系统不支持相关能力
+        if (res.errCode == "12002") errMsg = "自动连接失败";// 查不到账号，请联系系统管理员
+        if (res.errCode == "12003") errMsg = "自动连接失败";// 请确认是否在组织Wifi覆盖范围内
+        if (res.errCode == "12004") errMsg = "重复连接Wifi";
+        if (res.errCode == "12005") errMsg = "未打开Wifi开关";
+        if (res.errCode == "12006") errMsg = "未打开GPS定位开关";
+        if (res.errCode == "12007") errMsg = "用户拒绝授权连接";
+        if (res.errCode == "12008") errMsg = "自动连接失败";// 查不到账号，请联系系统管理员
+        if (res.errCode == "12009") errMsg = "系统拒绝连接";// 系统运行商配置拒绝链接Wifi
+        if (res.errCode == "12010") errMsg = "自动连接失败";// 未知错误，请联系系统管理员
+        if (res.errCode == "12011") errMsg = "自动连接失败"; //应用在后台无法配置Wifi
+        if (res.errCode == "12013") errMsg = "自动连接失败";// 查不到账号，请联系系统管理员
+        if (res.errCode == "12014") errMsg = "自动连接失败";
+        wx.showToast({
+          title: errMsg
+        });
+      }
+    });
+  },
+
 })

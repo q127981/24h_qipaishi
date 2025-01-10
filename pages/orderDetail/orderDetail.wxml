@@ -82,7 +82,7 @@
           <text class="wifi">密码: {{OrderInfodata.wifiPwd}}</text>
         </view>
       </view>
-      <view class="wifi-btn" bind:tap="connectWifi" data-ssid="{{OrderInfodata.wifiInfo}}" data-pwd="{{OrderInfodata.wifiPwd}}">一键连接</view>
+      <view class="wifi-btn" bind:tap="showWifi">一键连接</view>
     </view>
     <view class="doors">
       <view class="door m-b-20" bind:tap="damenbindchange" wx:if="{{OrderInfodata.status === 0 || OrderInfodata.status === 1}}">
@@ -469,3 +469,27 @@
     </view>
   </view>
 </van-popup>
+
+<van-dialog use-slot title="WiFi信息" class="wifiDialog" show="{{ wifiShow }}">
+  <view class="dialog">
+    <view class="item">
+      <label>WiFi名称: </label>
+      <text>{{OrderInfodata.wifiInfo}}</text>
+    </view>
+    <view class="item">
+      <label>Wifi密码: </label>
+      <text>{{OrderInfodata.wifiPwd}}</text>
+    </view>
+    <view class="btn">
+      <button class="copy" bind:tap="copyWifi" data-ssid="{{OrderInfodata.wifiInfo}}" data-pwd="{{OrderInfodata.wifiPwd}}">
+        复制密码
+      </button>
+      <button class="connect" bind:tap="startWifi" data-ssid="{{OrderInfodata.wifiInfo}}" data-pwd="{{OrderInfodata.wifiPwd}}">
+        一键连接
+      </button>
+    </view>
+    <view class="info">
+      部分机型不支持一键连接,请复制密码自行连接
+    </view>
+  </view>
+</van-dialog>
