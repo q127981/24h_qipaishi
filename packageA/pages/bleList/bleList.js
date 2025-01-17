@@ -160,6 +160,7 @@ Page({
           (
             device.localName.startsWith("ck_100")
             || device.localName.startsWith("S503")
+            || device.localName.startsWith("S8503")
           )
         )
         .map(device => ({

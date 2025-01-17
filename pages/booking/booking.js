@@ -29,7 +29,7 @@ Page({
     wifiShow: false,
     simpleModel: '',//简洁模式
     maoHeight: 0,//锚链接跳转高度
-    tabIndex: 0,
+    tabIndex: '',
     show: false,
     lat: '',
     lon: '',

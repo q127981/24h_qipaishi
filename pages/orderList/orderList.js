@@ -582,20 +582,22 @@ Page({
     var pkgIndex = event.currentTarget.dataset.index;
     var pkgId = event.currentTarget.dataset.id;
     var hour = event.currentTarget.dataset.hour;
-    if (pkgIndex == that.data.select_pkg_index) {
-      pkgIndex = -1;
-      pkgId = "";
-    }
     var newTime = moment(this.data.currentOrder.endTime)
       .add(hour, "hours")
       .format("YYYY/MM/DD HH:mm");
     that.setData({
       select_pkg_index: pkgIndex,
       pkgId: pkgId,
-      payType: 4,
+      payType: 1,
       newTime,
       totalPay: that.data.pkgList[pkgIndex].price,
     });
+    const payTypes = this.data.payTypes
+    payTypes[0].checked = true
+    payTypes[1].checked = false
+    this.setData({
+      payTypes: payTypes
+    })
   },
   // 支付方式选择
   radioChange(e) {
