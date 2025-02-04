@@ -1,5 +1,6 @@
 const app = getApp()
 var http = require('../../../utils/http');
+var lock = require('../../../utils/lock');
 Page({
 
   /**
@@ -421,6 +422,40 @@ Page({
         }
       }
     })
-  }
+  },
+  lockAotuOpen: function(e){
+    var lockData = e.currentTarget.dataset.lock;
+    if(lockData){
+      wx.showModal({
+        title: '提示',
+        content: '请打开手机蓝牙，靠近门锁操作！锁常开=开锁后不会自动关锁，除非收到关锁指令。您确认设置锁常开吗？',
+        complete: (res) => {
+          if (res.confirm) {
+            wx.showLoading({
+              title: '请靠近门锁',
+            })
+            lock.setAotuLockTime(lockData,0);
+          }
+        }
+      })
+    }
+  },
+  lockAotuClose: function(e){
+    var lockData = e.currentTarget.dataset.lock;
+    if(lockData){
+      wx.showModal({
+        title: '提示',
+        content: '请打开手机蓝牙，靠近门锁操作！锁常关=开锁5秒后，锁会自动关闭。您确认设置锁常关吗？',
+        complete: (res) => {
+          if (res.confirm) {
+            wx.showLoading({
+              title: '请靠近门锁',
+            })
+            lock.setAotuLockTime(lockData,5);
+          }
+        }
+      })
+    }
+  },
 
 })

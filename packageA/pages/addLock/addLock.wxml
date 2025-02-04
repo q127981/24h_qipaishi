@@ -20,7 +20,7 @@
     <view class="item" wx:for="{{list}}" wx:key="item" class="item">
       <view class="lock {{item.isSettingMode?'enable':'disable'}}">
         <view>
-          {{item.deviceId}}
+          {{item.deviceName}}
           <text wx:if="{{!item.isSettingMode}}">(锁已注册)</text>
         </view>
         <view class="btn" bind:tap="initLock" wx:if="{{item.isSettingMode}}">初始化</view>

@@ -35,15 +35,9 @@ Page({
   onLoad(options) {
     console.log("onLoad");
     if (options.storeId) {
-      this.setData({
-        storeId: Number(options.storeId),
-      });
-    } else {
-      const storeId = wx.getStorageSync('global_store_id') || '';
-      this.setData({
-        storeId: storeId,
-      });
-    }
+      const storeId = options.storeId;
+      wx.setStorageSync('global_store_id',storeId);
+    } 
   },
 
   /**
@@ -59,7 +53,10 @@ Page({
   onShow() {
     console.log('onShow');
     var that = this;
-    that.getXiaLaListdata();
+    const storeId = wx.getStorageSync('global_store_id') || '';
+    that.setData({
+      storeId: storeId,
+    });
     that.setData({
       isLogin: app.globalData.isLogin
     })
@@ -69,9 +66,10 @@ Page({
       })
       return
     }
-    that.getListData();
-    that.getDiscount();
-    that.getStoreBalance();
+    that.getXiaLaListdata();
+    // that.getListData();
+    // that.getDiscount();
+    // that.getStoreBalance();
   },
 
   /**
@@ -222,33 +220,34 @@ Page({
         app.globalData.userDatatoken.accessToken,
         "获取中...",
         function success(info) {
-          console.info('下拉门店数据===');
-          console.info(info);
           if (info.code == 0) {
             if (info.data.length) {
               that.setData({
                 stores: info.data
               })
-              if (!that.data.storeId) {
+              if(!that.data.storeId){
                 that.setData({
-                  storeId: info.data[0].value
+                  storeId: that.data.stores[0].value
+                })
+              }else{
+                var aindex = 0
+                var storeName = ''
+                that.data.stores.map((it, index) => {
+                  // console.log(it)
+                  if (it.value == that.data.storeId) {
+                    // console.log('1111111');
+                    aindex = index
+                    storeName = it.key
+                  }
+                })
+                that.setData({
+                  index: aindex,
+                  storeName: storeName
                 })
               }
             }
-            var aindex = 0
-            var storeName = ''
-            that.data.stores.map((it, index) => {
-              if (it.value === that.data.storeId) {
-                aindex = index
-                storeName = it.key
-              }
-            })
-            that.setData({
-              index: aindex,
-              storeName: storeName
-            })
-            that.getDiscount()
-            that.getStoreBalance()
+            that.getDiscount();
+            that.getStoreBalance();
           } else {
             wx.showModal({
               content: info.msg,
@@ -287,13 +286,6 @@ Page({
           that.setData({
             storeList: storeList
           });
-          if (!that.data.storeId && info.data.list.length > 0) {
-            that.setData({
-              storeId: info.data.list[0].storeId
-            })
-            that.getDiscount();
-            that.getStoreBalance();
-          }
         } else {
           wx.showModal({
             content: info.msg,

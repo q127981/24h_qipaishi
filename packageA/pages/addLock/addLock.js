@@ -169,6 +169,9 @@ Page({
           if (result.errorCode == 0) {
             // 设备已成功初始化
             let lockData = result.lockData;
+            // 先上传数据  减少失败率
+            that.postLockData(lockData,'');
+            wx.showLoading({ title: `请勿退出此界面` });
             // 开启远程控制
             setTimeout(() => {
               plugin.setRemoteUnlockSwitchState({
@@ -176,49 +179,7 @@ Page({
                 lockData: lockData
               }).then(res => {
                 if (res.errorCode === 0) {
-                  http.request(
-                    "/member/store/addLock",
-                    "1",
-                    "post", {
-                    "lockData": lockData,
-                    "upData": res.lockData,
-                    "deviceSn": 'TT' + that.data.deviceSn
-                  },
-                    app.globalData.userDatatoken.accessToken,
-                    "",
-                    function success(info) {
-                      if (info.code == 0) {
-                        wx.hideLoading();
-                        wx.showToast({
-                          title: '初始化成功',
-                        })
-                        that.setData({
-                          checkSuccess: false
-                        })
-                      } else {
-                        lock.handleResetLock(lockData);
-                        wx.hideLoading();
-                        wx.showModal({
-                          content: '初始化失败:' + info.msg,
-                          showCancel: false,
-                        })
-                        that.setData({
-                          checkSuccess: false
-                        })
-                      }
-                    },
-                    function fail(info) {
-                      lock.handleResetLock(lockData);
-                      wx.hideLoading();
-                      wx.showToast({
-                        title: '初始化失败',
-                        icon: 'error'
-                      })
-                      that.setData({
-                        checkSuccess: false
-                      })
-                    }
-                  )
+                  that.postLockData('',res.lockData);
                 } else {
                   lock.handleResetLock(lockData);
                   wx.hideLoading();
@@ -233,6 +194,9 @@ Page({
                 }
               })
             }, 4000);
+            wx.showToast({
+              title: '初始化成功',
+            })
           } else {
             lock.handleResetLock(result.lockData);
             wx.hideLoading();
@@ -247,6 +211,49 @@ Page({
         })
       }
     }
+  },
+  postLockData(lockData,upData){
+    var that = this;
+    http.request(
+      "/member/store/addLock",
+      "1",
+      "post", {
+          "lockData": lockData,
+          "upData": upData,
+          "deviceSn": 'TT' + that.data.deviceSn
+        },
+      app.globalData.userDatatoken.accessToken,
+      "",
+      function success(info) {
+        if (info.code == 0) {
+          wx.hideLoading();
+          that.setData({
+            checkSuccess: false
+          })
+        } else {
+          lock.handleResetLock(lockData);
+          wx.hideLoading();
+          wx.showModal({
+            content: '初始化失败:' + info.msg,
+            showCancel: false,
+          })
+          that.setData({
+            checkSuccess: false
+          })
+        }
+      },
+      function fail(info) {
+        lock.handleResetLock(lockData);
+        wx.hideLoading();
+        wx.showToast({
+          title: '初始化失败',
+          icon: 'error'
+        })
+        that.setData({
+          checkSuccess: false
+        })
+      }
+    )
   },
   stopScan(plugin) {
     plugin.stopScanBleDevice().then(res => {

@@ -543,4 +543,75 @@ Page({
       })
     }
   },
+  updateLockTime:function (e) {
+    var that = this;
+    let lockData = e.currentTarget.dataset.lockdata;
+    let roomId = e.currentTarget.dataset.roomid;
+    var plugin = lock.getPlugin();
+    if (lockData) {
+      wx.showLoading({ title: `请靠近门锁` });
+      //先强制打开远程开关
+       plugin.setRemoteUnlockSwitchState({
+          enable: true,
+          lockData: lockData
+        }).then(res => {
+          if (res.errorCode === 0) {
+            that.postLockData(res.lockData,roomId);
+            //再校准时间
+            lock.updateLockTime(lockData);
+          } else {
+            wx.hideLoading();
+            wx.showModal({
+              content: `操作失败：${res.errorMsg}`,
+              showCancel: false,
+            })
+            return;
+          }
+        })
+    } else {
+      wx.showToast({
+        title: '未使用密码锁',
+      })
+    }
+  },
+  postLockData(upData,roomId){
+    var that = this;
+    http.request(
+      "/member/store/updateRoomLock",
+      "1",
+      "post", {
+          "upData": upData,
+          "roomId": roomId
+        },
+      app.globalData.userDatatoken.accessToken,
+      "",
+      function success(info) {
+        if (info.code == 0) {
+          wx.hideLoading();
+          that.setData({
+            checkSuccess: false
+          })
+        } else {
+          wx.hideLoading();
+          wx.showModal({
+            content: '操作失败:' + info.msg,
+            showCancel: false,
+          })
+          that.setData({
+            checkSuccess: false
+          })
+        }
+      },
+      function fail(info) {
+        wx.hideLoading();
+        wx.showToast({
+          title: '操作失败',
+          icon: 'error'
+        })
+        that.setData({
+          checkSuccess: false
+        })
+      }
+    )
+  },
 })

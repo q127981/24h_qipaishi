@@ -29,34 +29,39 @@
     </van-cell-group>
     <van-cell-group>
       <van-field model:value="{{ txHour }}" placeholder="请输入8-12的数字,默认8" border="{{ false }}" label="通宵时长(时)" />
+      <view class="tip">例如通宵23时开始，时长9个小时，那么通宵场即23:00~08:00</view>
     </van-cell-group>
     <van-cell-group>
       <van-cell center title="延时5分钟灯光">
         <switch checked="{{ delayLight }}"  data-tag="delayLight" bindchange="onChangeSwitch"/>
       </van-cell>
+      <view class="tip">灯具需独立供电才可生效</view>
     </van-cell-group>
     <van-cell-group>
       <van-field model:value="{{ clearTime }}" placeholder="请输入5-30的数字,默认5" border="{{ false }}" label="清洁时间(分)" />
+      <view class="tip">上个订单结束后，新订单的间隔下单时间</view>
     </van-cell-group>
     <van-cell-group>
       <van-cell center title="待清洁允许预订">
         <switch checked="{{ clearOpen }}" data-tag="clearOpen" bindchange="onChangeSwitch"/>
       </van-cell>
+      <view class="tip">关闭后如果房间未打扫，将不允许下单</view>
     </van-cell-group>
     <van-cell-group>
       <van-cell center title="消费中门禁常开">
         <switch checked="{{ orderDoorOpen }}" data-tag="orderDoorOpen" bindchange="onChangeSwitch"/>
       </van-cell>
+      <view class="tip">有订单时门随时可打开，密码锁还需要在设备列表去设置</view>
     </van-cell-group>
-
      <van-cell-group>
       <van-cell center title="保洁员任意开门">
         <switch checked="{{ clearOpenDoor }}" data-tag="clearOpenDoor" bindchange="onChangeSwitch"/>
       </van-cell>
+      <view class="tip">允许保洁员随时开电关电，即使房间无打扫任务</view>
     </van-cell-group>
-    
     <van-cell-group>
       <van-field model:value="{{ orderWebhook }}" autosize type="textarea" maxlength="200" placeholder="请输入" border="{{ false }}" label="企业微信webhook" />
+      <view class="tip">用来接收下单通知、清洁通知、充值通知等</view>
     </van-cell-group>
     <view class="line" wx:if="{{qrCode}}">
       <label>门店小程序码</label>
@@ -80,6 +85,7 @@
       <van-cell center title="门店首页简洁模式">
         <switch checked="{{ simpleModel }}" data-tag="simpleModel" bindchange="onChangeSimpleModel"/>
       </van-cell>
+    <view class="tip">关闭简洁模式后，可以自定义上传门店首页模板</view>
     </van-cell-group>
     <view class="line" wx:if="{{!simpleModel}}">
       <label>首页按钮图</label>

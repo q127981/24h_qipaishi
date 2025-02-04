@@ -46,6 +46,7 @@
         </view>
       </view>
     </view>
+    <view class="tips">注：打开时，房间订单结束将直接变为空闲状态</view>
     <view class="line">
       <label>是否可预定：</label>
       <view class="right">
@@ -109,6 +110,7 @@
         </view>
       </view>
     </view>
+    <view class="tips">注：比如原18:00开始的订单，允许提前6小时开始，那么12:00之后都可以提前开始消费，12:00之前就不可以提前开始</view>
     <!-- <view class="line">
       <label>提前下单天数：</label>
       <view class="right">

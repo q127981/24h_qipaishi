@@ -396,7 +396,7 @@ Page({
       timeHourAllArr: atemplist
     });
   },
-  //获取门店相信信息
+  //获取门店信息
   getStoreInfodata: function (e) {
     var that = this;
     //if (app.globalData.isLogin) 
@@ -444,7 +444,8 @@ Page({
                   }
                 });
                 that.setData({
-                  roomClass: classArr
+                  roomClass: classArr,
+                  // tabIndex: classArr[0].value
                 });
               }
             } else {

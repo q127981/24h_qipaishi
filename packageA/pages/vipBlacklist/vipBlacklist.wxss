@@ -181,3 +181,14 @@ page {
   display: flex;
   justify-content: flex-end;
 }
+.bottom{ 
+  width: 430rpx;
+  height: 90rpx;
+  text-align: center;
+  line-height: 90rpx;
+  position: fixed;
+  bottom: 30rpx;
+  left: 160rpx;
+  border-radius: 50rpx;
+  font-size: 36rpx;
+}

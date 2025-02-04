@@ -20,6 +20,7 @@ Page({
     id:'',
     currentPage: 1,
     hasMore: false,
+    isIpx: app.globalData.isIpx?true:false,
   },
 
   /**

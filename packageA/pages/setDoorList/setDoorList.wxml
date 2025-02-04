@@ -58,8 +58,8 @@
             </view>
             <view class="btn origin" bindtap="setLockPwdShow" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">设置锁密码</view>
             <view class="btn origin" bindtap="addLockCard" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">添加锁卡片</view>
-            <view class="btn origin" bindtap="setLockGateWay" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">
-              锁数据查询
+            <view class="btn origin" bindtap="updateLockTime" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">
+              锁数据校准
             </view>
           </view>
           <view class="line2">

@@ -98,7 +98,7 @@
   },
   "plugins": {
     "myPlugin": {
-      "version": "3.0.6",
+      "version": "3.0.8",
       "provider": "wx43d5971c94455481"
     }
   },

@@ -180,7 +180,8 @@ Page({
   openDoor: function(e){
     let that = this;
     let roomId = that.data.roomItem.roomId;
-    console.log(roomId);
+    let storeId = that.data.roomItem.storeId;
+    // console.log(roomId);
     wx.showModal({
       title: '提示',
       content: '确定打开房间门和电源吗',
@@ -220,6 +221,36 @@ Page({
               }
             )
           } 
+          //如果用了密码锁的  生成开锁密码
+          if(that.data.roomItem.lockData){
+             //获取随机密码
+            http.request(
+              "/member/store/getLockPwd",
+              "1",
+              "post", {
+                "storeId": storeId,
+                "roomId": roomId
+              },
+              app.globalData.userDatatoken.accessToken,
+              "",
+              function success(info) {
+                if (info.code == 0) {
+                  wx.showModal({
+                    title: "提示",
+                    content: "如果门没有自动打开，请使用开门密码:"+info.data+"#,"+"该密码仅6小时内一次有效！使用后即失效！",
+                    showCancel: false,
+                  })
+                } else {
+                  wx.showModal({
+                    content: info.msg,
+                    showCancel: false,
+                  })
+                }
+              },
+              function fail(info) {
+              }
+            )
+          }
         }
       }
     })

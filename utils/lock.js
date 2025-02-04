@@ -165,6 +165,49 @@ function handleResetLock(lockData){
   
 }
 
+function updateLockTime(lockData){
+  const timestamp = Date.now();
+  plugin.setLockTime({
+    serverTime: timestamp,
+    lockData: lockData
+  }).then(res => {
+    wx.hideLoading();
+    if (res.errorCode === 0) {
+        wx.showToast({
+          title: '设置成功',
+          icon: 'success'
+        })
+    } else {
+      wx.showModal({
+        content: `设置失败：${res.errorMsg}`,
+        showCancel: false,
+      })
+    }
+  })
+}
+
+function setAotuLockTime(lockData,seconds){
+  plugin.setAutomaticLockingPeriod({
+    seconds: seconds,
+    lockData: lockData
+  }).then(res => {
+    wx.hideLoading();
+    if (res.errorCode === 0) {
+        wx.showToast({
+          title: '设置成功',
+          icon: 'success'
+        })
+    } else {
+      wx.showModal({
+        content: `设置失败：${res.errorMsg}`,
+        showCancel: false,
+      })
+    }
+  })
+}
+
+
+
 function getPlugin(){
   return plugin;
 }
@@ -178,4 +221,6 @@ module.exports = {
   setLockGateWay: setLockGateWay,
   handleResetLock: handleResetLock,
   getPlugin: getPlugin,
+  updateLockTime: updateLockTime,
+  setAotuLockTime: setAotuLockTime,
 }

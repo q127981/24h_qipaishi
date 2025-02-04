@@ -160,9 +160,14 @@ Page({
    */
   onShow() {
     var that = this;
-    that.getCouponListData();
-    that.getStoreBalance();
-    that.daySlotInit();
+    that.setData({
+      isLogin: app.globalData.isLogin,
+    });
+    setTimeout(() => {
+      that.getCouponListData();
+      that.getStoreBalance();
+      that.daySlotInit();
+    }, 100);
   },
 
   /**
@@ -824,6 +829,8 @@ Page({
       scanCodeMsg: e.detail.value,
       pricestring: 0
     });
+    console.log(e.detail.value.length)
+    console.log('e.detail.value.length')
     if (e.detail.value.length > 0) {
       that.setData({
         payselectindex: 3,
@@ -831,8 +838,7 @@ Page({
         pkgId: "",
         select_pkg_index: -1,
       });
-      console.log(e.detail.value.length)
-      console.log('e.detail.value.length')
+
       if (e.detail.value.length >= 10) {
         that.checkGroup();
       }
@@ -840,6 +846,7 @@ Page({
       that.setData({
         payselectindex: 1,
       });
+      that.MathPrice();
     }
   },
   //扫码

@@ -140,8 +140,10 @@ Page({
       wx.navigateTo({
         url: "../doorList/doorList",
       })
+      return
     }
     console.log('门店id:' + that.data.storeId)
+    wx.setStorageSync('global_store_id',that.data.storeId);
     that.loadingtime();
     that.getStoreInfodata();
     that.getDoorListdata();
@@ -221,11 +223,11 @@ Page({
 
   },
   getTap() {
-    const SelectorQuery = wx.createSelectorQuery();
-    SelectorQuery.select('#toolbar').boundingClientRect();
-    SelectorQuery.exec(res => {
-      this.setData({ maoHeight: res[0].bottom + 200 })
-    })
+    // const SelectorQuery = wx.createSelectorQuery();
+    // SelectorQuery.select('#toolbar').boundingClientRect();
+    // SelectorQuery.exec(res => {
+    //   this.setData({ maoHeight: res[0].bottom + 200 })
+    // })
   },
   showWifi() {
     this.setData({
@@ -582,7 +584,8 @@ Page({
                   }
                 });
                 that.setData({
-                  roomClass: classArr
+                  roomClass: classArr,
+                  // tabIndex: classArr[0].value
                 });
               }
             } else {

@@ -202,7 +202,7 @@ Page({
   timeChange(event) {
     const { year, month, day, hour, minute } = this.formatDate(event.detail);
     let that = this;
-    var begin_time = year + "/" + month + "/" + day + " " + `${hour}:${minute}`;
+    var begin_time = year + "-" + month + "-" + day + " " + `${hour}:${minute}`;
     //根据选中的小时按钮 计算出结束时间
     var startDate = new Date(begin_time);
     that.MathDate(startDate);
@@ -268,12 +268,12 @@ Page({
     if (order_hour == 99) {
       nightLong = true;
       //取通宵的时长
-      order_hour = that.data.txHour;
+      order_hour = that.data.doorinfodata.txHour;
       //判断开始时间 是否在通宵场的范围内 有两种情况 结束时间在当日和次日
-      if (startDate.getHours() < that.data.txStartHour) {
+      if (startDate.getHours() < that.data.doorinfodata.txStartHour) {
         //如果是凌晨4点之后的  那么开始时间就要改为当日通宵开始小时
         if (startDate.getHours() >= 4) {
-          startDate.setHours(that.data.txStartHour);
+          startDate.setHours(that.data.doorinfodata.txStartHour);
           startDate.setMinutes(0);
           startDate.setSeconds(0);
           startDate.setMilliseconds(0);

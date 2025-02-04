@@ -1,7 +1,7 @@
 <!--packageA/pages/setStoreSound/setStoreSound.wxml-->
 <view class="container" style="{{isIpx?'padding-bottom:168rpx':'padding-bottom:120rpx'}}">
   <view class="title">
-    留空或不设置，设备将播放预设音频
+    设备出厂已设置预设音频，可以留空
   </view>
   <view class="title">
     禁止播放违反法律/伦理的非法文本
@@ -39,7 +39,7 @@
           <textarea model:value="{{customizeText}}" type="text" placeholder="最大150个字"/>
       </view>
     </view>
-    <view class="tips">注:可以用来临时提示客户等</view>
+    <view class="tips">注:可以用来临时提示客户等，在房间控制菜单下触发</view>
   </view>
   <!-- 底部按钮 -->
   <view class="submit border-primary {{isIpx?'fix-iphonex-button':''}}">

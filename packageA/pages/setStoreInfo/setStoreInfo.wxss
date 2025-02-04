@@ -2,6 +2,13 @@
 .container{
   padding: 16rpx 16rpx 200rpx 16rpx;
 }
+.tip{
+  font-size: 24rpx;
+  margin-bottom: 10rpx;
+}
+.form {
+  margin-bottom: 30rpx;
+}
 .form .line{
   display: flex;
   margin-bottom: 16rpx;
@@ -18,6 +25,11 @@
 .form .line .right{
   /* display: flex; */
   width: 540rpx;
+}
+.form .tip {
+  font-size: 22rpx;
+  margin-left: 35rpx;
+  color: var(--main-color);
 }
 
 /* switch {

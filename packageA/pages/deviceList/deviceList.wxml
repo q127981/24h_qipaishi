@@ -10,7 +10,7 @@
 
 <view class="container">
   <view class="list">
-    <view class="item {{item.status==1?'online':'offline'}}" wx:for="{{deviceList}}" wx:key="deviceList">
+    <view class="item {{item.status==1?'online':item.type==5?'online':'offline'}}" wx:for="{{deviceList}}" wx:key="deviceList">
       <view class="line1">
         <view class="info">
           <label>编号：</label>
@@ -23,6 +23,10 @@
         <view class="info" wx:if="{{item.type!=6&&item.type!=5}}">
           <label>状态：</label>
           <text>{{item.status==1?'在线':'离线'}}</text>
+        </view>
+        <view class="btns" wx:if="{{item.type==5}}">
+          <view class="btn" bind:tap="lockAotuOpen" data-lock="{{item.deviceData}}">锁常开</view>
+          <view class="btn" bind:tap="lockAotuClose" data-lock="{{item.deviceData}}">锁常关</view>
         </view>
       </view>
       <view class="line2">
@@ -39,8 +43,9 @@
             <view>-</view>
           </block>
         </view>
-        <view class="del" bindtap="delDevice" data-id="{{item.deviceId}}">
-          删除
+        <view >
+          <text wx:if="{{item.share}}">共享设备</text>
+          <text class="del" bindtap="delDevice" data-id="{{item.deviceId}}"> 删除</text>
         </view>
       </view>
     </view>

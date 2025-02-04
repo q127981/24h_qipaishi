@@ -85,3 +85,16 @@
   padding-left: 26rpx;
   color: #aaa;
 }
+
+.btns{
+  display: flex;
+  justify-content: start;
+}
+.btns .btn {
+  background-color: #2b8ace;
+  font-size: 24rpx;
+  color: #fff;
+  padding: 5rpx 15rpx;
+  border-radius: 8rpx;
+  margin: 5rpx 10rpx;
+}

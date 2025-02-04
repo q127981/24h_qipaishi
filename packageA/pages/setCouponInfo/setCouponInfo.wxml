@@ -1,5 +1,6 @@
 <!--pages/setCouponInfo/setCouponInfo.wxml-->
 <view class="container" style="{{isIpx?'padding-bottom:168rpx':'padding-bottom:120rpx'}}">
+
   <view class="form">
     <view class="line">
       <label>优惠券名称：</label>
@@ -61,7 +62,7 @@
       <!-- 满减券 -->
       <view class="right" wx:if="{{type==2}}">
         <view class="step">
-          <van-stepper model:value="{{ minUsePrice }}" min="0" max="999" bind:change="minUseChange" />元
+          <van-stepper model:value="{{ minUsePrice }}" min="0" max="999" bind:change="minUseChange"  input-width="150rpx" />元
         </view>
       </view>
     </view>
@@ -80,7 +81,7 @@
       <!-- 满减券 -->
       <view class="right" wx:if="{{type==2}}">
         <view class="step">
-          <van-stepper model:value="{{ price }}" min="0" max="999" bind:change="priceChange" />元
+          <van-stepper model:value="{{ price }}" min="0" max="999" bind:change="priceChange" input-width="150rpx" />元
         </view>
       </view>
     </view>
@@ -92,6 +93,15 @@
         </picker>
       </view>
     </view>
+  </view>
+  <view class="tip">
+    1. 抵扣券：满X小时，抵扣X小时。如：想0元续费订单，就设置使用门槛1小时，抵扣额度1小时。
+  </view>
+  <view  class="tip">
+    2. 满减券：满X元，减免X元。如：满100元减20元。
+  </view>
+  <view  class="tip">
+    3. 加时券：在X小时付费基础上，免费额外增加X小时。不支持0元加时续费或0元加时下单。
   </view>
   <!-- 底部按钮 -->
   <view class="submit border-primary {{isIpx?'fix-iphonex-button':''}}">

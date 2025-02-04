@@ -25,6 +25,7 @@ Page({
     scrollPosition: 0,
     select_pkg_index: -1,
     payType: 1,
+    payTypes:[],
   },
 
   /**
@@ -73,8 +74,10 @@ Page({
         isLogin: app.globalData.isLogin
       })
     }, 200);
-    that.getOrderInfo();
-    that.getCouponListData();
+    setTimeout(() => {
+      that.getOrderInfo();
+      that.getCouponListData();
+    }, 300);
   },
 
   /**
@@ -500,20 +503,22 @@ Page({
     var pkgIndex = event.currentTarget.dataset.index;
     var pkgId = event.currentTarget.dataset.id;
     var hour = event.currentTarget.dataset.hour;
-    if (pkgIndex == that.data.select_pkg_index) {
-      pkgIndex = -1;
-      pkgId = "";
-    }
     var newTime = Moment(this.data.OrderInfodata.endTime)
       .add(hour, "hours")
       .format("YYYY/MM/DD HH:mm");
     that.setData({
       select_pkg_index: pkgIndex,
       pkgId: pkgId,
-      payType: 4,
+      payType: 1,
       newTime: newTime,
       totalPay: that.data.pkgList[pkgIndex].price,
     });
+    const payTypes = that.data.payTypes
+    payTypes[0].checked = true
+    payTypes[1].checked = false
+    this.setData({
+      payTypes: payTypes
+    })
   },
   convertEnableTime(enableTime) {
     if (
