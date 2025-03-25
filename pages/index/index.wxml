@@ -75,7 +75,7 @@
     </view>
   </view>
   <!-- 棋牌、KTV 房间列表 -->
-  <view class="lists" wx:if="{{tabIndex == 0}}" wx:for="{{doorlistArr}}" wx:key="doorlistArr" id="roomList">
+  <view class="lists" wx:if="{{tabIndex == 0 || tabIndex == 3}}" wx:for="{{doorlistArr}}" wx:key="doorlistArr" id="roomList">
     <view class="item">
       <view class="top">
         <view class="left">

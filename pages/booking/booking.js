@@ -449,7 +449,7 @@ Page({
                 });
                 that.setData({
                   roomClass: classArr,
-                  // tabIndex: classArr[0].value
+                  tabIndex: classArr[0].value
                 });
               }
             } else {
