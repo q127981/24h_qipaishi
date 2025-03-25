@@ -54,6 +54,14 @@
           <iconfont name="tongjitu" size="28"></iconfont>
           <text>数据统计</text>
         </navigator>
+        <navigator class="item" url="/packageA/pages/vipConfig/vipConfig?storeId={{storeId}}">
+          <iconfont name="huiyuan" size="28" color="#5AAB6E"></iconfont>
+          <text>VIP规则</text>
+        </navigator>
+        <navigator class="item" url="/packageA/pages/vipList/vipList?storeId={{storeId}}">
+          <iconfont name="huiyuan" size="28"></iconfont>
+          <text>VIP列表</text>
+        </navigator>
       </view>
     </view>
 
@@ -113,7 +121,7 @@
           <iconfont name="shangpindingdan" size="28"></iconfont>
           <text>商品订单</text>
         </navigator>
-
+        
       </view>
     </view>
     <view class="control-box">

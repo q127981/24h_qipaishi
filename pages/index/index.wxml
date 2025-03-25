@@ -74,7 +74,7 @@
       </block>
     </view>
   </view>
-  <!-- 棋牌、自习室 房间列表 -->
+  <!-- 棋牌、KTV 房间列表 -->
   <view class="lists" wx:if="{{tabIndex == 0}}" wx:for="{{doorlistArr}}" wx:key="doorlistArr" id="roomList">
     <view class="item">
       <view class="top">
@@ -145,8 +145,20 @@
             <view class="priceLabel">
               <view class="price">
                 <label class="color-attention">￥{{item.price}}</label>
-                元/小时
+                元/时
               </view>
+            </view>
+            <view class="priceLabel" wx:if="{{item.vipPriceList}}">
+              <view class="price">
+                <text style="color: rgb(255, 51, 0);font-size:28rpx;">会员</text>
+                <label class="color-attention">￥{{item.vipPriceList[item.vipPriceList.length-1].price}}</label>
+                元/时起
+              </view>
+            </view>
+          </view>
+          <view class="line2 bt">
+            <view class="pkgInfo" wx:if="{{item.pkgName}}">
+              {{item.pkgName}}
             </view>
             <view class="bottom">
               <block wx:if="{{item.status == 0}}">
@@ -155,23 +167,12 @@
               </block>
               <block wx:else="">
                 <view class="btn bg-primary">
-                  立即预定
+                  预定
                 </view>
               </block>
             </view>
           </view>
-          <view class="pkgInfo" wx:if="{{item.pkgName}}">
-            {{item.pkgName}}
-          </view>
-          <view class="line3">
-            <view class="time-line">
-              <image src="../static/icon/order-time.png" wx:if="{{item.timeText}}" />
-              <text wx:if="{{item.timeText}}">{{item.timeText}}已被预定</text>
-            </view>
-            <view class="more" catchtap="onShowReserve" data-list="{{item.orderTimeList}}" wx:if="{{item.orderTimeList.length}}">
-              更多
-            </view>
-          </view>
+           
         </view>
       </view>
       <view class="foot">
@@ -179,6 +180,15 @@
           <view class="labels">
             <view class="label disabled">不可用</view>
             <view class="label">可预约</view>
+          </view>
+          <view class="line3">
+            <view class="time-line">
+              <image src="../static/icon/order-time.png" wx:if="{{item.timeText}}" />
+              <text wx:if="{{item.timeText}}">{{item.timeText}}被预定</text>
+            </view>
+            <view class="more" catchtap="onShowReserve" data-list="{{item.orderTimeList}}" wx:if="{{item.orderTimeList.length>1}}">
+              更多
+            </view>
           </view>
         </view>
         <view class="times">
@@ -198,10 +208,14 @@
           <view class="tab-img-box-begin" wx:if="{{item.status==1 || item.status==2 || item.status==4}}" bind:tap="goOrder" data-status="{{item.status}}" data-index="{{index}}" data-info="{{item.roomId}}">
             <view class="tab-info">
               <text class="tab-roomName">{{item.roomName}}</text>
-              <view></view>
               <view class="price">
                 <label class="color-attention">￥{{item.price}}</label>
                 元/小时
+              </view>
+              <view class="price"  wx:if="{{item.vipPriceList}}">
+                <text style="color: rgb(255, 51, 0);font-size:28rpx;">会员</text>
+                <label class="color-attention">￥{{item.vipPriceList[item.vipPriceList.length-1].price}}</label>
+                元/时起
               </view>
             </view>
             <view class="tab-button">
@@ -239,7 +253,7 @@
       </view>
     </view>
   </view>
-  <!-- 自习室 判断请求的门店中的svg是否有值 -->
+  <!-- KTV 判断请求的门店中的svg是否有值 -->
   <view class="lists" wx:if="{{tabIndex == 2 && doorinfodata.svg == null}}" wx:for="{{doorlistArr}}" wx:key="doorlistArr" id="roomList">
     <view class="item">
       <view class="top">
@@ -320,23 +334,13 @@
               </block>
               <block wx:else="">
                 <view class="btn bg-primary">
-                  立即预定
+                  预定
                 </view>
               </block>
             </view>
           </view>
           <view class="pkgInfo" wx:if="{{item.pkgName}}">
             {{item.pkgName}}
-          </view>
-          <view class="line3">
-            <view class="time-line">
-              <image src="../static/icon/order-time.png" wx:if="{{item.timeText}}" />
-              <text wx:if="{{item.timeText}}">{{item.timeText}}已被预定</text>
-            </view>
-            <view class="more" catchtap="onShowReserve" data-list="{{item.orderTimeList}}" wx:if="{{item.orderTimeList.length}}">
-              更多预约
-              <icon class="iconfont icon-right"></icon>
-            </view>
           </view>
         </view>
       </view>

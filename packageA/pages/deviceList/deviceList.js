@@ -12,7 +12,7 @@ Page({
     storeIndex: '',
     roomList: [],
     roomIndex: '',
-    deviceTypes: [{ value: '', text: '请选择类型' }, { value: 1, text: '门禁' }, { value: 2, text: '空开' }, { value: 3, text: '云喇叭' }, { value: 10, text: '智能语音喇叭' }, { value: 4, text: '灯具' }, { value: 5, text: '密码锁' }, { value: 6, text: '网关' }, { value: 7, text: '插座' }, { value: 8, text: '锁球器控制器（12V）' }, { value: 9, text: '人脸门禁机' }, { value: 11, text: '二维码识别器' }, { value: 12, text: '红外控制器' }, { value: 13, text: '三路控制器' }],
+    deviceTypes: [{ value: '', text: '请选择类型' }, { value: 1, text: '磁力锁' }, { value: 2, text: '空开' }, { value: 3, text: '云喇叭' }, { value: 10, text: '智能语音喇叭' }, { value: 4, text: '灯具' }, { value: 5, text: '密码锁' }, { value: 6, text: '网关' },{ value: 13, text: '三路控制器' }, { value: 7, text: '插座' }, { value: 8, text: '锁球器控制器（12V）' }, { value: 9, text: '人脸门禁机' }, { value: 11, text: '二维码识别器' }, { value: 12, text: '红外控制器' }],
     deviceTypeIndex: '',
     deviceType: '',
     deviceList: [],
@@ -423,9 +423,9 @@ Page({
       }
     })
   },
-  lockAotuOpen: function(e){
+  lockAotuOpen: function (e) {
     var lockData = e.currentTarget.dataset.lock;
-    if(lockData){
+    if (lockData) {
       wx.showModal({
         title: '提示',
         content: '请打开手机蓝牙，靠近门锁操作！锁常开=开锁后不会自动关锁，除非收到关锁指令。您确认设置锁常开吗？',
@@ -434,15 +434,15 @@ Page({
             wx.showLoading({
               title: '请靠近门锁',
             })
-            lock.setAotuLockTime(lockData,0);
+            lock.setAotuLockTime(lockData, 0);
           }
         }
       })
     }
   },
-  lockAotuClose: function(e){
+  lockAotuClose: function (e) {
     var lockData = e.currentTarget.dataset.lock;
-    if(lockData){
+    if (lockData) {
       wx.showModal({
         title: '提示',
         content: '请打开手机蓝牙，靠近门锁操作！锁常关=开锁5秒后，锁会自动关闭。您确认设置锁常关吗？',
@@ -451,9 +451,17 @@ Page({
             wx.showLoading({
               title: '请靠近门锁',
             })
-            lock.setAotuLockTime(lockData,5);
+            lock.setAotuLockTime(lockData, 5);
           }
         }
+      })
+    }
+  },
+  lockConfigWifi: function (e) {
+    var lockData = e.currentTarget.dataset.lock;
+    if (lockData) {
+      wx.navigateTo({
+        url: '../configLockWifi/index?lockData=' + lockData,
       })
     }
   },

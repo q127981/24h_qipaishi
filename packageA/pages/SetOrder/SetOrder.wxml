@@ -32,13 +32,17 @@
             <view class="tag gray">已取消</view>
           </block>
           <ul class="info">
-            <li>
+            <!-- <li>
               <image class="roomImg" src="{{item.roomImg}}"></image>
-            </li>
+            </li> -->
             <li class="li">
-              <view class="title">{{item.roomName}}({{item.roomType===1?'小包':item.roomType===2?'中包':item.roomType===3?'大包':item.roomType===4?'豪包':item.roomType===5?'商务包':item.roomType===6?'斯洛克':item.roomType===7?'中式黑八':'美式球桌'}})
+              <iconfont name="iov-store" size="22">
+              </iconfont>
+              <view class="title">
+                <span class="name">{{item.storeName}}</span> - 
+              {{item.roomName}}({{item.roomType===1?'小包':item.roomType===2?'中包':item.roomType===3?'大包':item.roomType===4?'豪包':item.roomType===5?'商务包':item.roomType===6?'斯洛克':item.roomType===7?'中式黑八':'美式球桌'}})
               </view>
-              <view><span class="name">{{item.storeName}}</span></view>
+              <!-- <view></view> -->
               <!-- <view class="name">{{item.storeName}}</view> -->
             </li>
           </ul>
@@ -58,7 +62,7 @@
           <view class="bottom">
             <view>
               <view class="info">创建时间：{{item.createTime}}</view>
-              <view class="info" wx:if="{{item.couponName}}">使用卡券：<label>{{item.couponName}}</label></view>
+              <!-- <view class="info" wx:if="{{item.couponName}}">使用卡券：<label>{{item.couponName}}</label></view> -->
               <view class="info">预订用户：{{item.nickname}}</view>
               <view class="info">手机号码：{{item.mobile}}
                 <text class="copyMobile" bindtap='copyText' data-text="{{item.mobile}}">复制</text>
@@ -80,7 +84,7 @@
               </view>
               <view class="line2">
                 <button hover-class="button-click" class="btn bg-primary1" catchtap="changeOrderUser" data-info="{{item}}">订单转移</button>
-                <button hover-class="button-click" class="btn bg-primary1" catchtap="changeOrder" data-info="{{item}}">订单修改</button>
+                <button hover-class="button-click" class="btn bg-primary1" catchtap="changeOrder" data-info="{{item}}">换房/改时间</button>
               </view>
               <view class="line3">
                 <button hover-class="button-click" class="btn bg-primary" catchtap="callMobile" data-mobile="{{item.mobile}}">拨打电话</button>
@@ -169,9 +173,10 @@
       <label>房间名称：</label>
       <picker mode="selector" bindchange="bindPickerChange" value="{{index}}" range="{{values}}" data-ids="{{key}}">
         <view class="picker" style="color: blue;">
-          {{values[index] || "请选择"}}
+          {{values[index] || "请选择"}}  - 修改
         </view>
       </picker>
+     
     </view>
     <view class="item">
       <label>原开始时间：</label><text>{{orderInfo.startTime}}</text>

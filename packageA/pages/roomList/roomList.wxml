@@ -65,8 +65,12 @@
     </view>
     <view class="item" wx:if="{{userinfo.userType!=14}}">
         <view class="btn waring" bindtap="showModal">空调控制</view>
-        <view class="btn waring" bindtap="clearAndFinish">保洁完成</view>
-        <view class="btn red" bindtap="toPlaceOrder">代下单</view>
+        <view class="btn yellow" bindtap="clearAndFinish">保洁完成</view>
+        <view class="btn yellow" bindtap="finishOrder">结束订单</view>
+    </view>
+    <view class="item" wx:if="{{userinfo.userType!=14}}">
+        <!-- <view class="btn red" bindtap="getLockPwd">开锁密码</view> -->
+        <view class="btn red" bindtap="toPlaceOrder">代客下单</view>
     </view>
   </view>
 </van-dialog>

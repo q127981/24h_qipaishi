@@ -28,6 +28,7 @@ Page({
     orderKey: '',//订单key  用于分享好友 直接打开使用
     isLogin: app.globalData.isLogin,
     OrderInfodata: {},
+    roominfodata: '',
     RoomImageList: [],//房间图片数组
     damenSwitchBool: false,
     roomSwitchBool: false,
@@ -389,6 +390,33 @@ Page({
       url: '../changeDoor/changeDoor?orderInfo=' + JSON.stringify(orderInfo),
     })
   },
+  //获取房间信息
+  getRoomInfodata: function (roomId) {
+    var that = this;
+    http.request(
+      "/member/index/getRoomInfo" + "/" + roomId,
+      "1",
+      "post",
+      {
+        roomId: roomId,
+      },
+      app.globalData.userDatatoken.accessToken,
+      "获取中...",
+      function success(info) {
+        if (info.code == 0) {
+          that.setData({
+            roominfodata: info.data,
+          });
+        } else {
+          wx.showModal({
+            content: info.msg,
+            showCancel: false,
+          });
+        }
+      },
+      function fail(info) { }
+    );
+  },
   // 续费弹窗
   renewClick() {
     var that = this;
@@ -399,6 +427,7 @@ Page({
         icon: "error",
       });
     } else {
+      that.getRoomInfodata(OrderInfodata.roomId);
       if (app.globalData.isLogin) {
         //已登录
         that.setData({
@@ -961,9 +990,18 @@ Page({
               function success(info) {
                 if (info.code == 0) {
                   wx.showModal({
-                    title: "提示",
-                    content: "如门锁未自动开，请使用开锁密码:" + info.data + "#," + "该密码仅6小时内一次有效！使用后即失效！",
-                    showCancel: false,
+                    title: "开门密码："+info.data+"#",
+                    content: "如果门没有自动打开，请使用密码开门，该密码仅6小时内一次有效！您也可以靠近门锁时点击'蓝牙开锁'按钮自动开锁。",
+                    cancelText:'蓝牙开锁',
+                    showCancel: true,
+                    confirmText: '关闭',
+                    complete: (res) => {
+                      if (res.cancel) {
+                        lock.blueDoorOpen(that.data.OrderInfodata.lockData);
+                      }
+                      if (res.confirm) {
+                      }
+                    }
                   })
                 } else {
                   wx.showModal({

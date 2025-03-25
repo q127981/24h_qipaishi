@@ -298,6 +298,12 @@ page {
   display: flex;
   justify-content: space-between;
 }
+.lists .item .top .right .line2.bt {
+  display: flex;
+  justify-content: flex-end;
+  height: 50rpx;
+  line-height: 50rpx;
+}
 
 .line3 {
   display: flex;
@@ -341,7 +347,6 @@ page {
   font-weight: 700;
   font-size: 17rpx;
   line-height: 32rpx;
-  width: 200rpx;
 }
 
 .lists .item .top .right .priceLabel .price .color-attention {
@@ -358,8 +363,8 @@ page {
 }
 
 .lists .item .top .right .bottom .btn {
-  width: 155rpx;
-  height: 54rpx;
+  width: 125rpx;
+  height: 50rpx;
   text-align: center;
   line-height: 54rpx;
   border-radius: 30rpx;
@@ -373,7 +378,7 @@ page {
 }
 
 .lists .item .foot {
-  /* margin-top: 30rpx; */
+  margin-top: 10rpx;
 }
 
 .lists .item .foot .foot-top {
@@ -441,9 +446,9 @@ page {
 
 .top-tabs .tab {
   width: 49.6%;
-  height: 80rpx;
+  height: 60rpx;
   font-size: 32rpx;
-  line-height: 80rpx;
+  line-height: 60rpx;
   text-align: center;
   background-color: #f5f5f5;
   border-radius: 10rpx;
@@ -827,7 +832,7 @@ page {
 }
 
 .pkgInfo {
-  font-size: 28rpx;
+  font-size: 26rpx;
   font-weight: 600;
   color: #fd4a33;
 }
@@ -927,6 +932,7 @@ page {
 .begin-button {
   width: 130rpx;
   height: 50rpx;
+  margin-top: 25rpx;
   border-radius: 40rpx;
   background-color: rgb(0, 176, 92);
   color: #fff;

@@ -170,7 +170,7 @@
 
 .info-container .account-box {
   background-color: #fff;
-  padding: 24rpx 32rpx;
+  padding: 14rpx 32rpx;
   border-radius: 18rpx 18rpx 18rpx 18rpx;
   margin-bottom: 24rpx;
 }
@@ -178,7 +178,7 @@
 .account-box .account-bottom {
   display: flex;
   justify-content: space-between;
-  margin: 10rpx 0;
+  /* margin: 10rpx 0; */
 }
 
 .account-box .account-bottom view {
@@ -260,7 +260,7 @@
 .control-box .control {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 35rpx;
+  /* margin-top: 35rpx; */
 }
 
 .control-box .control .item {

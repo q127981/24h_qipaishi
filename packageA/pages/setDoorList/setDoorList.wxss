@@ -56,7 +56,7 @@
   transition: height 0.8s;
 }
 .btns.show {
-  height: 230rpx;
+  height: 150rpx;
 }
 .list .item .tags .tag{
   margin: 0 10rpx 10rpx 0;

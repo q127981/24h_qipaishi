@@ -13,11 +13,11 @@
           </view>
           <view class="price color-attention">￥{{item.price}}/小时</view>
         </view>
-        <view class="tags">
+        <!-- <view class="tags">
           <block wx:for="{{magic.split(item.label)}}" wx:for-item="labelitem" wx:key="label">
             <view class="tag">{{labelitem}}</view>
           </block>
-        </view>
+        </view> -->
         <view class="info">
           <view class="line" style="width: 100%;">
             <label>禁用时间：</label>
@@ -62,19 +62,14 @@
               锁数据校准
             </view>
           </view>
-          <view class="line2">
-            <view class="btn warning" bindtap="clearAndFinish" data-roomid="{{item.roomId}}">
-              设置空闲
-            </view>
-            <view class="btn warning" bindtap="finishOrder" data-roomid="{{item.roomId}}">
-              结束订单
-            </view>
-            <view class="btn red" bindtap="openBlueDoor" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">
+          <!-- <view class="line2">
+            <view class="btn red" bindtap="openBlueDoor" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}" wx:if="{{item.lockData}}">
               开锁密码
             </view>
-            <view class="btn red" bindtap="openDoor" data-roomid="{{item.roomId}}">开电</view>
-            <view class="btn red" bindtap="closeDoor" data-roomid="{{item.roomId}}">关电</view>
-          </view>
+            <view class="btn red" bindtap="goConfigPrePay" data-roomid="{{item.roomId}}">
+              预付费规则设置
+            </view>
+          </view> -->
         </view>
       </view>
     </view>

@@ -99,7 +99,7 @@ Page({
                   } else if (e === 1) {
                     classArr.push({ text: '台球', value: 1 });
                   } else if (e === 2) {
-                    classArr.push({ text: '自习室', value: 2 });
+                    classArr.push({ text: 'KTV', value: 2 });
                   }
                 });
                 that.setData({

@@ -41,22 +41,30 @@
             <text catch:tap="copyOrderNo" data-order="{{item.orderNo}}">{{item.orderNo}}</text>
             <!-- <view class="copy">复制</view> -->
           </view>
-          <view class="info-line">
-            <text class="bold">开始时间：</text>
-            <text>{{item.startTime}}</text>
+          <!-- <view class="info-line display-space">
+            <view>
+              <text class="bold">开始时间：</text>
+              <text>{{item.startTime}}</text>
+            </view>
+            <block wx:if="{{item.status==0}}">
+              <text class="right" catch:tap="cancelOrder" data-info="{{item}}">申请退款</text>
+            </block>
           </view>
           <view class="info-line display-space">
             <view>
               <text class="bold">结束时间：</text>
               <text>{{item.endTime}}</text>
             </view>
+          </view> -->
+          <view class="info-line  display-space">
+            <view>
+              <text class="bold">支付方式：</text>
+              <text>{{item.payType===0?'管理员':item.payType===1?'微信':item.payType===2?'余额':item.payType===3?'团购':item.payType===4?'套餐':'预订'}}</text>
+            </view>
             <block wx:if="{{item.status==0}}">
               <text class="right" catch:tap="cancelOrder" data-info="{{item}}">申请退款</text>
             </block>
-          </view>
-          <view class="info-line">
-            <text class="bold">支付方式：</text>
-            <text>{{item.payType===0?'管理员':item.payType===1?'微信':item.payType===2?'余额':item.payType===3?'团购':item.payType===4?'套餐':'预订'}}</text>
+            <view class="btn" catch:tap="renewClick" data-info="{{item}}" wx:if="{{item.status === 0 || item.status === 1}}">续费</view>
           </view>
           <view class="info-line display-space">
             <view class="discount-tag" wx:if="{{item.bargainPrice}}">
@@ -64,7 +72,7 @@
               <view>已砍价<text>¥{{item.bargainPrice}}</text>元</view>
             </view>
             <view wx:else></view>
-            <view class="btn" catch:tap="renewClick" data-info="{{item}}" wx:if="{{item.status === 0 || item.status === 1}}">续费</view>
+
             <!-- <view class="btn" catch:tap="orderAgain" data-info="{{item}}" wx:if="{{item.status === 2 || item.status === 3}}">再次下单</view> -->
           </view>
           <image class="status-tag" src="../static/icon/status{{item.status}}.png" />
@@ -128,7 +136,7 @@
     </view>
   </view>
 </van-dialog>
-<van-popup show="{{ renewShow }}" position="bottom" custom-style="height: 72%; border-radius: 17rpx 17rpx 0rpx 0rpx;background: linear-gradient( 180deg, #C9FFD7 0%, #FFFFFF 20%, #FFFFFF 100%);" bind:close="renewCancel">
+<van-popup show="{{ renewShow }}" position="bottom" custom-style="height: 82%; border-radius: 17rpx 17rpx 0rpx 0rpx;background: linear-gradient( 180deg, #C9FFD7 0%, #FFFFFF 20%, #FFFFFF 100%);" bind:close="renewCancel">
   <view class="renewBox">
     <view class="title">订单续费</view>
     <view class="line">
@@ -155,6 +163,17 @@
       <view class="line">
         <text class="bold">小时单价：</text>
         <text class="bold">￥{{currentOrder.price}}/小时</text>
+      </view>
+      <view wx:if="{{roominfodata.vipPriceList}}">
+        <view class="vipPrice">
+          <view class="priceInfo" wx:for="{{roominfodata.vipPriceList}}" data-index="{{index}}" wx:key="vipPrice">
+            <view class="vipName">{{item.vipName}}</view>
+            <view class="price">
+              ￥{{item.price}}
+              <text class="priceText">元</text>
+            </view>
+          </view>
+        </view>
       </view>
     </view>
     <view class="line" wx:if="{{modeIndex === 0}}">

@@ -1,0 +1,64 @@
+<!--packageA/pages/vipConfig/vipConfig.wxml-->
+<view class="container">
+<view class="tishi">
+提示：最多设置三个会员等级；修改会员等级不会影响已有的会员；累计积分、订单折扣等，仅对通过微信下单的方式有效；团购、套餐下单无效；
+</view>
+  <block wx:if="{{list.length}}">
+    <view class="list">
+      <view class="{{item.status === 2?'item disabled':'item'}}" wx:for="{{list}}" wx:key="item">
+        <view class="info">
+          <view class="line"><label>会员名称：</label><text>{{item.vipName}}</text></view>
+          <view class="line"><label>会员等级：</label><text>{{item.vipLevel}}</text></view>
+          <view class="line"><label>会员折扣：</label><text>0.{{item.vipDiscount}}折</text></view>
+          <view class="line"><label>积分门槛：</label><text>{{item.score}}元</text></view>
+        </view>
+        <view class="btns">
+          <button hover-class="button-click"  class="btn bg-primary" bindtap="edit" data-info="{{item}}">修改</button>
+        </view>
+      </view>
+    </view>
+  </block>
+  <block wx:else>
+    <view class="nodata">暂无数据</view>
+  </block>
+</view>
+
+<!-- 底部按钮 -->
+<view class="bottom bg-primary {{isIpx?'fix-iphonex-button':''}}" bindtap="edit">添加规则</view>
+
+<!-- 修改弹窗 -->
+<van-dialog
+  use-slot
+  title="保存会员规则"
+  show="{{ show }}"
+  show-cancel-button
+  bind:confirm="submit"
+  bind:cancel="cancel" 
+  before-close="{{beforeCloseFunction}}"
+  zIndex="99"
+>
+  <view class="dialog">
+    <van-cell-group>
+      <van-field
+        model:value="{{ vipName }}"
+        label="会员名称："
+        placeholder="请输入3个字以内"
+        type="text"
+      />
+      <van-field
+        model:value="{{ vipDiscount }}"
+        label="折扣："
+        placeholder="请输入1-99的数字"
+        type="digit"
+      />
+      <text class="tip">输入99表示9.9折</text>
+      <van-field
+        model:value="{{ score }}"
+        label="积分门槛："
+        placeholder="请输入1-999999的数字"
+        type="digit"
+      />
+      <text class="tip">消费1元=1积分</text>
+    </van-cell-group>
+  </view>
+</van-dialog>

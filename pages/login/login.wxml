@@ -8,6 +8,7 @@
   </view>
   <block wx:if="{{fastLogin}}">
     <button hover-class="button-click" class="loginBtn bg-primary theme-color-shadow" bindgetphonenumber="phone" open-type="getPhoneNumber">一键登录</button>
+    <button hover-class="button-click" class="loginBtn" bind:tap="backHome">返回首页</button>
     <view class="pwdlogin" bind:tap="pwdlogin">密码登录</view>
   </block>
   <block wx:else="">

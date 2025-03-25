@@ -141,7 +141,7 @@
           </navigator>
           <navigator class="item" url="/packageA/pages/setVip/setVip">
             <iconfont name="huiyuan" size="32" color="#5AAB6E"></iconfont>
-            <view>会员管理</view>
+            <view>用户管理</view>
           </navigator>
           <navigator class="item" url="/packageA/pages/scanQr/scanQr">
             <iconfont name="tuangou" size="32" color="#5AAB6E"></iconfont>
@@ -174,5 +174,5 @@
       </view>
     </block>
   </view>
-  <view class="version">版本:25.02.04</view>
+  <view class="version">版本:25.03.25</view>
 </view>

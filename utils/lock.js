@@ -1,19 +1,19 @@
-const plugin = requirePlugin("myPlugin");
+const plugin = requirePlugin("myPlugin");
 
-function blueDoorOpen(lockData){
-   if(lockData==null||lockData.length < 50){
-     wx.showToast({ icon: "none", title: "电子钥匙错误" });
-   }else{
-      //先打断所有蓝牙操作
-      // plugin.stopAllOperations();
-      // console.log("打断蓝牙操作");
-      wx.showToast({ 
-        icon: "loading", 
-        title: "请靠近门锁" ,
-        duration: 10000,
-        mask: true  // 遮罩层，防止点击
-      });
-      // 控制智能锁    3.0以下版本
+function blueDoorOpen(lockData) {
+  if (lockData == null || lockData.length < 50) {
+    wx.showToast({ icon: "none", title: "电子钥匙错误" });
+  } else {
+    //先打断所有蓝牙操作
+    // plugin.stopAllOperations();
+    // console.log("打断蓝牙操作");
+    wx.showToast({
+      icon: "loading",
+      title: "请靠近门锁",
+      duration: 10000,
+      mask: true  // 遮罩层，防止点击
+    });
+    // 控制智能锁    3.0以下版本
     // let  deviceId=0;
     //   plugin.controlLock(plugin.ControlAction.OPEN, lockData, res => {
     //         console.log("控制智能锁时设备连接已断开", res);
@@ -28,81 +28,81 @@ function blueDoorOpen(lockData){
     //    });
 
     //3.0以上版本
-      plugin.controlLock({
-        /* 控制智能锁方式 3 -开锁, 6 -闭锁 */
-        controlAction: 3, 
-        lockData: lockData,
-        serverTime: Date.now(),
-      }).then(res => {
-          console.log(res);
-          if (res.errorCode == 0) {
-              wx.showToast({ icon: "success", title: "已开锁" });
-          } else {
-              wx.hideLoading();
-              wx.showToast({ icon: "none", title: "开锁失败" });
-          }
-      })
+    plugin.controlLock({
+      /* 控制智能锁方式 3 -开锁, 6 -闭锁 */
+      controlAction: 3,
+      lockData: lockData,
+      serverTime: Date.now(),
+    }).then(res => {
+      console.log(res);
+      if (res.errorCode == 0) {
+        wx.showToast({ icon: "success", title: "已开锁" });
+      } else {
+        wx.hideLoading();
+        wx.showToast({ icon: "none", title: "开锁失败" });
+      }
+    })
   }
 }
-function queryLockPwd(lockData){
+function queryLockPwd(lockData) {
   wx.showLoading({ title: `请靠近门锁` });
-  plugin.getAdminPasscode({ lockData: lockData}).then(result => {
+  plugin.getAdminPasscode({ lockData: lockData }).then(result => {
     wx.hideLoading();
     if (result.errorCode === 0) {
-        wx.showModal({
-          content: `查询管理员密码成功, 密码: ${result.passcode}`,
-          showCancel: false,
-        })
+      wx.showModal({
+        content: `查询管理员密码成功, 密码: ${result.passcode}`,
+        showCancel: false,
+      })
     } else {
-        wx.showToast({
-          title: '查询失败',
-          icon: 'error'
-        })
+      wx.showToast({
+        title: '查询失败',
+        icon: 'error'
+      })
     }
   })
 }
 
-function addCard(lockData){
+function addCard(lockData) {
   wx.showLoading({ title: `请靠近门锁` });
   plugin.addICCard({
     startDate: 0,
-    endDate:  0,
+    endDate: 0,
     lockData: lockData,
     callback: (result) => {
-        console.log(result, "中间步骤")
-        switch (result.type) {
+      console.log(result, "中间步骤")
+      switch (result.type) {
         case 1: {
-            wx.showLoading({ title: `添加成功，正在上传` });
+          wx.showLoading({ title: `添加成功，正在上传` });
         }; break;
-        case 2:{
-            wx.showLoading({ title: `${result.description}, 请录入IC卡` });
+        case 2: {
+          wx.showLoading({ title: `${result.description}, 请录入IC卡` });
         }; break;
         case 3: {
-            wx.showLoading({ title: result.description });
+          wx.showLoading({ title: result.description });
         }; break;
         default: {
-            wx.hideLoading();
-            wx.showModal({
-              content: result.errorMsg,
-              showCancel: false,
-            })
+          wx.hideLoading();
+          wx.showModal({
+            content: result.errorMsg,
+            showCancel: false,
+          })
         }; break;
-        }
+      }
     }
   }).then(res => {
     wx.hideLoading();
-      if (res.errorCode === 0) {
-          wx.showToast({ title: "添加成功" });
-      } else {
-          wx.showModal({
-            content: `IC卡添加失败：${res.errorMsg}`,
-            showCancel: false,
-          })
-      }
+    if (res.errorCode === 0) {
+      wx.showToast({ title: "添加成功" });
+    } else {
+      wx.showModal({
+        content: `IC卡添加失败：${res.errorMsg}`,
+        showCancel: false,
+      })
+    }
   })
 }
 
-function setLockGateWay(lockData){
+function setLockGateWay(lockData) {
   wx.showLoading({ title: `请靠近门锁` });
   plugin.setRemoteUnlockSwitchState({
     enable: true,
@@ -110,11 +110,11 @@ function setLockGateWay(lockData){
   }).then(res => {
     wx.hideLoading();
     if (res.errorCode === 0) {
-        wx.showToast({
-          title: '设置成功',
-          icon: 'success'
-        })
-        return res.lockData;
+      wx.showToast({
+        title: '设置成功',
+        icon: 'success'
+      })
+      return res.lockData;
     } else {
       wx.showModal({
         content: `设置失败：${res.errorMsg}`,
@@ -125,36 +125,36 @@ function setLockGateWay(lockData){
   })
 }
 
-function setLockPwd(lockData,passcode){
+function setLockPwd(lockData, passcode) {
   wx.showLoading({ title: `请靠近门锁` });
   plugin.modifyAdminPasscode({
     newPasscode: passcode,
     lockData: lockData
   }).then(res => {
     wx.hideLoading();
-      if (res.errorCode === 0) {
-          wx.showToast({
-            title: '设置成功',
-            icon: 'success'
-          })
-      } else {
-        wx.showModal({
-          content: `密码设置失败：${res.errorMsg}`,
-          showCancel: false,
-        })
-      }
+    if (res.errorCode === 0) {
+      wx.showToast({
+        title: '设置成功',
+        icon: 'success'
+      })
+    } else {
+      wx.showModal({
+        content: `密码设置失败：${res.errorMsg}`,
+        showCancel: false,
+      })
+    }
   })
 }
 
-function handleResetLock(lockData){
+function handleResetLock(lockData) {
   setTimeout(() => {
     plugin.resetLock({ lockData }).then(res => {
-      if (res.errorCode == 0){
+      if (res.errorCode == 0) {
         wx.showToast({
           title: '智能锁已重置',
           icon: 'success'
         })
-      }else{
+      } else {
         wx.showToast({
           title: '重置失败',
           icon: 'error'
@@ -162,10 +162,10 @@ function handleResetLock(lockData){
       }
     });
   }, 3000);
-  
+
 }
 
-function updateLockTime(lockData){
+function updateLockTime(lockData) {
   const timestamp = Date.now();
   plugin.setLockTime({
     serverTime: timestamp,
@@ -173,10 +173,10 @@ function updateLockTime(lockData){
   }).then(res => {
     wx.hideLoading();
     if (res.errorCode === 0) {
-        wx.showToast({
-          title: '设置成功',
-          icon: 'success'
-        })
+      wx.showToast({
+        title: '设置成功',
+        icon: 'success'
+      })
     } else {
       wx.showModal({
         content: `设置失败：${res.errorMsg}`,
@@ -186,17 +186,17 @@ function updateLockTime(lockData){
   })
 }
 
-function setAotuLockTime(lockData,seconds){
+function setAotuLockTime(lockData, seconds) {
   plugin.setAutomaticLockingPeriod({
     seconds: seconds,
     lockData: lockData
   }).then(res => {
     wx.hideLoading();
     if (res.errorCode === 0) {
-        wx.showToast({
-          title: '设置成功',
-          icon: 'success'
-        })
+      wx.showToast({
+        title: '设置成功',
+        icon: 'success'
+      })
     } else {
       wx.showModal({
         content: `设置失败：${res.errorMsg}`,
@@ -206,9 +206,70 @@ function setAotuLockTime(lockData,seconds){
   })
 }
 
+function configLockWifi(lockData, wifiSSid, wifiPwd) {
+  wx.showLoading({ title: `请靠近智能锁` });
+  plugin.scanWifi({ lockData: lockData }).then(res => {
+    if (res.errorCode == 0) {
+      wx.showLoading({ title: `正在扫描WIFI` });
+      setTimeout(() => {
+        plugin.configWifi({
+          config: {
+            SSID: wifiSSid,
+            password: wifiPwd
+          },
+          lockData: lockData
+        }).then(res => {
+          if (res.errorCode == 0) {
+            plugin.configServer({
+              config: {
+                server: "cnwifilock.ttlock.com",
+                port: 4999,
+              },
+              lockData: lockData
+            }).then(res => {
+              if (res.errorCode == 0) {
+                wx.hideLoading();
+                wx.showToast({
+                  title: '配置成功',
+                })
+              } else {
+                wx.hideLoading();
+                wx.showModal({
+                  title: '配置失败',
+                  content: res.errorMsg,
+                  showCancel: false,
+                  complete: (res) => {
+                  }
+                })
+              }
+            });
+          } else {
+            wx.hideLoading();
+            wx.showModal({
+              title: '配置失败',
+              content: res.errorMsg,
+              showCancel: false,
+              complete: (res) => {
+              }
+            })
+          }
+        })
+      }, 5000);
+    } else {
+      wx.hideLoading();
+      wx.showModal({
+        title: '配置失败',
+        content: res.errorMsg,
+        showCancel: false,
+        complete: (res) => {
+        }
+      })
+    }
+  })
+}
 
 
-function getPlugin(){
+function getPlugin() {
   return plugin;
 }
 
@@ -223,4 +284,5 @@ module.exports = {
   getPlugin: getPlugin,
   updateLockTime: updateLockTime,
   setAotuLockTime: setAotuLockTime,
+  configLockWifi: configLockWifi,
 }

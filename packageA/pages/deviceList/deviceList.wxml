@@ -27,6 +27,7 @@
         <view class="btns" wx:if="{{item.type==5}}">
           <view class="btn" bind:tap="lockAotuOpen" data-lock="{{item.deviceData}}">锁常开</view>
           <view class="btn" bind:tap="lockAotuClose" data-lock="{{item.deviceData}}">锁常关</view>
+          <view class="btn" bind:tap="lockConfigWifi" data-lock="{{item.deviceData}}">配置WIFI</view>
         </view>
       </view>
       <view class="line2">
@@ -55,7 +56,7 @@
 
 <!-- 底部按钮 -->
 <view class="bottom {{isIpx?'fix-iphonex-button':''}}">
-  <view class="btn bg-primary" bindtap="add">添加设备</view>
+  <view class="btn bg-primary1" bindtap="add">添加设备</view>
 </view>
 
 <!-- 添加弹窗 -->

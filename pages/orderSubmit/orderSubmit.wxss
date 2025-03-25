@@ -4,14 +4,14 @@ page {
 }
 
 .container {
-  padding: 16rpx 26rpx 100rpx 26rpx;
+  padding: 6rpx 26rpx 100rpx 26rpx;
 }
 
 .section {
   background: #fff;
-  padding: 20rpx 20rpx;
+  padding: 10rpx 20rpx;
   border-radius: 16rpx;
-  margin-bottom: 20rpx;
+  margin-bottom: 10rpx;
 }
 
 .top .logo {
@@ -157,10 +157,10 @@ page {
 }
 
 .time-section {
-  padding: 24rpx 34rpx;
+  padding: 10rpx 34rpx;
   background: #fff;
   border-radius: 17rpx 17rpx 17rpx 17rpx;
-  margin-bottom: 20rpx;
+  margin-bottom: 10rpx;
 }
 
 .time-slot {
@@ -171,7 +171,7 @@ page {
 
 .time-slot view {
   width: 104rpx;
-  height: 104rpx;
+  height: 84rpx;
   color: #000;
   display: flex;
   flex-direction: column;
@@ -192,7 +192,7 @@ page {
   display: flex;
   align-items: center;
   margin-top: 24rpx;
-  margin-bottom: 33rpx;
+  margin-bottom: 13rpx;
 }
 
 .mode-slot view {
@@ -224,7 +224,7 @@ page {
 }
 
 .mode .item {
-  width: 329rpx;
+  width: 369rpx;
   height: 160rpx;
   border-radius: 17rpx 17rpx 17rpx 17rpx;
   margin-right: 18rpx;
@@ -476,7 +476,7 @@ page {
 .timer {
   display: flex;
   flex-direction: row;
-  margin-top: 30rpx;
+  margin-top: 20rpx;
   align-items: center;
 }
 
@@ -1112,4 +1112,57 @@ page {
   height: 80rpx;
   color: #fff;
   background-image: linear-gradient(to right, rgb(149, 245, 157), rgb(74, 187, 51));
+}
+
+
+.preTitle {
+  color: red;
+  font-size: 36rpx;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10rpx;
+}
+
+.preInfo {
+  display: flex;
+  justify-content: space-around;
+}
+
+.preInfo .left {
+  font-weight: bold;
+  font-size: 30rpx;
+  color: var(--main-color);
+}
+
+.preInfo .right {
+  font-size: 30rpx;
+  color: red;
+}
+
+/* .preText {
+  color: var(--main-color);
+  font-size: 30rpx;
+} */
+
+
+.vipPrice {
+  display: flex;
+  justify-content: center;
+}
+
+.vipPrice .priceInfo {
+  color: var(--main-color);
+  margin: 0rpx 20rpx;
+  margin-bottom: 10rpx;
+  align-items: center;
+  text-align: center;
+}
+
+.vipPrice .priceInfo .price {
+  color: red;
+}
+
+.vipPrice .priceText {
+  font-size: 20rpx;
+  color: #000;
 }

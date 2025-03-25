@@ -1,8 +1,8 @@
 // app.js
 App({
   globalData: {
-    //接口地址
-    baseUrl: "https://wq.scyanzu.com/app-api",
+    //接口地址 只修改域名为api.xxxx.com  后面的/app-api不要删
+    baseUrl: "https://malaoban.scyanzu.com/app-api",
     // baseUrl: "http://localhost:8900/app-api",
     // baseUrl: "http://test.mzj.com:8900/app-api",
     //租户id
@@ -25,7 +25,12 @@ App({
   },
   onLaunch() {
     var _this = this
-    this.globalData.sysinfo = wx.getSystemInfoSync()
+    _this.globalData.sysinfo = wx.getSystemInfoSync()
+    const token = wx.getStorageSync('userDatatoken');
+    if (token) {
+      this.globalData.userDatatoken = token;
+      this.globalData.isLogin = true;
+    }
     const updateManager = wx.getUpdateManager()
     updateManager.onCheckForUpdate(function (res) {
       // 请求完新版本信息的回调
@@ -94,20 +99,8 @@ App({
   onShow() {
     console.log('app.js onShow');
     var _this = this;
-    wx.getStorage({
-      key: 'userDatatoken',
-      success: function (res) {
-        _this.globalData.userDatatoken = res.data;
-        _this.globalData.isLogin = true;
-      },
-      fail: function (res) {
-        //为得到本地保存信息
-        //console.error(res)
-        _this.globalData.isLogin = false
-      }
-    })
+   
   },
-
   // 判断设备是否为 iPhone X
   checkIsIPhoneX: function () {
     var that = this

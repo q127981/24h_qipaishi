@@ -59,7 +59,7 @@ page {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 27rpx 30rpx;
+  padding: 17rpx 20rpx;
   border-bottom: 2rpx solid #E3E3E3;
 }
 
@@ -97,7 +97,7 @@ page {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 30rpx;
+  padding: 6rpx 30rpx;
 }
 
 .lists .item .highlight .left image {
@@ -126,11 +126,11 @@ page {
 
 .lists .item .info-line {
   font-weight: 300;
-  font-size: 26rpx;
+  font-size: 28rpx;
   color: #000000;
   display: flex;
   align-items: flex-end;
-  padding: 10rpx 30rpx;
+  padding: 8rpx 30rpx;
 }
 
 .lists .item .info-line.display-space {
@@ -153,7 +153,7 @@ page {
 
 .lists .item .bold {
   font-weight: 500;
-  font-size: 26rpx;
+  font-size: 28rpx;
 }
 
 .lists .discount-tag {
@@ -179,25 +179,25 @@ page {
 }
 
 .lists .info-line .btn {
-  padding: 0rpx 33rpx;
+  padding: 5rpx 30rpx;
   background: var(--main-color);
   color: #fff;
   font-weight: 500;
-  font-size: 30rpx;
+  font-size: 28rpx;
   text-align: center;
-  height: 62rpx;
-  line-height: 62rpx;
-  border-radius: 52rpx 52rpx 52rpx 52rpx;
-  margin-top: 8rpx;
-  margin-bottom: 20rpx;
+  /* height: 62rpx; */
+  /* line-height: 62rpx; */
+  border-radius: 10rpx;
+  /* margin-top: 8rpx; */
+  /* margin-bottom: 20rpx; */
 }
 
 .lists .item .status-tag {
-  width: 128rpx;
-  height: 112rpx;
+  width: 108rpx;
+  height: 102rpx;
   position: absolute;
-  top: 34%;
-  right: 30rpx;
+  top: 42%;
+  right: 35rpx;
 }
 
 .lists .item:last-child {
@@ -788,4 +788,27 @@ page {
   width: 30rpx;
   height: 30rpx;
   margin-right: 12rpx;
+}
+
+
+.vipPrice {
+  display: flex;
+  justify-content: center;
+}
+
+.vipPrice .priceInfo {
+  color: var(--main-color);
+  margin: 0rpx 20rpx;
+  margin-bottom: 10rpx;
+  align-items: center;
+  text-align: center;
+}
+
+.vipPrice .priceInfo .price {
+  color: red;
+}
+
+.vipPrice .priceText {
+  font-size: 20rpx;
+  color: #000;
 }

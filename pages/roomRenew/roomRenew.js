@@ -69,11 +69,10 @@ Page({
    */
   onShow() {
     var that = this
-    setTimeout(() => {
-      that.setData({
-        isLogin: app.globalData.isLogin
-      })
-    }, 200);
+    var _app = getApp();
+    that.setData({
+      isLogin: _app.globalData.isLogin,
+    });
     setTimeout(() => {
       that.getOrderInfo();
       that.getCouponListData();

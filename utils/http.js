@@ -4,11 +4,11 @@
 var util = require("util");
 var app = getApp();
 //一般访问网络
-function request(url, urltype, method, data,  token,message,successBack, failBack) {
+function request(url, urltype, method, data, token, message, successBack, failBack) {
 
   if (message != "") {
     wx.showLoading({
-      mask:true,
+      mask: true,
       title: message,
     })
   }
@@ -21,10 +21,10 @@ function request(url, urltype, method, data,  token,message,successBack, failBac
   //console.log(token);
   //console.log('url++++++');
   var aheadertoken = '';
-  if(token){
+  if (token) {
     aheadertoken = token;
-  }else{
-    aheadertoken = "test1"
+  } else {
+    aheadertoken = ""
   }
   //console.log('token++++++');
   //console.log(aheadertoken);
@@ -36,24 +36,24 @@ function request(url, urltype, method, data,  token,message,successBack, failBac
     header: {
       'tenant-id': app.globalData.tenantId,
       'Content-Type': 'application/json',
-      'Authorization':'Bearer '+aheadertoken
+      'Authorization': 'Bearer ' + aheadertoken
     },
     method: method,
-    success: function(res) {
-      
+    success: function (res) {
+
       if (res.statusCode == 200) {
 
-        if(res.data.code == 401){
+        if (res.data.code == 401) {
           //直接到登录界面
           wx.navigateTo({
             url: '../login/login',
           })
-        }else{
+        } else {
           successBack(res.data)
         }
-        
-      } 
-      else if(res.statusCode == 401){
+
+      }
+      else if (res.statusCode == 401) {
         //直接到登录界面
         wx.navigateTo({
           url: '../login/login',
@@ -69,25 +69,25 @@ function request(url, urltype, method, data,  token,message,successBack, failBac
           wx.hideLoading()
         }, 500)
       }
-     
+
     },
-    fail: function(err) {
+    fail: function (err) {
       if (message != "") {
         setTimeout(function () {
           wx.hideLoading()
         }, 500)
       }
-    failBack(err)
+      failBack(err)
     },
   })
 }
 /*
 微信一键登录
 */
-function getLogin(phonecode,loginCode, successBack, failBack) {
+function getLogin(phonecode, loginCode, successBack, failBack) {
   let that = this
   wx.login({
-    success: function(res) {
+    success: function (res) {
       //console.log('++++==');
       //console.log(res);
       //console.log('++++==');
@@ -96,9 +96,9 @@ function getLogin(phonecode,loginCode, successBack, failBack) {
           "/member/auth/weixin-mini-app-login",
           "1",
           "post", {
-            "phoneCode": phonecode,
-            "loginCode": loginCode
-          },
+          "phoneCode": phonecode,
+          "loginCode": loginCode
+        },
           "登录中...",
           function success(info) {
             console.info('返回111===');
@@ -106,7 +106,7 @@ function getLogin(phonecode,loginCode, successBack, failBack) {
             if (info.code == 1) {
               //赋值给全局
               app.globalData.userData = info.data;
-              app.globalData.isLogin=true;
+              app.globalData.isLogin = true;
               //console.log('456+++++++');
               //console.log(app.globalData.userData);
               //console.log('456+++++++');
@@ -153,7 +153,7 @@ function uploadFile(url, data, message, success, fail) {
     },
     success: function (res) {
       wx.hideNavigationBarLoading()
-     
+
       if (res.statusCode == 200) {
         success(res.data)
       } else {
@@ -172,6 +172,6 @@ function uploadFile(url, data, message, success, fail) {
 
 module.exports = {
   request: request,
-  getLogin:getLogin,
-  uploadFile:uploadFile
+  getLogin: getLogin,
+  uploadFile: uploadFile
 }

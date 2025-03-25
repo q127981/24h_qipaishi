@@ -207,4 +207,9 @@ Page({
     )
 
   },
+  backHome: function () {
+    wx.switchTab({
+      url: '/pages/index/index',
+    })
+  },
 })

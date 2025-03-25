@@ -219,9 +219,19 @@ Page({
         function success(info) {
           if (info.code == 0) {
             wx.showModal({
+              
               title: "提示",
-              content: "您的开门密码:"+info.data+"#,"+"该密码仅6小时内一次有效！使用后即失效！",
-              showCancel: false,
+              content: "如果门没有自动打开，请使用开门密码:"+info.data+"#,"+"该密码仅6小时内一次有效！使用后即失效！您也可以靠近门锁时点击'蓝牙开锁'按钮进行自动开锁。",
+              cancelText:'关闭',
+              showCancel: true,
+              confirmText: '蓝牙开锁',
+              complete: (res) => {
+                if (res.cancel) {
+                }
+                if (res.confirm) {
+                  lock.blueDoorOpen(lockData);
+                }
+              }
             })
           } else {
             wx.showModal({
@@ -613,5 +623,12 @@ Page({
         })
       }
     )
+  },
+  goConfigPrePay: function(e){
+    var that = this;
+    let roomId = e.currentTarget.dataset.roomid;
+    wx.navigateTo({
+      url: '../configPrePay/configPrePay?roomId='+roomId,
+    })
   },
 })

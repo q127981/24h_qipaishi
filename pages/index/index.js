@@ -58,7 +58,7 @@ Page({
     var that = this;
 
     that.setData({
-      isLogin: app.globalData.isLogin,
+      // isLogin: app.globalData.isLogin,
       popshow: true
     })
     console.log("onLoad index");
@@ -123,10 +123,14 @@ Page({
   onShow() {
     console.log("onShow index");
     var that = this;
-    that.getLocation().then((res) => { });;
+    var _app = getApp();
     that.setData({
-      isLogin: app.globalData.isLogin,
-    })
+      isLogin: _app.globalData.isLogin,
+    });
+
+    // that.setData({
+    //   isLogin: app.globalData.isLogin,
+    // })
     //尝试从缓存获取
     var storeId_1 = wx.getStorageSync('global_store_id');
     if (storeId_1) {
@@ -143,11 +147,17 @@ Page({
       return
     }
     console.log('门店id:' + that.data.storeId)
-    wx.setStorageSync('global_store_id',that.data.storeId);
+    wx.setStorageSync('global_store_id', that.data.storeId);
     that.loadingtime();
-    that.getStoreInfodata();
+    that.getLocation().then((res) => {
+      that.getStoreInfodata();
+    }).catch(() => {
+      that.getStoreInfodata();
+    });
     that.getDoorListdata();
-    that.getGroupPay();
+    if (app.globalData.isLogin) {
+      that.getGroupPay();
+    }
   },
   popClose: function () {
     this.setData({ popshow: false })
@@ -355,7 +365,7 @@ Page({
           complete: (res) => {
             if (res.confirm) {
               wx.navigateTo({
-                url: '../orderSubmit/orderSubmit?roomId=' + aroomid + '&daytime=' + atime + '&storeId=' + storeId + '&timeselectindex=' + that.data.timeselectindex,
+                url: '../orderSubmit/orderSubmit?roomId=' + aroomid + '&goPage=1' + '&storeId=' + storeId + '&timeselectindex=' + that.data.timeselectindex,
               })
             } else if (res.cancel) {
               //console.log('用户点击取消')
@@ -371,7 +381,7 @@ Page({
       }
     } else {
       wx.navigateTo({
-        url: '../orderSubmit/orderSubmit?roomId=' + aroomid + '&daytime=' + atime + '&storeId=' + storeId + '&timeselectindex=' + that.data.timeselectindex,
+        url: '../orderSubmit/orderSubmit?roomId=' + aroomid + '&goPage=1' + '&storeId=' + storeId + '&timeselectindex=' + that.data.timeselectindex,
       })
     }
   },
@@ -539,6 +549,11 @@ Page({
     console.log("getStoreInfodata");
     console.log(that.data.lat);
     console.log(that.data.lon);
+    if(!that.data.storeId){
+      wx.navigateTo({
+        url: "../doorList/doorList",
+      })
+    }
     //if (app.globalData.isLogin) 
     {
       http.request(
@@ -580,7 +595,7 @@ Page({
                   } else if (e === 1) {
                     classArr.push({ text: '台球', value: 1 });
                   } else if (e === 2) {
-                    classArr.push({ text: '自习室', value: 2 });
+                    classArr.push({ text: 'KTV', value: 2 });
                   }
                 });
                 that.setData({
@@ -933,12 +948,14 @@ Page({
             lat: latitude,
             lon: longitude,
           });
+          r();
           // that.getMainListdata('refresh');
           // 处理位置信息，比如将位置信息显示在页面上
           // 示例中使用的是util.js中的函数，开发者可以根据需要自行编写
           //util.showLocation(latitude, longitude)
         },
         fail: function (res) {
+          t();
           // that.getMainListdata('refresh');
           // 如果获取位置信息失败，可以处理错误情况
           //console.log('获取位置失败', res.errMsg)

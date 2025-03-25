@@ -1,0 +1,22 @@
+<!--packageA/pages/addLock/addLock.wxml-->
+<view class="container">
+  <view class="info">
+    <view class="line">1. 打开手机蓝牙设置开关,并靠近门锁</view>
+    <view class="line">2. 输入2.4G频段的wifi名称和密码</view>
+    <view class="line">3. 智能锁装电池，触摸输密码面板唤醒锁</view>
+    <view class="line">4. 配置WIFI 按钮进行门锁联网配置</view>
+    <view class="line">5. 配置时间大概15秒，请耐心等待完成</view>
+    <view class="line">6. 仅支持带wifi功能的门锁</view>
+  </view>
+  <view class="form">
+    <view class="sn">
+      <label class="label">WIFI名称： </label>
+      <input class="input" model:value="{{wifiSSid}}" type="text" placeholder="请输入名称（禁止中文）" />
+    </view>
+    <view class="sn">
+      <label class="label">WIFI密码： </label>
+      <input class="input" model:value="{{wifiPwd}}" type="text" placeholder="请输入8位以上密码" minlength="8" />
+    </view>
+    <view class="btn" bind:tap="configLock">配置WIFI</view>
+  </view>
+</view>

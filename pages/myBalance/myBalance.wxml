@@ -46,8 +46,8 @@
         </view>
         <view class="line"><label>备注：</label>{{item.remark}}</view>
         <view class="tip">
-          <text wx:if="{{item.moneyType===1}}">门店账户余额：{{item.totalMoney?item.totalMoney:0}}元</text>
-          <text wx:else>门店赠送余额：{{item.totalGiftMoney?item.totalGiftMoney:0}}元</text>
+          <text wx:if="{{item.moneyType===1}}">账户余额:{{item.totalMoney?item.totalMoney:0}}元</text>
+          <text wx:else>赠送余额:{{item.totalGiftMoney?item.totalGiftMoney:0}}元</text>
         </view>
         <view class="total {{item.type===3?'':'color-primary'}}">
           <view class="price">{{item.type===3?'-':'+'}}{{item.money}}元</view>

@@ -5,7 +5,6 @@
     "pages/productOrderInfo/productOrderInfo",
     "pages/index/index",
     "pages/shop/shop",
-    "pages/cashOut/cashOut",
     "pages/doorSubmit/doorSubmit",
     "pages/door/door",
     "pages/doorSelect/doorSelect",
@@ -78,7 +77,11 @@
         "pages/bleList/bleList",
         "pages/configGateWay/index",
         "pages/vipDetail/vipDetail",
-        "pages/ydCancel/index"
+        "pages/ydCancel/index",
+        "pages/vipConfig/vipConfig",
+        "pages/vipList/vipList",
+        "pages/configPrePay/configPrePay",
+        "pages/configLockWifi/index"
       ]
     }
   ],

@@ -298,6 +298,13 @@ Page({
   addSpecificationValue:function(){
       let that = this
       const value  =  that.data.addSpecificationValue
+      if(!value){
+          wx.showToast({
+            title: '请填写完整',
+            icon: 'none'
+          })
+          return;
+      }
       const index =  that.data.valueIndex
       const list  =  that.data.productSpecificationList
       list[index].detail.push(value)
@@ -384,6 +391,13 @@ generateProperty: function() {
    // 点击确认 修改价格
    comfrimUpdatePrice:function(){
     let that = this
+    if(that.data.updatePrice<1){
+      wx.showToast({
+        title: '请填写正确的价格',
+        icon: 'none'
+      })
+      return;
+    }
     const propertyList = that.data.propertyList
     propertyList[that.data.propertyIndex].price = that.data.updatePrice
     that.setData({

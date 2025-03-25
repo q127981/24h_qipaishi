@@ -1,0 +1,42 @@
+<!--packageA/pages/configPrePay/configPrePay.wxml-->
+<view class="container" style="{{isIpx?'padding-bottom:168rpx':'padding-bottom:120rpx'}}">
+  <view class="form">
+    <view class="line">
+      <label>预付费价格</label>
+      <view class="right">
+        <view class="price">
+          <input model:value="{{prePrice}}" type="digit" placeholder="请输入" />
+          <text>元</text>
+        </view>
+      </view>
+    </view>
+    <view class="tips">注：设置顾客下单时需要支付的金额，用不完会自动退回</view>
+    <view class="line">
+      <label>计费单位：</label>
+      <view class="right">
+        <view class="price">
+          <input model:value="{{preUnit}}" type="digit" placeholder="请输入1-60的数字" />
+          <text>分钟</text>
+        </view>
+      </view>
+    </view>
+    <view class="tips">注：输入1=以每分钟为计费单位 ，输入15=以每15分钟为计费单位。超过部分不足时也按一个计费单位</view>
+    <view class="line">
+      <label>最低消费价格</label>
+      <view class="right">
+        <view class="price">
+          <input model:value="{{minCharge}}" type="digit" placeholder="请输入"/>
+          <text>元</text>
+        </view>
+      </view>
+    </view>
+    <view class="tips">注：消费门槛，订单至少会扣这么多费用。不填或输入0则表示没有消费门槛</view>
+  </view>
+  <!-- 底部按钮 -->
+  <view class="submit border-primary {{isIpx?'fix-iphonex-button':''}}">
+    <button hover-class="button-click" class="color-primary cancel" bindtap="cancel">取消</button>
+    <button hover-class="button-click" class="bg-primary" bindtap="setPrePayConfig">保存</button>
+  </view>
+
+
+</view>

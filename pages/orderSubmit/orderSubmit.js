@@ -12,7 +12,6 @@ Page({
     appName: app.globalData.appName,
     storeId: "",
     roomId: "", //房间id
-    daytime: "", //传递的日期
     price: 0, //房间单价
     workPrice: 0, //工作日房间单价
     txPrice: 0.0, //通宵场价格
@@ -47,6 +46,7 @@ Page({
     nightLong: false, //是否通宵
     orderNo: "", //支付订单号
     pkgId: "",
+    preSubmit: false,//是否预付费下单
     // couponId:'',//优惠券Id,示例值(31071)
     scanCodeMsg: "", //团购券码 填了团购券时，其他支付方式均不生效
     pricestring: 0.0, //支付金额
@@ -63,6 +63,7 @@ Page({
     giftBalance: 0,
     balance: 0,
     isIpx: app.globalData.isIpx ? true : false,
+    isLogin: app.globalData.isLogin,
     formatter(type, value) {
       if (type === "year") {
         return `${value}年`;
@@ -109,15 +110,12 @@ Page({
     console.log("打开房间页面");
     console.log(options);
     var that = this;
-    that.setData({
-      isLogin: app.globalData.isLogin,
-    });
     var storeId = options.storeId;
     var roomId = options.roomId;
     var timeselectindex = options.timeselectindex;
-    var daytime = options.daytime;
+    var goPage = options.goPage;
     const storeName = options.storeName;
-    if (daytime) {
+    if (goPage) {
       //点按钮跳转的
     } else {
       var query = wx.getEnterOptionsSync().query;
@@ -138,16 +136,15 @@ Page({
       storeId: storeId,
       roomId: roomId,
       storeName: storeName,
-      // daytime: options.daytime,
       // startDate: new Date(),
       timeselectindex: timeselectindex,
     });
 
     wx.setStorageSync("global_store_id", storeId);
-    if (app.globalData.isLogin) {
-      that.getroomInfodata(roomId).then((res) => { });
-    }
-    that.getGroupPay();
+    // if (app.globalData.isLogin) {
+    //   that.getroomInfodata(roomId).then((res) => { });
+    // }
+
   },
 
   /**
@@ -160,14 +157,31 @@ Page({
    */
   onShow() {
     var that = this;
+    var _app = getApp();
     that.setData({
-      isLogin: app.globalData.isLogin,
+      isLogin: _app.globalData.isLogin,
     });
+    if (!that.data.goPage) {
+      //扫码过来的 延时0.5秒
+      setTimeout(() => {
+        wx.showLoading({
+          title: '请稍等',
+        })
+        that.setData({
+          isLogin: app.globalData.isLogin,
+        });
+      }, 500);
+      wx.hideLoading()
+    }
+    that.getroomInfodata(that.data.roomId).then((res) => { });
     setTimeout(() => {
       that.getCouponListData();
       that.getStoreBalance();
       that.daySlotInit();
     }, 100);
+    if (app.globalData.isLogin) {
+      that.getGroupPay();
+    }
   },
 
   /**
@@ -302,13 +316,7 @@ Page({
   MathPrice: function () {
     console.log("MathPrice");
     var that = this;
-    if (that.data.nightLong) {
-      that.setData({
-        pricestring: that.data.txPrice,
-        showprice: that.data.txPrice,
-      });
-    } else {
-      var startDate = new Date(that.data.submit_begin_time);
+    if (!that.data.nightLong) {
       var hour = that.data.order_hour;
       if (!hour) {
         hour = that.data.minHour;
@@ -316,36 +324,97 @@ Page({
           order_hour: hour,
         });
       }
-      var priceResult = 0;
-      if (that.data.select_pkg_index > -1) {
-        priceResult = that.data.pkgList[that.data.select_pkg_index].price;
-      } else {
-        var price = that.getPrice(startDate);
-        console.log("订单时长:" + hour);
-        priceResult = (hour * price).toFixed(2);
-        if (that.data.submit_couponInfo) {
-          const acoupon = that.data.submit_couponInfo;
-          if (acoupon.type == 1) {
-            //减去时间对应费用
-            priceResult = (priceResult - acoupon.price * price).toFixed(2);
-          } else if (acoupon.type == 2) {
-            //直接减去费用
-            priceResult = priceResult - acoupon.price;
-          }
-        }
-        if (priceResult < 0) {
-          priceResult = 0.0;
-        }
-      }
-      if (that.data.roominfodata.deposit) {
-        priceResult =
-          parseFloat(priceResult) + parseFloat(that.data.roominfodata.deposit);
-      }
-      that.setData({
-        pricestring: priceResult,
-        showprice: priceResult,
-      });
     }
+    //计算价格
+
+    var acouponId = "";
+    if (that.data.submit_couponInfo) {
+      acouponId = that.data.submit_couponInfo.couponId;
+    }
+    http.request(
+      "/member/order/preOrder",
+      "1",
+      "post",
+      {
+        roomId: that.data.roomId,
+        payType: that.data.payselectindex,
+        couponId: acouponId,
+        pkgId: that.data.pkgId,
+        nightLong: that.data.nightLong,
+        startTime: that.data.submit_begin_time,
+        endTime: that.data.submit_end_time,
+        preSubmit: false,
+        wxPay: false,
+        userCardId: that.data.packCardIndex >= 0 ? that.data.cardList[that.data.packCardIndex].cardId : ''
+      },
+      app.globalData.userDatatoken.accessToken,
+      "",
+      function success(info) {
+        if (info.code == 0) {
+          that.data.orderNo = info.data.orderNo;
+          let price = info.data.payPrice / 100.0;
+          that.setData({
+            pricestring: price,
+            showprice: price,
+          });
+        } else {
+          wx.showToast({
+            title: info.msg,
+            icon: 'none',
+            duration: 2000,
+            mask: true
+          })
+        }
+      },
+      function fail(info) { }
+    );
+
+
+
+    // if (that.data.nightLong) {
+    //   that.setData({
+    //     pricestring: that.data.txPrice,
+    //     showprice: that.data.txPrice,
+    //   });
+    // } else {
+    //   var startDate = new Date(that.data.submit_begin_time);
+    //   var hour = that.data.order_hour;
+    //   if (!hour) {
+    //     hour = that.data.minHour;
+    //     that.setData({
+    //       order_hour: hour,
+    //     });
+    //   }
+    //   var priceResult = 0;
+    //   if (that.data.select_pkg_index > -1) {
+    //     priceResult = that.data.pkgList[that.data.select_pkg_index].price;
+    //   } else {
+    //     var price = that.getPrice(startDate);
+    //     console.log("订单时长:" + hour);
+    //     priceResult = (hour * price).toFixed(2);
+    //     if (that.data.submit_couponInfo) {
+    //       const acoupon = that.data.submit_couponInfo;
+    //       if (acoupon.type == 1) {
+    //         //减去时间对应费用
+    //         priceResult = (priceResult - acoupon.price * price).toFixed(2);
+    //       } else if (acoupon.type == 2) {
+    //         //直接减去费用
+    //         priceResult = priceResult - acoupon.price;
+    //       }
+    //     }
+    //     if (priceResult < 0) {
+    //       priceResult = 0.0;
+    //     }
+    //   }
+    //   if (that.data.roominfodata.deposit) {
+    //     priceResult =
+    //       parseFloat(priceResult) + parseFloat(that.data.roominfodata.deposit);
+    //   }
+    //   that.setData({
+    //     pricestring: priceResult,
+    //     showprice: priceResult,
+    //   });
+    // }
   },
 
   // 预支付
@@ -356,6 +425,7 @@ Page({
       if (that.data.submit_couponInfo) {
         acouponId = that.data.submit_couponInfo.couponId;
       }
+      let preSubmit = that.data.modeIndex == 4;
       http.request(
         "/member/order/preOrder",
         "1",
@@ -368,6 +438,7 @@ Page({
           nightLong: that.data.nightLong,
           startTime: that.data.submit_begin_time,
           endTime: that.data.submit_end_time,
+          preSubmit: preSubmit,
           userCardId: that.data.packCardIndex >= 0 ? that.data.cardList[that.data.packCardIndex].cardId : ''
         },
         app.globalData.userDatatoken.accessToken,
@@ -436,6 +507,7 @@ Page({
           startTime: that.data.submit_begin_time,
           endTime: that.data.submit_end_time,
           payType: 1,
+          preSubmit: that.data.modeIndex == 4,
         },
         app.globalData.userDatatoken.accessToken,
         "提交中...",
@@ -709,7 +781,6 @@ Page({
       s = "0" + s;
     }
     var time = year + month + day + h + m + s;
-    //var  alist = that.data.daytime.split('.');
     that.setData({
       submit_end_time:
         year +
@@ -827,7 +898,8 @@ Page({
     //console.log('团购码++++');
     that.setData({
       scanCodeMsg: e.detail.value,
-      pricestring: 0
+      pricestring: 0,
+      preSubmit: false,
     });
     console.log(e.detail.value.length)
     console.log('e.detail.value.length')
@@ -894,108 +966,6 @@ Page({
     });
   },
 
-  //设置列表禁用时间轴
-  setroomlistHour: function (aindex) {
-    var that = this;
-    var date = new Date(); //获取当前时间
-    var year = date.getFullYear();
-    var anewdate = that.data.daytime.replace(".", "-");
-    var atimestring1 = [year, anewdate].map(util1.formatNumber).join("-");
-
-    var atemplist = [];
-    var atemp = that.data.roominfodata.disabledTimeSlot;
-    var requestkeyArr = [];
-    var requestvalueArr = [];
-    Object.keys(atemp)
-      .sort()
-      .forEach(function (key) {
-        if (key == atimestring1) {
-          requestkeyArr.push(key);
-          requestvalueArr.push(atemp[key]);
-        }
-      });
-    //console.log('得到了禁用的小时数=====');
-    //console.log(atimestring1);
-    //console.log(requestkeyArr);
-    //console.log(requestvalueArr);
-    //console.log('得到了禁用的小时数=====');
-    if (!requestvalueArr.length) {
-      return;
-    }
-    var listarr1 = requestvalueArr[aindex]; //这个地方0的索引值就是日期选择的索引值
-    if (listarr1) {
-      //时间处理，标记时间短是否可用
-      var edittimeHourArr = [];
-      for (var k = 0; k < listarr1.length; k++) {
-        var atime1 = listarr1[k];
-        var astartTime = atime1.startTime;
-        var aendTime = atime1.endTime;
-
-        var ahourend1 = aendTime.split(":");
-        var ahourstart1 = astartTime.split(":");
-
-        var num1 = Number(ahourend1[0]);
-        var num2 = Number(ahourstart1[0]);
-
-        var ahourint = num1 - num2; //得到相差几个小时
-        //得到时段
-        for (var n = 0; n <= ahourint; n++) {
-          var num = Number(ahourstart1[0]);
-          var acounttime = num + n;
-          edittimeHourArr.push(acounttime); //保存禁用小时数据
-        }
-      }
-      //console.log('得到了禁用的小时数=====');
-      //console.log(edittimeHourArr);
-      //console.log('得到了禁用的小时数=====');
-      var anewlist = [];
-
-      var aoldtimeHourArr = that.data.timeHourArr;
-      //console.log('aoldtimeHourArr======0000');
-      //console.log(aoldtimeHourArr);
-      //console.log('aoldtimeHourArr=====1111');
-
-      for (var y = 0; y < aoldtimeHourArr.length; y++) {
-        var atemp1 = aoldtimeHourArr[y];
-        var atempold = {
-          hourname: "", //小时
-          useflage: false, //是否可以使用
-        };
-        atempold.hourname = atemp1.hourname;
-        var atimeh = aoldtimeHourArr[y];
-        var aserchbool = false;
-        for (var m = 0; m < edittimeHourArr.length; m++) {
-          var aedith = edittimeHourArr[m];
-          if (atimeh.hourname == aedith) {
-            aserchbool = true;
-            break;
-          }
-          // else if(atimeh.hourname == '次' && aedith==0){
-          //   aserchbool = true;
-          //   break;
-          // }
-        }
-        if (aserchbool) {
-          atempold.useflage = true;
-        } else {
-          atempold.useflage = false;
-        }
-        anewlist.push(atempold);
-      }
-      // //console.log('整合后的=====');
-      // //console.log(anewlist);
-      // //console.log('整合后的=====');
-      atemplist.push(anewlist);
-    } else {
-      atemplist.push(that.data.timeHourArr);
-    }
-    //console.log('整合后的=====');
-    //console.log(atemplist);
-    //console.log('整合后的=====');
-    that.setData({
-      timeHourAllArr: atemplist,
-    });
-  },
   setshowSelectHour: function () {
     let that = this;
     console.log('setshowSelectHour:', that.data.submit_begin_time);
@@ -1365,7 +1335,8 @@ Page({
         select_time_index: 0,
         select_pkg_index: -1,
         pkgId: '',
-        order_hour: that.data.hour_options[0]
+        order_hour: that.data.hour_options[0],
+        preSubmit: false,
       })
       that.MathDate(new Date(that.data.submit_begin_time));
     } else if (index == 1) {
@@ -1373,7 +1344,21 @@ Page({
       //套餐模式
       that.setData({
         select_time_index: -1,
-        scanCodeMsg: ''
+        scanCodeMsg: '',
+        pricestring: 0,
+        preSubmit: false,
+      })
+    } else if (index == 4) {
+      //预付费模式
+      that.setData({
+        select_time_index: -1,
+        scanCodeMsg: '',
+        pkgId: '',
+        select_pkg_index: -1,
+        pricestring: that.data.roominfodata.prePrice,
+        nightLong: false,
+        submit_end_time: that.data.submit_begin_time,
+        preSubmit: true,
       })
     }
   },
@@ -1503,6 +1488,7 @@ Page({
       submit_couponInfo: {},
       pkgId: "",
       select_pkg_index: -1,
+      preSubmit: false,
     })
     that.checkGroup();
   },

@@ -68,9 +68,11 @@ Page({
       groupPayNo: ticketNo,
       ticketName: ticketName
     });
-    that.getLocation().then((res) => { });;
+
     if (!that.data.groupPayNo) {
-      that.getGroupPay();
+      if (app.globalData.isLogin) {
+        that.getGroupPay();
+      }
     }
   },
 
@@ -87,7 +89,11 @@ Page({
   onShow() {
     let that = this;
     let storeId = that.data.storeId;
-    that.getDoorInfoData(storeId);
+    that.getLocation().then((res) => {
+      that.getDoorInfoData(storeId);
+    }).catch(res => {
+      that.getDoorInfoData(storeId);
+    });
     that.daySlotInit();
     // this.MathDate(new Date());
     that.getListData();
@@ -670,12 +676,14 @@ Page({
             lat: latitude,
             lon: longitude,
           });
+          r();
           // that.getMainListdata('refresh');
           // 处理位置信息，比如将位置信息显示在页面上
           // 示例中使用的是util.js中的函数，开发者可以根据需要自行编写
           //util.showLocation(latitude, longitude)
         },
         fail: function (res) {
+          t();
           // that.getMainListdata('refresh');
           // 如果获取位置信息失败，可以处理错误情况
           //console.log('获取位置失败', res.errMsg)

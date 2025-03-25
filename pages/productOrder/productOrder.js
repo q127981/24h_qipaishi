@@ -46,9 +46,6 @@ Page({
    */
   onLoad(options) {
     let that = this
-    console.log(111)
-    console.log(options)
-    console.log(111)
     let manager = options.manager
     if (manager != undefined) {
       that.setData({
@@ -286,16 +283,30 @@ Page({
         app.globalData.userDatatoken.accessToken,
         "",
         function success(info) {
-          wx.showToast({
-            title: '取消成功',
-          })
-          that.setData({
-            showCancel: false
-          })
-          if (that.data.manager) {
-            that.getManageOrderPage(true)
-          } else {
-            that.getOrderPage(true)
+          if(info.code==0){
+            wx.showToast({
+              title: '取消成功',
+            })
+            that.setData({
+              showCancel: false
+            })
+            if (that.data.manager) {
+              that.getManageOrderPage(true)
+            } else {
+              that.getOrderPage(true)
+            }
+          }else{
+              wx.showModal({
+                title: '提示',
+                content: info.msg,
+                showCancel: false,
+                complete: (res) => {
+                  if (res.cancel) {
+                  }
+                  if (res.confirm) {
+                  }
+                }
+              })
           }
         }
       );

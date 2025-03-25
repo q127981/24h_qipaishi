@@ -46,7 +46,7 @@
         </view>
       </view>
     </view>
-    <view class="tips">注：打开时，房间订单结束将直接变为空闲状态</view>
+    <view class="tips">注：打开时，房间订单结束后将直接变为空闲状态</view>
     <view class="line">
       <label>是否可预定：</label>
       <view class="right">
@@ -74,16 +74,37 @@
         </view>
       </view>
     </view>
-    <view class="tips">注：押金只能使用微信支付，即使团购下单也要微信支付额外的押金，押金在订单结束后自动退还</view>
-    <!-- <view class="line">
-      <label>闲时单价：</label>
+    <view class="tips">注：一般不设置押金。押金只能使用微信支付，即使团购下单也要微信支付额外的押金，押金在订单结束后自动退还</view>
+    <view class="line">
+      <label>预付费价格：</label>
       <view class="right">
         <view class="price">
-          <input model:value="{{workPrice}}" type="digit" placeholder="请输入"/>
-          <text>元/小时</text>
+          <input model:value="{{prePrice}}" type="digit" placeholder="请输入"/>
+          <text>元</text>
         </view>
       </view>
-    </view> -->
+    </view>
+    <view class="tips">注：顾客可以选择先付钱消费，订单结束后按使用实际使用时间退款剩余费用。</view>
+    <view class="line">
+      <label>预付计费单位：</label>
+      <view class="right">
+        <view class="price">
+          <input model:value="{{preUnit}}" type="digit" placeholder="请输入"/>
+          <text>分钟</text>
+        </view>
+      </view>
+    </view>
+    <view class="tips">注：可按1分钟为单位计费，最大60分钟为单位计费。如：设置房间单价10元/小时，按1分钟计费就是0.16元1分钟。</view>
+    <view class="line">
+      <label>预付最低消费：</label>
+      <view class="right">
+        <view class="price">
+          <input model:value="{{minCharge}}" type="digit" placeholder="请输入"/>
+          <text>元</text>
+        </view>
+      </view>
+    </view>
+    <view class="tips">注：最低消费门槛，即使只开始了1分钟，只要小于最低消费，均按此价格计费。0元表示不限制最低消费</view>
     <view class="line">
       <label>通宵价格：</label>
       <view class="right">
@@ -123,13 +144,13 @@
         <input style="width: 300rpx;" model:value="{{sortId}}" type="number" placeholder="数字越小排名靠前" />
       </view>
     </view>
-    <view class="line">
+    <!-- <view class="line">
       <label>喇叭音量：</label>
       <view class="right">
         <input style="width: 400rpx;" model:value="{{yunlabaSound}}" type="number" placeholder="请输入，数字1-5" />
       </view>
     </view>
-    <view class="tips">注:旧版本云喇叭兼容字段，新设备可以不用填</view>
+    <view class="tips">注:旧版本云喇叭兼容字段，新设备可以不用填</view> -->
     <view class="line">
       <label>禁用时间：</label>
       <view class="right">
@@ -141,7 +162,7 @@
         <iconfont name="close" bind:tap="clearBanTime"></iconfont>
       </view>
     </view>
-    <view class="tips">注：每日固定时间段该房间不可用，不禁用就不填写</view>
+    <view class="tips">注：每日固定时间段该房间不可用，不禁用就不用填写</view>
     <view class="line">
       <label>房间标签：</label>
       <view class="right">

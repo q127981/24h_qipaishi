@@ -26,6 +26,7 @@ Page({
     ],
     value1: -1,
     value2: "0",
+    roominfodata: '',
     renewShow: false, //续费弹窗
     cancelOrderShow: false, //订单取消弹窗
     cancelOrderSucShow: false, //取消成功弹窗
@@ -80,7 +81,7 @@ Page({
     });
     if (app.globalData.isLogin) {
       that.getOrderListdata("refresh");
-      that.getuserinfo();
+      // that.getuserinfo();
       that.getCouponListData();
     }
   },
@@ -174,10 +175,40 @@ Page({
       url: "../orderDetail/orderDetail?OrderNo=" + aindex + "&toPage=true",
     });
   },
+  //获取房间信息
+  getRoomInfodata: function (roomId) {
+    var that = this;
+    http.request(
+      "/member/index/getRoomInfo" + "/" + roomId,
+      "1",
+      "post",
+      {
+        roomId: roomId,
+      },
+      app.globalData.userDatatoken.accessToken,
+      "获取中...",
+      function success(info) {
+        if (info.code == 0) {
+          that.setData({
+            roominfodata: info.data,
+          });
+        } else {
+          wx.showModal({
+            content: info.msg,
+            showCancel: false,
+          });
+        }
+      },
+      function fail(info) { }
+    );
+  },
   // 续费弹窗
   renewClick(e) {
+    var that = this;
+    that.getuserinfo();
     const info = e.currentTarget.dataset.info;
-    this.setData(
+    that.getRoomInfodata(info.roomId);
+    that.setData(
       {
         currentOrder: info,
         renewShow: true,

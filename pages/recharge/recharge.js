@@ -36,8 +36,8 @@ Page({
     console.log("onLoad");
     if (options.storeId) {
       const storeId = options.storeId;
-      wx.setStorageSync('global_store_id',storeId);
-    } 
+      wx.setStorageSync('global_store_id', storeId);
+    }
   },
 
   /**
@@ -61,9 +61,9 @@ Page({
       isLogin: app.globalData.isLogin
     })
     if (!that.data.isLogin) {
-      wx.navigateTo({
-        url: '../login/login',
-      })
+      // wx.navigateTo({
+      //   url: '../login/login',
+      // })
       return
     }
     that.getXiaLaListdata();
@@ -225,11 +225,11 @@ Page({
               that.setData({
                 stores: info.data
               })
-              if(!that.data.storeId){
+              if (!that.data.storeId) {
                 that.setData({
                   storeId: that.data.stores[0].value
                 })
-              }else{
+              } else {
                 var aindex = 0
                 var storeName = ''
                 that.data.stores.map((it, index) => {

@@ -184,7 +184,7 @@ Page({
     // console.log(roomId);
     wx.showModal({
       title: '提示',
-      content: '确定打开房间门和电源吗',
+      content: '确定打开门和电源吗',
       complete: (res) => {
         if (res.cancel) {
         }
@@ -236,9 +236,18 @@ Page({
               function success(info) {
                 if (info.code == 0) {
                   wx.showModal({
-                    title: "提示",
-                    content: "如果门没有自动打开，请使用开门密码:"+info.data+"#,"+"该密码仅6小时内一次有效！使用后即失效！",
-                    showCancel: false,
+                    title: "开门密码："+info.data+"#",
+                    content: "如果门没有自动打开，请使用密码开门，该密码仅6小时内一次有效！您也可以靠近门锁时点击'蓝牙开锁'按钮自动开锁。",
+                    cancelText:'蓝牙开锁',
+                    showCancel: true,
+                    confirmText: '关闭',
+                    complete: (res) => {
+                      if (res.cancel) {
+                        lock.blueDoorOpen(that.data.OrderInfodata.lockData);
+                      }
+                      if (res.confirm) {
+                      }
+                    }
                   })
                 } else {
                   wx.showModal({
@@ -261,7 +270,7 @@ Page({
     let roomId = that.data.roomItem.roomId;
     wx.showModal({
       title: '提示',
-      content: '确定关闭房间门和电源吗',
+      content: '确定关闭门和电源吗',
       complete: (res) => {
         if (res.cancel) {
         }
@@ -483,6 +492,7 @@ Page({
   clearAndFinish: function(e){
     let that = this;
     let roomId = that.data.roomItem.roomId;
+    let storeId = that.data.roomItem.storeId;
     wx.showModal({
       title: '注意提示',
       content: '注意！！！房间状态将变为空闲！并立即关电！如果有进行中的订单，订单将会被结束！请谨慎确认房间当前状态后再操作！！！',
@@ -524,6 +534,51 @@ Page({
       }
     })
   },
+    // 结单
+    finishOrder: function (e) {
+     let that = this;
+      let roomId = that.data.roomItem.roomId;
+      let storeId = that.data.roomItem.storeId;
+      wx.showModal({
+        title: '注意提示',
+        content: '注意！！！房间状态将变为待清洁！并立即关电！如果有进行中的订单，订单将会被结束！请谨慎确认房间当前状态后再操作！！！',
+        complete: (res) => {
+          if (res.cancel) {
+          }
+          if (res.confirm) {
+            if (app.globalData.isLogin) {
+              http.request(
+                "/member/store/finishRoomOrder/" + roomId,
+                "1",
+                "get", {
+              },
+                app.globalData.userDatatoken.accessToken,
+                "",
+                function success(info) {
+                  // console.info('返回111===');
+                  // console.info(info);
+                  if (info.code == 0) {
+                    wx.showToast({
+                      title: '操作成功',
+                      icon: 'success'
+                    })
+                    that.getDoorList();
+                  } else {
+                    wx.showModal({
+                      content: info.msg,
+                      showCancel: false,
+                    })
+                  }
+                },
+                function fail(info) {
+  
+                }
+              )
+            }
+          }
+        }
+      })
+    },
   disableRoom: function(e){
     let that = this;
     let roomId = that.data.roomItem.roomId;
@@ -708,5 +763,5 @@ Page({
       function fail(info) {
       }
     )
-  }
+  },
 })

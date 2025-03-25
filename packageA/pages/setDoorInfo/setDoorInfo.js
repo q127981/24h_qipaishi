@@ -9,7 +9,7 @@ Page({
    */
   data: {
     index: '',
-    roomClassList: [{ id: 0, name: '棋牌' }, { id: 1, name: '台球' }, { id: 2, name: '自习室' }],
+    roomClassList: [{ id: 0, name: '棋牌' }, { id: 1, name: '台球' }, { id: 2, name: 'KTV' }],
     rcIndex: '',
     types: [{ id: 1, name: '小包' }, { id: 2, name: '中包' }, { id: 3, name: '大包' }, { id: 4, name: '豪包' }, { id: 5, name: '商务包' }
       , { id: 6, name: '斯洛克' }, { id: 7, name: '中式黑八' }, { id: 8, name: '‌美式球桌' }],
@@ -169,6 +169,9 @@ Page({
               fileList: fileList,
               banTimeStart: info.data.banTimeStart,
               banTimeEnd: info.data.banTimeEnd,
+              prePrice: info.data.prePrice,
+              preUnit: info.data.preUnit,
+              minCharge: info.data.minCharge,
             })
           } else {
             wx.showModal({
@@ -275,6 +278,9 @@ Page({
   },
   // 保存
   submit: function () {
+    wx.showLoading({
+      title: '保存中...',
+    })
     console.log(this.data)
     if (this.data.roomName && this.data.roomCallName && this.data.type && this.data.price
       && this.data.tongxiaoPrice
@@ -310,10 +316,14 @@ Page({
           "yunlabaSound": that.data.yunlabaSound,
           "banTimeStart": that.data.banTimeStart,
           "banTimeEnd": that.data.banTimeEnd,
+          "prePrice": that.data.prePrice,
+          "preUnit": that.data.preUnit,
+          "minCharge": that.data.minCharge,
         },
           app.globalData.userDatatoken.accessToken,
           "",
           function success(info) {
+            wx.hideLoading();
             console.info('返回111===');
             console.info(info);
             if (info.code == 0) {
@@ -334,7 +344,7 @@ Page({
             }
           },
           function fail(info) {
-
+            wx.hideLoading();
           }
         )
       }

@@ -1,7 +1,7 @@
 <!--pages/recharge/recharge.wxml-->
 <block>
   <view class="container">
-    <view class="name">
+    <view class="name" wx:if="{{isLogin}}">
       <view class="info">
         <iconfont name="iov-store" size="24"></iconfont>
         <picker class="picker" bindchange="bindStoreChange" range-key="key" value="{{index}}" range="{{stores}}">
@@ -36,6 +36,9 @@
         </view>
       </view>
     </view>
+    <view wx:if="{{isLogin}}">
+
+    </view>
     <view class="select-box">
       <view class="{{payMoney==item.payMoney?'item active':'item'}}" wx:for="{{discount}}" wx:key="item" bindtap="choose" data-info="{{item.payMoney}}">
         <view class="num">
@@ -44,11 +47,17 @@
         <text class="red">到账{{item.payMoney + item.giftMoney}}元</text>
         <view class="tag" wx:if="{{item.giftMoney}}">优惠</view>
       </view>
-      <view wx:if="{{discount.length==0}}" class="noRules">
-        <view class="text">管理员未添加充值规则</view>
+      <view class="noRules" wx:if="{{isLogin}}">
+        <view wx:if="{{discount.length==0}}" class="noRules">
+          <view class="text">管理员未添加充值规则</view>
+        </view>
+      </view>
+      <view wx:else="" class="noRules">
+        <view class="text">请登录后进行充值</view>
+        <navigator class="loginBtn bg-primary" url="../login/login">登录</navigator>
       </view>
     </view>
-    <view class="control-title">
+    <view class=" control-title">
       {{ ['充值说明', '购买须知'][modeIndex] }}
     </view>
     <view class="section" wx:if="{{modeIndex === 0}}">

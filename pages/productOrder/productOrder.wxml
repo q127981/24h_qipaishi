@@ -48,6 +48,11 @@
                       <text>共{{item.productNum}}件</text>
                     </view>
                   </view>
+                  <view class="time-num">
+                    <view class="order-time">
+                      <text>场地名称：{{item.roomName}}</text>
+                    </view>
+                  </view>
                 </view>
                 <view class="user-info">
                   <view class="user-name">
