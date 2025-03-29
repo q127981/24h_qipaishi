@@ -182,7 +182,7 @@ page {
 .time-slot view.active {
   background: var(--main-color);
   color: #fff;
-  border-radius: 10rpx 10rpx 10rpx 10rpx;
+  border-radius: 5rpx;
 }
 
 .mode-slot {
@@ -482,19 +482,21 @@ page {
 
 .timer .title {
   font-weight: 500;
-  width: 200rpx;
-  font-size: 26rpx;
-  color: #333333;
+  width: 150rpx;
+  font-size: 34rpx;
+  color: var(--main-color);
+  font-weight: bold;
   /* margin-right: 52rpx; */
 }
 
 .timer .time {
-  width: 260rpx;
-  height: 59rpx;
+  width: 300rpx;
+  height: 75rpx;
   background: #FFFFFF;
-  border-radius: 87rpx 87rpx 87rpx 87rpx;
+  border-radius: 10rpx;
   border: 2rpx solid #E0E0E0;
-  font-size: 31rpx;
+  font-size: 40rpx;
+  font-weight: bold;
   color: #BCBCBC;
   display: flex;
   justify-content: center;

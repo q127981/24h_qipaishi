@@ -107,8 +107,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    console.log("打开房间页面");
-    console.log(options);
+    console.log("onload");
     var that = this;
     var storeId = options.storeId;
     var roomId = options.roomId;
@@ -132,19 +131,18 @@ Page({
         }
       }
     }
+    var startDate = new Date();
     that.setData({
       storeId: storeId,
       roomId: roomId,
       storeName: storeName,
       // startDate: new Date(),
+      submit_begin_time: that.formatDate(startDate).text,
       timeselectindex: timeselectindex,
     });
-
+    
+    that.daySlotInit();
     wx.setStorageSync("global_store_id", storeId);
-    // if (app.globalData.isLogin) {
-    //   that.getroomInfodata(roomId).then((res) => { });
-    // }
-
   },
 
   /**
@@ -173,12 +171,10 @@ Page({
       }, 500);
       wx.hideLoading()
     }
-    that.getroomInfodata(that.data.roomId).then((res) => { });
-    setTimeout(() => {
+    that.getroomInfodata(that.data.roomId).then((res) => { 
       that.getCouponListData();
       that.getStoreBalance();
-      that.daySlotInit();
-    }, 100);
+    });
     if (app.globalData.isLogin) {
       that.getGroupPay();
     }
@@ -206,58 +202,7 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage() { },
-  phone: function (e) {
-    //console.log("授权用户手机号");
-    var that = this;
-    if (e.detail.errMsg == "getPhoneNumber:fail user deny") {
-      wx.showToast({ title: "已取消授权" });
-    }
-    if (e.detail.errMsg == "getPhoneNumber:ok") {
-      //console.log('手机号码授权+++++++');
-      //console.log(e.detail);
-      //console.log('手机号码授权+++++++');
-      wx.login({
-        success: function (res) {
-          //console.log('111++++==');
-          //console.log(res);
-          //console.log('111++++==');
-          if (res.code != null) {
-            http.request(
-              "/member/auth/weixin-mini-app-login",
-              "1",
-              "post",
-              {
-                phoneCode: e.detail.code,
-                loginCode: res.code,
-              },
-              "",
-              "获取中...",
-              function success(info) {
-                console.info("返回111===");
-                console.info(info);
-                if (info.code == 0) {
-                  if (info.data) {
-                    app.globalData.userDatatoken = info.data;
-                    app.globalData.isLogin = true;
-                    that.setData({
-                      isLogin: true,
-                    });
-                    //缓存服务器返回的用户信息
-                    wx.setStorageSync("userDatatoken", info.data);
-                    that.getroomInfodata(that.data.roomId).then((res) => { });
-                    that.getCouponListData();
-                  }
-                }
-              },
-              function fail(info) { }
-            );
-          } else {
-            //console.log('登录失败！' + res.errMsg)
-          }
-        },
-      });
-    }
-  },
+
   // 去优惠券页面
   goCoupon() {
     var that = this;
@@ -292,15 +237,15 @@ Page({
             console.log("页面B触发事件时传递的数据1：", data);
             that.setData({
               submit_couponInfo: data,
+              goPage: true
             });
-            that.setshowpayMoney(data);
           },
           pageDataList_no: function (data) {
-            //console.log('页面B触发事件时传递的数据1：',data)
+            console.log('页面B触发事件时传递的数据2：',data)
             that.setData({
               submit_couponInfo: {},
+              goPage: true
             });
-            that.setshowpayMoney(data);
           },
         },
       });
@@ -325,12 +270,8 @@ Page({
         });
       }
     }
+    console.log('优惠券:',that.data.submit_couponInfo);
     //计算价格
-
-    var acouponId = "";
-    if (that.data.submit_couponInfo) {
-      acouponId = that.data.submit_couponInfo.couponId;
-    }
     http.request(
       "/member/order/preOrder",
       "1",
@@ -338,7 +279,7 @@ Page({
       {
         roomId: that.data.roomId,
         payType: that.data.payselectindex,
-        couponId: acouponId,
+        couponId: that.getCouponId(),
         pkgId: that.data.pkgId,
         nightLong: that.data.nightLong,
         startTime: that.data.submit_begin_time,
@@ -368,63 +309,20 @@ Page({
       },
       function fail(info) { }
     );
-
-
-
-    // if (that.data.nightLong) {
-    //   that.setData({
-    //     pricestring: that.data.txPrice,
-    //     showprice: that.data.txPrice,
-    //   });
-    // } else {
-    //   var startDate = new Date(that.data.submit_begin_time);
-    //   var hour = that.data.order_hour;
-    //   if (!hour) {
-    //     hour = that.data.minHour;
-    //     that.setData({
-    //       order_hour: hour,
-    //     });
-    //   }
-    //   var priceResult = 0;
-    //   if (that.data.select_pkg_index > -1) {
-    //     priceResult = that.data.pkgList[that.data.select_pkg_index].price;
-    //   } else {
-    //     var price = that.getPrice(startDate);
-    //     console.log("订单时长:" + hour);
-    //     priceResult = (hour * price).toFixed(2);
-    //     if (that.data.submit_couponInfo) {
-    //       const acoupon = that.data.submit_couponInfo;
-    //       if (acoupon.type == 1) {
-    //         //减去时间对应费用
-    //         priceResult = (priceResult - acoupon.price * price).toFixed(2);
-    //       } else if (acoupon.type == 2) {
-    //         //直接减去费用
-    //         priceResult = priceResult - acoupon.price;
-    //       }
-    //     }
-    //     if (priceResult < 0) {
-    //       priceResult = 0.0;
-    //     }
-    //   }
-    //   if (that.data.roominfodata.deposit) {
-    //     priceResult =
-    //       parseFloat(priceResult) + parseFloat(that.data.roominfodata.deposit);
-    //   }
-    //   that.setData({
-    //     pricestring: priceResult,
-    //     showprice: priceResult,
-    //   });
-    // }
+  },
+  getCouponId(){
+    var that = this;
+    if (that.data.submit_couponInfo) {
+      return that.data.submit_couponInfo.couponId;
+    }
+    return '';
   },
 
   // 预支付
   SubmitOrderInfoData() {
+    console.log('SubmitOrderInfoData');
     var that = this;
     if (app.globalData.isLogin) {
-      var acouponId = "";
-      if (that.data.submit_couponInfo) {
-        acouponId = that.data.submit_couponInfo.couponId;
-      }
       let preSubmit = that.data.modeIndex == 4;
       http.request(
         "/member/order/preOrder",
@@ -433,7 +331,7 @@ Page({
         {
           roomId: that.data.roomId,
           payType: that.data.payselectindex,
-          couponId: acouponId,
+          couponId: that.getCouponId(),
           pkgId: that.data.pkgId,
           nightLong: that.data.nightLong,
           startTime: that.data.submit_begin_time,
@@ -492,17 +390,13 @@ Page({
   lockWxOrder: function (pay) {
     var that = this;
     if (app.globalData.isLogin) {
-      var acouponId = "";
-      if (that.data.submit_couponInfo) {
-        acouponId = that.data.submit_couponInfo.couponId;
-      }
       http.request(
         "/member/order/lockWxOrder",
         "1",
         "post",
         {
           roomId: that.data.roomId,
-          couponId: acouponId,
+          couponId: that.getCouponId(),
           nightLong: that.data.nightLong,
           startTime: that.data.submit_begin_time,
           endTime: that.data.submit_end_time,
@@ -563,17 +457,13 @@ Page({
   submitorder: function () {
     var that = this;
     if (app.globalData.isLogin) {
-      var acouponId = "";
-      if (that.data.submit_couponInfo) {
-        acouponId = that.data.submit_couponInfo.couponId;
-      }
       http.request(
         "/member/order/save",
         "1",
         "post",
         {
           roomId: that.data.roomId,
-          couponId: acouponId,
+          couponId: that.getCouponId(),
           pkgId: that.data.pkgId,
           nightLong: that.data.nightLong,
           startTime: that.data.submit_begin_time,
@@ -675,30 +565,20 @@ Page({
               orderTimeList,
               timeText
             });
-            that.loadingtime();
+            
             that.MathDate(new Date(that.data.submit_begin_time));
+            r();
           } else {
             wx.showModal({
-              content: "请求服务异常，请稍后重试",
+              content: info.msg,
               showCancel: false,
             });
+            t();
           }
         },
-        function fail(info) { }
+        function fail(info) {t(); }
       );
     });
-  },
-  //初始化时间
-  loadingtime: function () {
-    console.log("初始化时间");
-    var that = this;
-    var startDate = new Date();
-    that.setData({
-      submit_begin_time: that.formatDate(startDate).text,
-    });
-    // var startDate_fmt=that.formatDate(startDate);
-
-    //console.log('几小时过后的======时间信息==='+atime);
   },
   formatDate(dateTime) {
     const date = new Date(dateTime);
@@ -1015,7 +895,9 @@ Page({
         message,
         function success(info) {
           if (info.code == 0) {
-            that.getCouponNumber(info.data);
+            that.setData({
+              couponCount: info.data.total,
+            });
           } else {
             wx.showModal({
               content: info.msg,
@@ -1026,21 +908,6 @@ Page({
         function fail(info) { }
       );
     }
-  },
-  //获取可用优惠券数量
-  getCouponNumber: function (event) {
-    var that = this;
-    that.setData({
-      couponCount: event.total,
-    });
-  },
-  //设置支付价格显示
-  setshowpayMoney: function (acoupon) {
-    var that = this;
-    that.setData({
-      submit_couponInfo: acoupon,
-    });
-    that.MathPrice();
   },
   MathDate: function (startDate) {
     var that = this;
@@ -1071,7 +938,7 @@ Page({
       that.setData({
         nightLong: true,
         order_hour: order_hour,
-        submit_couponInfo: {}, //清空优惠券
+        // submit_couponInfo: {}, //清空优惠券
         submit_begin_time: this.formatDate(startDate.getTime()).text,
         submit_end_time: this.formatDate(endDate.getTime()).text,
         view_begin_time: this.formatViewDate(startDate.getTime()).text,
@@ -1082,7 +949,7 @@ Page({
       that.setData({
         nightLong: false,
         order_hour: order_hour,
-        submit_couponInfo: {}, //清空优惠券
+        // submit_couponInfo: {}, //清空优惠券
         submit_begin_time: this.formatDate(startDate.getTime()).text,
         submit_end_time: this.formatDate(endDate.getTime()).text,
         view_begin_time: this.formatViewDate(startDate.getTime()).text,

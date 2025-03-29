@@ -191,7 +191,7 @@
         <text class="title">时间</text>
         <view class="time {{roominfodata.reserve ? 'active' : 'reserveFalse'}}" bind:tap="setshowSelectHour">
           <text>{{view_begin_time}}</text>
-          <image src="../static/icon/time-pick.png" />
+          <!-- <image src="../static/icon/time-pick.png" /> -->
         </view>
         <block wx:if="{{modeIndex!=4}}">
           <text class="divide">到</text>
@@ -240,7 +240,7 @@
             <text>卡券</text>
           </view>
           <view class="right coupon">
-            <block wx:if="{{submit_couponInfo.couponName}}">
+            <block wx:if="{{submit_couponInfo.couponId}}">
               <block wx:if="{{submit_couponInfo.type == 1}}">
                 <view class="price-coupon">
                   {{submit_couponInfo.couponName}}(抵扣{{submit_couponInfo.price}}小时)
@@ -262,7 +262,7 @@
                 <text class="price-coupon more">{{couponCount}}张</text>
               </block>
               <block wx:else>
-                <text class="price-coupon default">暂无可用优惠券</text>
+                <text class="price-coupon default">暂无优惠券</text>
               </block>
             </block>
           </view>
