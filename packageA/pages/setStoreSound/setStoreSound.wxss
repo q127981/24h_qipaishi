@@ -66,3 +66,30 @@
   background: #fff;
   border: 1px solid var(--main-color);
 }
+
+
+.mode-slot {
+  background: #F6F6F4;
+  border-radius: 10rpx;
+  display: flex;
+  align-items: center;
+  margin-top: 10rpx;
+  margin-bottom: 13rpx;
+  border: 1rpx solid var(--main-color);
+}
+
+.mode-slot view {
+  height: 72rpx;
+  flex-grow: 1;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mode-slot view.active {
+  background: var(--main-color);
+  color: #fff;
+  border-radius: 10rpx;
+  box-shadow: 0rpx 5rpx 10rpx 2rpx rgba(0, 0, 0, 0.16);
+}

@@ -410,50 +410,57 @@ Page({
       }
     }else{
       //个性化模式 需要上传那些模板图片
-      if(this.data.fileList3.length
-        && this.data.btnfileList.length
-        && this.data.qhfileList.length
-        && this.data.tgfileList.length
-        && this.data.czfileList.length
-        && this.data.openfileList.length
-        && this.data.wififileList.length
-        && this.data.kffileList.length){
-          params = {
-            "storeId": that.data.storeId,
-            "storeName": that.data.storeName,
-            "cityName": that.data.cityName,
-            "headImg": that.data.fileList1[0].url,
-            "btnImg": that.data.btnfileList[0].url,
-            "qhImg": that.data.qhfileList[0].url,
-            "tgImg": that.data.tgfileList[0].url,
-            "czImg": that.data.czfileList[0].url,
-            "openImg": that.data.openfileList[0].url,
-            "wifiImg": that.data.wififileList[0].url,
-            "kfImg": that.data.kffileList[0].url,
-            "storeEnvImg": imgs.join(","),
-            "bannerImg": bannerImgs.join(","),
-            "orderWebhook": that.data.orderWebhook,
-            "address": that.data.address,
-            "wifiInfo": that.data.wifiInfo,
-            "wifiPwd": that.data.wifiPwd,
-            "simpleModel": that.data.simpleModel,
-            "kefuPhone": that.data.kefuPhone,
-            "clearTime": that.data.clearTime,
-            "clearOpen": that.data.clearOpen,
-            "showTxPrice": that.data.showTxPrice,
-            "txStartHour": that.data.txStartHour,
-            "delayLight": that.data.delayLight,
-            "txHour": that.data.txHour,
-            "orderDoorOpen": that.data.orderDoorOpen,
-            "clearOpenDoor": that.data.clearOpenDoor,
-          };
-      }else{
-        wx.showToast({
-          title: '请填写完整',
-          icon: 'none'
-        })
-        return;
+      let btnImg = '', qhImg = '', tgImg = '', czImg = '', openImg = '', wifiImg = '', kfImg = '';
+      if(this.data.btnfileList.length){
+        btnImg= that.data.btnfileList[0].url
       }
+      if(this.data.qhfileList.length){
+        qhImg= that.data.qhfileList[0].url
+      }
+      if(this.data.tgfileList.length){
+        tgImg= that.data.tgfileList[0].url
+      }
+      if(this.data.czfileList.length){
+        czImg= that.data.czfileList[0].url
+      }
+      if(this.data.openfileList.length){
+        openImg= that.data.openfileList[0].url
+      }
+      if(this.data.wififileList.length){
+        wifiImg= that.data.wififileList[0].url
+      }
+      if(this.data.kffileList.length){
+        kfImg= that.data.kffileList[0].url
+      }
+      params = {
+        "storeId": that.data.storeId,
+        "storeName": that.data.storeName,
+        "cityName": that.data.cityName,
+        "headImg": that.data.fileList1[0].url,
+        "btnImg": btnImg,
+        "qhImg": qhImg,
+        "tgImg": tgImg,
+        "czImg": czImg,
+        "openImg": openImg,
+        "wifiImg": wifiImg,
+        "kfImg": kfImg,
+        "storeEnvImg": imgs.join(","),
+        "bannerImg": bannerImgs.join(","),
+        "orderWebhook": that.data.orderWebhook,
+        "address": that.data.address,
+        "wifiInfo": that.data.wifiInfo,
+        "wifiPwd": that.data.wifiPwd,
+        "simpleModel": that.data.simpleModel,
+        "kefuPhone": that.data.kefuPhone,
+        "clearTime": that.data.clearTime,
+        "clearOpen": that.data.clearOpen,
+        "showTxPrice": that.data.showTxPrice,
+        "txStartHour": that.data.txStartHour,
+        "delayLight": that.data.delayLight,
+        "txHour": that.data.txHour,
+        "orderDoorOpen": that.data.orderDoorOpen,
+        "clearOpenDoor": that.data.clearOpenDoor,
+      };
     }
     console.log('提交保存门店信息');
     if (app.globalData.isLogin) 

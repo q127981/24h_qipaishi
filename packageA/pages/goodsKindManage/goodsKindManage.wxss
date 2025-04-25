@@ -13,15 +13,7 @@ page {
   width: 100%;
 }
 
-.addBlacklist {
-  border-radius: 35rpx;
-  color: #fff;
-  border-radius: 10rpx;
-  font-size: 30rpx;
-  height: 90rpx;
-  line-height: 90rpx;
-  background-color: var(--main-color);
-}
+
 
 .dialog-item {
   display: flex;
@@ -61,9 +53,16 @@ page {
   border-radius: 10rpx;
 }
 
-.submit {
-  display: flex;
-  justify-content: center;
+.bottom {
+  width: 430rpx;
+  height: 90rpx;
+  text-align: center;
+  line-height: 90rpx;
+  position: fixed;
+  bottom: 30rpx;
+  left: 160rpx;
+  border-radius: 50rpx;
+  font-size: 36rpx;
 }
 
 .fix-iphonex-button {

@@ -203,4 +203,41 @@ Page({
       )
     } 
   },
+  deleteConfig(e){
+    var that = this;
+    let id = e.currentTarget.dataset.id;
+    wx.showModal({
+      title: '温馨提示',
+      content: '您是否确认删除此会员规则？删除后该等级会员权益将会失效！',
+      complete: (res) => {
+        if (res.cancel) {
+          
+        }
+        if (res.confirm) {
+          http.request(
+            "/member/store/deleteVipConfig/"+id,
+            "1",
+            "post", {
+            },
+            app.globalData.userDatatoken.accessToken,
+            message,
+            function success(info) {
+              if (info.code == 0) {
+                that.getListdata();
+              } else {
+                wx.showModal({
+                  content: info.msg,
+                  showCancel: false,
+                })
+              }
+            },
+            function fail(info) {
+    
+            }
+          )
+        }
+      }
+    })
+
+  },
 })

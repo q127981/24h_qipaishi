@@ -16,7 +16,6 @@ Page({
     workPrice: 0, //工作日房间单价
     txPrice: 0.0, //通宵场价格
     txNowPrice: 0.0,
-    timeselectindex: 0, //选择的日期索引位置
     roominfodata: {}, //房间展示信息
     pkgList: [],
     select_time_index: 0,
@@ -32,6 +31,7 @@ Page({
     clearTime: "", //订单清洁时间
     userinfo: {}, //用户信息
     payselectindex: 1, //支付类型索引值
+    payType: 1,//支付类型 默认微信支付
     doorname: "", //门店名称
     timeHourAllArr: [],
     hour_options: [],
@@ -62,26 +62,10 @@ Page({
     show: false,
     giftBalance: 0,
     balance: 0,
+    vipName: '',
+    vipDiscount: 100,
     isIpx: app.globalData.isIpx ? true : false,
     isLogin: app.globalData.isLogin,
-    formatter(type, value) {
-      if (type === "year") {
-        return `${value}年`;
-      }
-      if (type === "month") {
-        return `${value}月`;
-      }
-      if (type === "day") {
-        return `${value}日`;
-      }
-      if (type === "hour") {
-        return `${value}时`;
-      }
-      if (type === "minute") {
-        return `${value}分`;
-      }
-      return value;
-    },
     minDay: new Date().getTime(),
     maxDay: new Date(new Date().getTime() + 5 * 24 * 60 * 60 * 1000).getTime(),
     curTime: "",
@@ -93,6 +77,7 @@ Page({
     duration: 500,
     daySlot: [],
     dayIndex: 0,
+    timeSelectList: [],
     modeIndex: 0,
     cardList: [],
     packCardIndex: -1,
@@ -102,6 +87,7 @@ Page({
     voucherInfo: {},
     groupPays: [], // 优惠券信息
     clickItem: 0, // 点击的团购券位置 默认0
+    timeSelectShow: false,//时间选择
   },
   /**
    * 生命周期函数--监听页面加载
@@ -111,7 +97,6 @@ Page({
     var that = this;
     var storeId = options.storeId;
     var roomId = options.roomId;
-    var timeselectindex = options.timeselectindex;
     var goPage = options.goPage;
     const storeName = options.storeName;
     if (goPage) {
@@ -126,9 +111,6 @@ Page({
         if (query.roomId) {
           roomId = query.roomId;
         }
-        if (query.timeselectindex) {
-          timeselectindex = query.timeselectindex;
-        }
       }
     }
     var startDate = new Date();
@@ -138,7 +120,6 @@ Page({
       storeName: storeName,
       // startDate: new Date(),
       submit_begin_time: that.formatDate(startDate).text,
-      timeselectindex: timeselectindex,
     });
     
     that.daySlotInit();
@@ -278,7 +259,7 @@ Page({
       "post",
       {
         roomId: that.data.roomId,
-        payType: that.data.payselectindex,
+        payType: that.data.payType,
         couponId: that.getCouponId(),
         pkgId: that.data.pkgId,
         nightLong: that.data.nightLong,
@@ -319,18 +300,21 @@ Page({
   },
 
   // 预支付
-  SubmitOrderInfoData() {
-    console.log('SubmitOrderInfoData');
+  SubmitOrderInfoData(e) {
     var that = this;
+    let payType = e.currentTarget.dataset.paytype;
+    that.setData({
+      payType: payType
+    })
+    let preSubmit = that.data.modeIndex == 4;//是否预支付
     if (app.globalData.isLogin) {
-      let preSubmit = that.data.modeIndex == 4;
       http.request(
         "/member/order/preOrder",
         "1",
         "post",
         {
           roomId: that.data.roomId,
-          payType: that.data.payselectindex,
+          payType: payType,
           couponId: that.getCouponId(),
           pkgId: that.data.pkgId,
           nightLong: that.data.nightLong,
@@ -343,34 +327,45 @@ Page({
         "提交中...",
         function success(info) {
           console.info("支付信息===");
-          console.log("that.data.payselectindex:" + that.data.payselectindex);
           if (info.code == 0) {
-            that.data.orderNo = info.data.orderNo;
-            if (that.data.payselectindex == 1) {
+            that.setData({
+              orderNo: info.data.orderNo
+            })
+            that.lockWxOrder(info);
+            if (payType == 1) {
               //选择的是微信支付
               if (that.data.pricestring <= 0.0) {
                 //订单金额为0元的时候，不走微信支付，直接订单提交
                 that.submitorder();
               } else {
-                that.lockWxOrder(info);
+                that.payMent(info);
               }
-            } else if (
-              that.data.payselectindex == 2 ||
-              that.data.payselectindex == 3 ||
-              that.data.payselectindex == 5
-            ) {
-              //余额或团购支付
-              //如果需要押金
-              if (that.data.roominfodata.deposit) {
-                that.lockWxOrder(info);
-              } else {
-                //直接提交
+            } else if (payType == 2){
+              //余额支付 如果余额已经不够了，就报错
+              let sum = that.data.giftBalance + that.data.balance + that.data.roominfodata.deposit;
+              if(sum*100 < info.data.price){
+                wx.showToast({
+                  title: '余额不足，请先充值！',
+                  icon: 'none'
+                })
+                return
+              }
+              //有可能存在房间押金
+              if(that.data.roominfodata.deposit){
+                that.payMent(info);
+              }else{
+                //提交下单
                 that.submitorder();
               }
-            } else if (that.data.payselectindex == 4) {
-              //套餐支付
-              //直接走微信
-              that.lockWxOrder(info);
+            }else if( payType == 3){
+              //团购支付 
+              //有可能存在房间押金
+              if(that.data.roominfodata.deposit){
+                that.payMent(info);
+              }else{
+                //提交下单
+                that.submitorder();
+              }
             }
           } else {
             wx.showModal({
@@ -400,7 +395,7 @@ Page({
           nightLong: that.data.nightLong,
           startTime: that.data.submit_begin_time,
           endTime: that.data.submit_end_time,
-          payType: 1,
+          payType: that.data.payType,
           preSubmit: that.data.modeIndex == 4,
         },
         app.globalData.userDatatoken.accessToken,
@@ -408,7 +403,7 @@ Page({
         function success(info) {
           if (info.code == 0) {
             console.log("锁定微信支付订单");
-            that.payMent(pay); //微信支付
+            // that.payMent(pay); //微信支付
           } else {
             wx.showModal({
               title: "温馨提示",
@@ -425,6 +420,7 @@ Page({
   },
   //支付
   payMent: function (pay) {
+    var that = this;
     wx.requestPayment({
       timeStamp: pay.data.timeStamp,
       nonceStr: pay.data.nonceStr,
@@ -432,12 +428,15 @@ Page({
       signType: pay.data.signType,
       paySign: pay.data.paySign,
       success: function (res) {
+        that.setData({
+          goPage: true
+        })
         //进入订单详情页  订单由支付回调函数创建
         setTimeout(function () {
           wx.navigateTo({
             url: "../orderDetail/orderDetail?toPage=true",
           });
-        }, 1000);
+        }, 1200);
       },
       fail: function (res) {
         console.log("*************支付失败");
@@ -456,6 +455,7 @@ Page({
   //提交订单
   submitorder: function () {
     var that = this;
+    let preSubmit = that.data.modeIndex == 4;//是否预支付
     if (app.globalData.isLogin) {
       http.request(
         "/member/order/save",
@@ -468,9 +468,10 @@ Page({
           nightLong: that.data.nightLong,
           startTime: that.data.submit_begin_time,
           endTime: that.data.submit_end_time,
-          payType: that.data.payselectindex,
+          payType: that.data.payType,
           groupPayNo: that.data.scanCodeMsg,
           orderNo: that.data.orderNo,
+          preSubmit: preSubmit
         },
         app.globalData.userDatatoken.accessToken,
         "提交中...",
@@ -563,7 +564,8 @@ Page({
               storeId: info.data.storeId,
               timeHourAllArr: info.data.timeSlot.slice(0, 24),
               orderTimeList,
-              timeText
+              timeText,
+              timeSelectList: info.data.timeSelectLists[0].selectList,
             });
             
             that.MathDate(new Date(that.data.submit_begin_time));
@@ -776,28 +778,23 @@ Page({
   bindscanCode: function (e) {
     var that = this;
     //console.log('团购码++++');
+    let price = that.data.roominfodata.deposit;
     that.setData({
       scanCodeMsg: e.detail.value,
-      pricestring: 0,
+      pricestring: price,
       preSubmit: false,
     });
-    console.log(e.detail.value.length)
-    console.log('e.detail.value.length')
     if (e.detail.value.length > 0) {
       that.setData({
-        payselectindex: 3,
         submit_couponInfo: {},
         pkgId: "",
         select_pkg_index: -1,
       });
-
       if (e.detail.value.length >= 10) {
         that.checkGroup();
       }
     } else {
-      that.setData({
-        payselectindex: 1,
-      });
+     
       that.MathPrice();
     }
   },
@@ -1169,24 +1166,12 @@ Page({
     });
   },
   handleDayChange(e) {
-    const dayOrigin = e.currentTarget.dataset.day;
-
-    const originalMoment = moment(
-      this.data.submit_begin_time,
-      "YYYY/MM/DD HH:mm"
-    );
-    const newDate = moment(dayOrigin, "YYYY/MM/DD");
-
-    const updatedMoment = originalMoment.set({
-      year: newDate.year(),
-      month: newDate.month(),
-      date: newDate.date(),
+    var that = this;
+    let index = e.currentTarget.dataset.index;
+    that.setData({
+      dayIndex: index,
+      timeSelectList: that.data.roominfodata.timeSelectLists[index].selectList,
     });
-    this.setData({
-      dayIndex: e.currentTarget.dataset.index,
-      submit_begin_time: updatedMoment.format("YYYY/MM/DD HH:mm"),
-    });
-    this.MathDate(new Date(this.data.submit_begin_time));
   },
   modeChange(e) {
     var that = this;
@@ -1194,7 +1179,8 @@ Page({
     that.setData({
       modeIndex: +index,
       scrollPosition: 0,
-      packCardIndex: - 1
+      packCardIndex: - 1,
+      
     });
     if (index == 0) {
       //小时模式
@@ -1213,6 +1199,7 @@ Page({
         select_time_index: -1,
         scanCodeMsg: '',
         pricestring: 0,
+        nightLong: false,
         preSubmit: false,
       })
     } else if (index == 4) {
@@ -1222,7 +1209,7 @@ Page({
         scanCodeMsg: '',
         pkgId: '',
         select_pkg_index: -1,
-        pricestring: that.data.roominfodata.prePrice,
+        pricestring: that.data.roominfodata.prePrice + that.data.roominfodata.deposit,
         nightLong: false,
         submit_end_time: that.data.submit_begin_time,
         preSubmit: true,
@@ -1421,7 +1408,9 @@ Page({
           if (info.code == 0) {
             that.setData({
               giftBalance: info.data.giftBalance,
-              balance: info.data.balance
+              balance: info.data.balance,
+              vipName: info.data.vipName,
+              vipDiscount: info.data.vipDiscount,
             })
           }
         },
@@ -1433,5 +1422,32 @@ Page({
       //console.log('未登录失败！')
     }
   },
-
+  timeSelectCancel(){
+    this.setData({
+      timeSelectShow: false
+    })
+  },
+  setTimeSelect(){
+    this.setData({
+      timeSelectShow: true
+    })
+  },
+  conTimeSelect(e){
+    let that = this;
+    let index = e.currentTarget.dataset.index;
+    let timeSelect = that.data.timeSelectList[index];
+    if(timeSelect){
+      if(timeSelect.available){
+        that.setData({
+          timeSelectShow: false,
+        })
+        that.MathDate(new Date(timeSelect.date));
+      }else{
+        wx.showToast({
+          title: '该时间不可用',
+          icon: 'none'
+        })
+      }
+    }
+  }
 });

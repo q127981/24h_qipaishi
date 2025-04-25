@@ -495,7 +495,7 @@ Page({
     let storeId = that.data.roomItem.storeId;
     wx.showModal({
       title: '注意提示',
-      content: '注意！！！房间状态将变为空闲！并立即关电！如果有进行中的订单，订单将会被结束！请谨慎确认房间当前状态后再操作！！！',
+      content: '注意！！！房间状态将变为空闲！并立即关电！如果有进行中的订单，订单将会被结束！请谨慎确认后再操作！！！',
       complete: (res) => {
         if (res.cancel) {
         }
@@ -536,12 +536,12 @@ Page({
   },
     // 结单
     finishOrder: function (e) {
-     let that = this;
+      let that = this;
       let roomId = that.data.roomItem.roomId;
       let storeId = that.data.roomItem.storeId;
       wx.showModal({
         title: '注意提示',
-        content: '注意！！！房间状态将变为待清洁！并立即关电！如果有进行中的订单，订单将会被结束！请谨慎确认房间当前状态后再操作！！！',
+        content: '注意！！！进行中的订单，将会被结束，并立即关电！！请谨慎确认后再操作！！！',
         complete: (res) => {
           if (res.cancel) {
           }

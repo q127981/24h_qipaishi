@@ -1,6 +1,7 @@
 const app = getApp()
 var http = require('../../../utils/http');
 var lock = require('../../../utils/lock');
+var util = require('../../../utils/util');
 Page({
 
   /**
@@ -12,7 +13,7 @@ Page({
     storeIndex: '',
     roomList: [],
     roomIndex: '',
-    deviceTypes: [{ value: '', text: '请选择类型' }, { value: 1, text: '磁力锁' }, { value: 2, text: '空开' }, { value: 3, text: '云喇叭' }, { value: 10, text: '智能语音喇叭' }, { value: 4, text: '灯具' }, { value: 5, text: '密码锁' }, { value: 6, text: '网关' },{ value: 13, text: '三路控制器' }, { value: 7, text: '插座' }, { value: 8, text: '锁球器控制器（12V）' }, { value: 9, text: '人脸门禁机' }, { value: 11, text: '二维码识别器' }, { value: 12, text: '红外控制器' }],
+    deviceTypes: [{ value: '', text: '请选择类型' }, { value: 1, text: '磁力锁门禁' }, { value: 2, text: '空开/插座' }, { value: 3, text: '云喇叭' }, { value: 10, text: '云喇叭(语音款)' }, { value: 4, text: '灯具' }, { value: 5, text: '智能锁' }, { value: 6, text: '网关' },{ value: 13, text: '三路控制器' }, { value: 14, text: 'AI锁球器' }, { value: 16, text: '计时器' },{ value: 8, text: '锁球器控制器（12V）' }, { value: 9, text: '人脸门禁机' }, { value: 11, text: '二维码识别器' }, { value: 12, text: '红外控制器' }],
     deviceTypeIndex: '',
     deviceType: '',
     deviceList: [],
@@ -122,7 +123,6 @@ Page({
         "",
         function success(info) {
           console.info('下拉门店数据===');
-          console.info(info);
           if (info.code == 0) {
             let stores = []
             info.data.map(it => {
@@ -211,6 +211,9 @@ Page({
               })
             } else {
               //有数据
+              info.data.list.forEach((item,index)=>{
+                item.typeName = util.getDeviceTypeName(item.type)
+              })
               if (that.data.deviceList) {
                 //列表已有数据  那么就追加
                 let arr = that.data.deviceList;

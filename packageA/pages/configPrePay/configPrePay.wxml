@@ -11,7 +11,7 @@
       </view>
     </view>
     <view class="tips">注：设置顾客下单时需要支付的金额，用不完会自动退回</view>
-    <view class="line">
+    <!-- <view class="line">
       <label>计费单位：</label>
       <view class="right">
         <view class="price">
@@ -21,6 +21,7 @@
       </view>
     </view>
     <view class="tips">注：输入1=以每分钟为计费单位 ，输入15=以每15分钟为计费单位。超过部分不足时也按一个计费单位</view>
+     -->
     <view class="line">
       <label>最低消费价格</label>
       <view class="right">

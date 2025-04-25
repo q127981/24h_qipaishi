@@ -6,7 +6,7 @@
   <view class="top-search">
     <view class="left">
       <view class="label" bindtap="goLocation">
-        <image src="../static/icon/city.png" mode="aspectFit" />
+        <image src="../static/icon/city.png" mode="scaleToFill" />
         <text>{{cityName}}</text>
         <icon></icon>
       </view>

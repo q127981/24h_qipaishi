@@ -2,7 +2,8 @@
 <wxs src="../../utils/magic.wxs" module="magic" />
 <block>
   <view class="container" style="{{isIpx?'padding-bottom:188rpx':'padding-bottom:140rpx'}}">
-    <view class="section top">
+  <view class="section">
+    <view class="top">
       <!-- <view class="logo">{{doorname}}</view> -->
       <view class="topInfo">
         <view class="info">
@@ -66,60 +67,17 @@
       </view>
     </view>
     <view class="time-section">
-      <view class="time-slot">
-        <view class="{{dayIndex === index ? 'active' : ''}}" wx:for="{{daySlot}}" data-index="{{index}}" data-day="{{item.dayOrigin}}" bind:tap="handleDayChange">
-          <text>{{item.desc}}</text>
-          <text>{{item.day}}</text>
-        </view>
-      </view>
       <view class="mode-slot" bind:tap="modeChange">
-        <view data-index="0" class="{{ modeIndex === 0 ? 'active' : '' }}">小时模式</view>
-        <view data-index="1" class="{{ modeIndex === 1 ? 'active' : '' }}">套餐模式</view>
+        <view data-index="0" class="{{ modeIndex === 0 ? 'active' : '' }}">小时开台</view>
+        <view data-index="1" class="{{ modeIndex === 1 ? 'active' : '' }}">套餐开台</view>
         <!-- todo 包时卡缺少表暂时隐藏 -->
         <!-- <view data-index="2" class="{{ modeIndex === 2 ? 'active' : '' }}">包时卡模式</view> -->
-        <view wx:if="{{roominfodata.prePrice}}" data-index="4" class="{{ modeIndex === 4 ? 'active' : '' }}">预付费模式</view>
+        <view wx:if="{{roominfodata.prePrice}}" data-index="4" class="{{ modeIndex === 4 ? 'active' : '' }}">预付开台</view>
       </view>
-      <!-- 套餐列表 -->
-      <scroll-view wx:if="{{modeIndex === 1 && pkgList.length>0}}" scroll-x class="mode" bindscroll="handleScroll" bindscrolltoupper="handleScrollStart">
-        <view class="mode-container">
-          <view class="item {{select_pkg_index == index?'active':''}}" bind:tap="selectPkgInfo" data-id="{{item.pkgId}}" wx:for="{{pkgList}}" wx:key="pkgList" data-index="{{index}}" data-hour="{{item.hours}}">
-            <view class="top">
-              <view class="left">
-                <text class="pkgName">{{item.pkgName}}</text>
-              </view>
-              <text class="price">¥ {{item.price}}</text>
-            </view>
-            <view class="line"></view>
-            <view class="bottom">{{item.desc}}</view>
-            <view class="bottom">可用时段：{{item.timeQuantum}}</view>
-            <view class="pkgInfo">
-              <view class="bottom">{{item.balanceBuy?"可余额支付":"不支持余额支付"}}</view>
-              <view class="bottom">{{item.enableHoliday?"节假日可用":"节假日不可用"}}</view>
-            </view>
-          </view>
-        </view>
-      </scroll-view>
       <view class="mode-time" wx:if="{{modeIndex === 0 && !scanCodeMsg}}">
-        <view class="vipPrice" wx:if="{{roominfodata.vipPriceList}}">
-          <view class="priceInfo">
-            <view class="vipName">单价</view>
-            <view class="price">
-              ￥{{roominfodata.price}}
-              <text class="priceText">元/时</text>
-            </view>
-          </view>
-          <view class="vipText"></view>
-          <view class="priceInfo" wx:for="{{roominfodata.vipPriceList}}" data-index="{{index}}" wx:key="vipPrice">
-            <view class="vipName">{{item.vipName}}</view>
-            <view class="price">
-              ￥{{item.price}}
-              <text class="priceText">元</text>
-            </view>
-          </view>
-        </view>
         <view class="time-items">
           <view class="time-item {{select_time_index == index?'active':''}}" wx:for="{{hour_options}}" wx:key="hour_options" bind:tap="selectTimeHour" data-index="{{index}}" data-hour="{{item}}">{{item}}小时</view>
-          <view class="time-item {{select_time_index == 99?'active':''}}" bind:tap="selectTimeHour" data-index="99">
+          <view class="time-item {{select_time_index == 99?'active':''}}" bind:tap="selectTimeHour" data-index="99" wx:if="{{roominfodata.roomClass!=1}}">
             <view class="desc">通宵</view>
           </view>
           <view class="time-item {{select_time_index == 999?'active':''}}" bind:tap="otherTime" data-index="999">其他</view>
@@ -170,26 +128,10 @@
           <button>去购买</button>
         </navigator>
       </view>
-      <view class="progress" wx:if="{{(modeIndex === 1 && pkgList.length>1) || (modeIndex === 2 && cardList.length>1)}}">
-        <view class="progress-marker" :style="{ left: scrollPosition + '%', width: modeIndex === 1? (100 / pkgList.length) + '%' : modeIndex === 2? (100 / cardList.length) + '%' : '100%' }"></view>
-      </view>
-      <view wx:if="{{modeIndex==4}}">
-        <view class="preInfo">
-          <view class="left">
-            <view class="preText">预付费用</view>
-            <view class="preText">计费单位</view>
-            <view class="preText" wx:if="{{roominfodata.minCharge}}">最低消费</view>
-          </view>
-          <view class="right">
-            <view class="preText" style="color: red;font-size: 32rpx;font-weight: bold;">￥{{roominfodata.prePrice}}元</view>
-            <view class="preText">每{{roominfodata.preUnit}}分钟计费</view>
-            <view class="preText" wx:if="{{roominfodata.minCharge}}">本订单最低扣费{{roominfodata.minCharge}}元</view>
-          </view>
-        </view>
-      </view>
+     
       <view class="timer">
         <text class="title">时间</text>
-        <view class="time {{roominfodata.reserve ? 'active' : 'reserveFalse'}}" bind:tap="setshowSelectHour">
+        <view class="time {{roominfodata.reserve ? 'active' : 'reserveFalse'}}" bind:tap="setTimeSelect">
           <text>{{view_begin_time}}</text>
           <!-- <image src="../static/icon/time-pick.png" /> -->
         </view>
@@ -199,26 +141,50 @@
             <text>{{view_end_time}}</text>
           </view>
         </block>
+        <view wx:if="{{modeIndex==4}}">
+        <view style="color: var(--main-color);font-size: 28rpx;margin-left: 40rpx;">订单结束之后</view>
+        <view style="color: var(--main-color);font-size: 28rpx;margin-left: 40rpx;">退回剩余金额</view>
+      </view>
       </view>
     </view>
-    <view class="section orderPrice" wx:if="{{modeIndex !== 2}}">
+    <view class="orderPrice" wx:if="{{modeIndex !== 2}}">
       <view class="line">
         <text class="bold">开始时间</text>
         <text>{{submit_begin_time}}</text>
       </view>
+      <view wx:if="{{modeIndex==4}}">
+        <view class="line">
+        <text class="bold">预付费用</text>
+        <text style="color: red;font-size: 36rpx;">￥{{roominfodata.prePrice}}元</text>
+       </view>
+      </view>
+      <view class="line"  wx:if="{{modeIndex==4&&roominfodata.minCharge}}">
+        <text class="bold">最低消费</text>
+        <text style="color: red;">{{roominfodata.minCharge}}元</text>
+      </view>
       <view class="line">
-        <text class="bold">订单时长</text>
+        <text class="bold">计费价格</text>
         <block wx:if="{{modeIndex!=4}}">
           <text>{{order_hour}}小时</text>
         </block>
         <block wx:else="">
-          按实际消费计费
+          {{roominfodata.preUnitPrice}}元/分钟
         </block>
       </view>
-      <view wx:if="{{modeIndex==4}}">
-        <text style="color: var(--main-color);">每个计费单位不足{{roominfodata.preUnit}}分钟时，按{{roominfodata.preUnit}}分钟计费。订单结束后剩余款项将自动退回至原支付渠道</text>
-      </view>
-      <block wx:if="{{modeIndex!=4}}">
+      
+      <block wx:if="{{modeIndex==0}}">
+        <view class="line">
+            <text class="bold">小时单价</text>
+            <text>￥{{roominfodata.price}}元</text>
+        </view>
+      </block>
+      <block wx:if="{{modeIndex!=4&&vipDiscount!=100&&!scanCodeMsg}}">
+        <view class="line">
+            <text class="bold">会员折扣</text>
+            <text style="color:red"> {{vipName}}会员  {{vipDiscount}}折</text>
+        </view>
+      </block>
+      <block wx:if="{{modeIndex!=4&&modeIndex!=1}}">
         <view class="line">
           <view class="left bold">
             <!-- <image class="icon" src="../static/icon/groupBuy.png" /> -->
@@ -270,59 +236,74 @@
       </block>
 
     </view>
-    <view class="section orderPrice orderPay" wx:if="{{modeIndex !== 2 && !scanCodeMsg}}">
-      <view class="line">
-        <text class="bold">支付方式</text>
-      </view>
-      <view class="line" style="margin-bottom: 20rpx;">
-        <view class="left" bind:tap="goSelectPayType" data-index="1">
-          <view class="item">
-            <iconfont name="weixinzhifu" size="26"></iconfont>
-            <text>微信</text>
+  </view>
+    
+    <!-- 套餐列表 -->
+    <scroll-view wx:if="{{modeIndex === 1 && pkgList.length>0}}" scroll-y class="mode" bindscroll="handleScroll" bindscrolltoupper="handleScrollStart">
+        <view class="item {{select_pkg_index == index?'active':''}}" bind:tap="selectPkgInfo" data-id="{{item.pkgId}}" wx:for="{{pkgList}}" wx:key="pkgList" data-index="{{index}}" data-hour="{{item.hours}}">
+          <view class="top">
+            <view class="left">
+              <text class="pkgName">{{item.pkgName}}</text>
+            </view>
+            <text class="price">¥ {{item.price}}</text>
           </view>
-          <view>
-            <view class="selector {{payselectindex == 1 ? 'active':''}}"></view>
+          <view class="line"></view>
+          <view class="bottom">
+            <view class="left">
+            <view class="bottom">可用星期：{{item.desc}}</view>
+              <view class="bottom">可用时段：{{item.timeQuantum}}</view>
+              <view class="pkgInfo">
+                <view class="bottom">{{item.balanceBuy?"可余额支付":"不支持余额支付"}}</view>
+                <view class="bottom">{{item.enableHoliday?"节假日可用":"节假日不可用"}}</view>
+              </view>
+          </view>
+          <image class="img" src="/img/select.png" mode="aspectFit" wx:if="{{select_pkg_index == index}}"></image>
           </view>
         </view>
-        <view class="right-item" bind:tap="goSelectPayType" data-index="2">
-          <iconfont name="yue" size="26"></iconfont>
-          <view class="desc">
-            <view>
-              余额：
-              {{balance}}元
-            </view>
-            <view>
-              赠送：
-              {{giftBalance}}元
-            </view>
-          </view>
-          <view class="selector {{payselectindex == 2 ? 'active':''}}"></view>
-        </view>
-      </view>
-    </view>
+    </scroll-view>
     <view class="order-bar">
       <view class="left">
         <view class="total color-attention">
           <text>￥{{pricestring}}元</text>
-          <block wx:if="{{roominfodata.deposit}}">
-            <text style="font-size:26rpx">（含押金{{roominfodata.deposit}}元）</text>
-          </block>
         </view>
-        <block wx:if="{{roominfodata.deposit}}">
+        <view class="total color-attention" wx:if="{{roominfodata.deposit}}">
+            <text style="font-size:26rpx">（含押金{{roominfodata.deposit}}元）</text>
+        </view>
+        <!-- <block wx:if="{{roominfodata.deposit}}">
           <view class="time">订单结束5分钟后,押金自动退回</view>
+        </block> -->
+      </view>
+      <view class="right">
+        <block wx:if="{{scanCodeMsg}}">
+          <button hover-class="button-click" class="btn tg" bindtap="SubmitOrderInfoData" data-paytype="3">
+          <view style="margin: 0rpx 25rpx;">团购下单</view>
+          </button>
+        </block>
+        <block wx:else="">
+          <button hover-class="button-click" class="btn wx" bindtap="SubmitOrderInfoData" data-paytype="1">
+          <iconfont name="weixinzhifu" size="26"></iconfont>
+          <view style="margin: 0rpx 15rpx;">微信</view>
+        </button>
+        <button hover-class="button-click" class="btn yue" bindtap="SubmitOrderInfoData" data-paytype="2">
+          <iconfont name="yue" size="26"></iconfont>
+          <view class="desc">
+            <view>
+              余:￥
+              {{balance}}
+            </view>
+            <view>
+              赠:￥
+              {{giftBalance}}
+            </view>
+          </view>
+        </button>
         </block>
       </view>
-      <button hover-class="button-click" class="btn bg-primary" bindtap="SubmitOrderInfoData">
-        确认下单
-        <!-- <text class="time">{{order_hour}}小时</text> -->
-      </button>
     </view>
   </view>
 </block>
 
-<van-popup show="{{ showtimefalge }}" position="bottom" custom-style="height: 60%">
-  <van-datetime-picker type="datetime" value="{{currentDate}}" bind:confirm="timeChange" bind:cancel="timeCancel" formatter="{{formatter}}" min-date="{{minDay}}" max-date="{{maxDay}}" min-hour="{{minHour}}"></van-datetime-picker>
-</van-popup>
+
 <!-- 其他时间弹窗 -->
 <van-popup show="{{ show }}" position="bottom">
   <van-picker show-toolbar columns="{{ other_hour_options }}" bind:confirm="onTimeConfirm" bind:cancel="onTimeCancel" />
@@ -357,4 +338,31 @@
     </view>
     <button>知道了</button>
   </view>
+</van-popup>
+
+<van-popup class="timeSelect" show="{{ timeSelectShow }}" position="bottom" custom-style="height: 82%; border-radius: 17rpx 17rpx 0rpx 0rpx;" bind:close="timeSelectCancel">
+<view class="top">
+  <view class="title">选择开始时间</view>
+  <view class="time-slot">
+    <view class="{{dayIndex === index ? 'active' : ''}}" wx:for="{{roominfodata.timeSelectLists}}" data-index="{{index}}"  bind:tap="handleDayChange">
+      <text>{{item.name}}</text>
+    </view>
+  </view>
+</view>
+  
+  <scroll-view scroll-y class="timeOutlet">
+    <view class="item {{item.available?'enable':'disable'}} " wx:for="{{timeSelectList}}" data-index="{{index}}" catch:tap="conTimeSelect">
+      <view class="time">
+        {{item.time}}
+      </view>
+      <view class="available">
+        <block wx:if="{{item.remark}}">
+          {{item.remark}}
+        </block>
+        <block wx:else="">
+          {{item.available?"可用":"不可用"}}
+        </block>
+      </view>
+    </view>
+  </scroll-view>
 </van-popup>

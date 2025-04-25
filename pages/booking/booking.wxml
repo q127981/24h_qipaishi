@@ -34,12 +34,13 @@
         </view>
       </view>
       <view class="top-tabs-container" wx:if="{{roomClass&&roomClass.length>1}}">
-        <view class="top-tabs">
-          <block wx:for="{{roomClass}}" wx:key="roomClass">
-            <view data-index="{{item.value}}" class="tab {{tabIndex === item.value && 'active'}}" bind:tap="tabChange">{{item.text}}</view>
-          </block>
+        <view class="top-tabs {{tabIndex === item.value && 'active'}}" wx:for="{{roomClass}}" data-index="{{item.value}}" bind:tap="tabChange">
+            <iconfont name="majiangfa" size="35" data-index="{{item.value}}" bind:tap="tabChange" wx:if="{{item.value==0}}"></iconfont>
+            <iconfont name="taiqiu" size="35" data-index="{{item.value}}" bind:tap="tabChange" wx:if="{{item.value==1}}"></iconfont>
+            <iconfont name="KTV" size="35" data-index="{{item.value}}" bind:tap="tabChange" wx:if="{{item.value==2}}"></iconfont>
+            <view class="tab" data-index="{{item.value}}" bind:tap="tabChange">{{item.text}}</view>
         </view>
-      </view>
+  </view>
       <!-- 棋牌、KTV 房间列表 -->
       <view class="lists" wx:if="{{tabIndex == 0 || tabIndex == 2}}" wx:for="{{doorlistArr}}" wx:key="doorlistArr" id="roomList">
         <view class="item">
@@ -173,18 +174,12 @@
               <!-- 无订单立即开台 状态  1空闲 2待清洁  4已预约  -->
               <view class="tab-img-box-begin" wx:if="{{item.status==1 || item.status==2 || item.status==4}}" bind:tap="goOrder" data-status="{{item.status}}" data-index="{{index}}" data-info="{{item.roomId}}">
                 <view class="tab-info">
-                  <text class="tab-roomName">{{item.roomName}}</text>
-                  <view></view>
-                  <view class="price">
-                    <label class="color-attention">￥{{item.price}}</label>
-                    元/小时
-                  </view>
-                  <view class="price"  wx:if="{{item.vipPriceList}}">
-                    <text style="color: rgb(255, 51, 0);font-size:28rpx;">会员</text>
-                    <label class="color-attention">￥{{item.vipPriceList[item.vipPriceList.length-1].price}}</label>
-                    元/时起
-                  </view>
-                </view>
+              <text class="tab-roomName">{{item.roomName}}</text>
+              <view class="price">
+                <label class="color-attention">￥{{item.price}}</label>
+                元/小时
+              </view>
+            </view>
                 <view class="tab-button">
                   <button class="begin-button">开台</button>
                 </view>
@@ -194,7 +189,7 @@
                 <view class="tab-wait">
                   <text class="tab-wait-roomName">{{item.roomName}}</text>
                   <view></view>
-                  <text style="font-size: 30rpx;">预计等待：</text>
+                  <text style="font-size: 26rpx;color: rgb(83, 83, 83);">即将空闲</text>
                 </view>
                 <view class="tab-wait-time">
                   <view class="time-number">{{item.waitTime.hours}}</view>
@@ -223,7 +218,7 @@
       <!-- 温馨提示 -->
       <view class="notes">
         <image src="../static/icon/more.png" />
-        到底了，没有更多房间啦~
+        到底了，没有更多啦~
       </view>
     </view>
 

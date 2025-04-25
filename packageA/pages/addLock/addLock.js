@@ -194,6 +194,8 @@ Page({
                 }
               })
             }, 4000);
+            //校准锁时间
+            lock.updateLockTime(lockData);
             wx.showToast({
               title: '初始化成功',
             })

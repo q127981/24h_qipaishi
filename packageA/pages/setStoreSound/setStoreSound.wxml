@@ -1,10 +1,18 @@
 <!--packageA/pages/setStoreSound/setStoreSound.wxml-->
 <view class="container" style="{{isIpx?'padding-bottom:168rpx':'padding-bottom:120rpx'}}">
+  <view class="mode-slot" bind:tap="modeChange">
+    <view data-index="1" class="{{ roomClass == 1 ? 'active' : '' }}">棋牌</view>
+    <view data-index="2" class="{{ roomClass == 2 ? 'active' : '' }}">台球</view>
+    <view data-index="3" class="{{ roomClass == 3 ? 'active' : '' }}">KTV</view>
+  </view>
   <view class="title">
     设备出厂已设置预设音频，可以留空
   </view>
   <view class="title">
     禁止播放违反法律/伦理的非法文本
+  </view>
+  <view class="title">
+    不需要播放的，请设置为“不播放”三个字
   </view>
   <view class="form">
     <view class="line">
@@ -15,15 +23,21 @@
     </view>
     <view class="tips">注:订单开始1分钟时播报</view>
     <view class="line">
-      <label>到期前30分钟</label>
+      <label>结束前30分钟</label>
       <view class="right">
           <textarea model:value="{{endText30}}" type="text" placeholder="最大150个字"/>
       </view>
     </view>
     <view class="line">
-      <label>到期前5分钟</label>
+      <label>结束前5分钟</label>
       <view class="right">
           <textarea model:value="{{endText5}}" type="text" placeholder="最大150个字"/>
+      </view>
+    </view>
+    <view class="line">
+      <label>订单结束时</label>
+      <view class="right">
+          <textarea model:value="{{endText}}" type="text" placeholder="最大150个字"/>
       </view>
     </view>
     <view class="line">

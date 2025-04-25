@@ -431,25 +431,20 @@ Page({
   // 续费弹窗
   renewClick(e){
     var orderInfo = e.currentTarget.dataset.info
-    var currentTimeStamp =  Date.now();
-    var specifiedTime =  new Date(orderInfo.endTime).getTime();
-    // 判断是否已经过去了5分钟（5 * 60 * 1000毫秒）
-    var isPastFiveMinutes = (currentTimeStamp - specifiedTime) > (5 * 60 * 1000);
-    // 判断订单结束时间是否在当前时间的5分钟前
-    if (isPastFiveMinutes) {
-       wx.showModal({
-          title: '温馨提示',
-          content: '订单已结束超过5分钟，不允许续费！请重新下单！',
-          showCancel: false,
-          confirmText: "确定", 
-          success (res) {
-          }
-      })
-    } else {
+    if (orderInfo.status!=2&&orderInfo.status!=3) {
       this.setData({
         renewShow: true,
         orderInfo: orderInfo
       })
+    } else {
+      wx.showModal({
+        title: '温馨提示',
+        content: '订单不允许续费！请重新下单！',
+        showCancel: false,
+        confirmText: "确定", 
+        success (res) {
+        }
+    })
     // this.getgiftBalance()
     }
   },
@@ -785,5 +780,86 @@ Page({
       },
       function fail(info) {}
     );
-  }
+  },
+  depositRefund(e){
+    var that = this;
+    let info = e.currentTarget.dataset.info;
+    wx.showModal({
+      title: '温馨提示',
+      content: '是否确认回此订单支付的押金？',
+      complete: (res) => {
+        if (res.cancel) {
+        }
+        if (res.confirm) {
+          http.request(
+            "/member/manager/depositRefund/" + info.orderId,
+            "1",
+            "post", {
+          },
+            app.globalData.userDatatoken.accessToken,
+            "",
+            function success(info) {
+              if (info.code == 0) {
+                wx.showToast({
+                  title: '操作成功',
+                  icon: 'success'
+                })
+                that.getOrderListdata('refresh');
+              } else {
+                wx.showModal({
+                  content: info.msg,
+                  showCancel: false,
+                })
+              }
+            },
+            function fail(info) {
+
+            }
+          )
+        }
+      }
+    })
+  },
+   // 结单
+   finishOrder: function (e) {
+    let that = this;
+    let roomId = e.currentTarget.dataset.roomId;
+    wx.showModal({
+      title: '注意提示',
+      content: '注意！！！进行中的订单，将会被结束，并立即关电！！请谨慎确认后再操作！！！',
+      complete: (res) => {
+        if (res.cancel) {
+        }
+        if (res.confirm) {
+          if (app.globalData.isLogin) {
+            http.request(
+              "/member/store/finishRoomOrder/" + roomId,
+              "1",
+              "get", {
+            },
+              app.globalData.userDatatoken.accessToken,
+              "",
+              function success(info) {
+                if (info.code == 0) {
+                  wx.showToast({
+                    title: '操作成功',
+                    icon: 'success'
+                  })
+                  that.getOrderListdata('refresh');
+                } else {
+                  wx.showModal({
+                    content: info.msg,
+                    showCancel: false,
+                  })
+                }
+              },
+              function fail(info) {
+
+              }
+            )
+          }
+        }
+      }
+    })
+  },
 })

@@ -67,6 +67,11 @@ page{
   background: transparent;
   color: #fff;
 }
+.list .item .btns .del{
+  align-items: right;
+  text-align: right;
+  margin-right: 20rpx;
+}
 .list .item .btns .red{
   background: var(--main-red);
 }

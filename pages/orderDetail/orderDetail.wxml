@@ -50,7 +50,6 @@
       <view class="info-line" bind:tap="copyOrderNo" data-order="{{OrderInfodata.orderNo}}">
         <text class="bold">订单编号：</text>
         <text>{{OrderInfodata.orderNo}}</text>
-        <view class="copy">复制</view>
       </view>
       <view class="info-line display-space">
         <view>
@@ -67,9 +66,13 @@
         <text class="bold">订单总价：</text>
         <text>¥ {{OrderInfodata.payPrice}}</text>
       </view>
-      <view class="info-line">
+      <view class="info-line" wx:if="{{OrderInfodata.deposit}}">
         <text class="bold">订单押金：</text>
         <text>¥ {{OrderInfodata.deposit}}</text>
+      </view>
+      <view class="info-line" wx:if="{{OrderInfodata.refundPrice}}">
+        <text class="bold">订单退款：</text>
+        <text>¥ {{OrderInfodata.refundPrice}}</text>
       </view>
     </view>
   </view>
@@ -94,7 +97,8 @@
       <view class="door m-b-20 start" bind:tap="roomOpen" wx:if="{{OrderInfodata.status === 0 || OrderInfodata.status === 1}}">
         <view class="action">
           <iconfont name="shandian" size="22" color="#FFF"></iconfont>
-          <view class="text">通电开门</view>
+          <view class="text" wx:if="{{OrderInfodata.roomClass == 1}}">通电开台</view>
+          <view class="text" wx:else="">通电开门</view>
         </view>
       </view>
       <view class="door m-b-20" bind:tap="showModal" wx:if="{{OrderInfodata.status === 0 || OrderInfodata.status === 1}}">
@@ -106,7 +110,8 @@
       <view class="door m-b-20" bind:tap="goChangeDoor" wx:if="{{OrderInfodata.status === 0}}">
         <view class="action">
           <iconfont name="24gl-swapHorizontal3" size="22" color="#5AAB6E"></iconfont>
-          <view class="text">更换包间</view>
+          <view class="text" wx:if="{{OrderInfodata.roomClass == 1}}">更换球桌</view>
+          <view class="text" wx:else="">更换房间</view>
         </view>
       </view>
       <button hover-class="button-click" class="door share" open-type="share" wx:if="{{OrderInfodata.status === 0 || OrderInfodata.status === 1}}">
@@ -141,12 +146,13 @@
   </view>
   <!-- 温馨提示 -->
   <view class="notes">
-    <view class="line">1. 下单5分钟内可以取消订单或更换房间，超时将无法取消！</view>
+    <view class="line">1. 下单5分钟内可以取消订单或更换，超时将无法取消！</view>
     <view class="line">2. 订单无法暂停，迟到消费，按原预订时间开始计费！</view>
     <view class="line">3. 订单可以提前开始消费，提前开始提前结束。</view>
     <view class="line">4. 特殊情况，或需要帮助，请联系客服处理！</view>
     <view class="line">5. 离场时请带好随身物品，以防丢失！</view>
-    <view class="line">6.支付的押金,在订单结束5分钟后,自动原路退回！</view>
+    <view class="line">6. 支付的押金,正常结束订单5分钟后,自动原路退回！</view>
+    <view class="line">7. 部分订单有最低消费标准，下单时请留意！</view>
   </view>
 </view>
 <!-- 续单弹窗 -->

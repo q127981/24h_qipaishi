@@ -2,20 +2,20 @@
 <view class="container" style="{{isIpx?'padding-bottom:168rpx':'padding-bottom:120rpx'}}">
   <view class="form">
     <view class="line">
-      <label>房间名称：</label>
+      <label>场地名称：</label>
       <view class="right">
         <input model:value="{{roomName}}" type="text" placeholder="请输入" />
       </view>
     </view>
     <view class="line">
-      <label>房间简称：</label>
+      <label>场地简称：</label>
       <view class="right">
         <input model:value="{{roomCallName}}" type="text" placeholder="请输入" />
       </view>
     </view>
-    <view class="tips">注：云喇叭播报的房间名称,尽量简短,不要超过6个字.例:VIP1</view>
+    <view class="tips">注：云喇叭播报的场地名称,尽量简短,不要超过6个字.例:VIP1</view>
     <view class="line">
-      <label>房间类别：</label>
+      <label>场地类别：</label>
       <view class="right">
         <view class="city">
           <picker bindchange="bindRoomClassChange" value="{{rcIndex}}" range-key="name" range="{{roomClassList}}">
@@ -27,7 +27,7 @@
       </view>
     </view>
     <view class="line">
-      <label>房间类型：</label>
+      <label>场地类型：</label>
       <view class="right">
         <view class="city">
           <picker bindchange="bindTypeChange" value="{{index}}" range-key="name" range="{{types}}">
@@ -46,7 +46,7 @@
         </view>
       </view>
     </view>
-    <view class="tips">注：打开时，房间订单结束后将直接变为空闲状态</view>
+    <view class="tips">注：打开时，订单结束后场地将直接变为空闲状态</view>
     <view class="line">
       <label>是否可预定：</label>
       <view class="right">
@@ -57,7 +57,7 @@
     </view>
     <view class="tips">注:不可预订代表不能修改下单开始时间，只能当前时间开始</view>
     <view class="line">
-      <label>房间单价：</label>
+      <label>单价：</label>
       <view class="right">
         <view class="price">
           <input model:value="{{price}}" type="digit" placeholder="请输入" />
@@ -66,7 +66,7 @@
       </view>
     </view>
     <view class="line">
-      <label>房间押金：</label>
+      <label>下单押金：</label>
       <view class="right">
         <view class="price">
           <input model:value="{{deposit}}" type="digit" placeholder="请输入" />
@@ -85,7 +85,7 @@
       </view>
     </view>
     <view class="tips">注：顾客可以选择先付钱消费，订单结束后按使用实际使用时间退款剩余费用。</view>
-    <view class="line">
+    <!-- <view class="line">
       <label>预付计费单位：</label>
       <view class="right">
         <view class="price">
@@ -94,7 +94,7 @@
         </view>
       </view>
     </view>
-    <view class="tips">注：可按1分钟为单位计费，最大60分钟为单位计费。如：设置房间单价10元/小时，按1分钟计费就是0.16元1分钟。</view>
+    <view class="tips">注：可按1分钟为单位计费，最大60分钟为单位计费。如：设置单价10元/小时，按1分钟计费就是0.16元1分钟。</view> -->
     <view class="line">
       <label>预付最低消费：</label>
       <view class="right">
@@ -162,9 +162,9 @@
         <iconfont name="close" bind:tap="clearBanTime"></iconfont>
       </view>
     </view>
-    <view class="tips">注：每日固定时间段该房间不可用，不禁用就不用填写</view>
+    <view class="tips">注：每日固定时间段该场地不可用，不禁用就不用填写</view>
     <view class="line">
-      <label>房间标签：</label>
+      <label>场地标签：</label>
       <view class="right">
         <view class="tags">
           <textarea model:value="{{label}}" type="text" placeholder="输入标签，用逗号分隔" />
@@ -173,7 +173,7 @@
     </view>
     <view class="tips">注：请使用英文的逗号进行分隔</view>
     <view class="line">
-      <label>房间图片：</label>
+      <label>场地图片：</label>
       <view class="right">
         <van-uploader file-list="{{ fileList }}" bind:after-read="afterRead" bind:delete="delete" preview-size="200rpx" max-count="9" />
       </view>
@@ -190,14 +190,3 @@
   <van-datetime-picker type="time" value="{{currentDate}}" filter="{{filter}}" bind:confirm="timeChange" bind:cancel="timeCancel">
   </van-datetime-picker>
 </van-popup>
-<van-dialog use-slot title="选择房间标签" show="{{ showLabel }}" show-cancel-button bind:confirm="saveLabel">
-  <view class="dialog">
-    <checkbox-group bindchange="checkboxChange">
-      <view class="checkbox">
-        <label class="label" wx:for="{{labels}}" wx:key="labels">
-          <checkbox value="{{item.label}}" checked="{{item.checked}}" />{{item.label}}
-        </label>
-      </view>
-    </checkbox-group>
-  </view>
-</van-dialog>

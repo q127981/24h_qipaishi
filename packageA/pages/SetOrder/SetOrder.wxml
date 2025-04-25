@@ -18,7 +18,7 @@
     <block wx:if="{{orderlist.length>0}}">
       <view class="lists" wx:for="{{orderlist}}" wx:key="orderlist">
         <view class="item">
-          <view class="orderNo color-primary"> {{item.orderNo}}</view>
+          <view class="orderNo"> {{item.orderNo}}</view>
           <block wx:if="{{item.status == 0}}">
             <view class="tag blue">未开始</view>
           </block>
@@ -31,7 +31,8 @@
           <block wx:elif="{{item.status == 3}}">
             <view class="tag gray">已取消</view>
           </block>
-          <ul class="info">
+          <view style="padding: 15rpx 26rpx;">
+            <ul class="info">
             <!-- <li>
               <image class="roomImg" src="{{item.roomImg}}"></image>
             </li> -->
@@ -42,8 +43,6 @@
                 <span class="name">{{item.storeName}}</span> - 
               {{item.roomName}}({{item.roomType===1?'小包':item.roomType===2?'中包':item.roomType===3?'大包':item.roomType===4?'豪包':item.roomType===5?'商务包':item.roomType===6?'斯洛克':item.roomType===7?'中式黑八':'美式球桌'}})
               </view>
-              <!-- <view></view> -->
-              <!-- <view class="name">{{item.storeName}}</view> -->
             </li>
           </ul>
           <!-- 时间段 -->
@@ -64,35 +63,40 @@
               <view class="info">创建时间：{{item.createTime}}</view>
               <!-- <view class="info" wx:if="{{item.couponName}}">使用卡券：<label>{{item.couponName}}</label></view> -->
               <view class="info">预订用户：{{item.nickname}}</view>
-              <view class="info">手机号码：{{item.mobile}}
-                <text class="copyMobile" bindtap='copyText' data-text="{{item.mobile}}">复制</text>
+              <view class="info" bindtap='copyText' data-text="{{item.mobile}}">手机号码：{{item.mobile}}
+                <!-- <text class="copyMobile" bindtap='copyText' data-text="{{item.mobile}}">复制</text> -->
+                <text class="copyMobile" catchtap="callMobile" data-mobile="{{item.mobile}}">拨打</text>
               </view>
             </view>
             <view>
               <view>支付方式：<text>{{item.payType===0?'管理员':item.payType===1?'微信':item.payType===2?'余额':item.payType===3?'团购':item.payType===4?'套餐':'预订'}}</text></view>
               <view>实际支付：<text class="price">￥{{item.payPrice}}</text></view>
+              <view wx:if="{{item.renewPrice}}">续费金额：<text class="price">￥{{item.renewPrice}}</text></view>
+              <block wx:if="{{item.deposit}}">
+                <view>支付押金：<text class="color-attention">￥{{item.deposit}}</text></view>
+              </block>
               <block wx:if="{{item.status == 3}}">
                 <view>订单退款：<text class="color-attention">￥{{item.refundPrice}}</text></view>
               </block>
             </view>
           </view>
           <view class="btns">
-            <block wx:if="{{item.status == 0 || item.status == 1}}">
-              <view class="line1">
+            <view class="line1" wx:if="{{item.status == 0 || item.status == 1}}">
                 <button hover-class="button-click" class="btn bg-warning" catchtap="refundOrder" data-info="{{item}}">退款</button>
                 <button hover-class="button-click" class="btn cancel" catchtap="cancelOrder" data-info="{{item}}">取消</button>
-              </view>
-              <view class="line2">
+            </view>
+            <view class="line2" wx:if="{{item.status == 0 || item.status == 1}}">
                 <button hover-class="button-click" class="btn bg-primary1" catchtap="changeOrderUser" data-info="{{item}}">订单转移</button>
                 <button hover-class="button-click" class="btn bg-primary1" catchtap="changeOrder" data-info="{{item}}">换房/改时间</button>
-              </view>
-              <view class="line3">
-                <button hover-class="button-click" class="btn bg-primary" catchtap="callMobile" data-mobile="{{item.mobile}}">拨打电话</button>
-                <block wx:if="{{item.renewBtn}}">
-                  <button hover-class="button-click" class="btn bg-primary" catchtap="renewClick" data-info="{{item}}">续费</button>
-                </block>
-              </view>
-            </block>
+            </view>
+            <view class="line3" wx:if="{{item.status!=2&&item.status!=3}}">
+              <button hover-class="button-click" class="btn bg-primary" catchtap="renewClick" data-info="{{item}}">续费</button>
+              <button hover-class="button-click" class="btn bg-primary" catchtap="finishOrder" data-info="{{item}}">提前结束</button>
+            </view>
+            <view class="line3" wx:if="{{item.status==2 && item.deposit>0 && !item.depositRefund}}">
+              <button hover-class="button-click" class="btn bg-primary" catchtap="depositRefund" data-info="{{item}}">退回押金</button>
+            </view>
+          </view>
           </view>
         </view>
       </view>

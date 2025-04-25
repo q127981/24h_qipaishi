@@ -1,7 +1,8 @@
 <!--packageA/pages/vipConfig/vipConfig.wxml-->
 <view class="container">
 <view class="tishi">
-提示：最多设置三个会员等级；修改会员等级不会影响已有的会员；累计积分、订单折扣等，仅对通过微信下单的方式有效；团购、套餐下单无效；
+提示：最多设置三个会员等级；修改会员等级不会影响已有的会员；
+仅微信支付的订单或余额充值才会累计积分；团购下单不享受折扣!
 </view>
   <block wx:if="{{list.length}}">
     <view class="list">
@@ -14,6 +15,7 @@
         </view>
         <view class="btns">
           <button hover-class="button-click"  class="btn bg-primary" bindtap="edit" data-info="{{item}}">修改</button>
+          <view class="del" bind:tap="deleteConfig" data-id="{{item.vipId}}">删除</view>
         </view>
       </view>
     </view>

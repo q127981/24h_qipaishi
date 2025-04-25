@@ -5,6 +5,7 @@ page {
 
 .container {
   padding: 6rpx 26rpx 100rpx 26rpx;
+  align-items: center;
 }
 
 .section {
@@ -12,15 +13,20 @@ page {
   padding: 10rpx 20rpx;
   border-radius: 16rpx;
   margin-bottom: 10rpx;
+  /* position: fixed;
+  width: 88%; */
+  align-items: center;
+  /* z-index: 10; */
 }
-
+.section .top {
+}
 .top .logo {
   margin-bottom: 10rpx;
   font-size: 36rpx;
   text-align: center;
 }
 
-.top .topInfo {}
+ .topInfo {}
 
 .top .topInfo .name {
   display: flex;
@@ -157,7 +163,7 @@ page {
 }
 
 .time-section {
-  padding: 10rpx 34rpx;
+  padding: 5rpx 24rpx;
   background: #fff;
   border-radius: 17rpx 17rpx 17rpx 17rpx;
   margin-bottom: 10rpx;
@@ -166,14 +172,19 @@ page {
 .time-slot {
   display: flex;
   justify-content: space-between;
-  font-size: 23rpx;
+  font-size: 30rpx;
+  font-weight: bold;
+  margin: 0rpx 30rpx 15rpx 30rpx;
+  /* border: 1px solid var(--main-color); */
+  border-radius: 10rpx;
 }
 
 .time-slot view {
-  width: 104rpx;
-  height: 84rpx;
+  width: 120rpx;
+  height: 80rpx;
   color: #000;
   display: flex;
+  border-radius: 15rpx;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -182,21 +193,22 @@ page {
 .time-slot view.active {
   background: var(--main-color);
   color: #fff;
-  border-radius: 5rpx;
+  /* border-radius: 5rpx; */
 }
 
 .mode-slot {
-  width: 623rpx;
   background: #F6F6F4;
-  border-radius: 35rpx 35rpx 35rpx 35rpx;
+  border-radius: 10rpx;
   display: flex;
   align-items: center;
   margin-top: 24rpx;
   margin-bottom: 13rpx;
+  font-size: 32rpx;
+  /* font-weight: bold; */
 }
 
 .mode-slot view {
-  height: 52rpx;
+  height: 80rpx;
   flex-grow: 1;
   text-align: center;
   display: flex;
@@ -207,39 +219,42 @@ page {
 .mode-slot view.active {
   background: var(--main-color);
   color: #fff;
-  border-radius: 35rpx 35rpx 35rpx 35rpx;
+  border-radius: 10rpx;
   box-shadow: 0rpx 5rpx 10rpx 2rpx rgba(0, 0, 0, 0.16);
 }
 
 .mode {
-  width: 100%;
-  margin-top: 30rpx;
-}
-
-.mode-container {
-  display: flex;
-  flex-direction: row;
-  white-space: nowrap;
-  min-width: 100%;
+  width: 99%;
+  /* margin-top: 83%; */
 }
 
 .mode .item {
-  width: 369rpx;
   height: 160rpx;
   border-radius: 17rpx 17rpx 17rpx 17rpx;
-  margin-right: 18rpx;
+  margin: 15rpx 0rpx;
   font-size: 20rpx;
   padding: 10rpx 16rpx;
-  border: 2rpx solid var(--main-color);
-  color: var(--main-color);
+  /* border: 2rpx solid var(--main-color); */
   display: flex;
   justify-content: space-between;
   flex-direction: column;
   flex: 0 0 auto;
+  background-color: var(--main-color);
+  color: #fff;
+}
+
+.mode .item .bottom{
+  display: flex;
+  justify-content: space-between;
+}
+.mode .item .bottom .img {
+  margin-top: 20rpx;
+  width: 70rpx;
+  height: 70rpx;
 }
 
 .mode .item.active {
-  background: #5AAB6E;
+  /* background: #5AAB6E; */
   color: #fff;
 }
 
@@ -257,8 +272,7 @@ page {
 .mode .item .top .left .pkgName {
   font-size: 28rpx;
   font-weight: 600;
-  width: 230rpx;
-  color: rgb(255, 0, 0);
+  width: 500rpx;
   white-space: nowrap;
   /* 确保文本在一行内显示 */
   overflow: hidden;
@@ -287,7 +301,8 @@ page {
 
 .mode .item .price {
   font-size: 32rpx;
-  color: red;
+  font-weight: bold;
+  /* color: red; */
 }
 
 .mode-time {
@@ -306,7 +321,7 @@ page {
   background: #FFFFFF;
   border-radius: 9rpx 9rpx 9rpx 9rpx;
   border: 2rpx solid #C3C1C1;
-  font-size: 26rpx;
+  font-size: 30rpx;
   line-height: 66rpx;
   text-align: center;
   margin-right: 20rpx;
@@ -486,11 +501,12 @@ page {
   font-size: 34rpx;
   color: var(--main-color);
   font-weight: bold;
+  align-items: center;
   /* margin-right: 52rpx; */
 }
 
 .timer .time {
-  width: 300rpx;
+  width: 200rpx;
   height: 75rpx;
   background: #FFFFFF;
   border-radius: 10rpx;
@@ -510,7 +526,7 @@ page {
 }
 
 .timer .divide {
-  margin: 0 46rpx;
+  margin: 0 26rpx;
   color: #666666;
 }
 
@@ -714,20 +730,27 @@ page {
 
 .order-bar {
   width: 100%;
-  height: 166rpx;
+  /* height: 166rpx; */
+  /* padding-bottom: 40rpx; */
+  /* margin-bottom: 40rpx; */
   box-sizing: border-box;
-  padding: 10rpx 30rpx;
+  padding: 15rpx 20rpx 40rpx 40rpx;
   position: fixed;
   z-index: 1;
   bottom: 0;
   left: 0;
-  display: flex;
-  justify-content: space-between;
   align-items: center;
   background-color: #fff;
+  display: flex;
+  justify-content:space-between;
 }
 
-.order-bar .left {}
+
+.order-bar .right {
+  display: flex;
+  justify-content: right;
+}
+
 
 .order-bar .total {
   font-size: 32rpx;
@@ -740,14 +763,57 @@ page {
 
 .order-bar .btn {
   margin: 0;
-  width: 300rpx;
+  /* width: 200rpx; */
   height: 80rpx;
   line-height: 80rpx;
-  font-size: 28rpx;
+  font-size: 30rpx;
+  display: flex;
+  justify-content: start;
+  text-align: center;
+  align-items: center;
+  color: var(--main-color);
+}
+.order-bar .btn.tg{
+  background-color: rgb(250, 114, 72);
+  color: #fff;
+  border-radius: 15rpx;
+}
+
+
+.order-bar .btn.wx{
+  background-color: rgb(46, 45, 45);
+  border-radius: 15rpx 0 0 15rpx;
+}
+
+.order-bar .btn.yue{
+  background-color:  rgb(250, 114, 72);
+  border-radius: 0 15rpx 15rpx 0;
+  color: rgb(228, 226, 226);
+}
+
+.order-bar .btn .desc {
+  font-size: 24rpx;
+  line-height: 24rpx;
+  /* color: #3E3E3E; */
+  margin-left: 10rpx;
+  margin-right: 16rpx;
+}
+
+.order-bar .btn .desc view {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6rpx;
+}
+
+.order-bar .btn .desc image {
+  width: 22rpx;
+  height: 22rpx;
+  margin-right: 1rpx;
+  margin-left: 15rpx;
 }
 
 .timeSlot {
-  margin-top: 20rpx;
+  margin-top: 10rpx;
   display: flex;
   justify-content: space-between;
 }
@@ -756,7 +822,7 @@ page {
   font-size: 20rpx;
   text-align: center;
   color: #aaa;
-  border-top: 20rpx solid #e8e8e8;
+  border-top: 10rpx solid #e8e8e8;
   width: 24rpx;
   line-height: 30rpx;
 }
@@ -1161,10 +1227,64 @@ page {
 }
 
 .vipPrice .priceInfo .price {
+  font-size: 32rpx;
   color: red;
 }
 
 .vipPrice .priceText {
-  font-size: 20rpx;
+  font-size: 18rpx;
   color: #000;
+}
+
+.timeSelect .top{
+  position: fixed;
+  width: 100%;
+  z-index: 999; /* 确保层级足够高 */
+  background: linear-gradient( 180deg, #a2f5b8 0%, #ecf7ef 100%, #FFFFFF 100%);
+}
+.timeSelect .title{
+  color: var(--main-color);
+  font-size: 36rpx;
+  font-weight: bold;
+  padding: 10rpx 20rpx;
+  align-items: center;
+  text-align: center;
+}
+.timeSelect .timeOutlet {
+  margin-top: 160rpx;
+  background-color: #f5f5f5;
+  text-align: center; /* 添加这一句 */
+  font-size: 0;        /* 消除 inline-block 元素间的空隙 */
+}
+.timeSelect .timeOutlet .item {
+  width: 120rpx;
+  /* height: 100rpx; */
+  margin: 10rpx;
+  padding: 20rpx 20rpx;
+  align-items: center;
+  text-align: center;
+  border-radius: 15rpx;
+  display: inline-block;
+  font-size: initial; /* 恢复子元素字体大小 */
+}
+.timeSelect .timeOutlet .item.enable {
+  background-color: #fff;
+}
+.timeSelect .timeOutlet .item.disable {
+  background-color: rgb(226, 226, 226);
+}
+
+
+.timeSelect .item .time {
+  font-size: 42rpx;
+  font-weight: bold;
+}
+
+.timeSelect .item .available {
+  font-size: 24rpx;
+  text-align: center;
+  color: rgb(136, 134, 134);
+}
+.timeSelect .item .remark{
+  font-size: 22rpx;
 }

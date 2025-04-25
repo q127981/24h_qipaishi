@@ -1,0 +1,186 @@
+.qipai1 .banner swiper {
+  width: 100%;
+  height: 600rpx;
+  overflow: hidden;
+}
+
+.qipai1 .banner image {
+  width: 100%;
+  height: 100%;
+}
+
+
+.qipai1 .content{
+  text-align: center;
+  align-items: center;
+  position: relative;
+  top: -80rpx;
+}
+.qipai1 .store {
+  width: 93%;
+  height: 205rpx;
+  margin: 0rpx auto;
+  background-image: linear-gradient(181.2deg, #94e6cd 10.5%, #fcfdfd 86.8%);
+  border-radius: 15rpx;
+}
+.qipai1 .store .top {
+   display: flex; 
+   justify-content: space-between;
+}
+
+
+.qipai1 .store .top .info{
+  display: flex;
+  justify-content: space-between;
+  padding: 15rpx 20rpx;
+  font-size: 38rpx;
+  color: rgb(78, 77, 77);
+  font-weight: bold;
+}
+
+.qipai1 .store .top .info .name {
+  margin-left: 10rpx;
+}
+
+.qipai1 .store .top .distant {
+  display: flex;
+  justify-content: space-between;
+  padding: 20rpx 30rpx;
+  font-size: 24rpx;
+}
+
+
+.qipai1 .store .bottom {
+  display: flex;
+  align-items: center;
+}
+
+.qipai1 .store .bottom .location {
+  /* width: 450rpx; */
+  font-weight: 300;
+  font-size: 22rpx;
+  color: #2b6b58;
+  line-height: 32rpx;
+  margin-top: 5px;
+  padding: 0rpx 20rpx;
+  text-align: left;
+  margin-bottom: 5rpx;
+}
+.qipai1 .store .btns {
+  display: flex;
+  justify-content: space-around;
+}
+
+.qipai1 .store .btn{
+  display: flex;
+  width: 160rpx;
+  height: 40rpx;
+  font-size: 26rpx;
+  font-weight: bold;
+  text-align: center;
+  align-items: center;
+  border-radius: 5rpx;
+  color: #377e67;
+}
+
+.qipai1 .info .top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.qipai1 .info .top .btn1 {
+  width: 280rpx;
+  height: 302rpx;
+  background-size: contain;
+  background-repeat: no-repeat; 
+  background-position: center;   /* 背景图像居中 */
+  border-radius: 20rpx;
+  margin: 0rpx 10rpx 0rpx 20rpx;
+}
+.qipai1 .info .top .btn2 {
+  width: 280rpx;
+  height: 302rpx;
+  background-size: contain;
+  background-repeat: no-repeat; 
+  background-position: center;   /* 背景图像居中 */
+  border-radius: 20rpx;
+  margin: 0rpx 10rpx 0rpx 10rpx;
+}
+.qipai1 .info .top .btn3 {
+  width: 280rpx;
+  height: 302rpx;
+  background-size: contain;
+  background-repeat: no-repeat; 
+  background-position: center;   /* 背景图像居中 */
+  border-radius: 20rpx;
+  margin: 0rpx 20rpx 0rpx 10rpx;
+}
+
+.qipai1 .info .line {
+  display: flex;
+  justify-content: space-between;
+}
+
+.qipai1 .info .line .btn4 {
+  width: 90%;
+  height: 120rpx;
+  background-size: contain;
+  background-repeat: no-repeat; 
+  background-position: center;   /* 背景图像居中 */
+  border-radius: 20rpx;
+  margin: 0rpx 10rpx 10rpx 20rpx;
+}
+
+.qipai1 .info .line .btn5 {
+  width: 90%;
+  height: 120rpx;
+  background-size: contain;
+  background-repeat: no-repeat; 
+  background-position: center;   /* 背景图像居中 */
+  border-radius: 20rpx;
+  margin: 0rpx 20rpx 10rpx 10rpx;
+}
+
+
+.qipai1 .info .line .btn6 {
+  width: 90%;
+  height: 120rpx;
+  background-size: contain;
+  background-repeat: no-repeat; 
+  background-position: center;   /* 背景图像居中 */
+  border-radius: 20rpx;
+  margin: 0rpx 10rpx 10rpx 20rpx;
+}
+
+.qipai1 .info .line .btn7 {
+  width: 90%;
+  height: 120rpx;
+  background-size: contain;
+  background-repeat: no-repeat; 
+  background-position: center;   /* 背景图像居中 */
+  border-radius: 20rpx;
+  margin: 0rpx 20rpx 10rpx 10rpx;
+}
+.qipai1 .section {
+  /* display: flex; */
+}
+.qipai1 .title {
+  display: flex;
+  font-size: 38rpx;
+  margin-left: 5%;
+  border-width: 0;
+  border-left-width: 10rpx;
+  border-style: solid;
+  padding-left: 10rpx;
+  line-height: 1;
+  font-weight: 700;
+  font-size: 36rpx;
+  color: #2c896d;
+  margin-top: 10rpx;
+  margin-bottom: 30rpx;
+}
+
+.qipai1 .section .content image {
+  width: 100%;
+  overflow: hidden;
+}

@@ -277,17 +277,17 @@ Page({
   finish: function () {
     let id = this.data.info.clearId
     var that = this;
-    if (!that.data.fileList.length) {
-      wx.showToast({
-        title: '请上传图片',
-        icon: 'error'
-      })
-      return
-    }
     var urls = []
-    that.data.fileList.map(it => {
-      urls.push(it.url)
-    })
+    if (!that.data.fileList.length) {
+      // wx.showToast({
+      //   title: '请上传图片',
+      //   icon: 'error'
+      // })
+      // return
+      that.data.fileList.map(it => {
+        urls.push(it.url)
+      })
+    }
     if (app.globalData.isLogin) {
       http.request(
         "/member/clear/finish/" + id,

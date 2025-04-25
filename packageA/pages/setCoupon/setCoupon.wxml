@@ -10,7 +10,7 @@
   <view class="list">
     <view class="item" wx:for="{{list}}" wx:key="item">
       <block wx:if="{{item.type===1}}">
-        <image class="img" src="/img/coupon_blue.png" mode="scaleToFill"></image>
+        <image class="img" src="/img/coupon_red.png" mode="scaleToFill"></image>
       </block>
       <block wx:if="{{item.type===2}}">
         <image class="img" src="/img/coupon_yellow.png" mode="scaleToFill"></image>

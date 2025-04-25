@@ -72,7 +72,7 @@
     <view class="line">
       <label>门店列表图</label>
       <view class="right">
-        <van-uploader file-list="{{ fileList1 }}" bind:after-read="afterRead" data-info="1" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" />
+        <van-uploader file-list="{{ fileList1 }}" bind:after-read="afterRead" data-info="1" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit"  upload-text="尺寸：377 x 508"/>
       </view>
     </view>
     <view class="line">
@@ -91,14 +91,14 @@
       <label>首页按钮图</label>
       <view class="right">
         <view>
-          <van-uploader file-list="{{ btnfileList }}" bind:after-read="afterRead" data-info="10" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="立即预约按钮图" />
+          <van-uploader file-list="{{ btnfileList }}" bind:after-read="afterRead" data-info="10" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="立即预约按钮图：495 x 600" />
         </view>
-        <van-uploader file-list="{{ qhfileList }}" bind:after-read="afterRead" data-info="11" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="切换门店按钮图" />
-        <van-uploader file-list="{{ tgfileList }}" bind:after-read="afterRead" data-info="12" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="团购兑换按钮图" />
-        <van-uploader file-list="{{ czfileList }}" bind:after-read="afterRead" data-info="13" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="商品点单按钮图" />
-        <van-uploader file-list="{{ openfileList }}" bind:after-read="afterRead" data-info="14" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="一键开门按钮图" />
-        <van-uploader file-list="{{ wififileList }}" bind:after-read="afterRead" data-info="15" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="WIFI信息按钮图" />
-        <van-uploader file-list="{{ kffileList }}" bind:after-read="afterRead" data-info="16" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="联系客服按钮图" />
+        <van-uploader file-list="{{ qhfileList }}" bind:after-read="afterRead" data-info="11" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="切换门店按钮图：495 x 282" />
+        <van-uploader file-list="{{ tgfileList }}" bind:after-read="afterRead" data-info="12" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="团购兑换按钮图：495 x 282" />
+        <van-uploader file-list="{{ czfileList }}" bind:after-read="afterRead" data-info="13" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="商品点单按钮图：495 x 210" />
+        <van-uploader file-list="{{ openfileList }}" bind:after-read="afterRead" data-info="14" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="一键开门按钮图：495 x 210" />
+        <van-uploader file-list="{{ wififileList }}" bind:after-read="afterRead" data-info="15" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="WIFI信息按钮图：495 x 210" />
+        <van-uploader file-list="{{ kffileList }}" bind:after-read="afterRead" data-info="16" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="联系客服按钮图：495 x 210" />
       </view>
     </view>
     <view class="line" wx:if="{{!simpleModel}}">

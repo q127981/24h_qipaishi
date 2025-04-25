@@ -52,20 +52,23 @@ page {
   /* background: radial-gradient(circle at 20% 10%, rgb(210, 247, 250) 0%, rgb(238, 245, 235) 86.8%); */
   border-radius: 20rpx;
   /* border: 4rpx solid #b1d1f7; */
-  padding: 15rpx 26rpx;
+  /* padding: 15rpx 26rpx; */
   margin: 0rpx 10rpx;
   position: relative;
   overflow: hidden;
   box-shadow: 10rpx 10rpx 10rpx rgba(0, 0, 0, .1);
 }
 
-.lists .item:last-child {
-  margin-bottom: 0;
+.lists:last-child {
+  padding-bottom: 200rpx;
 }
 
 .lists .item .orderNo {
   font-weight: 550;
-  color: #45c1faea;
+  color: #fff;
+  background-color: var(--main-color);
+  border-radius: 10rpx 10rpx 0 0 ;
+  padding: 10rpx 20rpx;
 }
 
 .lists .item .info {
@@ -88,7 +91,7 @@ page {
 .lists .item .tag {
   position: absolute;
   right: 30rpx;
-  top: 15rpx;
+  top: 10rpx;
   font-size: 26rpx;
   font-weight: bold;
   width: 100rpx;
@@ -100,32 +103,32 @@ page {
 }
 
 .lists .item .tag.blue {
-  color: var(--main-color);
-  border: 2rpx solid var(--main-color);
+  color: #fff;
+  /* border: 2rpx solid var(--main-color); */
 }
 
 .lists .item .tag.yellow {
   color: var(--main-orange);
-  border: 2rpx solid var(--main-orange);
+  /* border: 2rpx solid var(--main-orange); */
 }
 
 .lists .item .tag.gray {
   color: var(--main-gray);
-  border: 2rpx solid var(--main-gray);
+  /* border: 2rpx solid var(--main-gray); */
 }
 
 .lists .item .tag.finish {
   color: #da4848;
-  border: 2rpx solid #da4848;
+  /* border: 2rpx solid #da4848; */
 }
 
 .lists .item .title {
   font-weight: 600;
   font-size: 30rpx;
+  color: var(--main-color);
 }
 
 .lists .item .name {
-  color: rgb(0, 0, 0);
   font-size: 30rpx;
 }
 

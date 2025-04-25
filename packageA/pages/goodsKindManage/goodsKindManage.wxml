@@ -36,11 +36,13 @@
         </block>
       </view>
     </view>
-    <view class="submit {{isIpx?'fix-iphonex-button':''}}">
+    <!-- <view class="submit {{isIpx?'fix-iphonex-button':''}}">
       <button class="addBlacklist" bind:tap="gotoAdd">添加商品分类</button>
-    </view>
+    </view> -->
   </view>
 </scroll-view>
+<!-- 底部按钮 -->
+<view class="bottom bg-primary {{isIpx?'fix-iphonex-button':''}}" bindtap="gotoAdd">添加分类</view>
 
 <van-dialog use-slot title="提示" show="{{ showremove }}" show-cancel-button confirm-button-text="确认" bind:confirm="remove">
   <view class="dialog">

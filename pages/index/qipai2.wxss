@@ -1,0 +1,104 @@
+.qipai2 .banner swiper {
+  width: 100%;
+  height: 600rpx;
+  overflow: hidden;
+}
+
+.qipai2 .banner image {
+  width: 100%;
+  height: 100%;
+}
+
+.qipai2 .store {
+  padding: 25rpx 50rpx;
+  background-color: #fff;
+  text-align: center;
+}
+
+.qipai2 .store .info {
+  display: flex;
+  justify-content: flex-start;
+}
+.qipai2 .store .info .img {
+  margin-left: 20rpx;
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 100%;
+}
+.qipai2 .store .info .storeName {
+  font-size: 34rpx;
+  text-align: center;
+  align-items: center;
+  line-height: 80rpx;
+  margin-left: 20rpx;
+  font-weight: bold;
+}
+.qipai2 .store .info .qiehuan{
+  text-align: center;
+  align-items: center;
+  margin-left: 30rpx;
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.qipai2 .store .buttom{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20rpx;
+  background-color: #f5f5f5;
+  padding: 20rpx 20rpx;
+  border-radius: 15rpx;
+}
+.qipai2 .store .icon {
+  display: flex;
+  justify-content: space-between;
+}
+
+.qipai2 .store .buttom .address{
+  display: flex;
+  justify-content: flex-start;
+  /* align-items: center; */
+  
+}
+
+.qipai2 .store .buttom .address .info{
+  font-size: 24rpx;
+  text-align: left;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.qipai2 .content .line1{
+  display: flex;
+  justify-content: center;
+  padding: 20rpx;
+}
+.qipai2 .content .line1 .btn1-2 {
+  width: 335rpx;
+  height: 425rpx;
+  padding: 0rpx 20rpx;
+  background-size: contain;
+  background-repeat: no-repeat; 
+  background-position: center;   /* 背景图像居中 */
+  border-radius: 20rpx;
+}
+
+.qipai2 .content .line2{
+  display: flex;
+  justify-content: center;
+  padding: 0 20rpx;
+}
+
+.qipai2 .content .line2 .btn3-5 {
+  width: 226rpx;
+  height: 216rpx;
+  padding: 0rpx 20rpx;
+  background-size: contain;
+  background-repeat: no-repeat; 
+  background-position: center;   /* 背景图像居中 */
+  border-radius: 20rpx;
+}

@@ -621,6 +621,7 @@ Page({
         "post",
         {
           storeId: storeId,
+          roomClass: -1,
         },
         app.globalData.userDatatoken.accessToken,
         "",

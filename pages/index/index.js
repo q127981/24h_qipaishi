@@ -29,6 +29,7 @@ Page({
     popshow: false,
     wifiShow: false,
     simpleModel: '',//简洁模式
+    templateKey: '',//门店模板
     maoHeight: 0,//锚链接跳转高度
     tabIndex: '',
     show: false,
@@ -126,11 +127,9 @@ Page({
     var _app = getApp();
     that.setData({
       isLogin: _app.globalData.isLogin,
+      roomClass: [],
+      tabIndex: '',
     });
-
-    // that.setData({
-    //   isLogin: app.globalData.isLogin,
-    // })
     //尝试从缓存获取
     var storeId_1 = wx.getStorageSync('global_store_id');
     if (storeId_1) {
@@ -151,10 +150,12 @@ Page({
     that.loadingtime();
     that.getLocation().then((res) => {
       that.getStoreInfodata();
+      that.getDoorListdata();
     }).catch(() => {
       that.getStoreInfodata();
+      that.getDoorListdata();
     });
-    that.getDoorListdata();
+    
     if (app.globalData.isLogin) {
       that.getGroupPay();
     }
@@ -512,7 +513,7 @@ Page({
             that.setroomlistHour(0);
           } else {
             wx.showModal({
-              content: "请求服务异常，请稍后重试",
+              content: info.msg,
               showCancel: false,
             });
           }
@@ -547,13 +548,6 @@ Page({
       })
     }
     console.log("getStoreInfodata");
-    console.log(that.data.lat);
-    console.log(that.data.lon);
-    if(!that.data.storeId){
-      wx.navigateTo({
-        url: "../doorList/doorList",
-      })
-    }
     //if (app.globalData.isLogin) 
     {
       http.request(
@@ -572,7 +566,8 @@ Page({
             if (null != info.data) {
               that.setData({
                 doorinfodata: info.data,
-                simpleModel: info.data.simpleModel
+                simpleModel: info.data.simpleModel,
+                templateKey: info.data.templateKey,
               });
               if (null != info.data.storeEnvImg && info.data.storeEnvImg.length > 0) {
                 var arr = info.data.storeEnvImg.split(",");
@@ -600,8 +595,12 @@ Page({
                 });
                 that.setData({
                   roomClass: classArr,
-                  tabIndex: classArr[0].value
                 });
+                if(!that.data.tabIndex){
+                  that.setData({
+                    tabIndex: classArr[0].value
+                  });
+                }
               }
             } else {
               wx.navigateTo({
@@ -1012,5 +1011,41 @@ Page({
     that.setData({
       showGroupsPay: false
     })
-  }
+  },
+  scanQr(){
+    var that = this;
+    wx.scanCode({
+      //扫描API
+      success(res) {
+        //扫描成功
+        if (res.path) {
+          // 直接跳转
+          wx.navigateTo({
+            url: '/' + res.path  // 注意必须加斜杠
+          });
+        }
+        
+      },
+      fail: (res) => {
+        //接口调用失败的回调函数
+        wx.showToast({
+          title: "扫码失败",
+          icon: "success",
+          duration: 1000,
+        });
+      },
+    });
+  },
+  goVideo(){
+    wx.showToast({
+      title: '功能暂未开放',
+      icon: 'none'
+    })
+  },
+  toZhujiao(){
+    wx.showToast({
+      title: '功能暂未开放',
+      icon: 'none'
+    })
+  },
 })

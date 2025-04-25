@@ -18,7 +18,7 @@
         </view>
         <view class="info">
           <label>类型：</label>
-          <text>{{item.type==1?'门禁':item.type==2?'空开':item.type==3?'云喇叭':item.type==4?'灯具':item.type==5?'密码锁':item.type==6?'网关':item.type==7?'插座':item.type==8?'锁球器控制器（12V）':item.type==9?'人脸门禁机':item.type==10?'智能语音喇叭':item.type==11?'二维码识别器':item.type==12?'红外控制器':'三路控制器'}}</text>
+          <text>{{(item.typeName)}}</text>
         </view>
         <view class="info" wx:if="{{item.type!=6&&item.type!=5}}">
           <label>状态：</label>

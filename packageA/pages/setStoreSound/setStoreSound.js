@@ -12,8 +12,10 @@ Page({
     welcomeText: '',
     endText30: '',
     endText5: '',
+    endText: '',
     nightText: '',
     customizeText: '',
+    roomClass: 1,
   },
 
   /**
@@ -83,6 +85,7 @@ Page({
           "/member/store/getStoreSoundInfo/"+that.data.storeId,
           "1",
           "get", {
+            "roomClass": that.data.roomClass
           },
           app.globalData.userDatatoken.accessToken,
           "",
@@ -93,6 +96,7 @@ Page({
                 welcomeText: info.data.welcomeText,
                 endText30: info.data.endText30,
                 endText5: info.data.endText5,
+                endText: info.data.endText,
                 nightText: info.data.nightText,
                 customizeText: info.data.customizeText,
              })
@@ -123,8 +127,10 @@ Page({
             "welcomeText": that.data.welcomeText,
             "endText30": that.data.endText30,
             "endText5": that.data.endText5,
+            "endText": that.data.endText,
             "nightText": that.data.nightText,
             "customizeText": that.data.customizeText,
+            "roomClass": that.data.roomClass,
           },
           app.globalData.userDatatoken.accessToken,
           "",
@@ -135,11 +141,11 @@ Page({
                 title: '设置成功',
                 icon: 'success'
               })
-              setTimeout(() => {
-                wx.navigateBack({
-                  delta: 1,
-                })
-              }, 1000);
+              // setTimeout(() => {
+              //   wx.navigateBack({
+              //     delta: 1,
+              //   })
+              // }, 1000);
             }else{
               wx.showModal({
                 content: info.msg,
@@ -152,5 +158,13 @@ Page({
           }
         )
       } 
+  },
+  modeChange(e) {
+    var that = this;
+    const roomClass = e.target.dataset.index;
+    that.setData({
+      roomClass: roomClass,
+    });
+    that.getInfoData();
   },
 })

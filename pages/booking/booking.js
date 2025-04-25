@@ -76,6 +76,7 @@ Page({
     var that = this;
     that.setData({
       isLogin: app.globalData.isLogin,
+      doorlistArr: [],
     })
     console.log('门店id:' + that.data.storeId)
     if (that.data.storeId) {
@@ -449,8 +450,12 @@ Page({
                 });
                 that.setData({
                   roomClass: classArr,
-                  tabIndex: classArr[0].value
                 });
+                if(!that.data.tabIndex){
+                  that.setData({
+                    tabIndex: classArr[0].value
+                  });
+                }
               }
             } else {
               wx.navigateTo({

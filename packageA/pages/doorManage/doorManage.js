@@ -14,6 +14,8 @@ Page({
     titleBarHeight: 0,
     isLogin: app.globalData.isLogin,
     storeName: '',
+    simpleModel: '',
+    templateKey: '',
     qrCode: '',
     expireTime: '',
     storeId: '',
@@ -108,7 +110,9 @@ Page({
           if (info.code == 0) {
             that.setData({
               storeName: info.data.storeName,
-              qrCode: info.data.qrCode
+              qrCode: info.data.qrCode,
+              simpleModel: info.data.simpleModel,
+              templateKey: info.data.templateKey,
             })
           } else {
             wx.showModal({

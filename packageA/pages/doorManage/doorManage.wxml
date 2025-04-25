@@ -50,6 +50,10 @@
           <iconfont name="baojie" size="28"></iconfont>
           <text>保洁任务</text>
         </navigator>
+        <navigator class="item" url="/packageA/pages/setTemplate/index?storeId={{storeId}}&simpleModel={{simpleModel}}&templateKey={{templateKey}}">
+          <iconfont name="marketing" size="28"></iconfont>
+          <text>更换模板</text>
+        </navigator>
         <navigator class="item" url="/packageA/pages/statics/statics?storeId={{storeId}}">
           <iconfont name="tongjitu" size="28"></iconfont>
           <text>数据统计</text>

@@ -725,9 +725,17 @@ Page({
   stopOrder(e) {
     var that = this;
     var orderId = e.currentTarget.dataset.id;
+    let text = '';
+    if(that.data.OrderInfodata.prePay){
+      //预支付的订单  需要退费
+      text = '未消费金额及押金在订单结束5分钟后会自动退还，请问是否确认提前离店？'
+    }else{
+      //非预付费订单
+      text = '提前离店不退费，会立即结束订单，已支付的押金5分钟后会自动退还，请问是否确认提前离店？'
+    }
     wx.showModal({
       title: '温馨提示',
-      content: '提前离店不退费，会立即结束订单，已支付的押金会自动退还，请问是否确认提前离店？',
+      content: text,
       showCancel: true,
       success(res) {
         if (res.confirm) {
@@ -1106,7 +1114,7 @@ Page({
     } else {
       wx.showModal({
         title: '温馨提示',
-        content: '商家未开通空调控制功能',
+        content: '商家未开通空调远程控制功能',
         showCancel: false,
         complete: (res) => {
         }

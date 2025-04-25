@@ -1,0 +1,72 @@
+/* packageA/pages/setTemplate/index.wxss */
+
+.info {
+  padding: 10rpx 30rpx;
+  font-size: 46rpx;
+  text-align: center;
+  align-items: center;
+  background-color: #fff;
+}
+
+.info .btns {
+  margin-top: 20rpx;
+  display: flex;
+  justify-content: space-around;
+  font-size: 26rpx;
+}
+.info .btns .btn1{
+  background-color: var(--main-color);
+  color: #fff;
+  padding: 10rpx 30rpx;
+  border-radius: 10rpx;
+
+}
+
+
+.list {
+  margin-top: 20rpx;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30rpx 34rpx;
+}
+.info  .template{
+  flex-basis: calc(50% - 8px); /* 或 width: calc(50% - 8px) */
+  background: #eee;
+  padding: 10rpx 5rpx;
+  box-sizing: border-box;
+ 
+}
+.template .image{
+  width: 250rpx;
+  height: 450rpx;
+  padding: 0rpx 20rpx;
+  background-size: 100% 100%; /* 强制拉伸 */
+  background-repeat: no-repeat; 
+  background-position: center;   /* 背景图像居中 */
+  border-radius: 20rpx;
+  
+}
+.template .name{
+  align-items: center;
+  text-align: center;
+  font-size: 28rpx;
+  font-weight: bold;
+  margin: 10rpx;
+}
+.template .eversion{
+  align-items: center;
+  text-align: center;
+  font-size: 24rpx;
+}
+.template .btn{
+  align-items: center;
+  text-align: center;
+  background-color: var(--main-color);
+  margin: auto;
+  width: 40%;
+  border-radius: 10rpx;
+  font-size: 28rpx;
+  padding: 5rpx;
+  color: #fff;
+}
