@@ -823,7 +823,7 @@ Page({
    // 结单
    finishOrder: function (e) {
     let that = this;
-    let roomId = e.currentTarget.dataset.roomId;
+    let roomId = e.currentTarget.dataset.info.roomId;
     wx.showModal({
       title: '注意提示',
       content: '注意！！！进行中的订单，将会被结束，并立即关电！！请谨慎确认后再操作！！！',

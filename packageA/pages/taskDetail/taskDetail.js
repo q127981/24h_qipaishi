@@ -278,12 +278,7 @@ Page({
     let id = this.data.info.clearId
     var that = this;
     var urls = []
-    if (!that.data.fileList.length) {
-      // wx.showToast({
-      //   title: '请上传图片',
-      //   icon: 'error'
-      // })
-      // return
+    if (that.data.fileList) {
       that.data.fileList.map(it => {
         urls.push(it.url)
       })

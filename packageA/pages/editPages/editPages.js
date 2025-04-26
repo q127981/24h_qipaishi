@@ -22,13 +22,11 @@ Page({
     checked: [], // 默认选中复选框 a
     weekDays: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
     weekNum: ["1", "2", "3", "4", "5", "6", "7"],
-    roomTypeNum: ["1", "2", "3", "4", "5","6","7","8"],
+    roomTypeNum: ["1", "2", "3", "4", "5", "6", "7", "8"],
     checkedStates: Array(7).fill(false), // 初始未选中状态
     roomTypeCheckd: Array(5).fill(false),
     enableRoomCheck: [],
     storesRoomList: [{ key: "1", value: "小包" }, { key: "2", value: "中包" }, { key: "3", value: "大包" }, { key: "4", value: "豪包" }, { key: "5", value: "商务包" }, { key: "6", value: "斯洛克" }, { key: "7", value: "中式黑八" }, { key: "8", value: "‌美式球桌" }], //用于储存限制房间数据
-    storesRoomIndex: 0, //默认第一个
-    storesRoomName: '', //选中的限制房间类型
     item: {}, //回显数据
     price: '', //价格
     balanceBuy: false,//支持余额支付
@@ -152,6 +150,7 @@ Page({
               storeIndex: storeIndex, // 默认选中门店的索引
               roomStoreId: info.data[storeIndex].value
             });
+            console.log('roomStoreId:',that.data.roomStoreId)
           } else {
             wx.showModal({
               content: info.msg,
@@ -188,21 +187,11 @@ Page({
     });
     // 查看该门店有哪些房间  只查询
     that.getDoorList((val) => {
-        that.setData({
-          doorList: val.data
-        })
+      that.setData({
+        doorList: val.data
       })
+    })
     console.log(this.data.storeIndex, 'storeIndex');
-  },
-  //
-  // 处理用户选择变更：限制房间的类型
-  handlePickerChange: function (e) {
-    const newIndex = e.detail.value;
-    const newStore = this.data.storesRoomList[newIndex];
-    this.setData({
-      storesRoomIndex: newIndex,
-      storesRoomName: newStore.value
-    });
   },
   chackRoomType(e) {
     const index = e.currentTarget.dataset.index;
@@ -459,11 +448,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-      console.log(options)
+    console.log(options)
     var that = this;
     console.log("1111")
+    that.getStoreList();
+    setTimeout(() => {
+      
+    }, 500);
     if (options.item) {
-        console.log("进入if")
       const item = JSON.parse(options.item);
       console.log(item, 'options');
       that.setData({
@@ -524,21 +516,17 @@ Page({
           times: times
         });
       }
-    }else{
-        // 查看该门店有哪些房间  点击的新增 不需要判断哪些被选中
+    } else {
+      setTimeout(() => {
+         // 查看该门店有哪些房间  点击的新增 不需要判断哪些被选中
       that.getDoorList((val) => {
         that.setData({
           doorList: val.data
         })
       })
+      }, 500);
     }
-    that.setData({
-      storesRoomIndex: 0,
-      storesRoomName: that.data.storesRoomList[0].value
-    })
-    // // 查询门店信息 查看是否含有多种类型的房间
-    // that.getStoreInfodata()
-    that.getStoreList();
+
   },
 
   /**
@@ -592,11 +580,11 @@ Page({
 
   // 获取房间列表
   getDoorList: function (callback) {
-      console.log(12321321)
+    console.log(12321321)
     let that = this
     if (app.globalData.isLogin) {
       http.request(
-        "/member/store/getRoomInfoList?storeId="+that.data.roomStoreId,
+        "/member/store/getRoomInfoList?storeId=" + that.data.roomStoreId,
         "1",
         "post", {
         // storeId: that.data.roomStoreId
