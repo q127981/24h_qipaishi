@@ -211,7 +211,6 @@ Page({
       content: '您是否确认删除此会员规则？删除后该等级会员权益将会失效！',
       complete: (res) => {
         if (res.cancel) {
-          
         }
         if (res.confirm) {
           http.request(
@@ -220,7 +219,7 @@ Page({
             "post", {
             },
             app.globalData.userDatatoken.accessToken,
-            message,
+            '',
             function success(info) {
               if (info.code == 0) {
                 that.getListdata();

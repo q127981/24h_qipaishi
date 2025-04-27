@@ -1,9 +1,9 @@
 <!--packageA/pages/setStoreSound/setStoreSound.wxml-->
 <view class="container" style="{{isIpx?'padding-bottom:168rpx':'padding-bottom:120rpx'}}">
   <view class="mode-slot" bind:tap="modeChange">
-    <view data-index="1" class="{{ roomClass == 1 ? 'active' : '' }}">棋牌</view>
-    <view data-index="2" class="{{ roomClass == 2 ? 'active' : '' }}">台球</view>
-    <view data-index="3" class="{{ roomClass == 3 ? 'active' : '' }}">KTV</view>
+    <view data-index="0" class="{{ roomClass == 0 ? 'active' : '' }}">棋牌</view>
+    <view data-index="1" class="{{ roomClass == 1 ? 'active' : '' }}">台球</view>
+    <view data-index="2" class="{{ roomClass == 2 ? 'active' : '' }}">KTV</view>
   </view>
   <view class="title">
     设备出厂已设置预设音频，可以留空

@@ -766,7 +766,7 @@ page {
   /* width: 200rpx; */
   height: 80rpx;
   line-height: 80rpx;
-  font-size: 30rpx;
+  font-size: 26rpx;
   display: flex;
   justify-content: start;
   text-align: center;

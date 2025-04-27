@@ -15,7 +15,7 @@ Page({
     endText: '',
     nightText: '',
     customizeText: '',
-    roomClass: 1,
+    roomClass: 0,
   },
 
   /**

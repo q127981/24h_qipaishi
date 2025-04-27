@@ -123,6 +123,7 @@ Page({
     });
     
     that.daySlotInit();
+    that.getPkgList();
     wx.setStorageSync("global_store_id", storeId);
   },
 
@@ -994,18 +995,19 @@ Page({
         "",
         function success(info) {
           if (info.code == 0) {
-            const newMeals = info.data.list.map((el) => ({
-              ...el,
-              desc: that.convertEnableWeek(el.enableWeek),
-              // 需要修改的方法
-              timeQuantum: that.convertTime(el.enableTime),
-              // that.convertEnableTime(el.enableTime),
-            }));
-            that.setData({
-              pkgList: newMeals,
-            });
             if (info.data.list.length > 0) {
+              const newMeals = info.data.list.map((el) => ({
+                ...el,
+                desc: that.convertEnableWeek(el.enableWeek),
+                // 需要修改的方法
+                timeQuantum: that.convertTime(el.enableTime),
+                // that.convertEnableTime(el.enableTime),
+              }));
               that.setData({
+                pkgList: newMeals,
+              });
+              that.setData({
+                modeIndex: 1,
                 select_pkg_index: 0,
                 pkgId: info.data.list[0].pkgId,
                 order_hour: info.data.list[0].hours,

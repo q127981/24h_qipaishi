@@ -234,7 +234,7 @@ page {
 }
 
 .select-box .item {
-  width: 215rpx;
+  width: 205rpx;
   height: 159rpx;
   background: #fff;
   display: flex;
@@ -246,6 +246,7 @@ page {
   border-radius: 20rpx;
   font-weight: 500;
   font-size: 21rpx;
+  margin: 10rpx;
   margin-bottom: 27rpx;
 }
 
