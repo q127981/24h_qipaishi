@@ -2,13 +2,13 @@
 <view class="container">
   <van-cell-group>
     <van-cell title="所属门店" value="{{orderInfo.storeName}}" />
-    <van-cell title="当前房间" value="{{orderInfo.roomName}}" />
+    <van-cell title="当前场地" value="{{orderInfo.roomName}}" />
     <van-cell title="开始时间" value="{{orderInfo.startTime}}" />
     <van-cell title="结束时间" value="{{orderInfo.endTime}}" />
 
   </van-cell-group>
   <view class="lists">
-    <view class="title border-primary">房间</view>
+    <view class="title border-primary">场地列表</view>
     <view class="doors" wx:if="{{doorList.length}}">
       <!-- 禁用状态无法更换 -->
       <view class="door {{roomType>=item.type || item.status ==0 || item.type>orderInfo.roomType?'disabled':''}} {{item.roomId === roomId?'bg-primary':''}}" wx:for="{{doorList}}" wx:key="doorList" bind:tap="choose" data-info="{{item}}">

@@ -9,6 +9,7 @@ Page({
    */
   data: {
     storeId: '', //列表搜索门店id
+    storeName: '',//门店名称
     stores: [],
     show: false, //添加弹窗
     index: '',
@@ -27,7 +28,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    this.getXiaLaListAdmin()
+    this.setData({
+      storeId: options.storeId,
+      storeName: options.storeName,
+    })
     this.setData({beforeCloseFunction: this.beforeClose()})
   },
 
@@ -42,7 +46,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+    this.getMainListdata('refresh');
   },
 
   /**
@@ -92,45 +96,6 @@ Page({
    */
   onShareAppMessage() {
 
-  },
-  //管理员获取门店下拉列表数据
-  getXiaLaListAdmin:function(e){
-    var that = this;
-    //if (app.globalData.isLogin) 
-    {
-      http.request(
-        "/member/store/getStoreList",
-        "1",
-        "get", {
-        },
-        app.globalData.userDatatoken.accessToken,
-        "",
-        function success(info) {
-          console.info('下拉门店数据===');
-          console.info(info);
-          if (info.code == 0) {
-            let stores = []
-            info.data.map(it => {
-              stores.push({text:it.key,value:it.value})
-            })
-           that.setData({
-             stores: stores,
-             storeId: stores[0].value,
-             index: 0
-           })
-           that.getMainListdata("refresh")
-          }else{
-            wx.showModal({
-              content: info.msg,
-              showCancel: false,
-            })
-          }
-        },
-        function fail(info) {
-          
-        }
-      )
-    } 
   },
   //获取列表数据
   getMainListdata:function(e){
@@ -195,19 +160,7 @@ Page({
       )
     } 
   },
-  //门店下拉菜单发生变化
-  storeDropdown(event){
-    //console.log(event)
-    this.data.stores.map((it,index) => {
-      if(it.value == event.detail){
-        this.setData({
-          storeId: it.value,
-          index: index
-        })
-      }
-    })
-    this.getMainListdata("refresh")
-  },
+
   // 删除保洁员
   delete: function(e){
     let info = e.currentTarget.dataset.info
@@ -262,13 +215,6 @@ Page({
   add(){
     this.setData({
       show: true
-    })
-  },
-  bindStoreChange: function(e) {
-    //console.log('picker发送选择改变，携带值为', e.detail.value)
-    this.setData({
-      index: e.detail.value,
-      storeId: this.data.stores[e.detail.value].value
     })
   },
   // 保存

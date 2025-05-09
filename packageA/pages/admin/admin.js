@@ -8,15 +8,14 @@ Page({
    * 页面的初始数据
    */
   data: {
-    storeId: '', //列表搜索门店id
+    storeId: '',
+    storeName: '',
     stores: [],
     show: false, //添加弹窗
-    index: '',
     pageNo: 1,
     pageSize: 10,
     canLoadMore: true,//是否还能加载更多
     list: [],
-    storeId2: '', //添加时选择的门店
     mobile: '',
     name: '',
     beforeCloseFunction:null,
@@ -29,7 +28,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    this.getXiaLaListAdmin()
+    this.setData({
+      storeId: options.storeId,
+      storeName: options.storeName,
+    })
     this.setData({beforeCloseFunction: this.beforeClose()})
   },
 
@@ -44,7 +46,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+    this.getMainListdata('refresh');
   },
 
   /**
@@ -66,7 +68,7 @@ Page({
    */
   onPullDownRefresh() {
     let that = this;
-    tthathis.setData({
+    that.setData({
         pageNo: 1,
         canLoadMore:true,
         list:[]
@@ -94,47 +96,6 @@ Page({
    */
   onShareAppMessage() {
 
-  },
-  //管理员获取门店下拉列表数据
-  getXiaLaListAdmin:function(e){
-    var that = this;
-    //if (app.globalData.isLogin) 
-    {
-      http.request(
-        "/member/store/getStoreList",
-        "1",
-        "get", {
-        },
-        app.globalData.userDatatoken.accessToken,
-        "",
-        function success(info) {
-          console.info('下拉门店数据===');
-          console.info(info);
-          if (info.code == 0) {
-            let stores = []
-            info.data.map(it => {
-              stores.push({text:it.key,value:it.value})
-            })
-            stores.unshift({text:'请选择',value:''})
-           that.setData({
-             stores: stores,
-             storeId: stores[0].value,
-             storeId2: stores[0].value,
-             index: 0
-           })
-           that.getMainListdata("refresh")
-          }else{
-            wx.showModal({
-              content: info.msg,
-              showCancel: false,
-            })
-          }
-        },
-        function fail(info) {
-          
-        }
-      )
-    } 
   },
   //获取列表数据
   getMainListdata:function(e){
@@ -198,38 +159,16 @@ Page({
       )
     } 
   },
-  //门店下拉菜单发生变化
-  storeDropdown(event){
-    //console.log(event)
-    this.data.stores.map((it,index) => {
-      if(it.value == event.detail){
-        this.setData({
-          storeId: it.value,
-          storeId2: it.value,
-          index: index
-        })
-      }
-    })
-    this.getMainListdata("refresh")
-  },
   // 删除管理员
   delete: function(e){
     let info = e.currentTarget.dataset.info
-    // let storeName = ''
-    // this.data.stores.map(it =>{
-    //   if(it.value === info.storeId){
-    //     storeName = it.text
-    //   }
-    // })
     wx.showModal({
       title: '提示',
       content: '删除后该员工将不再拥有该门店的管理权限！请确认！',
       confirmText: '确认删除',
       complete: (res) => {
         if (res.cancel) {
-          
         }
-    
         if (res.confirm) {
           let that = this
           if (app.globalData.isLogin) 
@@ -275,21 +214,11 @@ Page({
     this.setData({
       show: true,
       mobile: '',
-      storeId2: '',
-      index: '',
-    })
-  },
-  bindStoreChange: function(e) {
-    // console.log('picker发送选择改变，携带值为', e.detail.value)
-    // console.log(this.data.stores[e.detail.value].value)
-    this.setData({
-      index: e.detail.value,
-      storeId2: this.data.stores[e.detail.value].value
     })
   },
   // 保存
   submit: function () {
-    if(this.data.storeId2 && this.data.name && this.data.mobile){
+    if(this.data.name && this.data.mobile){
       this.updateData()
     }else{
       wx.showToast({
@@ -326,7 +255,7 @@ Page({
         "/member/manager/saveAdminUser",
         "1",
         "post", {
-          "storeId": that.data.storeId2,
+          "storeId": that.data.storeId,
           "name": that.data.name,
           "mobile": that.data.mobile,
           "isAdmin": that.data.isAdmin,

@@ -32,7 +32,54 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+    var that = this;
+    //进入页面就进行自动登录尝试
+    wx.showLoading({
+      title: 'Loding...',
+    })
+    wx.login({
+      success: function (res) {
+        if (res.code != null) {
+          http.request(
+            "/member/auth/wxLoginByCode?code=" + res.code,
+            "1",
+            "post", {
+          },
+            "",
+            "",
+            function success(info) {
+              console.info(info);
+              if (info.code == 0 && info.data) {
+                app.globalData.userDatatoken = info.data;
+                  app.globalData.isLogin = true;
+                  that.setData({
+                    isLogin: true,
+                  })
+                  //缓存服务器返回的用户信息
+                  wx.setStorageSync("userDatatoken", info.data)
+                  wx.hideLoading();
+                  wx.showToast({
+                    title: '自动登录成功',
+                    icon: 'success'
+                  })
+                  setTimeout(function () {
+                    wx.navigateBack({
+                      delta: 1,
+                    })
+                  }, 500);
+              }else{
+                wx.hideLoading();
+              }
+            },
+            function fail(info) {
+              wx.hideLoading();
+            }
+          )
+        } else {
+          console.log('获取微信信息失败' + res.errMsg)
+        }
+      }
+    })
   },
 
   /**

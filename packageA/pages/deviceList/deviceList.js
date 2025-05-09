@@ -9,8 +9,7 @@ Page({
    */
   data: {
     storeId: '',
-    stores: [],
-    storeIndex: '',
+    storeName: '',
     roomList: [],
     roomIndex: '',
     deviceTypes: [{ value: '', text: '请选择类型' }, { value: 1, text: '磁力锁门禁' }, { value: 2, text: '空开/插座' }, { value: 3, text: '云喇叭' }, { value: 10, text: '云喇叭(语音款)' }, { value: 4, text: '灯具' }, { value: 5, text: '智能锁' }, { value: 6, text: '网关' },{ value: 13, text: '三路控制器' }, { value: 14, text: 'AI锁球器' }, { value: 16, text: '计时器' },{ value: 8, text: '锁球器控制器（12V）' }, { value: 9, text: '人脸门禁机' }, { value: 11, text: '二维码识别器' }, { value: 12, text: '红外控制器' }],
@@ -31,7 +30,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    this.getXiaLaListAdmin();
+    this.setData({
+      storeId: options.storeId,
+      storeName: options.storeName,
+    })
     this.setData({ beforeCloseFunction: this.beforeClose() })
   },
 
@@ -47,6 +49,7 @@ Page({
    */
   onShow() {
     this.getDeviceList('refresh');
+    this.getRoomListAdmin();
   },
 
   /**
@@ -109,49 +112,13 @@ Page({
       }
     }
   },
-  //管理员获取门店下拉列表数据
-  getXiaLaListAdmin: function (e) {
-    var that = this;
-    //if (app.globalData.isLogin) 
-    {
-      http.request(
-        "/member/store/getStoreList",
-        "1",
-        "get", {
-      },
-        app.globalData.userDatatoken.accessToken,
-        "",
-        function success(info) {
-          console.info('下拉门店数据===');
-          if (info.code == 0) {
-            let stores = []
-            info.data.map(it => {
-              stores.push({ text: it.key, value: it.value })
-            })
-            stores.unshift({ text: "请选择门店", value: "" })
-            that.setData({
-              stores: stores,
-            })
-          } else {
-            wx.showModal({
-              content: info.msg,
-              showCancel: false,
-            })
-          }
-        },
-        function fail(info) {
-
-        }
-      )
-    }
-  },
   //管理员获取房间下拉列表数据
-  getRoomListAdmin: function (storeId) {
+  getRoomListAdmin: function () {
     var that = this;
     //if (app.globalData.isLogin) 
     {
       http.request(
-        "/member/store/getRoomList/" + storeId,
+        "/member/store/getRoomList/" + that.data.storeId,
         "1",
         "get", {
       },
@@ -288,10 +255,9 @@ Page({
     if (e.detail.value && e.detail.value != 0) {
       var that = this;
       that.setData({
-        storeIndex: e.detail.value,
         roomIndex: ''
       })
-      that.getRoomListAdmin(that.data.stores[that.data.storeIndex].value)
+      that.getRoomListAdmin()
     }
   },
   bindRoomSelect: function (e) {
@@ -321,15 +287,7 @@ Page({
       })
       return
     }
-    if (!that.data.storeIndex || that.data.storeIndex == 0) {
-      wx.showToast({
-        title: '请选择门店',
-        icon: 'error'
-      })
-      return
-    }
     var deviceType = that.data.deviceTypes[that.data.deviceTypeIndex].value;
-    var storeId = that.data.stores[that.data.storeIndex].value;
     var roomId = '';
     if (that.data.roomIndex != 0) {
       roomId = that.data.roomList[that.data.roomIndex].value;
@@ -343,7 +301,7 @@ Page({
         "deviceSn": that.data.deviceSn,
         "shareDevice": that.data.shareDevice,
         "deviceType": deviceType,
-        "storeId": storeId,
+        "storeId": that.data.storeId,
         "roomId": roomId,
       },
         app.globalData.userDatatoken.accessToken,
@@ -377,7 +335,6 @@ Page({
   },
   cancelAdd: function () {
     this.setData({
-      storeIndex: '',
       deviceTypeIndex: '',
       roomIndex: '',
       shareDevice: false,

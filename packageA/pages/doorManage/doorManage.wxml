@@ -72,11 +72,11 @@
     <view class="control-box">
       <view class="top">权限管理</view>
       <view class="control">
-        <navigator class="item" url="/packageA/pages/admin/admin">
+        <navigator class="item" url="/packageA/pages/admin/admin?storeId={{storeId}}&storeName={{storeName}}">
           <iconfont name="yuangongguanli" size="28"></iconfont>
           <text>员工管理</text>
         </navigator>
-        <navigator class="item" url="/packageA/pages/cleaner/cleaner">
+        <navigator class="item" url="/packageA/pages/cleaner/cleaner?storeId={{storeId}}&storeName={{storeName}}">
           <iconfont name="shangmenjiazheng" size="28"></iconfont>
           <text>保洁员管理</text>
         </navigator>
@@ -101,11 +101,11 @@
           <iconfont name="chongzhi" size="28"></iconfont>
           <text>充值规则</text>
         </navigator>
-        <navigator class="item" url="/packageA/pages/packageManagement/packageManagement">
+        <navigator class="item" url="/packageA/pages/packageManagement/packageManagement?storeId={{storeId}}&storeName={{storeName}}">
           <iconfont name="taocan" size="28"></iconfont>
           <text>套餐管理</text>
         </navigator>
-        <navigator class="item" url="/packageA/pages/setCoupon/setCoupon">
+        <navigator class="item" url="/packageA/pages/setCoupon/setCoupon?storeId={{storeId}}&storeName={{storeName}}">
           <iconfont name="cuxiaohuodong-youhuiquan" size="28"></iconfont>
           <text>优惠券</text>
         </navigator>
@@ -155,7 +155,7 @@
     <view class="control-box">
       <view class="top">设备管理</view>
       <view class="control" wx:if="{{userinfo.userType!= 14}}">
-        <navigator class="item" url="/packageA/pages/deviceList/deviceList">
+        <navigator class="item" url="/packageA/pages/deviceList/deviceList?storeId={{storeId}}&storeName={{storeName}}">
           <iconfont name="shebeiguanli1" size="28"></iconfont>
           <text>设备列表</text>
         </navigator>

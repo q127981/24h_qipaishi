@@ -30,18 +30,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    // console.log('onLoad', options)
-    // this.getuserinfo()
-    if (options.storeId) {
-      this.setData({
-        storeId: options.storeId
-      })
-    }
     this.setData({
       isLogin: app.globalData.isLogin,
+      storeId: options.storeId,
+      storeName: options.storeName,
     })
-
-    this.getXiaLaListAdmin();
   },
 
   /**
@@ -177,54 +170,6 @@ Page({
 
 
   },
-  //管理员获取门店下拉列表数据
-  getXiaLaListAdmin: function (e) {
-    var that = this;
-    {
-      http.request(
-        "/member/store/getStoreList",
-        "1",
-        "get", {
-      },
-        app.globalData.userDatatoken.accessToken,
-        "",
-        function success(info) {
-          console.info('下拉门店数据===');
-          if (info.code == 0) {
-            let stores = []
-            info.data.map(it => {
-              stores.push({ text: it.key, value: it.value })
-            })
-            stores.unshift({ text: '全部门店', value: '' })
-            that.setData({
-              stores: stores,
-              storeId: stores[0].value
-            })
-          } else {
-            wx.showModal({
-              content: info.msg,
-              showCancel: false,
-            })
-          }
-        },
-        function fail(info) {
-
-        }
-      )
-    }
-  },
-  //门店下拉菜单发生变化
-  storeDropdown(event) {
-    //console.log(event)
-    this.data.stores.map(it => {
-      if (it.value == event.detail) {
-        this.setData({
-          storeId: it.value,
-        })
-      }
-    })
-    this.getPkgList("refresh")
-  },
   //状态下拉菜单发生变化
   statusDropdown(event) {
     let that = this
@@ -247,7 +192,7 @@ Page({
   },
   goToAddPage() {
     wx.navigateTo({
-      url: '../editPages/editPages',
+      url: '../editPages/editPages?storeId='+this.data.storeId+'&storeName='+this.data.storeName,
     })
   },
   //定义一个函数来将数字转换为星期名称：
@@ -333,7 +278,7 @@ Page({
     const params = JSON.stringify(item);
     // console.log(params)
     wx.navigateTo({
-      url: '../editPages/editPages?item=' + params,
+      url: '../editPages/editPages?item=' + params+'&storeId='+this.data.storeId+'&storeName='+this.data.storeName,
     })
   },
 

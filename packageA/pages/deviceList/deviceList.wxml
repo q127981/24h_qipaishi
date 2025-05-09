@@ -2,7 +2,7 @@
 <view class="tabs">
   <view class="item">
     <van-dropdown-menu active-color="{{mainColor}}">
-      <van-dropdown-item value="{{ storeId }}" options="{{ stores }}" bind:change="storeDropdown" />
+      <!-- <van-dropdown-item value="{{ storeId }}" options="{{ stores }}" bind:change="storeDropdown" /> -->
       <van-dropdown-item value="{{ deviceType }}" options="{{ deviceTypes }}" bind:change="typeDropdown" />
     </van-dropdown-menu>
   </view>
@@ -72,13 +72,8 @@
           </view>
         </picker>
       </van-field>
-      <van-field label="门店：" placeholder="请选择门店">
-        <picker slot="input" bindchange="bindStoreSelect" value="{{storeIndex}}" range-key="text" range="{{stores}}">
-          <view class="picker">
-            <input type="text" disabled placeholder="请选择门店" placeholder-class="plh" value="{{stores[storeIndex].text}}" />
-            <van-icon name="arrow-down" />
-          </view>
-        </picker>
+      <van-field label="门店：" placeholder="{{storeName}}" readonly>
+       
       </van-field>
       <van-field label="房间：" placeholder="请选择房间">
         <picker slot="input" bindchange="bindRoomSelect" value="{{roomIndex}}" range-key="text" range="{{roomList}}">

@@ -1,6 +1,5 @@
 <view class="tabs">
   <van-dropdown-menu active-color="{{mainColor}}">
-    <van-dropdown-item value="{{ storeId }}" options="{{ stores }}" bind:change="storeDropdown" />
     <van-dropdown-item value="{{ value1 }}" options="{{ option1 }}" bind:change="statusDropdown" />
   </van-dropdown-menu>
 </view>

@@ -114,7 +114,7 @@
         </view>
         <view class="name">{{appName}}</view>
       </view>
-      <button hover-class="button-click" class="loginBtn bg-primary" bindgetphonenumber="phone" open-type="getPhoneNumber">一键登录</button>
+      <button hover-class="button-click" class="loginBtn bg-primary" bind:tap="phone">登录</button>
     </view>
   </block>
 </view>

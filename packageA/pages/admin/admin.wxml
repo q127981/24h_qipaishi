@@ -1,10 +1,5 @@
 <!--pages/admin/admin.wxml-->
-<view class="tabs">
-  <van-dropdown-menu active-color="{{mainColor}}">
-    <van-dropdown-item value="{{ storeId }}" options="{{ stores }}"  bind:change="storeDropdown" />
-  </van-dropdown-menu>
-</view>
-<view class="container" style="{{isIpx?'padding-bottom:168rpx':'padding-bottom:120rpx'}}">
+<view class="container">
 <block wx:if="{{list.length}}">
   <!-- 列表 -->
   <view class="list">
@@ -51,14 +46,9 @@
     <van-cell-group>
       <van-field
         label="门店："
-        placeholder="请选择门店"
+        placeholder="{{storeName}}"
+        readonly
       >
-      <picker slot="input" bindchange="bindStoreChange" value="{{index}}" range-key="text" range="{{stores}}">
-          <view class="picker">
-            <input type="text" disabled placeholder="请选择门店" placeholder-class="plh" value="{{stores[index].text}}"/>
-            <van-icon name="arrow-down" />
-          </view>
-        </picker>
       </van-field>
       <van-field
         model:value="{{name}}"

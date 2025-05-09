@@ -260,55 +260,9 @@ Page({
       }
   },
   phone:function(e){
-    var that = this;
-    //console.log('手机号码授权+++++++');
-    if(e.detail.errMsg=="getPhoneNumber:fail user deny"){
-      wx.showToast({title: '已取消授权'})
-    }
-    if(e.detail.errMsg=="getPhoneNumber:ok"){
-      //console.log('手机号码授权+++++++');
-      //console.log(e.detail);
-      //console.log('手机号码授权+++++++');
-      wx.login({
-        success: function(res) {
-            //console.log('111++++==');
-            //console.log(res);
-            //console.log('111++++==');
-            if (res.code != null) {
-              http.request(
-                "/member/auth/weixin-mini-app-login",
-                "1",
-                "post", {
-                  "phoneCode": e.detail.code,
-                  "loginCode": res.code
-                },
-                "",
-                "获取中...",
-                function success(info) {
-                  console.info('返回111===');
-                  console.info(info);
-                  if (info.code == 0) {
-                      if(info.data){
-                        app.globalData.userDatatoken = info.data;
-                        app.globalData.isLogin=true;
-                        that.setData({
-                          isLogin:true,
-                        })
-                        //缓存服务器返回的用户信息
-                        wx.setStorageSync("userDatatoken", info.data)
-                      }
-                  }
-                },
-                function fail(info) {
-                  
-                }
-              )
-            } else {
-              //console.log('登录失败！' + res.errMsg)
-            }
-          }
-        })
-    }
+    wx.navigateTo({
+      url: '/pages/login/login',
+    })
   },
   //获取房间列表数据
   getDoorListdata:function(e){

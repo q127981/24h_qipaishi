@@ -383,6 +383,7 @@ Page({
       "endTime": this.data.OrderInfodata.endTime,
       "roomType": this.data.OrderInfodata.roomType,
       "roomId": this.data.OrderInfodata.roomId,
+      "roomClass": this.data.OrderInfodata.roomClass,
       "kefuPhone": this.data.OrderInfodata.kefuPhone,
     };
     console.log(orderInfo);
@@ -726,10 +727,10 @@ Page({
     var that = this;
     var orderId = e.currentTarget.dataset.id;
     let text = '';
-    if(that.data.OrderInfodata.prePay){
+    if (that.data.OrderInfodata.prePay) {
       //预支付的订单  需要退费
       text = '未消费金额及押金在订单结束5分钟后会自动退还，请问是否确认提前离店？'
-    }else{
+    } else {
       //非预付费订单
       text = '提前离店不退费，会立即结束订单，已支付的押金5分钟后会自动退还，请问是否确认提前离店？'
     }
@@ -998,9 +999,9 @@ Page({
               function success(info) {
                 if (info.code == 0) {
                   wx.showModal({
-                    title: "开门密码："+info.data+"#",
+                    title: "开门密码：" + info.data + "#",
                     content: "如果门没有自动打开，请使用密码开门，该密码仅6小时内一次有效！您也可以靠近门锁时点击'蓝牙开锁'按钮自动开锁。",
-                    cancelText:'蓝牙开锁',
+                    cancelText: '蓝牙开锁',
                     showCancel: true,
                     confirmText: '关闭',
                     complete: (res) => {

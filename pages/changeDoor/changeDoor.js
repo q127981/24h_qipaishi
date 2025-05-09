@@ -115,10 +115,11 @@ Page({
     //if (app.globalData.isLogin) 
     {
       http.request(
-        "/member/index/getRoomInfoList/" + that.data.orderInfo.storeId,
+        "/member/index/getRoomInfoList",
         "1",
         "post", {
-        "storeId": that.data.orderInfo.storeId
+        "storeId": that.data.orderInfo.storeId,
+        "roomClass": that.data.orderInfo.roomClass
       },
         app.globalData.userDatatoken.accessToken,
         "获取中...",
@@ -175,7 +176,7 @@ Page({
     var orderId = that.data.orderInfo.orderId
     if (roomId === '') {
       wx.showToast({
-        title: '请选择房间',
+        title: '请选择更换场地',
         icon: 'none'
       })
       return
@@ -195,7 +196,7 @@ Page({
           console.info(info);
           if (info.code == 0) {
             wx.showToast({
-              title: '更换房间成功',
+              title: '更换成功',
             })
             setTimeout(() => {
               wx.navigateBack()

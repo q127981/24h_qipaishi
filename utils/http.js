@@ -81,54 +81,6 @@ function request(url, urltype, method, data, token, message, successBack, failBa
     },
   })
 }
-/*
-微信一键登录
-*/
-function getLogin(phonecode, loginCode, successBack, failBack) {
-  let that = this
-  wx.login({
-    success: function (res) {
-      //console.log('++++==');
-      //console.log(res);
-      //console.log('++++==');
-      if (res.code != null) {
-        that.request(
-          "/member/auth/weixin-mini-app-login",
-          "1",
-          "post", {
-          "phoneCode": phonecode,
-          "loginCode": loginCode
-        },
-          "登录中...",
-          function success(info) {
-            console.info('返回111===');
-            console.info(info);
-            if (info.code == 1) {
-              //赋值给全局
-              app.globalData.userData = info.data;
-              app.globalData.isLogin = true;
-              //console.log('456+++++++');
-              //console.log(app.globalData.userData);
-              //console.log('456+++++++');
-              //缓存服务器返回的用户信息
-              wx.setStorageSync("userDatatoken", info.data)
-              successBack()
-            } else {
-              wx.showToast({
-                title: info.msg,
-              })
-            }
-          },
-          function fail(info) {
-            failBack()
-          }
-        )
-      } else {
-        //console.log('登录失败！' + res.errMsg)
-      }
-    }
-  })
-}
 /**
  *
  *提问上传文件 
@@ -172,6 +124,5 @@ function uploadFile(url, data, message, success, fail) {
 
 module.exports = {
   request: request,
-  getLogin: getLogin,
   uploadFile: uploadFile
 }

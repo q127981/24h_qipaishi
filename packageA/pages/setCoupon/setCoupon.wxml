@@ -1,7 +1,6 @@
 <!--pages/setCoupon/setCoupon.wxml-->
 <view class="tabs">
   <van-dropdown-menu active-color="{{mainColor}}">
-    <van-dropdown-item value="{{ storeId }}" options="{{ stores }}"  bind:change="storeDropdown" />
     <van-dropdown-item value="{{ type }}" options="{{ types }}"  bind:change="typeDropdown" />
   </van-dropdown-menu>
 </view>
@@ -39,7 +38,7 @@
           <!-- 优惠券管理 -->
           <view class="btns" wx:else>
             <navigator class="btn primary" url="../setVip/setVip?isSelect=1&&couponId={{item.couponId}}">赠送用户</navigator>
-            <navigator class="btn yellow" url="../setCouponInfo/setCouponInfo?couponId={{item.couponId}}">修改设置</navigator>
+            <navigator class="btn yellow" url="../setCouponInfo/setCouponInfo?couponId={{item.couponId}}&storeId={{storeId}}&storeName={{storeName}}">修改设置</navigator>
           </view>
         </view>
       </view>
@@ -52,5 +51,5 @@
 </view>
 <!-- 底部按钮 -->
 <view class="bt">
-  <navigator wx:if="{{!isSelect}}" url="../setCouponInfo/setCouponInfo" class="bottom bg-primary {{isIpx?'fix-iphonex-button transparent':''}}">添加优惠券</navigator>
+  <navigator wx:if="{{!isSelect}}" url="../setCouponInfo/setCouponInfo?storeId={{storeId}}&storeName={{storeName}}" class="bottom bg-primary {{isIpx?'fix-iphonex-button transparent':''}}">添加优惠券</navigator>
 </view>

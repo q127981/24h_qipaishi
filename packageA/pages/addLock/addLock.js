@@ -163,9 +163,10 @@ Page({
           checkSuccess: false
         })
       } else {
-        that.stopScan(plugin);
+        // that.stopScan(plugin);
         wx.showLoading({ title: `请靠近智能锁` });
         plugin.initLock({ deviceFromScan }).then(result => {
+          console.log(result);
           if (result.errorCode == 0) {
             // 设备已成功初始化
             let lockData = result.lockData;

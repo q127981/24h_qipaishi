@@ -17,6 +17,7 @@ Page({
     type: '',
     types: [{id:1,name:'抵扣券'},{id:2,name:'满减券'},{id:3,name:'加时券'}],
     storeId: "", //门店
+    storeName: '',
     tags: [],
     stores: [],
     roomType: '',
@@ -32,13 +33,15 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    this.getXiaLaListAdmin()
     if(options.couponId){
       this.setData({
         couponId: Number(options.couponId)
       })
-      
     }
+    this.setData({
+      storeId: options.storeId,
+      storeName: options.storeName,
+    })
   },
 
   /**
@@ -52,7 +55,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    this.getData()
+    if(this.data.couponId){
+      this.getData()
+    }
   },
 
   /**
@@ -88,42 +93,6 @@ Page({
    */
   onShareAppMessage() {
 
-  },
-  //管理员获取门店下拉列表数据
-  getXiaLaListAdmin:function(e){
-    var that = this;
-    //if (app.globalData.isLogin) 
-    {
-      http.request(
-        "/member/store/getStoreList",
-        "1",
-        "get", {
-        },
-        app.globalData.userDatatoken.accessToken,
-        "",
-        function success(info) {
-          console.info('下拉门店数据===');
-          console.info(info);
-          if (info.code == 0) {
-            let stores = []
-            info.data.map(it => {
-              stores.push({name:it.key,id:it.value})
-            })
-           that.setData({
-             stores: stores
-           })
-          }else{
-            wx.showModal({
-              content: info.msg,
-              showCancel: false,
-            })
-          }
-        },
-        function fail(info) {
-          
-        }
-      )
-    } 
   },
   // 获取详情
   getData: function(){
@@ -200,14 +169,7 @@ Page({
       type: this.data.types[e.detail.value].id
     })
   },
-  // 单选选门店
-  bindStoreChange: function(e) {
-    //console.log('picker发送选择改变，携带值为', e.detail.value)
-    this.setData({
-      storeId: this.data.stores[e.detail.value].id,
-      storeIndex: e.detail.value
-    })
-  },
+
   // 选择包间限制
   bindDoorChange: function(e) {
     //console.log('picker发送选择改变，携带值为', e.detail.value)

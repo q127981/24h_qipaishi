@@ -77,7 +77,7 @@
                 <view class="btn bg-primary" bind:tap="goDoorSubmit" data-type="1" data-index="{{index}}" data-info="{{item}}">预约</view>
               </block>
               <block wx:else>
-                <button hover-class="button-click"  class="btn bg-primary" bindgetphonenumber="phone" open-type="getPhoneNumber" data-type="1" data-index="{{item.roomId}}">预约</button>
+                <button hover-class="button-click"  class="btn bg-primary" bind:tap="phone" data-type="1" data-index="{{item.roomId}}">预约</button>
               </block>
             </block>
             <block wx:elif="{{item.status == 2}}">
@@ -85,7 +85,7 @@
                 <view class="btn bg-primary"  bind:tap="goDoorSubmit" data-type="2" data-index="{{index}}" data-info="{{item}}">预约</view>
               </block>
               <block wx:else>
-                <button hover-class="button-click"  class="btn bg-primary" bindgetphonenumber="phone" open-type="getPhoneNumber" data-type="2" data-index="{{item.roomId}}">预约</button>
+                <button hover-class="button-click"  class="btn bg-primary" bind:tap="phone" data-type="2" data-index="{{item.roomId}}">预约</button>
               </block>
             </block>
             <block wx:else>

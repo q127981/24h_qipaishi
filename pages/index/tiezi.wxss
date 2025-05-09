@@ -1,7 +1,7 @@
-
 .tiezi {
   background-color: #20211c !important;
 }
+
 .tiezi .banner swiper {
   width: 100%;
   height: 600rpx;
@@ -13,12 +13,13 @@
   height: 100%;
 }
 
-.tiezi .content{
+.tiezi .content {
   text-align: center;
   align-items: center;
   position: relative;
   top: -80rpx;
 }
+
 .tiezi .store {
   width: 93%;
   height: 205rpx;
@@ -28,17 +29,18 @@
   /* display: flex; */
   /* justify-content: space-between; */
 }
+
 .tiezi .store .top {
-   display: flex; 
-   justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 
-.tiezi .store .top .info{
+.tiezi .store .top .info {
   display: flex;
   justify-content: space-between;
   padding: 15rpx 20rpx;
-  font-size: 36rpx;
+  font-size: 34rpx;
   color: #fff;
   font-weight: bold;
 }
@@ -71,12 +73,13 @@
   text-align: left;
   margin-bottom: 5rpx;
 }
+
 .tiezi .store .btns {
   display: flex;
   justify-content: space-around;
 }
 
-.tiezi .store .btn{
+.tiezi .store .btn {
   display: flex;
   width: 160rpx;
   height: 40rpx;
@@ -87,81 +90,92 @@
   border-radius: 5rpx;
   color: rgb(180, 180, 180);
 }
-.tiezi .info .top{
+
+.tiezi .info .top {
   display: flex;
   justify-content: space-between;
   padding: 20rpx 25rpx;
 }
 
-.tiezi .info .left{
-}
-.tiezi .info .left .btn1{
+.tiezi .info .left {}
+
+.tiezi .info .left .btn1 {
   width: 333rpx;
   height: 400rpx;
   background-size: contain;
-  background-repeat: no-repeat; 
-  background-position: center;   /* 背景图像居中 */
+  background-repeat: no-repeat;
+  background-position: center;
+  /* 背景图像居中 */
   border-radius: 20rpx;
 }
-.tiezi .info .right{
+
+.tiezi .info .right {
   align-items: center;
   text-align: center;
 }
-.tiezi .info .right .btn2{
+
+.tiezi .info .right .btn2 {
   width: 348rpx;
   height: 179rpx;
   background-size: contain;
-  background-repeat: no-repeat; 
-  background-position: center;   /* 背景图像居中 */
+  background-repeat: no-repeat;
+  background-position: center;
+  /* 背景图像居中 */
   border-radius: 20rpx;
   margin-top: 5rpx;
   margin-bottom: 40rpx;
 }
 
-.tiezi .info .right .btn3{
+.tiezi .info .right .btn3 {
   width: 348rpx;
   height: 179rpx;
   background-size: contain;
-  background-repeat: no-repeat; 
-  background-position: center;   /* 背景图像居中 */
+  background-repeat: no-repeat;
+  background-position: center;
+  /* 背景图像居中 */
   border-radius: 20rpx;
 }
 
-.tiezi .info .buttom{
+.tiezi .info .buttom {
   display: flex;
   justify-content: space-between;
   padding: 0 25rpx;
 }
 
-.tiezi .info .buttom .btn4{
+.tiezi .info .buttom .btn4 {
   width: 338rpx;
   height: 179rpx;
   background-size: contain;
-  background-repeat: no-repeat; 
-  background-position: center;   /* 背景图像居中 */
+  background-repeat: no-repeat;
+  background-position: center;
+  /* 背景图像居中 */
   border-radius: 20rpx;
 }
-.tiezi .info .buttom .btn5{
+
+.tiezi .info .buttom .btn5 {
   width: 338rpx;
   height: 179rpx;
   background-size: contain;
-  background-repeat: no-repeat; 
-  background-position: center;   /* 背景图像居中 */
+  background-repeat: no-repeat;
+  background-position: center;
+  /* 背景图像居中 */
   border-radius: 20rpx;
 }
-.tiezi .info .shop{
+
+.tiezi .info .shop {
   margin-top: 20rpx;
   display: flex;
   justify-content: center;
 }
 
-.tiezi .info .shop .btn6{
+.tiezi .info .shop .btn6 {
   width: 93%;
   height: 90rpx;
   background-color: #32332b8f;
   background-size: contain;
-  background-repeat: no-repeat; 
-  background-position: center;   /* 背景图像居中 */
+  background-repeat: no-repeat;
+  background-position: center;
+  /* 背景图像居中 */
   border-radius: 20rpx;
 }
 
@@ -180,9 +194,11 @@
   color: #fff;
   /* justify-content: space-between; */
 }
+
 .tiezi .top-tabs .tab {
   margin-left: 10rpx;
 }
+
 .tiezi .top-tabs.active {
   color: var(--main-color);
   font-weight: bold;
@@ -203,6 +219,6 @@
   margin: 0rpx 10rpx;
 }
 
-.tiezi .tab-container{
+.tiezi .tab-container {
   margin-top: 10rpx;
 }

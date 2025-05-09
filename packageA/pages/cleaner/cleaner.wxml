@@ -1,10 +1,10 @@
 <!-- pages/cleaner/cleaner.wxml -->
-<view class="tabs">
-  <van-dropdown-menu active-color="{{mainColor}}">
+<!-- <view class="tabs"> -->
+  <!-- <van-dropdown-menu active-color="{{mainColor}}">
     <van-dropdown-item value="{{ storeId }}" options="{{ stores }}" bind:change="storeDropdown" />
-  </van-dropdown-menu>
-</view>
-<view class="container" style="{{isIpx?'padding-bottom:168rpx':'padding-bottom:120rpx'}}">
+  </van-dropdown-menu> -->
+<!-- </view> -->
+<view class="container">
   <block wx:if="{{list.length}}">
     <!-- 列表 -->
     <view class="list">
@@ -45,13 +45,7 @@
 <van-dialog use-slot title="添加保洁员" show="{{ show }}" show-cancel-button bind:confirm="submit" bind:cancel="cancel" before-close="{{beforeCloseFunction}}" confirm-button-color="{{mainColor}}">
   <view class="dialog">
     <van-cell-group>
-      <van-field label="门店：" placeholder="请选择门店">
-        <picker slot="input" bindchange="bindStoreChange" value="{{index}}" range-key="text" range="{{stores}}">
-          <view class="picker">
-            <input type="text" disabled placeholder="请选择门店" placeholder-class="plh" value="{{stores[index].text}}" />
-            <van-icon name="arrow-down" />
-          </view>
-        </picker>
+      <van-field label="门店：" placeholder="{{storeName}}" readonly>
       </van-field>
       <van-field model:value="{{name}}" label="姓名：" placeholder="请输入" />
       <van-field model:value="{{mobile}}" label="手机号：" placeholder="请输入" border="{{ false }}" />
