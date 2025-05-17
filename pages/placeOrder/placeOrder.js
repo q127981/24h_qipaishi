@@ -289,6 +289,10 @@ Page({
       });
       return;
     }
+    let price = 0;
+    if(that.data.money){
+      price = that.data.money;
+    }
     http.request(
       "/member/manager/submitOrder",
       "1",
@@ -299,7 +303,7 @@ Page({
         endTime: that.data.endTime,
         mobile: that.data.phone,
         statistics: that.data.statistics,
-        price: that.data.money,
+        price: price,
       },
       app.globalData.userDatatoken.accessToken,
       "",

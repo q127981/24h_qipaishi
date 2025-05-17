@@ -70,7 +70,7 @@
               </view>
               <view>
                 <view>支付方式：<text>{{item.payType===0?'管理员':item.payType===1?'微信':item.payType===2?'余额':item.payType===3?'团购':item.payType===4?'套餐':'预订'}}</text></view>
-                <view wx:if="{{item.payType==0}}">记账金额：<text class="price">￥{{item.price}}</text></view>
+                <view wx:if="{{item.payType==0}}">记账金额：<text class="price">￥{{item.orderPrice}}</text></view>
                 <view wx:else="">实际支付：<text class="price">￥{{item.payPrice}}</text></view>
                 <view wx:if="{{item.renewPrice}}">续费金额：<text class="price">￥{{item.renewPrice}}</text></view>
                 <block wx:if="{{item.deposit}}">

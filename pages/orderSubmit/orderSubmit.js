@@ -121,7 +121,7 @@ Page({
       // startDate: new Date(),
       submit_begin_time: that.formatDate(startDate).text,
     });
-    
+
     that.daySlotInit();
     that.getPkgList();
     wx.setStorageSync("global_store_id", storeId);
@@ -153,7 +153,7 @@ Page({
       }, 500);
       wx.hideLoading()
     }
-    that.getroomInfodata(that.data.roomId).then((res) => { 
+    that.getroomInfodata(that.data.roomId).then((res) => {
       that.getCouponListData();
       that.getStoreBalance();
     });
@@ -223,7 +223,7 @@ Page({
             });
           },
           pageDataList_no: function (data) {
-            console.log('页面B触发事件时传递的数据2：',data)
+            console.log('页面B触发事件时传递的数据2：', data)
             that.setData({
               submit_couponInfo: {},
               goPage: true
@@ -252,7 +252,7 @@ Page({
         });
       }
     }
-    console.log('优惠券:',that.data.submit_couponInfo);
+    console.log('优惠券:', that.data.submit_couponInfo);
     //计算价格
     http.request(
       "/member/order/preOrder",
@@ -292,7 +292,7 @@ Page({
       function fail(info) { }
     );
   },
-  getCouponId(){
+  getCouponId() {
     var that = this;
     if (that.data.submit_couponInfo) {
       return that.data.submit_couponInfo.couponId;
@@ -322,6 +322,7 @@ Page({
           startTime: that.data.submit_begin_time,
           endTime: that.data.submit_end_time,
           preSubmit: preSubmit,
+          wxPay: payType == 1,
           userCardId: that.data.packCardIndex >= 0 ? that.data.cardList[that.data.packCardIndex].cardId : ''
         },
         app.globalData.userDatatoken.accessToken,
@@ -341,10 +342,10 @@ Page({
               } else {
                 that.payMent(info);
               }
-            } else if (payType == 2){
+            } else if (payType == 2) {
               //余额支付 如果余额已经不够了，就报错
               let sum = that.data.giftBalance + that.data.balance + that.data.roominfodata.deposit;
-              if(sum*100 < info.data.price){
+              if (sum * 100 < info.data.price) {
                 wx.showToast({
                   title: '余额不足，请先充值！',
                   icon: 'none'
@@ -352,18 +353,18 @@ Page({
                 return
               }
               //有可能存在房间押金
-              if(that.data.roominfodata.deposit){
+              if (that.data.roominfodata.deposit) {
                 that.payMent(info);
-              }else{
+              } else {
                 //提交下单
                 that.submitorder();
               }
-            }else if( payType == 3){
+            } else if (payType == 3) {
               //团购支付 
               //有可能存在房间押金
-              if(that.data.roominfodata.deposit){
+              if (that.data.roominfodata.deposit) {
                 that.payMent(info);
-              }else{
+              } else {
                 //提交下单
                 that.submitorder();
               }
@@ -568,7 +569,7 @@ Page({
               timeText,
               timeSelectList: info.data.timeSelectLists[0].selectList,
             });
-            
+
             that.MathDate(new Date(that.data.submit_begin_time));
             r();
           } else {
@@ -579,7 +580,7 @@ Page({
             t();
           }
         },
-        function fail(info) {t(); }
+        function fail(info) { t(); }
       );
     });
   },
@@ -795,7 +796,7 @@ Page({
         that.checkGroup();
       }
     } else {
-     
+
       that.MathPrice();
     }
   },
@@ -1182,7 +1183,7 @@ Page({
       modeIndex: +index,
       scrollPosition: 0,
       packCardIndex: - 1,
-      
+
     });
     if (index == 0) {
       //小时模式
@@ -1424,27 +1425,27 @@ Page({
       //console.log('未登录失败！')
     }
   },
-  timeSelectCancel(){
+  timeSelectCancel() {
     this.setData({
       timeSelectShow: false
     })
   },
-  setTimeSelect(){
+  setTimeSelect() {
     this.setData({
       timeSelectShow: true
     })
   },
-  conTimeSelect(e){
+  conTimeSelect(e) {
     let that = this;
     let index = e.currentTarget.dataset.index;
     let timeSelect = that.data.timeSelectList[index];
-    if(timeSelect){
-      if(timeSelect.available){
+    if (timeSelect) {
+      if (timeSelect.available) {
         that.setData({
           timeSelectShow: false,
         })
         that.MathDate(new Date(timeSelect.date));
-      }else{
+      } else {
         wx.showToast({
           title: '该时间不可用',
           icon: 'none'
