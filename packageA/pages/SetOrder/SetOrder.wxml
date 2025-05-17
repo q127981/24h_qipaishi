@@ -33,70 +33,71 @@
           </block>
           <view style="padding: 15rpx 26rpx;">
             <ul class="info">
-            <!-- <li>
+              <!-- <li>
               <image class="roomImg" src="{{item.roomImg}}"></image>
             </li> -->
-            <li class="li">
-              <iconfont name="iov-store" size="22">
-              </iconfont>
-              <view class="title">
-                <span class="name">{{item.storeName}}</span> - 
-              {{item.roomName}}({{item.roomType===1?'小包':item.roomType===2?'中包':item.roomType===3?'大包':item.roomType===4?'豪包':item.roomType===5?'商务包':item.roomType===6?'斯洛克':item.roomType===7?'中式黑八':'美式球桌'}})
+              <li class="li">
+                <iconfont name="iov-store" size="22">
+                </iconfont>
+                <view class="title">
+                  <span class="name">{{item.storeName}}</span> -
+                  {{item.roomName}}({{item.roomType===1?'小包':item.roomType===2?'中包':item.roomType===3?'大包':item.roomType===4?'豪包':item.roomType===5?'商务包':item.roomType===6?'斯洛克':item.roomType===7?'中式黑八':'美式球桌'}})
+                </view>
+              </li>
+            </ul>
+            <!-- 时间段 -->
+            <view class="timeBox">
+              <view class="time">
+                <view class="hour">{{magic.splittime(item.startTime)[0]}}:{{magic.splittime(item.startTime)[1]}}</view>
+                <view class="date">{{magic.splitkongge(item.startTime)[0]}}</view>
               </view>
-            </li>
-          </ul>
-          <!-- 时间段 -->
-          <view class="timeBox">
-            <view class="time">
-              <view class="hour">{{magic.splittime(item.startTime)[0]}}:{{magic.splittime(item.startTime)[1]}}</view>
-              <view class="date">{{magic.splitkongge(item.startTime)[0]}}</view>
-            </view>
-            <view class="total border-primary">{{item.orderHour}}小时</view>
-            <view class="time">
-              <view class="hour">{{magic.splittime(item.endTime)[0]}}:{{magic.splittime(item.endTime)[1]}}</view>
-              <view class="date">{{magic.splitkongge(item.endTime)[0]}}</view>
-            </view>
-          </view>
-          <!-- 底部操作 -->
-          <view class="bottom">
-            <view>
-              <view class="info">创建时间：{{item.createTime}}</view>
-              <!-- <view class="info" wx:if="{{item.couponName}}">使用卡券：<label>{{item.couponName}}</label></view> -->
-              <view class="info">预订用户：{{item.nickname}}</view>
-              <view class="info" bindtap='copyText' data-text="{{item.mobile}}">手机号码：{{item.mobile}}
-                <!-- <text class="copyMobile" bindtap='copyText' data-text="{{item.mobile}}">复制</text> -->
-                <text class="copyMobile" catchtap="callMobile" data-mobile="{{item.mobile}}">拨打</text>
+              <view class="total border-primary">{{item.orderHour}}小时</view>
+              <view class="time">
+                <view class="hour">{{magic.splittime(item.endTime)[0]}}:{{magic.splittime(item.endTime)[1]}}</view>
+                <view class="date">{{magic.splitkongge(item.endTime)[0]}}</view>
               </view>
             </view>
-            <view>
-              <view>支付方式：<text>{{item.payType===0?'管理员':item.payType===1?'微信':item.payType===2?'余额':item.payType===3?'团购':item.payType===4?'套餐':'预订'}}</text></view>
-              <view>实际支付：<text class="price">￥{{item.payPrice}}</text></view>
-              <view wx:if="{{item.renewPrice}}">续费金额：<text class="price">￥{{item.renewPrice}}</text></view>
-              <block wx:if="{{item.deposit}}">
-                <view>支付押金：<text class="color-attention">￥{{item.deposit}}</text></view>
-              </block>
-              <block wx:if="{{item.status == 3}}">
-                <view>订单退款：<text class="color-attention">￥{{item.refundPrice}}</text></view>
-              </block>
+            <!-- 底部操作 -->
+            <view class="bottom">
+              <view>
+                <view class="info">创建时间：{{item.createTime}}</view>
+                <!-- <view class="info" wx:if="{{item.couponName}}">使用卡券：<label>{{item.couponName}}</label></view> -->
+                <view class="info">预订用户：{{item.nickname}}</view>
+                <view class="info" bindtap='copyText' data-text="{{item.mobile}}">手机号码：{{item.mobile}}
+                  <!-- <text class="copyMobile" bindtap='copyText' data-text="{{item.mobile}}">复制</text> -->
+                  <text class="copyMobile" catchtap="callMobile" data-mobile="{{item.mobile}}">拨打</text>
+                </view>
+              </view>
+              <view>
+                <view>支付方式：<text>{{item.payType===0?'管理员':item.payType===1?'微信':item.payType===2?'余额':item.payType===3?'团购':item.payType===4?'套餐':'预订'}}</text></view>
+                <view wx:if="{{item.payType==0}}">记账金额：<text class="price">￥{{item.price}}</text></view>
+                <view wx:else="">实际支付：<text class="price">￥{{item.payPrice}}</text></view>
+                <view wx:if="{{item.renewPrice}}">续费金额：<text class="price">￥{{item.renewPrice}}</text></view>
+                <block wx:if="{{item.deposit}}">
+                  <view>支付押金：<text class="color-attention">￥{{item.deposit}}</text></view>
+                </block>
+                <block wx:if="{{item.status == 3}}">
+                  <view>订单退款：<text class="color-attention">￥{{item.refundPrice}}</text></view>
+                </block>
+              </view>
             </view>
-          </view>
-          <view class="btns">
-            <view class="line1" wx:if="{{item.status == 0 || item.status == 1}}">
+            <view class="btns">
+              <view class="line1" wx:if="{{item.status == 0 || item.status == 1}}">
                 <button hover-class="button-click" class="btn bg-warning" catchtap="refundOrder" data-info="{{item}}">退款</button>
                 <button hover-class="button-click" class="btn cancel" catchtap="cancelOrder" data-info="{{item}}">取消</button>
-            </view>
-            <view class="line2" wx:if="{{item.status == 0 || item.status == 1}}">
+              </view>
+              <view class="line2" wx:if="{{item.status == 0 || item.status == 1}}">
                 <button hover-class="button-click" class="btn bg-primary1" catchtap="changeOrderUser" data-info="{{item}}">订单转移</button>
                 <button hover-class="button-click" class="btn bg-primary1" catchtap="changeOrder" data-info="{{item}}">换房/改时间</button>
+              </view>
+              <view class="line3" wx:if="{{item.status!=2&&item.status!=3}}">
+                <button hover-class="button-click" class="btn bg-primary" catchtap="renewClick" data-info="{{item}}">续费</button>
+                <button hover-class="button-click" class="btn bg-primary" catchtap="finishOrder" data-info="{{item}}">提前结束</button>
+              </view>
+              <view class="line3" wx:if="{{item.status==2 && item.deposit>0 && !item.depositRefund}}">
+                <button hover-class="button-click" class="btn bg-primary" catchtap="depositRefund" data-info="{{item}}">退回押金</button>
+              </view>
             </view>
-            <view class="line3" wx:if="{{item.status!=2&&item.status!=3}}">
-              <button hover-class="button-click" class="btn bg-primary" catchtap="renewClick" data-info="{{item}}">续费</button>
-              <button hover-class="button-click" class="btn bg-primary" catchtap="finishOrder" data-info="{{item}}">提前结束</button>
-            </view>
-            <view class="line3" wx:if="{{item.status==2 && item.deposit>0 && !item.depositRefund}}">
-              <button hover-class="button-click" class="btn bg-primary" catchtap="depositRefund" data-info="{{item}}">退回押金</button>
-            </view>
-          </view>
           </view>
         </view>
       </view>
@@ -177,10 +178,10 @@
       <label>房间名称：</label>
       <picker mode="selector" bindchange="bindPickerChange" value="{{index}}" range="{{values}}" data-ids="{{key}}">
         <view class="picker" style="color: blue;">
-          {{values[index] || "请选择"}}  - 修改
+          {{values[index] || "请选择"}} - 修改
         </view>
       </picker>
-     
+
     </view>
     <view class="item">
       <label>原开始时间：</label><text>{{orderInfo.startTime}}</text>

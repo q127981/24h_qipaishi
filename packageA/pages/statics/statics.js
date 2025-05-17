@@ -331,11 +331,14 @@ Page({
     sdt1: '',
     edt1: '',
     sdt2: '',
-    sdt3: '',
     edt2: '',
+    sdt3: '',
     edt3: '',
     date: '',
     date_2: '',
+    date_last: '', //昨日
+    date_last2: '', //昨日
+    date_last3: '', //昨日
     date_3: '',
     date7: '',
     date7_2: '',
@@ -368,6 +371,9 @@ Page({
       }
     var date = Moment().format('YYYY-MM-DD'); //获取当前时间并格式化输出
     var date_2 = Moment().format('MM-DD');
+    var date_last = Moment().subtract(1, 'days').format('YYYY-MM-DD');
+    var date_last2 = Moment().subtract(1, 'days').format('MM-DD');
+    var date_last3 = Moment().subtract(1, 'days').format('MM-DD');
     var date_3 = Moment().format('MM-DD');
     var date7 = Moment().subtract(6, 'days').format('YYYY-MM-DD');
     var date7_2 = Moment().subtract(6, 'days').format('MM-DD');
@@ -377,6 +383,9 @@ Page({
     var date30_3 = Moment().subtract(30, 'days').format('MM-DD');
     this.setData({
       date: date,
+      date_last: date_last,
+      date_last2: date_last2,
+      date_last3: date_last3,
       sdt: date,
       edt: date,
       sdt1: date,
@@ -600,6 +609,9 @@ Page({
     var edt = this.data.date
     if(info == 1){
       sdt = this.data.date
+    }else if(info == 2){
+      sdt = this.data.date_last
+      edt = this.data.date_last
     }else if(info == 7){
       sdt = this.data.date7
     }else if(info == 30){

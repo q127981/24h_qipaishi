@@ -29,6 +29,9 @@
           <view class="btn" bind:tap="lockAotuClose" data-lock="{{item.deviceData}}">锁常关</view>
           <view class="btn" bind:tap="lockConfigWifi" data-lock="{{item.deviceData}}">配置WIFI</view>
         </view>
+        <view class="btns" wx:if="{{item.type==6}}">
+          <view class="btn" bind:tap="getLockList" data-id="{{item.deviceId}}">查看附近锁</view>
+        </view>
       </view>
       <view class="line2">
         <view class="info" wx:if="{{item.storeName}}">
@@ -44,7 +47,7 @@
             <view>-</view>
           </block>
         </view>
-        <view >
+        <view>
           <text wx:if="{{item.share}}">共享设备</text>
           <text class="del" bindtap="delDevice" data-id="{{item.deviceId}}"> 删除</text>
         </view>
@@ -73,7 +76,7 @@
         </picker>
       </van-field>
       <van-field label="门店：" placeholder="{{storeName}}" readonly>
-       
+
       </van-field>
       <van-field label="房间：" placeholder="请选择房间">
         <picker slot="input" bindchange="bindRoomSelect" value="{{roomIndex}}" range-key="text" range="{{roomList}}">
@@ -89,5 +92,26 @@
       <switch bindchange="changeSwitchStatus" checked="{{shareDevice}}" />
       <view class="tips">注:表示多个房间或台桌共用，常用于中央空调</view>
     </van-cell-group>
+  </view>
+</van-dialog>
+
+
+<van-dialog use-slot title="网关附近锁" show="{{ showLockList }}" bind:confirm="closeLockList">
+  <view class="table-container">
+    <!-- 表头 -->
+    <view class="table-row header">
+      <view class="table-cell">编号</view>
+      <view class="table-cell">信号</view>
+      <view class="table-cell">房间</view>
+    </view>
+
+    <!-- 表格数据 -->
+    <block wx:for="{{lockList}}" wx:key="id">
+      <view class="table-row">
+        <view class="table-cell">{{item.deviceSn}}</view>
+        <view class="table-cell">{{item.rssi}}</view>
+        <view class="table-cell">{{item.roomName}}</view>
+      </view>
+    </block>
   </view>
 </van-dialog>

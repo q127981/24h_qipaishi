@@ -37,9 +37,37 @@ page {
   line-height: 36rpx;
 }
 
-.loginBtn {
-  margin-top: 60rpx;
+.loginBtns {
+  display: flex;
+  justify-content: center;
+}
+
+.loginBtn1 {
+  width: 50%;
+  margin: 60rpx 20rpx 20rpx 20rpx;
   border-radius: 50rpx;
+  font-size: 28rpx;
+  height: 90rpx;
+  text-align: center;
+}
+
+.loginBtn1 .tInfo {
+  line-height: 45rpx;
+}
+
+.loginBtn2 {
+  width: 50%;
+  margin: 60rpx 20rpx 20rpx 20rpx;
+  border-radius: 50rpx;
+  font-size: 28rpx;
+  height: 90rpx;
+  line-height: 90rpx;
+}
+
+.backBtn {
+  width: 50%;
+  border-radius: 50rpx;
+  margin-top: 50rpx;
   font-size: 28rpx;
   height: 90rpx;
   line-height: 90rpx;

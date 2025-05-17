@@ -3,6 +3,6 @@
   "usingComponents": {
     "ec-canvas": "../../js/ec-canvas"
   },
-  "navigationBarBackgroundColor": "#c7dcfb",
-  "backgroundColor": "#c7dcfb"
+  "navigationBarBackgroundColor": "#5AAB6E",
+  "navigationBarTextStyle": "white"
 }

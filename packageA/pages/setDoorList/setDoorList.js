@@ -568,7 +568,7 @@ Page({
           if (res.errorCode === 0) {
             that.postLockData(res.lockData,roomId);
             //再校准时间
-            lock.updateLockTime(lockData);
+            lock.updateLockTime(res.lockData);
           } else {
             wx.hideLoading();
             wx.showModal({

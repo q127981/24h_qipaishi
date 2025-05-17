@@ -12,6 +12,8 @@ Page({
     fastLogin: true,
     username: '',
     password: '',
+    mobile: '',
+    loginData: '',
   },
 
   /**
@@ -50,24 +52,35 @@ Page({
             function success(info) {
               console.info(info);
               if (info.code == 0 && info.data) {
-                app.globalData.userDatatoken = info.data;
-                  app.globalData.isLogin = true;
-                  that.setData({
-                    isLogin: true,
-                  })
-                  //缓存服务器返回的用户信息
-                  wx.setStorageSync("userDatatoken", info.data)
-                  wx.hideLoading();
-                  wx.showToast({
-                    title: '自动登录成功',
-                    icon: 'success'
-                  })
-                  setTimeout(function () {
-                    wx.navigateBack({
-                      delta: 1,
-                    })
-                  }, 500);
-              }else{
+                that.setData({
+                  loginData: info.data,
+                  mobile: info.data.mobile,
+                })
+                wx.hideLoading();
+                wx.showModal({
+                  title: '温馨提示',
+                  content: '是否自动登录账号' + info.data.mobile + '?',
+                  complete: (res) => {
+                    if (res.cancel) {
+                    }
+                    if (res.confirm) {
+                      //缓存服务器返回的用户信息
+                      app.globalData.userDatatoken = info.data;
+                      app.globalData.isLogin = true;
+                      wx.setStorageSync("userDatatoken", info.data)
+                      wx.showToast({
+                        title: '登录成功',
+                        icon: 'success'
+                      })
+                      setTimeout(function () {
+                        wx.navigateBack({
+                          delta: 1,
+                        })
+                      }, 500);
+                    }
+                  }
+                })
+              } else {
                 wx.hideLoading();
               }
             },
@@ -148,9 +161,6 @@ Page({
                   if (info.data) {
                     app.globalData.userDatatoken = info.data;
                     app.globalData.isLogin = true;
-                    that.setData({
-                      isLogin: true,
-                    })
                     //缓存服务器返回的用户信息
                     wx.setStorageSync("userDatatoken", info.data)
                     wx.showToast({
@@ -161,7 +171,7 @@ Page({
                       wx.navigateBack({
                         delta: 1,
                       })
-                    }, 2000);
+                    }, 500);
                   }
                 }
               },
@@ -222,9 +232,6 @@ Page({
           if (info.data) {
             app.globalData.userDatatoken = info.data;
             app.globalData.isLogin = true;
-            that.setData({
-              isLogin: true,
-            })
             //缓存服务器返回的用户信息
             wx.setStorageSync("userDatatoken", info.data)
             wx.showToast({
@@ -235,7 +242,7 @@ Page({
               wx.navigateBack({
                 delta: 1,
               })
-            }, 2000);
+            }, 500);
           }
         } else {
           wx.showModal({
@@ -258,5 +265,21 @@ Page({
     wx.switchTab({
       url: '/pages/index/index',
     })
+  },
+  autoLogin: function () {
+    //缓存服务器返回的用户信息
+    var that = this;
+    app.globalData.userDatatoken = that.data.loginData;
+    app.globalData.isLogin = true;
+    wx.setStorageSync("userDatatoken", that.data.loginData)
+    wx.showToast({
+      title: '登录成功',
+      icon: 'success'
+    })
+    setTimeout(function () {
+      wx.navigateBack({
+        delta: 1,
+      })
+    }, 300);
   },
 })

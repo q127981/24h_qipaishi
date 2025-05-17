@@ -7,9 +7,18 @@
     <view class="name">{{appName}}</view>
   </view>
   <block wx:if="{{fastLogin}}">
-    <button hover-class="button-click" class="loginBtn bg-primary theme-color-shadow" bindgetphonenumber="phone" open-type="getPhoneNumber">一键登录</button>
-    <button hover-class="button-click" class="loginBtn" bind:tap="backHome">返回首页</button>
-    <view class="pwdlogin" bind:tap="pwdlogin">密码登录</view>
+    <view class="loginBtns">
+      <button hover-class="button-click" class="loginBtn2 bg-primary " bindgetphonenumber="phone" open-type="getPhoneNumber">一键登录</button>
+      <block wx:if="{{mobile}}">
+        <view class="loginBtn1 bg-primary" bind:tap="autoLogin">
+          <view class="tInfo">自动登录</view>
+          <view class="tInfo">{{mobile}}</view>
+        </view>
+        <!-- <button hover-class="button-click" class="loginBtn bg-primary theme-color-shadow">({{mobile}})</button> -->
+      </block>
+    </view>
+    <button hover-class="button-click" class="backBtn" bind:tap="backHome">返回首页</button>
+    <!-- <view class="pwdlogin" bind:tap="pwdlogin">密码登录</view> -->
   </block>
   <block wx:else="">
     <view class="userLogin">

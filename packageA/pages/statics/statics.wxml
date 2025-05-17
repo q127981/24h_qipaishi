@@ -38,11 +38,11 @@
           <view class="price2">{{businfo.orderCount}}</view>
         </view>
         <view class="item">
-          <view class="label color-primary">用户数</view>
-          <view class="price2">{{businfo.userCount}}</view>
+          <view class="label color-primary">代下单</view>
+          <view class="price2">{{businfo.adminMoney}}</view>
         </view>
         <view class="item">
-          <view class="label color-primary">预订</view>
+          <view class="label color-primary">美团预订</view>
           <view class="price2">{{businfo.ydMoney}}</view>
         </view>
       </view>
@@ -76,6 +76,10 @@
         <view class="time" bindtap="changeDate" data-info="1" data-type="bus">今日</view>
         <view class="tip">{{date_2}}</view>
       </view>
+      <view class="{{!isDefine && sdt==date_last?'item active':'item'}}">
+        <view class="time" bindtap="changeDate" data-info="2" data-type="bus">昨日</view>
+        <view class="tip">{{date_last2}}</view>
+      </view>
       <view class="{{!isDefine && sdt==date7?'item active':'item'}}">
         <view class="time" bindtap="changeDate" data-info="7" data-type="bus">7日</view>
         <view class="tip">{{date7_2}}至{{date_2}}</view>
@@ -108,6 +112,10 @@
             <view class="time" bindtap="changeDate" data-info="1" data-type="in">今日</view>
             <view class="tip">{{date_2}}</view>
           </view>
+          <view class="{{!isDefine1 && sdt1==date_last?'item active':'item'}}">
+            <view class="time" bindtap="changeDate" data-info="2" data-type="in">昨日</view>
+            <view class="tip">{{date_last2}}</view>
+          </view>
           <view class="{{!isDefine1 && sdt1==date7?'item active':'item'}}">
             <view class="time" bindtap="changeDate" data-info="7" data-type="in">7日</view>
             <view class="tip">{{date7_2}}至{{date_2}}</view>
@@ -136,6 +144,10 @@
             <view class="time" bindtap="changeDate" data-info="1" data-type="in">今日</view>
             <view class="tip">{{date_2}}</view>
           </view>
+          <view class="{{!isDefine1 && sdt1==date_last?'item active':'item'}}">
+            <view class="time" bindtap="changeDate" data-info="2" data-type="in">昨日</view>
+            <view class="tip">{{date_last2}}</view>
+          </view>
           <view class="{{!isDefine1 && sdt1==date7?'item active':'item'}}">
             <view class="time" bindtap="changeDate" data-info="7" data-type="in">7日</view>
             <view class="tip">{{date7_2}}至{{date_2}}</view>
@@ -163,6 +175,10 @@
           <view class="{{!isDefine1 && sdt1==date?'item active':'item'}}">
             <view class="time" bindtap="changeDate" data-info="1" data-type="in">今日</view>
             <view class="tip">{{date_2}}</view>
+          </view>
+          <view class="{{!isDefine1 && sdt1==date_last?'item active':'item'}}">
+            <view class="time" bindtap="changeDate" data-info="2" data-type="in">昨日</view>
+            <view class="tip">{{date_last2}}</view>
           </view>
           <view class="{{!isDefine1 && sdt1==date7?'item active':'item'}}">
             <view class="time" bindtap="changeDate" data-info="7" data-type="in">7日</view>
@@ -213,6 +229,10 @@
             <view class="time" bindtap="changeDate" data-info="1" data-type="price">今日</view>
             <view class="tip">{{date_3}}</view>
           </view>
+          <view class="{{!isDefine3 && sdt3==date_last?'item active':'item'}}">
+            <view class="time" bindtap="changeDate" data-info="2" data-type="price">昨日</view>
+            <view class="tip">{{date_last3}}</view>
+          </view>
           <view class="{{!isDefine3 && sdt3==date7?'item active':'item'}}">
             <view class="time" bindtap="changeDate" data-info="7" data-type="price">7日</view>
             <view class="tip">{{date7_3}}至{{date_3}}</view>
@@ -254,6 +274,10 @@
             <view class="time" bindtap="changeDate" data-info="1" data-type="price">今日</view>
             <view class="tip">{{date_3}}</view>
           </view>
+          <view class="{{!isDefine3 && sdt3==date_last?'item active':'item'}}">
+            <view class="time" bindtap="changeDate" data-info="2" data-type="price">昨日</view>
+            <view class="tip">{{date_last3}}</view>
+          </view>
           <view class="{{!isDefine3 && sdt3==date7?'item active':'item'}}">
             <view class="time" bindtap="changeDate" data-info="7" data-type="price">7日</view>
             <view class="tip">{{date7_3}}至{{date_3}}</view>
@@ -287,6 +311,10 @@
           <view class="{{!isDefine2 && sdt2==date?'item active':'item'}}">
             <view class="time" bindtap="changeDate" data-info="1" data-type="room">今日</view>
             <view class="tip">{{date_2}}</view>
+          </view>
+          <view class="{{!isDefine2 && sdt2==date_last?'item active':'item'}}">
+            <view class="time" bindtap="changeDate" data-info="2" data-type="room">昨日</view>
+            <view class="tip">{{date_last2}}</view>
           </view>
           <view class="{{!isDefine2 && sdt2==date7?'item active':'item'}}">
             <view class="time" bindtap="changeDate" data-info="7" data-type="room">7日</view>
@@ -326,6 +354,10 @@
           <view class="{{!isDefine2 && sdt2==date?'item active':'item'}}">
             <view class="time" bindtap="changeDate" data-info="1" data-type="room">今日</view>
             <view class="tip">{{date_2}}</view>
+          </view>
+          <view class="{{!isDefine2 && sdt2==date_last?'item active':'item'}}">
+            <view class="time" bindtap="changeDate" data-info="2" data-type="room">昨日</view>
+            <view class="tip">{{date_last2}}</view>
           </view>
           <view class="{{!isDefine2 && sdt2==date7?'item active':'item'}}">
             <view class="time" bindtap="changeDate" data-info="7" data-type="room">7日</view>

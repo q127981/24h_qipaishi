@@ -3,12 +3,12 @@ App({
   globalData: {
     //接口地址 只修改域名为api.xxxx.com  后面的/app-api不要删
     baseUrl: "https://malaoban.scyanzu.com/app-api",
-    // baseUrl: "http://localhost:8900/app-api",
+    // baseUrl: "http://localhost:8900/app-api",
     // baseUrl: "http://test.mzj.com:8900/app-api",
     //租户id
     tenantId: "150",
     //小程序名称
-    appName: "麻老板无人自助系统",
+    appName: "麻老板无人系统",
 
 
     //下面的不要改
@@ -99,7 +99,7 @@ App({
   onShow() {
     console.log('app.js onShow');
     var _this = this;
-   
+
   },
   // 判断设备是否为 iPhone X
   checkIsIPhoneX: function () {

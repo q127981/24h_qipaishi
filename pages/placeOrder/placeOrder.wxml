@@ -23,9 +23,10 @@
         </picker>
       </van-cell>
     </van-cell-group>
-    <!-- <van-cell-group>
-      <van-field label="计入数据统计金额：" model:value="{{ money }}" placeholder="请填写数字" maxlength="5" />
-    </van-cell-group> -->
+    <van-cell-group>
+      <van-field label="记账金额：" model:value="{{ money }}" placeholder="单位元，默认0元" maxlength="10" />
+    </van-cell-group>
+    <view style="margin-left:40rpx;margin-bottom: 10rpx;">单位/元，添加记账金额后可在数据统计查看</view>
   </view>
 
   <view class="btns">

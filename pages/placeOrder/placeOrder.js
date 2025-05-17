@@ -298,7 +298,8 @@ Page({
         startTime: that.data.startTime,
         endTime: that.data.endTime,
         mobile: that.data.phone,
-        statistics: that.data.statistics
+        statistics: that.data.statistics,
+        price: that.data.money,
       },
       app.globalData.userDatatoken.accessToken,
       "",

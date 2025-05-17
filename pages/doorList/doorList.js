@@ -235,7 +235,15 @@ Page({
         message,
         function success(info) {
           if (info.code == 0) {
-            if (info.data.list.length === 0) {
+            if (info.data.total == 1) {
+              //只有一个门店
+              let storeId = info.data.list[0].storeId;
+              // 设置参数
+              wx.setStorageSync('global_store_id', storeId);
+              wx.switchTab({
+                url: '/pages/index/index'
+              });
+            } else if (info.data.list.length === 0) {
               that.setData({
                 canLoadMore: false
               })

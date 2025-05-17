@@ -1,6 +1,6 @@
 {
     "navigationBarTitleText": "会员黑名单",
-    "navigationBarBackgroundColor": "#F8F8F8",
-    "backgroundColor": "#F8F8F8",
+    "navigationBarBackgroundColor": "#5AAB6E",
+    "navigationBarTextStyle": "white",
     "usingComponents": {}
 }
