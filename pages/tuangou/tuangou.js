@@ -439,12 +439,13 @@ Page({
     }
     var that = this;
     if (app.globalData.isLogin) {
+      //先锁定房间 避免出现重复订单
       http.request(
         "/member/order/preOrder",
         "1",
         "post",
         {
-          roomId: that.data.doorlistArr[this.data.roomIndex].roomId,
+          roomId: that.data.doorlistArr[that.data.roomIndex].roomId,
           payType: 3,
           nightLong: that.data.nightLong,
           startTime: that.data.submit_begin_time,
@@ -456,6 +457,7 @@ Page({
           console.info("支付信息===");
           console.log("that.data.payselectindex:" + that.data.payselectindex);
           if (info.code == 0) {
+            that.lockWxOrder(info);
             that.submitorder(info.data.orderNo);
           } else {
             wx.showModal({
@@ -514,6 +516,41 @@ Page({
                   "/packageA/pages/orderDetail/orderDetail?toPage=true&OrderNo=" + info.data,
               });
             }, 1000);
+          } else {
+            wx.showModal({
+              title: "温馨提示",
+              content: info.msg,
+              showCancel: false,
+              confirmText: "确定",
+              success(res) { },
+            });
+          }
+        },
+        function fail(info) { }
+      );
+    }
+  },
+  // 锁定订单
+  lockWxOrder: function (pay) {
+    var that = this;
+    if (app.globalData.isLogin) {
+      http.request(
+        "/member/order/lockWxOrder",
+        "1",
+        "post",
+        {
+          roomId: that.data.doorlistArr[that.data.roomIndex].roomId,
+          nightLong: that.data.nightLong,
+          startTime: that.data.submit_begin_time,
+          endTime: that.data.submit_end_time,
+          payType: 3,
+        },
+        app.globalData.userDatatoken.accessToken,
+        "提交中...",
+        function success(info) {
+          if (info.code == 0) {
+            console.log("锁定微信支付订单");
+            // that.payMent(pay); //微信支付
           } else {
             wx.showModal({
               title: "温馨提示",
