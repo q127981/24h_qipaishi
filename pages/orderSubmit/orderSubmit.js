@@ -146,13 +146,15 @@ Page({
       isLogin: _app.globalData.isLogin,
     });
     if (!that.data.goPage) {
-      //扫码过来的 再次获取套餐，并延时1秒
-      that.getPkgList();
+      //扫码过来的延时1秒
       setTimeout(() => {
         that.setData({
           isLogin: app.globalData.isLogin,
         });
       }, 1000);
+    }
+    if(!that.data.pkgList || that.data.pkgList.length == 0){
+      that.getPkgList();
     }
     that.getroomInfodata(that.data.roomId).then((res) => {
       that.getCouponListData();
@@ -762,7 +764,7 @@ Page({
   goSelectPayType: function (e) {
     var that = this;
     let aindex = e.currentTarget.dataset.index;
-    if (that.data.scanCodeMsg.length > 0) {
+    if (that.data.scanCodeMsg&&that.data.scanCodeMsg.length > 0) {
       wx.showModal({
         title: "温馨提示",
         content: "您已输入团购券码，其他支付方式不再生效！",
@@ -1068,7 +1070,7 @@ Page({
   //点击的套餐
   selectPkgInfo: function (event) {
     var that = this;
-    if (that.data.scanCodeMsg.length > 0) {
+    if (that.data.scanCodeMsg&&that.data.scanCodeMsg.length > 0) {
       wx.showModal({
         title: "温馨提示",
         content: "您已输入团购券码，其他支付方式不再生效！",
