@@ -1,5 +1,7 @@
-<view>
-    <image wx:if="{{list.length > 0}}" wx:for="{{list}}" wx:key="index" src="{{item}}"/>
+<view class="container">
+    <view class="item" wx:if="{{list.length > 0}}" wx:for="{{list}}" wx:key="index">
+      <image class="img" src="{{item}}"/>
+    </view>
     <view class="no-guide" wx:if="{{list.length <= 0}}">
         <text class="no">暂无门店指引</text> 
     </view>

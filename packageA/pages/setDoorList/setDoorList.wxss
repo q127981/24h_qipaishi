@@ -51,9 +51,9 @@
   }
 }
 .btns {
-  height: 0;
-  overflow: hidden;
-  transition: height 0.8s;
+  /* height: 0; */
+  /* overflow: hidden; */
+  /* transition: height 0.8s; */
 }
 .btns.show {
   height: 150rpx;

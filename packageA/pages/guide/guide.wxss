@@ -1,12 +1,14 @@
-page {
+/* page {
     height: 100%;
     width: 100%;
     background-color: #f3f2f2;
     display: flex;
     justify-content: center;
     align-items: center;
+} */
+.container {
+  padding-bottom: 100rpx;
 }
-
 image {
     width: 100%;
 }

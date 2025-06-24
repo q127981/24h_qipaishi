@@ -31,7 +31,7 @@
     </image>
   </view>
 </view>
-<view class="tab" bind:tap="handleTabChange">
+<!-- <view class="tab" bind:tap="handleTabChange">
   <view class="tab-left">
     <view class="{{ tabIndex === 0 ? 'active' : '' }}" data-index="0">
       附近门店
@@ -42,7 +42,7 @@
       常用门店
     </view>
   </view>
-</view>
+</view> -->
 <view class="container">
   <!-- 列表 -->
   <view class="lists">
@@ -102,7 +102,7 @@
     </view>
   </view>
 </view>
-<tap-ball bind:menu-event="handleMenu" />
+<!-- <tap-ball bind:menu-event="handleMenu" /> -->
 <!-- todo 自定义底部导航栏 无法控制距离最后一个数据的高度 需要设置一个空的view -->
 <view style="margin-bottom: 80rpx;"></view>
 <custom-tabbar></custom-tabbar>

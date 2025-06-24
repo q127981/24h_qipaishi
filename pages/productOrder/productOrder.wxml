@@ -52,9 +52,13 @@
                     <view class="order-time">
                       <text>场地名称：{{item.roomName}}</text>
                     </view>
+                    <view class="user-phoen" bind:tap="call" data-orderid="{{item.orderId}}" wx:if="{{manager}}">
+                      <text>{{item.userPhone}}</text>
+                      <iconfont name="dianhua1" size="20"></iconfont>
+                    </view>
                   </view>
                 </view>
-                <view class="user-info">
+                <!-- <view class="user-info" wx:if="{{manager}}">
                   <view class="user-name">
                     <text>{{item.userName}}</text>
                   </view>
@@ -62,7 +66,7 @@
                     <text>{{item.userPhone}}</text>
                     <iconfont name="dianhua1" size="20"></iconfont>
                   </view>
-                </view>
+                </view> -->
                 <view class="xian"></view>
                 <view wx:for="{{isShowAll ? item.productInfoVoList : item.productInfoVoListThree}}" wx:for-index="InfoIndex" wx:for-item="productInfoIndex" wx:key="InfoIndex">
                   <view class="productInfo">

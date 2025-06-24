@@ -131,7 +131,7 @@ page {
 .section .line {
   line-height: 40rpx;
   font-weight: 300;
-  font-size: 21rpx;
+  font-size: 22rpx;
   color: #000000;
 }
 
@@ -235,10 +235,10 @@ page {
 
 .select-box .item {
   width: 205rpx;
-  height: 159rpx;
+  height: 139rpx;
   background: #fff;
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   position: relative;
   flex-direction: column;
@@ -248,6 +248,9 @@ page {
   font-size: 21rpx;
   margin: 10rpx;
   margin-bottom: 27rpx;
+}
+.select-box .item .num {
+  /* margin-top: 20rpx; */
 }
 
 .select-box .item.active {
@@ -266,16 +269,15 @@ page {
 }
 
 .select-box .item .tag {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 112rpx;
-  height: 35rpx;
-  background: #F3CA94;
-  border-radius: 0rpx 17rpx 0rpx 17rpx;
+  width: 205rpx;
+  font-size: 25rpx;
+  height: 45rpx;
+  background: var(--main-color);
+  border-radius: 20rpx 20rpx 0 0;
   text-align: center;
-  line-height: 35rpx;
-  color: #fff;
+  line-height: 45rpx;
+  color: rgb(255, 255, 255);
+  margin-bottom: 15rpx;
 }
 
 

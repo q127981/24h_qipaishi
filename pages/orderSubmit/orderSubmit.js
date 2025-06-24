@@ -88,6 +88,7 @@ Page({
     groupPays: [], // 优惠券信息
     clickItem: 0, // 点击的团购券位置 默认0
     timeSelectShow: false,//时间选择
+    goPage: '',
   },
   /**
    * 生命周期函数--监听页面加载
@@ -98,10 +99,12 @@ Page({
     var storeId = options.storeId;
     var roomId = options.roomId;
     var goPage = options.goPage;
+    var groupPayNo = options.groupPayNo;
     const storeName = options.storeName;
     if (goPage) {
       //点按钮跳转的
     } else {
+      //扫码的
       var query = wx.getEnterOptionsSync().query;
       console.log(query);
       if (query) {
@@ -118,10 +121,11 @@ Page({
       storeId: storeId,
       roomId: roomId,
       storeName: storeName,
+      scanCodeMsg: groupPayNo,
+      goPage: goPage,
       // startDate: new Date(),
       submit_begin_time: that.formatDate(startDate).text,
     });
-
     that.daySlotInit();
     that.getPkgList();
     wx.setStorageSync("global_store_id", storeId);
@@ -142,23 +146,20 @@ Page({
       isLogin: _app.globalData.isLogin,
     });
     if (!that.data.goPage) {
-      //扫码过来的 延时0.5秒
+      //扫码过来的 再次获取套餐，并延时1秒
+      that.getPkgList();
       setTimeout(() => {
-        wx.showLoading({
-          title: '请稍等',
-        })
         that.setData({
           isLogin: app.globalData.isLogin,
         });
-      }, 500);
-      wx.hideLoading()
+      }, 1000);
     }
     that.getroomInfodata(that.data.roomId).then((res) => {
       that.getCouponListData();
       that.getStoreBalance();
     });
-    if (app.globalData.isLogin) {
-      that.getGroupPay();
+    if (that.data.scanCodeMsg) {
+      that.checkGroup();
     }
   },
 
@@ -188,7 +189,7 @@ Page({
   // 去优惠券页面
   goCoupon() {
     var that = this;
-    if (that.data.scanCodeMsg.length > 0) {
+    if (that.data.scanCodeMsg && that.data.scanCodeMsg.length > 0) {
       wx.showModal({
         title: "温馨提示",
         content: "您已输入团购券码，无法再选择优惠券！",
@@ -274,7 +275,6 @@ Page({
       "",
       function success(info) {
         if (info.code == 0) {
-          that.data.orderNo = info.data.orderNo;
           let price = info.data.payPrice / 100.0;
           that.setData({
             pricestring: price,
@@ -307,6 +307,10 @@ Page({
     that.setData({
       payType: payType
     })
+    let wxpay = false;
+    if(payType == 1 || that.data.roominfodata.deposit){
+      wxpay = true;
+    }
     let preSubmit = that.data.modeIndex == 4;//是否预支付
     if (app.globalData.isLogin) {
       http.request(
@@ -322,7 +326,7 @@ Page({
           startTime: that.data.submit_begin_time,
           endTime: that.data.submit_end_time,
           preSubmit: preSubmit,
-          wxPay: payType == 1,
+          wxPay: wxpay,
           userCardId: that.data.packCardIndex >= 0 ? that.data.cardList[that.data.packCardIndex].cardId : ''
         },
         app.globalData.userDatatoken.accessToken,
@@ -796,7 +800,6 @@ Page({
         that.checkGroup();
       }
     } else {
-
       that.MathPrice();
     }
   },
@@ -817,6 +820,7 @@ Page({
           icon: "success",
           duration: 1000,
         });
+        that.checkGroup();
       },
       fail: (res) => {
         //接口调用失败的回调函数
@@ -1007,13 +1011,29 @@ Page({
               that.setData({
                 pkgList: newMeals,
               });
+              //默认优先套餐展示
+              let modeIndex = 1;
+              let select_pkg_index = 0;
+              let pkgId = info.data.list[0].pkgId;
+              let order_hour = info.data.list[0].hours;
+              console.log('判断是否有团购券:',that.data.scanCodeMsg)
+              if (that.data.scanCodeMsg) {
+                //有团购券  默认小时模式
+                modeIndex = 0;
+                select_pkg_index = -1;
+                pkgId = "";
+                order_hour = 0;
+              }
               that.setData({
-                modeIndex: 1,
-                select_pkg_index: 0,
-                pkgId: info.data.list[0].pkgId,
-                order_hour: info.data.list[0].hours,
+                modeIndex: modeIndex,
+                select_pkg_index: select_pkg_index,
+                pkgId: pkgId,
+                order_hour: order_hour,
               })
-              that.MathDate(new Date(that.data.submit_begin_time));
+              if(pkgId){
+                that.MathDate(new Date(that.data.submit_begin_time));
+              }
+              
             }
           } else {
             wx.showModal({
@@ -1297,32 +1317,7 @@ Page({
       showReserve: false,
     })
   },
-  //   获取团购券
-  getGroupPay: function () {
-    let that = this
-    if (app.globalData.isLogin) {
-      http.request(
-        "/member/index/groupPay/getListByPhone",
-        "1",
-        "post", {
-        "storeId": that.data.storeId
-      },
-        app.globalData.userDatatoken.accessToken,
-        "",
-        function success(info) {
-          if (info.code == 0) {
-            let groupPays = info.data
-            that.setData({
-              groupPays: groupPays,
-              showGroupsPay: groupPays && groupPays.length > 0 ? true : false
-            })
-          }
-        },
-        function fail(info) {
-        }
-      )
-    }
-  },
+
   getIndex: function (e) {
     let that = this
     let index = e.currentTarget.dataset.index
@@ -1384,8 +1379,16 @@ Page({
               voucherInfo: info.data,
               order_hour: info.data.hours,
             });
-            that.MathDate(new Date())
+            if(that.data.startDate){
+              that.MathDate(that.data.startDate)
+            }else{
+              that.MathDate(new Date())
+            }
           } else {
+            wx.showToast({
+              title: info.msg,
+              icon: 'none'
+            })
           }
         },
         function fail(info) { }

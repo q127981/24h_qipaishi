@@ -9,10 +9,11 @@ Page({
    */
   data: {
     storeId: '',
+    roomId: '',
     storeName: '',
     roomList: [],
     roomIndex: '',
-    deviceTypes: [{ value: '', text: '请选择类型' }, { value: 1, text: '磁力锁门禁' }, { value: 2, text: '空开/插座' }, { value: 3, text: '云喇叭' }, { value: 10, text: '云喇叭(语音款)' }, { value: 4, text: '灯具' }, { value: 5, text: '智能锁' }, { value: 6, text: '网关' }, { value: 13, text: '三路控制器' }, { value: 14, text: 'AI锁球器' }, { value: 16, text: '计时器' }, { value: 8, text: '锁球器控制器（12V）' }, { value: 9, text: '人脸门禁机' }, { value: 11, text: '二维码识别器' }, { value: 12, text: '红外控制器' }],
+    deviceTypes: [{ value: '', text: '请选择类型' }, { value: 1, text: '磁力锁门禁' }, { value: 2, text: '空开' }, { value: 7, text: '插座' }, { value: 3, text: '云喇叭' }, { value: 10, text: '云喇叭(语音款)' }, { value: 4, text: '灯具' }, { value: 5, text: '智能锁' }, { value: 6, text: '网关' }, { value: 13, text: '三路控制器' }, { value: 14, text: 'AI锁球器' }, { value: 16, text: '计时器' }, { value: 8, text: '锁球器控制器（12V）' }, { value: 9, text: '人脸门禁机' }, { value: 11, text: '二维码识别器' }, { value: 12, text: '红外控制器' }],
     deviceTypeIndex: '',
     deviceType: '',
     deviceList: [],
@@ -26,6 +27,11 @@ Page({
     beforeCloseFunction: null,
     lockList: [],
     showLockList: false,
+    showLockOp: false,
+    lockData: '',
+    lockSn: '',
+    setLockPwdShow: false,
+    lockPwd: '',
   },
 
   /**
@@ -133,7 +139,7 @@ Page({
             info.data.map(it => {
               roomList.push({ text: it.key, value: it.value })
             })
-            roomList.unshift({ text: "请选择房间", value: "" })
+            roomList.unshift({ text: "全部房间", value: "" })
             that.setData({
               roomList: roomList,
             })
@@ -169,6 +175,7 @@ Page({
         "pageSize": that.data.pageSize,
         "type": that.data.deviceType,
         "storeId": that.data.storeId,
+        "roomId": that.data.roomId,
       },
         app.globalData.userDatatoken.accessToken,
         "",
@@ -212,12 +219,12 @@ Page({
       )
     }
   },
-  //门店下拉菜单发生变化
-  storeDropdown(event) {
-    this.data.stores.map(it => {
+  //房间下拉菜单发生变化
+  roomDropdown(event) {
+    this.data.roomList.map(it => {
       if (it.value === event.detail) {
         this.setData({
-          storeId: it.value,
+          roomId: it.value,
         })
       }
     })
@@ -331,9 +338,6 @@ Page({
         }
       )
     }
-
-
-
   },
   cancelAdd: function () {
     this.setData({
@@ -348,7 +352,7 @@ Page({
     var deviceId = e.currentTarget.dataset.id;
     wx.showModal({
       title: '提示',
-      content: '确定删除此设备绑定吗？为了避免误操作，仅允许超管操作',
+      content: '确定删除此设备绑定吗？为了避免误操作，仅允许超管删除',
       complete: (res) => {
         if (res.cancel) {
         }
@@ -385,9 +389,78 @@ Page({
       }
     })
   },
-  lockAotuOpen: function (e) {
-    var lockData = e.currentTarget.dataset.lock;
-    if (lockData) {
+  checkBall: function (e) {
+    var that = this;
+    var deviceId = e.currentTarget.dataset.id;
+    wx.showModal({
+      title: '提示',
+      content: '请将台球全部放入锁球器/锁球柜中，不要堆叠摆放台球！',
+      complete: (res) => {
+        if (res.cancel) {
+        }
+        if (res.confirm) {
+          wx.showLoading({
+            title: '检测中....',
+          })
+          if (app.globalData.isLogin) {
+            http.request(
+              "/member/store/checkBall/" + deviceId,
+              "1",
+              "post", {
+            },
+              app.globalData.userDatatoken.accessToken,
+              "",
+              function success(info) {
+                wx.hideLoading();
+                if (info.code == 0) {
+                  if (info.data) {
+                    wx.showModal({
+                      title: '提示',
+                      content: '全部球已正常归还',
+                      showCancel: false,
+                      complete: (res) => {
+                        if (res.cancel) {
+                        }
+                        if (res.confirm) {
+                        }
+                      }
+                    })
+                  } else {
+                    wx.showModal({
+                      title: '提示',
+                      content: '归还检测不通过！请检查球是否归还完毕，不要堆叠摆放台球！',
+                      showCancel: false,
+                      complete: (res) => {
+                        if (res.cancel) {
+                        }
+                        if (res.confirm) {
+                        }
+                      }
+                    })
+                  }
+                } else {
+                  wx.showModal({
+                    content: info.msg,
+                    showCancel: false,
+                  })
+                }
+              },
+              function fail(info) {
+                wx.hideLoading();
+                wx.showToast({
+                  title: '请求失败',
+                  icon: 'error'
+                })
+              }
+            )
+          }
+        }
+      }
+    })
+  },
+  lockAotuOpen: function () {
+    var that = this;
+    if (that.data.lockData) {
       wx.showModal({
         title: '提示',
         content: '请打开手机蓝牙，靠近门锁操作！锁常开=开锁后不会自动关锁，除非收到关锁指令。您确认设置锁常开吗？',
@@ -396,34 +469,49 @@ Page({
             wx.showLoading({
               title: '请靠近门锁',
             })
-            lock.setAotuLockTime(lockData, 0);
+            lock.setAotuLockTime(that.data.lockData, 0);
           }
         }
       })
     }
   },
-  lockAotuClose: function (e) {
-    var lockData = e.currentTarget.dataset.lock;
-    if (lockData) {
+  lockAotuClose: function () {
+    var that = this;
+    if (that.data.lockData) {
       wx.showModal({
         title: '提示',
-        content: '请打开手机蓝牙，靠近门锁操作！锁常关=开锁5秒后，锁会自动关闭。您确认设置锁常关吗？',
+        content: '请打开手机蓝牙，靠近门锁操作！锁自动关=每次开锁10秒后，锁会自动关闭。您确认设置锁自动关吗？',
         complete: (res) => {
           if (res.confirm) {
             wx.showLoading({
               title: '请靠近门锁',
             })
-            lock.setAotuLockTime(lockData, 5);
+            lock.setAotuLockTime(that.data.lockData, 10);
           }
         }
       })
     }
   },
-  lockConfigWifi: function (e) {
-    var lockData = e.currentTarget.dataset.lock;
-    if (lockData) {
-      wx.navigateTo({
-        url: '../configLockWifi/index?lockData=' + lockData,
+  lockConfigWifi: function () {
+    var that = this;
+    if (that.data.lockData) {
+      wx.showModal({
+        title: '提示',
+        content: '仅带Wifi功能的智能锁支持，您是否确认配置？',
+        complete: (res) => {
+          if (res.cancel) {
+          }
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '../configLockWifi/index?lockData=' + that.data.lockData,
+            })
+          }
+        }
+      })
+
+    } else {
+      wx.showToast({
+        title: '锁数据异常',
       })
     }
   },
@@ -474,6 +562,233 @@ Page({
       lockList: [],
       showLockList: false,
     })
+  },
+  lockOption: function (e) {
+    var that = this;
+    var lockData = e.currentTarget.dataset.lock;
+    var sn = e.currentTarget.dataset.sn;
+    that.setData({
+      lockData: lockData,
+      lockSn: sn,
+      showLockOp: true
+    })
+  },
+  closeLockOp: function (e) {
+    this.setData({
+      lockData: '',
+      lockSn: '',
+      showLockOp: false
+    })
+  },
+  setLockPwdShow: function () {
+    let that = this;
+    if (that.data.lockData) {
+      that.setData({
+        setLockPwdShow: true,
+      })
+    } else {
+      wx.showToast({
+        title: '锁数据异常',
+        icon: 'error'
+      })
+    }
+  },
+  confirmSetLockPwd: function () {
+    var that = this;
+    var lockData = that.data.lockData;
+    if (lockData) {
+      if (!that.data.lockPwd || that.data.lockPwd < 100000) {
+        wx.showToast({
+          title: '密码不合法',
+          icon: 'error'
+        })
+      } else {
+        lock.setLockPwd(lockData, that.data.lockPwd);
+        that.setData({
+          setLockPwdShow: false,
+        })
+      }
+    } else {
+      wx.showToast({
+        title: '锁数据异常',
+      })
+    }
+  },
+  queryLockPwd: function () {
+    let that = this;
+    if (that.data.lockData) {
+      lock.queryLockPwd(that.data.lockData);
+    } else {
+      wx.showToast({
+        title: '锁数据异常',
+      })
+    }
+  },
+  addLockCard: function () {
+    var that = this;
+    if (that.data.lockData) {
+      lock.addCard(that.data.lockData);
+    } else {
+      wx.showToast({
+        title: '锁数据异常',
+      })
+    }
+  },
+  updateLockTime: function () {
+    var that = this;
+    let lockData = that.data.lockData;
+    if (lockData) {
+      let plugin = lock.getPlugin();
+      wx.showLoading({ title: `请靠近门锁` });
+      const timestamp = Date.now();
+      plugin.setLockTime({
+        lockData: lockData,
+        serverTime: timestamp
+      }).then(res => {
+        console.log('updateLockTime success')
+        if (res.errorCode === 0) {
+          //再打开远程控制开关
+          plugin.setRemoteUnlockSwitchState({
+            enable: true,
+            lockData: lockData
+          }).then(res => {
+            console.log('setRemoteUnlockSwitchState')
+            wx.hideLoading();
+            if (res.errorCode === 0) {
+              that.postLockData(res.lockData);
+              wx.showToast({
+                title: '设置成功',
+                icon: 'success'
+              })
+            } else {
+              wx.showModal({
+                content: `失败：${res.errorMsg}`,
+                showCancel: false,
+              })
+            }
+          })
+        } else {
+          wx.hideLoading();
+          wx.showModal({
+            content: `设置失败：${res.errorMsg}`,
+            showCancel: false,
+          })
+        }
+      })
+    } else {
+      wx.showToast({
+        title: '锁数据异常',
+      })
+    }
+  },
+  postLockData(upData) {
+    var that = this;
+    http.request(
+      "/member/store/updateRoomLock",
+      "1",
+      "post", {
+      "upData": upData,
+    },
+      app.globalData.userDatatoken.accessToken,
+      "",
+      function success(info) {
+        if (info.code == 0) {
+          wx.hideLoading();
+          wx.showToast({
+            title: '操作成功',
+          })
+        } else {
+          wx.hideLoading();
+          wx.showModal({
+            content: '操作失败:' + info.msg,
+            showCancel: false,
+          })
+        }
+      },
+      function fail(info) {
+        wx.hideLoading();
+        wx.showToast({
+          title: '操作失败',
+          icon: 'error'
+        })
+      }
+    )
+  },
+  unlock: function () {
+    let that = this;
+    let lockData = that.data.lockData;
+    if (lockData) {
+      lock.blueDoorOpen(lockData);
+    } else {
+      wx.showToast({
+        title: '锁数据异常',
+      })
+    }
+  },
+  oplock: function () {
+    let that = this;
+    let lockData = that.data.lockData;
+    if (lockData) {
+      lock.blueCloseOpen(lockData);
+    } else {
+      wx.showToast({
+        title: '锁数据异常',
+      })
+    }
+  },
+  resetLock: function () {
+    let that = this;
+    wx.showModal({
+      title: '重要提示',
+      content: '恢复出厂将还原锁未初始状态! 系统将不能控制,可再次通过初始化门锁重新恢复。',
+      complete: (res) => {
+        if (res.cancel) {
+        }
+        if (res.confirm) {
+          wx.showModal({
+            title: '提示',
+            content: '您是否确认将此智能锁恢复出厂设置?',
+            complete: (res) => {
+              if (res.cancel) {
+              }
+              if (res.confirm) {
+                let lockData = that.data.lockData;
+                if (lockData) {
+                  wx.showLoading({ title: `请靠近门锁` });
+                  lock.handleResetLock(lockData);
+                } else {
+                  wx.showToast({
+                    title: '锁数据异常',
+                  })
+                }
+              }
+            }
+          })
+        }
+      }
+    })
+  },
+  initLock: function(){
+    wx.showModal({
+      title: '提示',
+      content: '仅当门锁发出‘请添加管理员’时，门锁才可以被初始化！一般用于第一次安装锁使用，正常使用的门锁不需要初始化！',
+      complete: (res) => {
+        if (res.cancel) {
+        }
+        if (res.confirm) {
+          wx.showModal({
+            title: '警告',
+            content: '您是否确认初始化此智能锁？',
+            complete: (res) => {
+              if (res.cancel) {
+              }
+              if (res.confirm) {
+                
+              }
+            }
+          })
+        }
+      }
+    })
   }
-
 })

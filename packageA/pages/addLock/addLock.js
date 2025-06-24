@@ -171,7 +171,7 @@ Page({
             // 设备已成功初始化
             let lockData = result.lockData;
             // 先上传数据  减少失败率
-            that.postLockData(lockData,'');
+            that.postLockData(lockData, '');
             wx.showLoading({ title: `请勿退出此界面` });
             // 开启远程控制
             setTimeout(() => {
@@ -180,7 +180,11 @@ Page({
                 lockData: lockData
               }).then(res => {
                 if (res.errorCode === 0) {
-                  that.postLockData('',res.lockData);
+                  that.postLockData('', res.lockData);
+                  wx.hideLoading();
+                  wx.showToast({
+                    title: '初始化成功',
+                  })
                 } else {
                   lock.handleResetLock(lockData);
                   wx.hideLoading();
@@ -196,10 +200,10 @@ Page({
               })
             }, 4000);
             //校准锁时间
-            lock.updateLockTime(res.lockData);
-            wx.showToast({
-              title: '初始化成功',
-            })
+            // lock.updateLockTime(res.lockData);
+            // wx.showToast({
+            //   title: '初始化成功',
+            // })
           } else {
             lock.handleResetLock(result.lockData);
             wx.hideLoading();
@@ -215,16 +219,16 @@ Page({
       }
     }
   },
-  postLockData(lockData,upData){
+  postLockData(lockData, upData) {
     var that = this;
     http.request(
       "/member/store/addLock",
       "1",
       "post", {
-          "lockData": lockData,
-          "upData": upData,
-          "deviceSn": 'TT' + that.data.deviceSn
-        },
+      "lockData": lockData,
+      "upData": upData,
+      "deviceSn": 'TT' + that.data.deviceSn
+    },
       app.globalData.userDatatoken.accessToken,
       "",
       function success(info) {

@@ -40,6 +40,7 @@ Page({
     clearOpenDoor: '',
     txHour: '',
     orderWebhook: '',
+    templateKey: '',
     citylist: [], //城市列表
     ritem: [
       {value: true, name: '是' , checked: 'true'},
@@ -204,6 +205,7 @@ Page({
               txHour: info.data.txHour,
               orderDoorOpen: info.data.orderDoorOpen,
               clearOpenDoor: info.data.clearOpenDoor,
+              templateKey: info.data.templateKey,
             })
           }else{
             wx.showModal({
@@ -393,6 +395,7 @@ Page({
         "cityName": that.data.cityName,
         "headImg": that.data.fileList1[0].url,
         "bannerImg": bannerImgs.join(","),
+        "storeEnvImg": imgs.join(","),
         "orderWebhook": that.data.orderWebhook,
         "address": that.data.address,
         "wifiInfo": that.data.wifiInfo,

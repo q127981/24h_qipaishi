@@ -66,6 +66,10 @@
           <iconfont name="huiyuan" size="28"></iconfont>
           <text>VIP列表</text>
         </navigator>
+        <navigator class="item" url="/packageA/pages/deviceList/deviceList?storeId={{storeId}}&storeName={{storeName}}">
+          <iconfont name="shebeiguanli1" size="28"></iconfont>
+          <text>设备管理</text>
+        </navigator>
       </view>
     </view>
 
@@ -121,11 +125,11 @@
           <iconfont name="dingdan1" size="28"></iconfont>
           <text>预定订单</text>
         </navigator>
-        <navigator class="item" url="/pages/productOrder/productOrder?manager={{true}}">
+        <navigator class="item" url="/pages/productOrder/productOrder?manager={{true}}&storeId={{storeId}}">
           <iconfont name="shangpindingdan" size="28"></iconfont>
           <text>商品订单</text>
         </navigator>
-        
+
       </view>
     </view>
     <view class="control-box">
@@ -152,7 +156,7 @@
 
       </view>
     </view>
-    <view class="control-box">
+    <!-- <view class="control-box">
       <view class="top">设备管理</view>
       <view class="control" wx:if="{{userinfo.userType!= 14}}">
         <navigator class="item" url="/packageA/pages/deviceList/deviceList?storeId={{storeId}}&storeName={{storeName}}">
@@ -172,7 +176,7 @@
           <text>添加锁卡片</text>
         </navigator>
       </view>
-    </view>
+    </view> -->
   </view>
 </view>
 

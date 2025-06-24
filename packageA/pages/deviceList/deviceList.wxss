@@ -29,7 +29,7 @@
   height: 110rpx;
   margin-bottom: 10rpx;
   display: flex;
-  justify-content: space-start;
+  justify-content: space-between;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -43,6 +43,7 @@
   position: absolute;
   right: 60rpx;
   font-size: 22rpx;
+  line-height: 36rpx;
   color: #555555;
 }
 
@@ -136,4 +137,19 @@
 
 .table-cell:last-child {
   border-right: none;
+}
+
+.lockOp .item {
+  display: flex;
+  justify-content: center;
+}
+
+.lockOp .item .btn {
+  margin: 10rpx;
+  padding: 10rpx;
+  border-radius: 10rpx;
+}
+
+.lockPwd .dialog {
+  padding: 20rpx 50rpx;
 }

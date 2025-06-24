@@ -34,10 +34,10 @@
             <text wx:if="{{item.orderTime}}">{{item.orderTime}}</text>
           </view>
         </view>
-        <van-divider contentPosition="center" customStyle="color: #108ee9;" bind:tap="foldTap" data-index="{{item.roomId}}">
+        <!-- <van-divider contentPosition="center" customStyle="color: #108ee9;" bind:tap="foldTap" data-index="{{item.roomId}}">
           {{foldIndex === item.roomId ? "隐藏":"显示管理功能"}}
-        </van-divider>
-        <view class="btns {{foldIndex === item.roomId ? 'show': ''}}">
+        </van-divider> -->
+        <view class="btns">
           <view class="line2">
             <view class="btn warning" bindtap="disableRoom" data-roomid="{{item.roomId}}">
               启用禁用
@@ -46,30 +46,12 @@
               修改信息
             </navigator>
             <view class="btn yellow" data-src="{{item.qrCode}}" bind:tap="previewImage">
-              房间预定码
+              预定二维码
             </view>
             <view class="btn yellow" data-src="{{item.renewCode}}" bind:tap="previewImage">
-              房间续费码
+              续费二维码
             </view>
           </view>
-          <view class="line2">
-            <view class="btn origin" bindtap="queryLockPwd" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">
-              查询锁密码
-            </view>
-            <view class="btn origin" bindtap="setLockPwdShow" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">设置锁密码</view>
-            <view class="btn origin" bindtap="addLockCard" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">添加锁卡片</view>
-            <view class="btn origin" bindtap="updateLockTime" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}">
-              锁数据校准
-            </view>
-          </view>
-          <!-- <view class="line2">
-            <view class="btn red" bindtap="openBlueDoor" data-lockdata="{{item.lockData}}" data-roomid="{{item.roomId}}" wx:if="{{item.lockData}}">
-              开锁密码
-            </view>
-            <view class="btn red" bindtap="goConfigPrePay" data-roomid="{{item.roomId}}">
-              预付费规则设置
-            </view>
-          </view> -->
         </view>
       </view>
     </view>
@@ -82,12 +64,3 @@
 <navigator url="../setDoorInfo/setDoorInfo?storeId={{storeId}}" class="bottom bg-primary {{isIpx?'fix-iphonex-button':''}}">
   新增房间
 </navigator>
-
-<van-dialog use-slot title="设置门锁密码" show="{{ setLockPwdShow }}" show-cancel-button confirm-button-text="确认" bind:confirm="confirmSetLockPwd">
-  <view class="dialog">
-    <view class="item" style="align-items: center;">
-      <label>新管理员密码：</label>
-      <input model:value="{{ lockPwd }}" type="number" maxlength="8" style="border: 1px solid var(--main-color);" placeholder="请输入6-8纯数字密码" />
-    </view>
-  </view>
-</van-dialog>

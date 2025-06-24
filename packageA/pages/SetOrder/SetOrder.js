@@ -14,11 +14,11 @@ Page({
     statusBarHeight: '',
     titleBarHeight: '',
     option1: [
-      { text: '全部状态', value: -1},
-      { text: '未开始', value: 0},
-      { text: '进行中', value: 1},
-      { text: '已取消', value: 3},
-      { text: '已完成', value: 2},
+      { text: '全部状态', value: -1 },
+      { text: '未开始', value: 0 },
+      { text: '进行中', value: 1 },
+      { text: '已取消', value: 3 },
+      { text: '已完成', value: 2 },
     ],
     option2: [
       { text: '默认排序', value: '0' },
@@ -37,23 +37,23 @@ Page({
     changeOrderShow: false, //订单修改弹窗
     cancelOrderSucShow: false, //取消成功弹窗
     refundOrderSucShow: false, //退款成功弹窗
-    status:"",//订单状态筛选
-    orderColumn:"",//排序
-    orderlist:[],//订单列表数组
-    isLogin:app.globalData.isLogin,
+    status: "",//订单状态筛选
+    orderColumn: "",//排序
+    orderlist: [],//订单列表数组
+    isLogin: app.globalData.isLogin,
     orderInfo: '', //选择操作的订单
     addTimeH: 0, //续费时长
     addTimeM: 0,//续费分钟
-    changeTime:0,//修改时长
-    newTime:'',//增加后的时间
+    changeTime: 0,//修改时长
+    newTime: '',//增加后的时间
     totalPay: 0, //增加后支付价格
-    beforeCloseFunction:null,
+    beforeCloseFunction: null,
     changeRoomId: "",//修改的房间Id
-    changeStartTime:"",//修改的开始时间
-    changeEndTime:"",//修改的结束时间
+    changeStartTime: "",//修改的开始时间
+    changeEndTime: "",//修改的结束时间
     // payTypes: [{name:'微信支付',value: 1,checked:true},{name:'钱包余额',value: 2}],
     payType: 2,
-    storeId:'',
+    storeId: '',
     stores: [],
     userId: '',
     giftBalance: '',
@@ -68,7 +68,7 @@ Page({
     that.setData({
       userId: options.userId,
       beforeCloseFunction: this.beforeClose(),
-      isLogin:app.globalData.isLogin,
+      isLogin: app.globalData.isLogin,
       statusBarHeight: wx.getStorageSync('statusBarHeight'),
       titleBarHeight: wx.getStorageSync('titleBarHeight')
     })
@@ -89,7 +89,7 @@ Page({
   onShow() {
     let that = this;
     that.setData({
-      isLogin:app.globalData.isLogin,
+      isLogin: app.globalData.isLogin,
     })
   },
 
@@ -106,13 +106,13 @@ Page({
   onUnload() {
 
   },
- /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
+  /**
+    * 页面相关事件处理函数--监听用户下拉动作
+    */
   onPullDownRefresh() {
     let that = this;
     that.setData({
-      orderlist:[],//列表数组
+      orderlist: [],//列表数组
       canLoadMore: true,//是否还能加载更多
       pageNo: 1,
     })
@@ -140,7 +140,7 @@ Page({
   onShareAppMessage() {
   },
   //管理员获取门店下拉列表数据
-  getXiaLaListAdmin:function(e){
+  getXiaLaListAdmin: function (e) {
     var that = this;
     //if (app.globalData.isLogin) 
     {
@@ -148,7 +148,7 @@ Page({
         "/member/store/getStoreList",
         "1",
         "get", {
-        },
+      },
         app.globalData.userDatatoken.accessToken,
         "",
         function success(info) {
@@ -157,14 +157,14 @@ Page({
           if (info.code == 0) {
             let stores = []
             info.data.map(it => {
-              stores.push({text:it.key,value:it.value})
+              stores.push({ text: it.key, value: it.value })
             })
-            stores.unshift({text:'全部门店',value:''})
-          that.setData({
-            stores: stores,
-            storeId: stores[0].value
-          })
-          }else{
+            stores.unshift({ text: '全部门店', value: '' })
+            that.setData({
+              stores: stores,
+              storeId: stores[0].value
+            })
+          } else {
             wx.showModal({
               content: info.msg,
               showCancel: false,
@@ -172,16 +172,16 @@ Page({
           }
         },
         function fail(info) {
-          
+
         }
       )
-    } 
+    }
   },
   //门店下拉菜单发生变化
-  storeDropdown(event){
+  storeDropdown(event) {
     //console.log(event)
     this.data.stores.map(it => {
-      if(it.value == event.detail){
+      if (it.value == event.detail) {
         this.setData({
           storeId: it.value,
         })
@@ -190,17 +190,17 @@ Page({
     this.getOrderListdata("refresh")
   },
   //城市下拉菜单发生变化
-  OrderStatusDropdown(event){
+  OrderStatusDropdown(event) {
     let that = this
     //console.log('选择的值')
     this.data.option1.map(it => {
-      if(it.value == event.detail){
+      if (it.value == event.detail) {
         //console.log(it.value)
-        if(it.value == -1){
+        if (it.value == -1) {
           that.setData({
             status: '',
           })
-        }else{
+        } else {
           that.setData({
             status: it.value,
           })
@@ -210,21 +210,21 @@ Page({
     })
   },
   //
-  orderColumnDropdown(event){
+  orderColumnDropdown(event) {
     let that = this
     //console.log('选择的值')
     this.data.option2.map(it => {
-      if(it.value == event.detail){
+      if (it.value == event.detail) {
         //console.log(it.value)
-        if(it.value == 0){
+        if (it.value == 0) {
           that.setData({
-            orderColumn:'',//排序
+            orderColumn: '',//排序
           })
-        }else if(it.value == 1){
+        } else if (it.value == 1) {
           that.setData({
             orderColumn: 'createTime',
           })
-        }else if(it.value == 2){
+        } else if (it.value == 2) {
           that.setData({
             orderColumn: 'startTime',
           })
@@ -233,136 +233,133 @@ Page({
       }
     })
   },
-  openDoor(e){
+  openDoor(e) {
     var that = this;
     let aindex = e.currentTarget.dataset.index;
     wx.navigateTo({
-      url: '../orderDetail/orderDetail?toPage=true&OrderNo='+aindex,
+      url: '../orderDetail/orderDetail?toPage=true&OrderNo=' + aindex,
     })
   },
   // 取消弹窗
-  cancelOrder(e){
+  cancelOrder(e) {
     var orderInfo = e.currentTarget.dataset.info
     this.setData({
-      cancelOrderShow:true,
+      cancelOrderShow: true,
       orderInfo: orderInfo
     })
   },
   // 退款弹窗
-  refundOrder(e){
+  refundOrder(e) {
     var orderInfo = e.currentTarget.dataset.info
     this.setData({
-      refundOrderShow:true,
+      refundOrderShow: true,
       orderInfo: orderInfo
     })
   },
   // 修改用户弹窗
-  changeOrderUser(e){
+  changeOrderUser(e) {
     var orderInfo = e.currentTarget.dataset.info
     this.setData({
-      changeOrderUserShow:true,
-      mobile:"",
+      changeOrderUserShow: true,
+      mobile: "",
       orderInfo: orderInfo
     })
   },
-   // 修改订单弹窗
-   changeOrder(e){
+  // 修改订单弹窗
+  changeOrder(e) {
     var orderInfo = e.currentTarget.dataset.info
     this.getRoomList(orderInfo);
     this.setData({
       changeTime: "",
-      changeRoomId:"",
+      changeRoomId: "",
       changeStartTime: orderInfo.startTime,
       changeEndTime: orderInfo.endTime,
-      changeOrderShow:true,
+      changeOrderShow: true,
       orderInfo: orderInfo
     })
   },
- // 确认转移
- cancelChangeUser(){
-  var that = this
-  if (app.globalData.isLogin) 
-  {
-    http.request(
-      "/member/manager/changeOrderUser",
-      "1",
-      "post", {
+  // 确认转移
+  cancelChangeUser() {
+    var that = this
+    if (app.globalData.isLogin) {
+      http.request(
+        "/member/manager/changeOrderUser",
+        "1",
+        "post", {
         "orderId": that.data.orderInfo.orderId,
         "mobile": that.data.mobile,
       },
-      app.globalData.userDatatoken.accessToken,
-      "",
-      function success(info) {
-        console.info('返回111===');
-        console.info(info);
-        if (info.code == 0) {
-          wx.showModal({
-            content: "订单转移成功",
-            showCancel: false,
-          })
-          that.getOrderListdata('refresh')
-        }else{
-          wx.showModal({
-            content: info.msg,
-            showCancel: false,
-          })
+        app.globalData.userDatatoken.accessToken,
+        "",
+        function success(info) {
+          console.info('返回111===');
+          console.info(info);
+          if (info.code == 0) {
+            wx.showModal({
+              content: "订单转移成功",
+              showCancel: false,
+            })
+            that.getOrderListdata('refresh')
+          } else {
+            wx.showModal({
+              content: info.msg,
+              showCancel: false,
+            })
+          }
+        },
+        function fail(info) {
+
         }
-      },
-      function fail(info) {
-        
-      }
-    )
-  } 
-},
- // 确认修改
- cancelChangeOrder(){
-  var that = this
-  if (app.globalData.isLogin) 
-  {
-    http.request(
-      "/member/manager/changeOrder",
-      "1",
-      "post", {
+      )
+    }
+  },
+  // 确认修改
+  cancelChangeOrder() {
+    var that = this
+    if (app.globalData.isLogin) {
+      http.request(
+        "/member/manager/changeOrder",
+        "1",
+        "post", {
         "orderId": that.data.orderInfo.orderId,
         "roomId": that.data.roomId,
         "startTime": that.data.changeStartTime,
         "endTime": that.data.changeEndTime
       },
-      app.globalData.userDatatoken.accessToken,
-      "",
-      function success(info) {
-        console.info('返回111===');
-        console.info(info);
-        if (info.code == 0) {
-          wx.showModal({
-            content: "订单修改成功",
-            showCancel: false,
-          })
-          that.getOrderListdata('refresh')
-        }else{
-          wx.showModal({
-            content: info.msg,
-            showCancel: false,
-          })
+        app.globalData.userDatatoken.accessToken,
+        "",
+        function success(info) {
+          console.info('返回111===');
+          console.info(info);
+          if (info.code == 0) {
+            wx.showModal({
+              content: "订单修改成功",
+              showCancel: false,
+            })
+            that.getOrderListdata('refresh')
+          } else {
+            wx.showModal({
+              content: info.msg,
+              showCancel: false,
+            })
+          }
+        },
+        function fail(info) {
+
         }
-      },
-      function fail(info) {
-        
-      }
-    )
-  } 
-},
+      )
+    }
+  },
   // 确认取消
-  cancelConfirm(){
+  cancelConfirm() {
     var that = this
-    if (app.globalData.isLogin) 
-    {
+    if (app.globalData.isLogin) {
       http.request(
-        "/member/manager/cancelOrder/"+that.data.orderInfo.orderId,
+        "/member/manager/cancelOrder/" + that.data.orderInfo.orderId,
         "1",
         "post", {
-          "orderId": that.data.orderInfo.orderId,
-        },
+        "orderId": that.data.orderInfo.orderId,
+      },
         app.globalData.userDatatoken.accessToken,
         "",
         function success(info) {
@@ -373,7 +370,7 @@ Page({
               cancelOrderSuccess: true
             })
             that.getOrderListdata('refresh')
-          }else{
+          } else {
             wx.showModal({
               content: info.msg,
               showCancel: false,
@@ -381,26 +378,25 @@ Page({
           }
         },
         function fail(info) {
-          
+
         }
       )
-    } 
+    }
   },
   // 取消成功关闭弹窗
-  cancelSuccessConfirm(){
-    this.setData({cancelOrderSucShow: false})
+  cancelSuccessConfirm() {
+    this.setData({ cancelOrderSucShow: false })
   },
   // 确认退款
-  refundConfirm(){
+  refundConfirm() {
     var that = this
-    if (app.globalData.isLogin) 
-    {
+    if (app.globalData.isLogin) {
       http.request(
-        "/member/manager/refundOrder/"+that.data.orderInfo.orderId,
+        "/member/manager/refundOrder/" + that.data.orderInfo.orderId,
         "1",
         "post", {
-          "orderId": that.data.orderInfo.orderId,
-        },
+        "orderId": that.data.orderInfo.orderId,
+      },
         app.globalData.userDatatoken.accessToken,
         "",
         function success(info) {
@@ -411,7 +407,7 @@ Page({
               refundOrderSuccess: true
             })
             that.getOrderListdata('refresh')
-          }else{
+          } else {
             wx.showModal({
               content: info.msg,
               showCancel: false,
@@ -419,19 +415,19 @@ Page({
           }
         },
         function fail(info) {
-          
+
         }
       )
-    } 
+    }
   },
   // 退款成功关闭弹窗
-  refundSuccessConfirm(){
-    this.setData({refundOrderSucShow: false})
+  refundSuccessConfirm() {
+    this.setData({ refundOrderSucShow: false })
   },
   // 续费弹窗
-  renewClick(e){
+  renewClick(e) {
     var orderInfo = e.currentTarget.dataset.info
-    if (orderInfo.status!=2&&orderInfo.status!=3) {
+    if (orderInfo.status != 2 && orderInfo.status != 3) {
       this.setData({
         renewShow: true,
         orderInfo: orderInfo
@@ -441,15 +437,15 @@ Page({
         title: '温馨提示',
         content: '订单不允许续费！请重新下单！',
         showCancel: false,
-        confirmText: "确定", 
-        success (res) {
+        confirmText: "确定",
+        success(res) {
         }
-    })
-    // this.getgiftBalance()
+      })
+      // this.getgiftBalance()
     }
   },
   // 续费加时间
-  onChangeH:function(event){
+  onChangeH: function (event) {
     var that = this
     var addTimeH = event.detail;
     var minute = addTimeH * 60 + that.data.addTimeM;
@@ -460,7 +456,7 @@ Page({
       totalPay: (minute * that.data.orderInfo.price / 60).toFixed(2)
     })
   },
-  onChangeM:function(event){
+  onChangeM: function (event) {
     var that = this
     var addTimeM = event.detail;
     var minute = addTimeM + that.data.addTimeH * 60;
@@ -472,7 +468,7 @@ Page({
     })
   },
   // 修改订单时间
-  onChangeTime:function(event){
+  onChangeTime: function (event) {
     var that = this
     var changeTime = event.detail
     var newTime = Moment(that.data.orderInfo.startTime).add(changeTime, "hours").format("YYYY/MM/DD HH:mm")
@@ -493,40 +489,40 @@ Page({
     var that = this
     // 这里一定要用箭头函数，否则访问不到this
     return (type) => {
-        //console.log(type)
-        if (type === 'cancel') {
-            // 点击取消
-            // return true
-            that.renewCancel()
-        }else {
-            // 点击确定
-            console.log(that.data.newTime)
-            if(that.data.newTime){
-              that.renewConfirm()
-            }else{
-              wx.showToast({
-                title: '请选择增加时间!',
-                icon: 'none'
-              })
-              return
-            }
-            
+      //console.log(type)
+      if (type === 'cancel') {
+        // 点击取消
+        // return true
+        that.renewCancel()
+      } else {
+        // 点击确定
+        console.log(that.data.newTime)
+        if (that.data.newTime) {
+          that.renewConfirm()
+        } else {
+          wx.showToast({
+            title: '请选择增加时间!',
+            icon: 'none'
+          })
+          return
         }
+
+      }
     }
   },
   // 续费
-  renewConfirm: function(){
+  renewConfirm: function () {
     var that = this
     http.request(
       "/member/manager/renewByAdmin",
       "1",
       "post", {
-        "orderId": that.data.orderInfo.orderId,
-        // "minutes": that.data.addTime * 60,
-        "endTime": that.data.newTime,
-        "payType": that.data.payType,
-        "orderNo": that.data.orderInfo.orderNo
-      },
+      "orderId": that.data.orderInfo.orderId,
+      // "minutes": that.data.addTime * 60,
+      "endTime": that.data.newTime,
+      "payType": that.data.payType,
+      "orderNo": that.data.orderInfo.orderNo
+    },
       app.globalData.userDatatoken.accessToken,
       "",
       function success(info) {
@@ -538,7 +534,7 @@ Page({
           })
           that.getOrderListdata('refresh')
           that.renewCancel()
-        }else{
+        } else {
           wx.showModal({
             content: info.msg,
             showCancel: false,
@@ -546,12 +542,12 @@ Page({
         }
       },
       function fail(info) {
-        
+
       }
     )
   },
   // 取消续费重置数据
-  renewCancel: function(){
+  renewCancel: function () {
     this.setData({
       renewShow: false,
       addTimeH: 0,
@@ -562,14 +558,14 @@ Page({
     })
   },
 
-  getOrderListdata:function(e){
+  getOrderListdata: function (e) {
     var that = this;
     let message = "";
     if (app.globalData.isLogin) {
       if (e == "refresh") { //刷新，page变为1
         message = "正在加载"
         that.setData({
-          orderlist:[],//列表数组
+          orderlist: [],//列表数组
           canLoadMore: true,//是否还能加载更多
           pageNo: 1,
         })
@@ -578,25 +574,25 @@ Page({
         "/member/manager/getOrderPage",
         "1",
         "post", {
-          "pageNo": that.data.pageNo,
-          "pageSize": that.data.pageSize,
-          "status": that.data.status,
-          "storeId": that.data.storeId,
-          "userId": that.data.userId,
-          "orderColumn": that.data.orderColumn
-        },
+        "pageNo": that.data.pageNo,
+        "pageSize": that.data.pageSize,
+        "status": that.data.status,
+        "storeId": that.data.storeId,
+        "userId": that.data.userId,
+        "orderColumn": that.data.orderColumn
+      },
         app.globalData.userDatatoken.accessToken,
         message,
         function success(info) {
           console.info('订单列表===');
           if (info.code == 0) {
-            if(info.data.list.length === 0){
+            if (info.data.list.length === 0) {
               that.setData({
                 canLoadMore: false
               })
-            }else{
+            } else {
               //有数据
-              if(that.data.orderlist){
+              if (that.data.orderlist) {
                 //列表已有数据  那么就追加
                 let arr = that.data.orderlist;
                 let arrs = arr.concat(info.data.list);
@@ -605,14 +601,14 @@ Page({
                   pageNo: that.data.pageNo + 1,
                   canLoadMore: arrs.length < info.data.total
                 })
-              }else{
+              } else {
                 that.setData({
                   orderlist: info.data.list,
                   pageNo: that.data.pageNo + 1,
                 });
               }
             }
-          }else{
+          } else {
             wx.showModal({
               content: info.msg,
               showCancel: false,
@@ -620,29 +616,29 @@ Page({
           }
         },
         function fail(info) {
-          
+
         }
       )
     } else {
       //console.log('未登录失败！')
     }
   },
-  phone:function(e){
-   wx.navigateTo({
-     url: '/pages/login/login',
-   })
+  phone: function (e) {
+    wx.navigateTo({
+      url: '/pages/login/login',
+    })
   },
 
   // 获取赠送余额
-  getgiftBalance:function(){
+  getgiftBalance: function () {
     var that = this;
     if (app.globalData.isLogin) {
       http.request(
-        "/member/user/getGiftBalance/"+that.data.orderInfo.storeId,
+        "/member/user/getGiftBalance/" + that.data.orderInfo.storeId,
         "1",
         "get", {
-          "storeId": that.data.orderInfo.storeId
-        },
+        "storeId": that.data.orderInfo.storeId
+      },
         app.globalData.userDatatoken.accessToken,
         "",
         function success(info) {
@@ -650,28 +646,28 @@ Page({
           console.info(info);
           if (info.code == 0) {
             that.setData({
-              giftBalance:info.data
+              giftBalance: info.data
             })
           }
         },
         function fail(info) {
-          
+
         }
       )
     } else {
       //console.log('未登录失败！')
     }
   },
-  callMobile:function (e) {
+  callMobile: function (e) {
     var mobile = e.currentTarget.dataset.mobile
     wx.makePhoneCall({
-        phoneNumber: mobile,
-        success:function () {
-          //console.log("拨打电话成功！")
-        },
-        fail:function () {
-          //console.log("拨打电话失败！")
-        }
+      phoneNumber: mobile,
+      success: function () {
+        //console.log("拨打电话成功！")
+      },
+      fail: function () {
+        //console.log("拨打电话失败！")
+      }
     })
   },
   copyText: function (e) {
@@ -690,7 +686,7 @@ Page({
   },
   bindPickerChange: function (e) {
     console.log("picker发送选择改变，携带值为", e);
-    console.log(this.data.array,'this.data.stores');
+    console.log(this.data.array, 'this.data.stores');
     this.setData({
       index: e.detail.value,
       roomId: this.data.array[e.detail.value].roomId
@@ -714,13 +710,13 @@ Page({
           let stores = [];
           let statusName = ''
           info.data.map((it) => {
-            statusName = `(${it.status==1?'空闲':it.status==2?'待清洁':it.status==3?'使用中':it.status==4?'已预约':'禁用'})`
-            stores.push({ text: it.roomName + statusName , value: it.roomId });
+            statusName = `(${it.status == 1 ? '空闲' : it.status == 2 ? '待清洁' : it.status == 3 ? '使用中' : it.status == 4 ? '已预约' : '禁用'})`
+            stores.push({ text: it.roomName + statusName, value: it.roomId });
           });
-          if(e.roomId){
+          if (e.roomId) {
             const indexArr = info.data.findIndex(item => item.roomId === e.roomId);
             that.setData({
-              index:indexArr,
+              index: indexArr,
               roomId: e.roomId
 
             })
@@ -731,15 +727,15 @@ Page({
           });
         }
       },
-      function fail(info) {}
+      function fail(info) { }
     );
   },
-  depositRefund(e){
+  depositRefund(e) {
     var that = this;
     let info = e.currentTarget.dataset.info;
     wx.showModal({
       title: '温馨提示',
-      content: '是否确认回此订单支付的押金？',
+      content: '此操作为强制退回，不可撤销！正常在订单结束5分钟后退回押金，确认实际未退押金再强制退，是否确认退回此订单支付的押金？',
       complete: (res) => {
         if (res.cancel) {
         }
@@ -773,8 +769,8 @@ Page({
       }
     })
   },
-   // 结单
-   finishOrder: function (e) {
+  // 结单
+  finishOrder: function (e) {
     let that = this;
     let roomId = e.currentTarget.dataset.info.roomId;
     wx.showModal({

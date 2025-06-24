@@ -10,7 +10,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    statusBarHeight: '',
+    statusBarHeight: 0,
     titleBarHeight: '',
     storeId: '',
     storeEnvImg: [],//图片数组
@@ -155,10 +155,6 @@ Page({
       that.getStoreInfodata();
       that.getDoorListdata();
     });
-    
-    if (app.globalData.isLogin) {
-      that.getGroupPay();
-    }
   },
   popClose: function () {
     this.setData({ popshow: false })
@@ -549,7 +545,7 @@ Page({
                 that.setData({
                   roomClass: classArr,
                 });
-                if(!that.data.tabIndex){
+                if (!that.data.tabIndex) {
                   that.setData({
                     tabIndex: classArr[0].value
                   });
@@ -915,32 +911,7 @@ Page({
       })
     });
   },
-  //   获取团购券
-  getGroupPay: function () {
-    let that = this
-    if (app.globalData.isLogin) {
-      http.request(
-        "/member/index/groupPay/getListByPhone",
-        "1",
-        "post", {
-        "storeId": that.data.storeId
-      },
-        app.globalData.userDatatoken.accessToken,
-        "",
-        function success(info) {
-          if (info.code == 0) {
-            let groupPays = info.data;
-            that.setData({
-              groupPays: groupPays,
-              showGroupsPay: groupPays && groupPays.length > 0 ? true : false
-            })
-          }
-        },
-        function fail(info) {
-        }
-      )
-    }
-  },
+
   getIndex: function (e) {
     let that = this
     let index = e.currentTarget.dataset.index
@@ -965,7 +936,7 @@ Page({
       showGroupsPay: false
     })
   },
-  scanQr(){
+  scanQr() {
     var that = this;
     wx.scanCode({
       //扫描API
@@ -977,7 +948,7 @@ Page({
             url: '/' + res.path  // 注意必须加斜杠
           });
         }
-        
+
       },
       fail: (res) => {
         //接口调用失败的回调函数
@@ -989,13 +960,13 @@ Page({
       },
     });
   },
-  goVideo(){
+  goVideo() {
     wx.showToast({
       title: '功能暂未开放',
       icon: 'none'
     })
   },
-  toZhujiao(){
+  toZhujiao() {
     wx.showToast({
       title: '功能暂未开放',
       icon: 'none'

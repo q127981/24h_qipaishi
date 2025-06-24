@@ -26,11 +26,12 @@ const checkPhone = value => {
 function getDeviceTypeName(type){
   switch(type){
     case 1: return '磁力锁门禁';
-    case 2: case 7: return '空开/插座';
+    case 2: return '空开';
     case 3: return '云喇叭';
     case 4: return '灯具';
     case 5: return '智能锁';
     case 6: return '智能锁网关';
+    case 7: return '插座';
     case 8: return '锁球器控制器（12V）';
     case 9: return '人脸门禁机';
     case 10: return '智能语音喇叭';

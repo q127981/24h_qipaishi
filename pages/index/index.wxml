@@ -19,7 +19,7 @@
       </view>
       <view class="item" bind:tap="gototuangou">
         <image src="../static/icon/coupon-check.png" />
-        <text>验券</text>
+        <text>团购</text>
       </view>
       <view class="item" bind:tap="onClickShow" data-index="1">
         <image src="../static/icon/service.png" />
@@ -1080,11 +1080,12 @@
 <van-popup round show="{{ popshow }}">
   <view class="pop">
     <view class="head bg-primary">门店公告</view>
-    <view class="content">
+    <scroll-view scroll-y class="content">
       <rich-text nodes="{{doorinfodata.notice}}"></rich-text>
-    </view>
+    </scroll-view>
     <view class="foot border-primary" bind:tap="popClose">我已仔细阅读</view>
   </view>
+  
 </van-popup>
 
 <van-dialog use-slot title="WiFi信息" class="wifiDialog" show="{{ wifiShow }}">

@@ -59,7 +59,6 @@ Page({
   onLoad(options) {
     let that = this
     console.log(options)
-
     let storeId = options.storeId;
     let ticketNo = options.ticketNo;
     let ticketName = options.ticketName
@@ -68,11 +67,11 @@ Page({
       groupPayNo: ticketNo,
       ticketName: ticketName
     });
-
-    if (!that.data.groupPayNo) {
-      if (app.globalData.isLogin) {
-        that.getGroupPay();
-      }
+    
+    if (!app.globalData.isLogin) {
+      wx.navigateTo({
+        url: '../login/login',
+      })
     }
   },
 
@@ -98,7 +97,6 @@ Page({
     // this.MathDate(new Date());
     that.getListData();
     that.getDoorListdata(storeId)
-
   },
 
   bindKeyInput(e) {
@@ -309,6 +307,13 @@ Page({
   selectRoom(e) {
     console.log(e);
     const { index } = e.currentTarget.dataset;
+    if(this.data.doorlistArr[index].status==0){
+      wx.showToast({
+        title: "场地禁用",
+        icon: 'none'
+      })
+      return;
+    }
     this.setData({
       roomIndex: index,
     });
@@ -317,7 +322,6 @@ Page({
     this.setData({ show: false });
   },
   onClickShow(e) {
-    console.log(11111, e);
     const { index } = e.currentTarget.dataset;
     this.setData({ show: true, popupIndex: +index });
   },
@@ -375,6 +379,7 @@ Page({
           icon: "success",
           duration: 1000,
         });
+        that.checkGroup();
       },
       fail: (res) => {
         //接口调用失败的回调函数
@@ -391,10 +396,12 @@ Page({
     if (
       that.data.groupPayNo == "" ||
       that.data.storeId == "" ||
+      !that.data.groupPayNo||
       that.data.groupPayNo.length == 0
     ) {
       wx.showToast({
-        title: "请填写完整",
+        title: "请填写团购券",
+        icon: "error"
       });
       return;
     }
@@ -431,140 +438,24 @@ Page({
   },
   // 预支付
   SubmitOrderInfoData() {
-    if (this.data.roomIndex < 0) {
+    var that = this;
+    if (that.data.roomIndex < 0) {
       return wx.showToast({
         title: '未选择房间',
         icon: "none",
       });
     }
-    var that = this;
-    if (app.globalData.isLogin) {
-      //先锁定房间 避免出现重复订单
-      http.request(
-        "/member/order/preOrder",
-        "1",
-        "post",
-        {
-          roomId: that.data.doorlistArr[that.data.roomIndex].roomId,
-          payType: 3,
-          nightLong: that.data.nightLong,
-          startTime: that.data.submit_begin_time,
-          endTime: that.data.submit_end_time,
-        },
-        app.globalData.userDatatoken.accessToken,
-        "提交中...",
-        function success(info) {
-          console.info("支付信息===");
-          console.log("that.data.payselectindex:" + that.data.payselectindex);
-          if (info.code == 0) {
-            that.lockWxOrder(info);
-            that.submitorder(info.data.orderNo);
-          } else {
-            wx.showModal({
-              title: "温馨提示",
-              content: info.msg,
-              showCancel: false,
-              confirmText: "确定",
-              success(res) { },
-            });
-          }
-        },
-        function fail(info) { }
-      );
+    if (!that.data.groupPayNo) {
+      return wx.showToast({
+        title: '请填写团购券',
+        icon: "none",
+      });
     }
+    wx.navigateTo({
+      url: '../orderSubmit/orderSubmit?roomId=' + that.data.doorlistArr[that.data.roomIndex].roomId + '&goPage=1' + '&storeId=' + that.data.storeId + '&groupPayNo=' + that.data.groupPayNo,
+    })
   },
-  //提交订单
-  submitorder: function (orderNo) {
-    var that = this;
-    if (app.globalData.isLogin) {
-      http.request(
-        "/member/order/save",
-        "1",
-        "post",
-        {
-          roomId: that.data.doorlistArr[this.data.roomIndex].roomId,
-          nightLong: that.data.nightLong,
-          startTime: that.data.submit_begin_time,
-          endTime: that.data.submit_end_time,
-          payType: 3,
-          groupPayNo: that.data.groupPayNo,
-          orderNo: orderNo,
-        },
-        app.globalData.userDatatoken.accessToken,
-        "提交中...",
-        function success(info) {
-          if (info.code == 0) {
-            if (info.msg) {
-              wx.showToast({
-                title: info.msg,
-                icon: "none",
-              });
-            } else {
-              wx.showToast({
-                title: "预定成功！",
-                icon: "success",
-              });
-              setTimeout(() => {
-                wx.navigateTo({
-                  url: '../orderDetail/orderDetail',
-                })
-              }, 1000);
-            }
-            setTimeout(function () {
-              wx.navigateTo({
-                url:
-                  "/packageA/pages/orderDetail/orderDetail?toPage=true&OrderNo=" + info.data,
-              });
-            }, 1000);
-          } else {
-            wx.showModal({
-              title: "温馨提示",
-              content: info.msg,
-              showCancel: false,
-              confirmText: "确定",
-              success(res) { },
-            });
-          }
-        },
-        function fail(info) { }
-      );
-    }
-  },
-  // 锁定订单
-  lockWxOrder: function (pay) {
-    var that = this;
-    if (app.globalData.isLogin) {
-      http.request(
-        "/member/order/lockWxOrder",
-        "1",
-        "post",
-        {
-          roomId: that.data.doorlistArr[that.data.roomIndex].roomId,
-          nightLong: that.data.nightLong,
-          startTime: that.data.submit_begin_time,
-          endTime: that.data.submit_end_time,
-          payType: 3,
-        },
-        app.globalData.userDatatoken.accessToken,
-        "提交中...",
-        function success(info) {
-          if (info.code == 0) {
-            console.log("锁定微信支付订单");
-            // that.payMent(pay); //微信支付
-          } else {
-            wx.showModal({
-              title: "温馨提示",
-              content: info.msg,
-              showCancel: false,
-              confirmText: "确定",
-              success(res) { },
-            });
-          }
-        },
-        function fail(info) { }
-      );
-    }
-  },
+
   showSelect() {
     this.setData({ showStoreSelect: true });
   },
@@ -729,32 +620,7 @@ Page({
       })
     });
   },
-  //   获取团购券
-  getGroupPay: function () {
-    let that = this
-    if (app.globalData.isLogin) {
-      http.request(
-        "/member/index/groupPay/getListByPhone",
-        "1",
-        "post", {
-        "storeId": that.data.storeId
-      },
-        app.globalData.userDatatoken.accessToken,
-        "",
-        function success(info) {
-          if (info.code == 0) {
-            let groupPays = info.data
-            that.setData({
-              groupPays: groupPays,
-              showGroupsPay: groupPays && groupPays.length > 0 ? true : false
-            })
-          }
-        },
-        function fail(info) {
-        }
-      )
-    }
-  },
+
   getIndex: function (e) {
     let that = this
     let index = e.currentTarget.dataset.index
@@ -774,6 +640,7 @@ Page({
     that.setData({
       groupPayNo: item.ticketNo
     })
+    that.checkGroup();
   },
   cancelUser: function () {
     let that = this

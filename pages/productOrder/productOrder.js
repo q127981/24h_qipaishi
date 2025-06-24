@@ -19,6 +19,7 @@ Page({
     showFinish: false, // 是否显示确认弹窗
     orderNo: '', // 订单编号
     orderId: '', // 订单id
+    storeId: '',
     store: -1,
     storeOption: [
       { text: '全部门店', value: -1 }
@@ -47,15 +48,17 @@ Page({
   onLoad(options) {
     let that = this
     let manager = options.manager
-    if (manager != undefined) {
-      that.setData({
-        manager: true
-      })
-    } else {
-      that.setData({
-        manager: false
-      })
+    let storeId = options.storeId
+    if (manager == undefined) {
+      manager = false;
     }
+    if (storeId == undefined) {
+      storeId = '';
+    }
+    that.setData({
+      manager: manager,
+      storeId: storeId
+    })
   },
 
   /**
@@ -134,7 +137,7 @@ Page({
         "1",
         "post",
         {
-          "storeId": that.data.store == -1 ? null : that.data.store,
+          // "storeId": that.data.storeId,
           "status": that.data.status == -1 ? null : that.data.status,
           "pageSize": 10,
           "pageNo": currentPage
@@ -283,7 +286,7 @@ Page({
         app.globalData.userDatatoken.accessToken,
         "",
         function success(info) {
-          if(info.code==0){
+          if (info.code == 0) {
             wx.showToast({
               title: '取消成功',
             })
@@ -295,18 +298,18 @@ Page({
             } else {
               that.getOrderPage(true)
             }
-          }else{
-              wx.showModal({
-                title: '提示',
-                content: info.msg,
-                showCancel: false,
-                complete: (res) => {
-                  if (res.cancel) {
-                  }
-                  if (res.confirm) {
-                  }
+          } else {
+            wx.showModal({
+              title: '提示',
+              content: info.msg,
+              showCancel: false,
+              complete: (res) => {
+                if (res.cancel) {
                 }
-              })
+                if (res.confirm) {
+                }
+              }
+            })
           }
         }
       );
@@ -374,6 +377,7 @@ Page({
         "1",
         "post",
         {
+          "storeId": that.data.storeId,
           "status": that.data.status == -1 ? null : that.data.status,
           "pageSize": 10,
           "pageNo": currentPage

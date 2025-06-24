@@ -1001,14 +1001,14 @@ Page({
                   wx.showModal({
                     title: "开门密码：" + info.data + "#",
                     content: "如果门没有自动打开，请使用密码开门，该密码仅6小时内一次有效！您也可以靠近门锁时点击'蓝牙开锁'按钮自动开锁。",
-                    cancelText: '蓝牙开锁',
+                    cancelText: '关闭',
                     showCancel: true,
-                    confirmText: '关闭',
+                    confirmText: '打开门锁',
                     complete: (res) => {
                       if (res.cancel) {
-                        lock.blueDoorOpen(that.data.OrderInfodata.lockData);
                       }
                       if (res.confirm) {
+                        lock.blueDoorOpen(that.data.OrderInfodata.lockData);
                       }
                     }
                   })

@@ -70,15 +70,21 @@
       </view>
     </view>
     <view class="line">
-      <label>门店列表图</label>
+      <label>店铺门头照片</label>
       <view class="right">
         <van-uploader file-list="{{ fileList1 }}" bind:after-read="afterRead" data-info="1" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit"  upload-text="尺寸：377 x 508"/>
       </view>
     </view>
     <view class="line">
-      <label>门店顶部轮播图</label>
+      <label>门店顶部轮播广告</label>
       <view class="right">
         <van-uploader class="img" file-list="{{ fileList2 }}" bind:after-read="afterRead" data-info="2" bind:delete="delete" max-count="9" image-fit="aspectFit" preview-size="200rpx" />
+      </view>
+    </view>
+    <view class="line">
+      <label>门店位置指引图</label>
+      <view class="right">
+        <van-uploader class="img" file-list="{{ fileList3 }}" bind:after-read="afterRead" data-info="3" bind:delete="delete" max-count="9" preview-size="200rpx" />
       </view>
     </view>
     <van-cell-group>
@@ -87,8 +93,8 @@
       </van-cell>
     <view class="tip">关闭简洁模式后，可以自定义上传门店首页模板</view>
     </van-cell-group>
-    <view class="line" wx:if="{{!simpleModel}}">
-      <label>首页按钮图</label>
+    <view class="line" wx:if="{{!simpleModel && templateKey=='custom'}}">
+      <label>自定义模板</label>
       <view class="right">
         <view>
           <van-uploader file-list="{{ btnfileList }}" bind:after-read="afterRead" data-info="10" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="立即预约按钮图：495 x 600" />
@@ -101,12 +107,7 @@
         <van-uploader file-list="{{ kffileList }}" bind:after-read="afterRead" data-info="16" bind:delete="delete" preview-size="200rpx" max-count="1" image-fit="aspectFit" upload-text="联系客服按钮图：495 x 210" />
       </view>
     </view>
-    <view class="line" wx:if="{{!simpleModel}}">
-      <label>门店环境</label>
-      <view class="right">
-        <van-uploader class="img" file-list="{{ fileList3 }}" bind:after-read="afterRead" data-info="3" bind:delete="delete" max-count="9" preview-size="200rpx" />
-      </view>
-    </view>
+
   </view>
   <!-- 底部按钮 -->
   <view class="submit {{isIpx?'fix-iphonex-button':''}}">

@@ -637,7 +637,7 @@ page {
 
 
 .pop {
-  width: 600rpx;
+  width: 620rpx;
   padding-bottom: 10rpx;
 }
 
@@ -648,9 +648,10 @@ page {
 }
 
 .pop .content {
-  padding: 10rpx;
+  /* margin: 10rpx; */
   font-size: 28rpx;
   line-height: 40rpx;
+  max-height: 800rpx;
 }
 
 .pop .foot {

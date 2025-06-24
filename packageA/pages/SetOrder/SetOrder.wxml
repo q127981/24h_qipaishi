@@ -74,9 +74,9 @@
                 <view wx:else="">实际支付：<text class="price">￥{{item.payPrice}}</text></view>
                 <view wx:if="{{item.renewPrice}}">续费金额：<text class="price">￥{{item.renewPrice}}</text></view>
                 <block wx:if="{{item.deposit}}">
-                  <view>支付押金：<text class="color-attention">￥{{item.deposit}}</text></view>
+                  <view>已付押金：<text class="color-attention">￥{{item.deposit}}</text></view>
                 </block>
-                <block wx:if="{{item.status == 3}}">
+                <block wx:if="{{item.refundPrice}}">
                   <view>订单退款：<text class="color-attention">￥{{item.refundPrice}}</text></view>
                 </block>
               </view>

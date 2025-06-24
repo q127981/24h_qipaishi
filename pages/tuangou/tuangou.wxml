@@ -1,13 +1,10 @@
 <view class="info-card">
   <view class="top">
     <view class="left">
-      <image class="show-img" src="{{doorinfodata.headImg}}" />
       <view class="info">
-        <text class="name">{{doorinfodata.storeName}}</text>
-        <view class="distant">
-          <iconfont name="weibiaoti-3" color="#5AAB6E"></iconfont>
-          <text>{{doorinfodata.distance}}km</text>
-        </view>
+        <iconfont name="iov-store" size="25">
+        </iconfont>
+        <view class="name">{{doorinfodata.storeName}}</view>
       </view>
     </view>
     <view class="change-btn" bind:tap="showSelect">
@@ -30,7 +27,7 @@
 <view class="logo">
   <image src="../../pages/static/img/group.png" />
 </view>
-<view class="title">团购自助验券</view>
+<!-- <view class="title">团购自助验券</view> -->
 <view class="code-box">
   <view>
     <image src="../../pages/static/icon/groupBuy.png" />
@@ -38,57 +35,34 @@
     <image src="../../pages/static/icon/scan.png" bind:tap="scanCode" />
   </view>
 </view>
-<view class="btn" wx:if="{{!voucherInfo}}">
-  <button bind:tap="voucherCheck" bindtap="checkGroup">立即兑换</button>
-</view>
-<block wx:else>
-  <!-- <block> -->
-  <view class="voucher-info">
-    <!-- <view class="left"> -->
-    <!-- <view class="tag" wx:if="{{voucherInfo.hours&&voucherInfo.hours==99}}">通宵</view> -->
-    <!-- <view class="tag" wx:else="">{{voucherInfo.hours}}小时</view> -->
-    <!-- </view> -->
+<view class="voucher-info" wx:if="{{voucherInfo}}">
     <text>{{voucherInfo.title}}</text>
   </view>
+<!-- <view class="btn">
+  <button bind:tap="voucherCheck" bindtap="checkGroup">立即兑换</button>
+</view> -->
+<block>
+  <!-- <block> -->
   <view class="control-box">
-    <view class="time-section">
-      <view class="time-slot">
-        <view class="{{dayIndex === index ? 'active' : ''}}" wx:for="{{daySlot}}" data-index="{{index}}" data-day="{{item.dayOrigin}}" bind:tap="handleDayChange">
-          <text>{{item.desc}}</text>
-          <text>{{item.day}}</text>
+    <view class="select-card">
+      <view class="item {{roomIndex === index ? 'active':''}} " wx:for="{{doorlistArr}}" bind:tap="selectRoom" data-index="{{index}}">
+        <view class="top">
+          <view class="tag">{{['不限制', '小包', '中包', '大包', '豪包', '商务包','斯洛克','中式黑八','美式球桌'][item.type] || '不限制'}}</view>
+          <view>{{item.roomName}}</view>
         </view>
-      </view>
-      <view class="timer">
-        <text class="title">时间</text>
-        <view class="time active" bind:tap="setshowSelectHour">
-          <text>{{view_begin_time}}</text>
-          <image src="../../pages/static/icon/time-pick.png" />
-        </view>
-        <text class="divide">到</text>
-        <view class="time">
-          <text>{{view_end_time}}</text>
-        </view>
-      </view>
-      <view class="select-card">
-        <view class="item {{roomIndex === index ? 'active':''}}" wx:for="{{doorlistArr}}" bind:tap="selectRoom" data-index="{{index}}">
-          <view class="top">
-            <view class="tag">{{['不限制', '小包', '中包', '大包', '豪包', '商务包','斯洛克','中式黑八','美式球桌'][item.type] || '不限制'}}</view>
-            <view>{{item.roomName}}</view>
-          </view>
-          <view class="bottom">
-            <view class="gray" wx:if="{{item.status === 0}}">禁用</view>
-            <view class="primary" wx:if="{{item.status === 1}}">空闲</view>
-            <view class="blue" wx:if="{{item.status === 2}}">待清洁</view>
-            <view class="red" wx:if="{{item.status === 3}}">使用中</view>
-            <view class="orang" wx:if="{{item.status === 4}}">已预约</view>
-            <view class="more" catchtap="onShowReserve" data-list="{{item.orderTimeList}}" wx:if="{{item.orderTimeList.length}}">更多
-            </view>
+        <view class="bottom">
+          <view class="gray" wx:if="{{item.status === 0}}">禁用</view>
+          <view class="primary" wx:if="{{item.status === 1}}">空闲</view>
+          <view class="blue" wx:if="{{item.status === 2}}">待清洁</view>
+          <view class="red" wx:if="{{item.status === 3}}">使用中</view>
+          <view class="orang" wx:if="{{item.status === 4}}">已预约</view>
+          <view class="more" catchtap="onShowReserve" data-list="{{item.orderTimeList}}" wx:if="{{item.orderTimeList.length}}">更多
           </view>
         </view>
       </view>
     </view>
   </view>
-  <button class="confirm-btn" bindtap="SubmitOrderInfoData">确认预约</button>
+  <button class="confirm-btn" bindtap="SubmitOrderInfoData">确认兑换</button>
 </block>
 <van-popup show="{{ showtimefalge }}" position="bottom" custom-style="height: 60%">
   <van-datetime-picker type="datetime" value="{{currentDate}}" bind:confirm="timeChange" bind:cancel="timeCancel" formatter="{{formatter}}" min-date="{{minDay}}" max-date="{{maxDay}}" min-hour="{{minHour}}"></van-datetime-picker>

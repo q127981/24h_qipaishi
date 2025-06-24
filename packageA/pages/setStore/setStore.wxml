@@ -47,9 +47,9 @@
   </block>
 </view>
 <!-- 底部按钮 -->
-<navigator url="../setStoreInfo/setStoreInfo" class="bottom bg-primary {{isIpx?'fix-iphonex-button':''}}">
+<!-- <navigator url="../setStoreInfo/setStoreInfo" class="bottom bg-primary {{isIpx?'fix-iphonex-button':''}}">
   新增门店
-</navigator>
+</navigator> -->
 
 <van-dialog use-slot title="设置门锁密码" show="{{ setLockPwdShow }}" show-cancel-button confirm-button-text="确认" bind:confirm="confirmSetLockPwd">
   <view class="dialog">

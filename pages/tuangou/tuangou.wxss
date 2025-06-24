@@ -29,16 +29,17 @@ page {
 .info-card .top .left .info {
   display: flex;
   justify-content: space-between;
-  flex-direction: column;
+  /* flex-direction: column; */
   padding: 10rpx 0;
 }
 
 .info-card .top .left .info .name {
-  font-weight: 500;
+  font-weight: 600;
   width: 360rpx;
-  font-size: 31rpx;
+  font-size: 34rpx;
   color: #000000;
   font-style: normal;
+  margin-left: 10rpx;
 }
 
 .info-card .top .left .info .distant {
@@ -87,8 +88,7 @@ page {
 }
 
 .info-card .location {
-  width: 422rpx;
-  font-weight: 300;
+  width: 425rpx;
   font-size: 24rpx;
   color: #000;
   line-height: 26rpx;
@@ -124,7 +124,6 @@ page {
 .logo {
   display: flex;
   justify-content: center;
-  margin-top: 68rpx;
   margin-bottom: 46rpx;
 }
 
@@ -291,7 +290,7 @@ page {
 }
 
 .control-box {
-  padding: 26rpx;
+  padding: 20rpx;
 }
 
 .select-card {
@@ -302,13 +301,13 @@ page {
 }
 
 .select-card .item {
-  width: 42.2%;
+  width: 43.2%;
   font-weight: 500;
   font-size: 26rpx;
-  background: #F7F7F7;
+  background: #fff;
   border-radius: 17rpx 17rpx 17rpx 17rpx;
   padding: 16rpx 18rpx;
-  margin-bottom: 26rpx;
+  margin-bottom: 16rpx;
 }
 
 .select-card .item .top {
@@ -319,8 +318,8 @@ page {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 34rpx;
-  margin-bottom: 16rpx;
+  margin-top: 10rpx;
+  margin-bottom: 10rpx;
   /* margin-top: 34rpx; */
 }
 
@@ -361,7 +360,7 @@ page {
   background: var(--main-color);
   border-radius: 9rpx 9rpx 9rpx 9rpx;
   font-weight: bold;
-  font-size: 26rpx;
+  font-size: 23rpx;
   color: #FFFFFF;
   margin-right: 22rpx;
 }
@@ -385,9 +384,9 @@ page {
 }
 
 .confirm-btn {
-  width: 698rpx;
-  height: 103rpx;
-  line-height: 103rpx;
+  width: 298rpx;
+  height: 83rpx;
+  line-height: 83rpx;
   background: #5AAB6E;
   border-radius: 52rpx 52rpx 52rpx 52rpx;
   font-weight: 500;

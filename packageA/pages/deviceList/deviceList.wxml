@@ -2,7 +2,7 @@
 <view class="tabs">
   <view class="item">
     <van-dropdown-menu active-color="{{mainColor}}">
-      <!-- <van-dropdown-item value="{{ storeId }}" options="{{ stores }}" bind:change="storeDropdown" /> -->
+      <van-dropdown-item value="{{ roomId }}" options="{{ roomList }}" bind:change="roomDropdown" />
       <van-dropdown-item value="{{ deviceType }}" options="{{ deviceTypes }}" bind:change="typeDropdown" />
     </van-dropdown-menu>
   </view>
@@ -13,30 +13,30 @@
     <view class="item {{item.status==1?'online':item.type==5?'online':'offline'}}" wx:for="{{deviceList}}" wx:key="deviceList">
       <view class="line1">
         <view class="info">
-          <label>编号：</label>
           <text class="sn">{{item.deviceSn}}</text>
         </view>
         <view class="info">
           <label>类型：</label>
           <text>{{(item.typeName)}}</text>
         </view>
-        <view class="info" wx:if="{{item.type!=6&&item.type!=5}}">
+        <!-- <view class="info" wx:if="{{item.type!=6&&item.type!=5}}">
           <label>状态：</label>
           <text>{{item.status==1?'在线':'离线'}}</text>
-        </view>
+        </view> -->
         <view class="btns" wx:if="{{item.type==5}}">
-          <view class="btn" bind:tap="lockAotuOpen" data-lock="{{item.deviceData}}">锁常开</view>
-          <view class="btn" bind:tap="lockAotuClose" data-lock="{{item.deviceData}}">锁常关</view>
-          <view class="btn" bind:tap="lockConfigWifi" data-lock="{{item.deviceData}}">配置WIFI</view>
+          <view class="btn" bind:tap="lockOption" data-lock="{{item.deviceData}}" data-sn="{{item.deviceSn}}">门锁功能</view>
         </view>
         <view class="btns" wx:if="{{item.type==6}}">
           <view class="btn" bind:tap="getLockList" data-id="{{item.deviceId}}">查看附近锁</view>
         </view>
+        <view class="btns" wx:if="{{item.type==14}}">
+          <view class="btn" bind:tap="checkBall" data-id="{{item.deviceId}}">检测球归还</view>
+        </view>
       </view>
       <view class="line2">
         <view class="info" wx:if="{{item.storeName}}">
-          <label>门店：</label>
-          <text class="name">{{item.storeName}}</text>
+          <label>信号：</label>
+          <text class="name" wx:if="{{item.rssi}}">{{item.rssi}} </text>
         </view>
         <view class="info">
           <block wx:if="{{item.roomName}}">
@@ -44,11 +44,11 @@
             <text class="name">{{item.roomName}}</text>
           </block>
           <block wx:else>
-            <view>-</view>
+            <view></view>
           </block>
         </view>
         <view>
-          <text wx:if="{{item.share}}">共享设备</text>
+          <text wx:if="{{item.share}}" style="margin-right:100rpx">共享设备</text>
           <text class="del" bindtap="delDevice" data-id="{{item.deviceId}}"> 删除</text>
         </view>
       </view>
@@ -113,5 +113,41 @@
         <view class="table-cell">{{item.roomName}}</view>
       </view>
     </block>
+  </view>
+</van-dialog>
+
+<van-dialog class="lockOp" use-slot title="门锁功能" show="{{ showLockOp }}" confirm-button-text="关闭" bind:confirm="closeLockOp">
+  <view class="item">
+    <view class="btn bg-attention" bind:tap="resetLock">恢复出厂</view>
+    <view class="btn bg-primary2" bind:tap="updateLockTime">锁数据校准</view>
+    <!-- <view class="btn bg-attention" bind:tap="initLock">门锁重新初始化</view> -->
+  </view>
+  <view class="item">
+    <view class="btn bg-primary2" bind:tap="lockAotuOpen">锁常开</view>
+    <view class="btn bg-primary2" bind:tap="lockAotuClose">锁自动关</view>
+    <view class="btn bg-primary2" bind:tap="lockConfigWifi">配置WIFI</view>
+  </view>
+  <view class="item">
+    <view class="btn bg-primary1" bind:tap="queryLockPwd">查询锁密码</view>
+    <view class="btn bg-primary1" bind:tap="setLockPwdShow">设置锁密码</view>
+    <view class="btn bg-primary1" bind:tap="addLockCard">添加锁卡片</view>
+  </view>
+  <view class="item">
+    
+    <view class="btn bg-primary" bind:tap="unlock">蓝牙开锁</view>
+    <view class="btn bg-primary" bind:tap="oplock">蓝牙关锁</view>
+  </view>
+
+
+</van-dialog>
+
+
+
+<van-dialog class="lockPwd" use-slot title="设置门锁密码" show="{{ setLockPwdShow }}" show-cancel-button confirm-button-text="确认" bind:confirm="confirmSetLockPwd">
+  <view class="dialog">
+    <view class="item" style="align-items: center;">
+      <label>新管理员密码：</label>
+      <input model:value="{{ lockPwd }}" type="number" maxlength="8" style="border: 1px solid var(--main-color);" placeholder="请输入6-8纯数字密码" />
+    </view>
   </view>
 </van-dialog>

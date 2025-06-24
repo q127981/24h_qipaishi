@@ -30,7 +30,10 @@
     <!-- </view> -->
  
   </view>
+  <view>
+    本功能为辅助门店核销团购券,并不产生实际订单
+  </view>
   <view class="btns">
-    <button hover-class="button-click" class="btn submit bg-primary" bindtap="submit">提交验券</button>
+    <button hover-class="button-click" class="btn submit bg-primary" bindtap="submit">核销验券</button>
   </view>
 </view>

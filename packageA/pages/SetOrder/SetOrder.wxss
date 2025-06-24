@@ -118,7 +118,7 @@ page {
 }
 
 .lists .item .tag.finish {
-  color: #da4848;
+  color: #630c0c;
   /* border: 2rpx solid #da4848; */
 }
 
