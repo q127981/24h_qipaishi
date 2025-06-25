@@ -51,6 +51,18 @@
       {
         "value": ".eslintrc.js",
         "type": "file"
+      },
+      {
+        "value": ".image",
+        "type": "folder"
+      },
+      {
+        "value": ".idea",
+        "type": "folder"
+      },
+      {
+        "value": ".vscode",
+        "type": "folder"
       }
     ],
     "include": []
