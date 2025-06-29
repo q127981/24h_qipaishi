@@ -164,6 +164,9 @@ page {
   left: 0;
   z-index: 1;
 }
+.table-header .stable1{
+  width: 60%;
+}
 
 .table-header view {
   width: 50%;
@@ -175,21 +178,28 @@ page {
 
 .table-line {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
-
+.table-line .stable1{
+  width: 55%;
+  text-align: left;
+  align-items: left;
+}
+.table-line .stable2{
+  width: 20%;
+  text-align: left;
+  align-items: left;
+}
 .table-line:first-child {
   margin-top: 60rpx;
 }
 
 .table-line:nth-of-type(odd) {
   background: #ededed;
-  display: flex;
-  justify-content: space-between;
 }
 
 .table-line view {
-  width: 50%;
+  /* width: 50%; */
   justify-content: space-between;
   text-align: center;
   line-height: 60rpx;

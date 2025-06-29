@@ -105,7 +105,7 @@
       </view>
     </view>
     <view class="tips">注：最低消费门槛，即使只开始了1分钟，只要小于最低消费，均按此价格计费。0元表示不限制最低消费</view>
-    <view class="line">
+    <!-- <view class="line">
       <label>通宵价格：</label>
       <view class="right">
         <view class="price">
@@ -113,8 +113,8 @@
           <text>元/场</text>
         </view>
       </view>
-    </view>
-    <view class="tips">注：通宵场价格不能为0，并且不能超过凌晨4点下单</view>
+    </view> -->
+    <!-- <view class="tips">注：通宵场价格不能为0，并且不能超过凌晨4点下单</view> -->
     <view class="line">
       <label>最低下单小时：</label>
       <view class="right">

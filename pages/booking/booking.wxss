@@ -327,10 +327,11 @@ page {
 
 .line3 .more {
   color: var(--main-color);
-  font-size: 21rpx;
+  font-size: 22rpx;
   display: flex;
   align-items: center;
   margin-right: -20rpx;
+  margin-left: 10rpx;
 }
 
 .line3 .more icon {

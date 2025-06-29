@@ -967,7 +967,7 @@ Page({
     if (app.globalData.isLogin) 
     {
       http.request(
-        "/member/chart/getRoomUseHourStatistics",
+        "/member/chart/getRoomUseHour",
         "1",
         "post", {
           "storeId": that.data.storeId,

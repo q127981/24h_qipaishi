@@ -103,9 +103,6 @@ Page({
     this.setData({
       groupPayNo: e.detail.value,
     });
-    if (e.detail.value.length >= 10) {
-      this.checkGroup()
-    }
   },
   //获取门店相信信息
   getDoorInfoData: function (storeId) {
@@ -379,7 +376,6 @@ Page({
           icon: "success",
           duration: 1000,
         });
-        that.checkGroup();
       },
       fail: (res) => {
         //接口调用失败的回调函数
@@ -391,51 +387,7 @@ Page({
       },
     });
   },
-  checkGroup: function () {
-    var that = this;
-    if (
-      that.data.groupPayNo == "" ||
-      that.data.storeId == "" ||
-      !that.data.groupPayNo||
-      that.data.groupPayNo.length == 0
-    ) {
-      wx.showToast({
-        title: "请填写团购券",
-        icon: "error"
-      });
-      return;
-    }
-    if (app.globalData.isLogin) {
-      http.request(
-        "/member/order/preGroupNo",
-        "1",
-        "post",
-        {
-          storeId: that.data.storeId,
-          code: that.data.groupPayNo,
-        },
-        app.globalData.userDatatoken.accessToken,
-        "",
-        function success(info) {
-          console.info(info);
-          if (info.code == 0) {
-            that.setData({
-              voucherInfo: info.data,
-            });
-            that.MathDate(new Date())
-          } else {
-            wx.showToast({
-              title: "验券失败",
-              icon: "error",
-            });
-          }
-        },
-        function fail(info) { }
-      );
-    } else {
-      //console.log('未登录失败！')
-    }
-  },
+  
   // 预支付
   SubmitOrderInfoData() {
     var that = this;
@@ -445,12 +397,12 @@ Page({
         icon: "none",
       });
     }
-    if (!that.data.groupPayNo) {
-      return wx.showToast({
-        title: '请填写团购券',
-        icon: "none",
-      });
-    }
+    // if (!that.data.groupPayNo) {
+    //   return wx.showToast({
+    //     title: '请填写团购券',
+    //     icon: "none",
+    //   });
+    // }
     wx.navigateTo({
       url: '../orderSubmit/orderSubmit?roomId=' + that.data.doorlistArr[that.data.roomIndex].roomId + '&goPage=1' + '&storeId=' + that.data.storeId + '&groupPayNo=' + that.data.groupPayNo,
     })
@@ -640,7 +592,6 @@ Page({
     that.setData({
       groupPayNo: item.ticketNo
     })
-    that.checkGroup();
   },
   cancelUser: function () {
     let that = this

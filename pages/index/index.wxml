@@ -1,6 +1,6 @@
 <wxs src="../../utils/magic.wxs" module="magic" />
 <view class="simple" wx:if="{{simpleModel}}">
-  <view class="logo-top" wx:if="{{simpleModel}}" style="padding-top:{{statusBarHeight+80}}rpx">
+  <view class="logo-top" wx:if="{{simpleModel}}" style="padding-top:80rpx">
     <view class="logo-name">
       <text class="name">{{doorinfodata.storeName}}</text>
     </view>

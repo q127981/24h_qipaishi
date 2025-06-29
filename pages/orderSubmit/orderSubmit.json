@@ -1,5 +1,5 @@
 {
-    "navigationBarTitleText": "订单提交",
+    "navigationStyle": "custom",
     "navigationBarBackgroundColor": "#5AAB6E",
     "navigationBarTextStyle": "white",
     "usingComponents": {

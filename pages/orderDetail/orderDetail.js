@@ -181,7 +181,7 @@ Page({
   },
   goGuide() {
     wx.navigateTo({
-      url: `/packageA/pages/guide/guide?storeId=${this.data.storeId}`,
+      url: `/packageA/pages/guide/guide?storeId=${this.data.OrderInfodata.storeId}`,
     });
   },
   modeChange(e) {
@@ -740,6 +740,9 @@ Page({
       showCancel: true,
       success(res) {
         if (res.confirm) {
+          wx.showLoading({
+            title: '关台中...',
+          })
           http.request(
             "/member/order/closeOrder/" + orderId,
             "1",
@@ -749,6 +752,7 @@ Page({
             "",
             function success(info) {
               console.info('结束订单===');
+              wx.hideLoading();
               if (info.code == 0) {
                 //刷新页面
                 that.getOrderInfoData();

@@ -335,13 +335,13 @@
           <block wx:if="{{roomtime.length}}">
             <view class="roomtime">
               <view class="item table-header">
-                <view class="table-left">日期</view>
-                <view class="table-right">时长(小时)</view>
+                <view class="stable1">房间</view>
+                <view class="stable2">小时</view>
               </view>
               <view class="box">
                 <view class="item table-line" wx:for="{{roomtime}}" wx:key="item">
-                  <view class="table-left">{{item.key}}</view>
-                  <view class="table-right">{{item.value}}</view>
+                  <view class="stable1">{{item.roomName}}</view>
+                  <view class="stable2">{{item.hours}}</view>
                 </view>
               </view>
             </view>
