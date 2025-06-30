@@ -272,13 +272,4 @@ Page({
       })
     })
   },
-  // 已使用点击跳转到订单详情
-  clickItem: function (e) {
-    var info = e.currentTarget.dataset.info
-    if (info.status === 1) {
-      wx.navigateTo({
-        url: '../orderDetail/orderDetail?toPage=true&OrderNo=' + info.orderId,
-      })
-    }
-  }
 })

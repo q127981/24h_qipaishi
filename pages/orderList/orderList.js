@@ -170,9 +170,9 @@ Page({
   },
   openDoor(e) {
     var that = this;
-    let aindex = e.currentTarget.dataset.index;
+    let no = e.currentTarget.dataset.no;
     wx.navigateTo({
-      url: "../orderDetail/orderDetail?OrderNo=" + aindex + "&toPage=true",
+      url: "../orderDetail/orderDetail?orderNo=" + no + "&toPage=true",
     });
   },
   //获取房间信息

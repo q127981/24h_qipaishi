@@ -1,4 +1,3 @@
-<!-- pages/orderDetail/orderDetail.wxml -->
 <wxs src="../../utils/magic.wxs" module="magic" />
 <view class="container">
   <view class="top-container">

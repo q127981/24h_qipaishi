@@ -2,7 +2,6 @@ page {
   padding-bottom: 60rpx;
 }
 
-/* pages/orderDetail/orderDetail.wxss */
 .top-container {
   /* background-color: var(--main-color); */
   /* margin: 15rpx 15rpx; */

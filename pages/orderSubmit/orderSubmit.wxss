@@ -333,7 +333,7 @@ page {
   display: flex;
   justify-content: start;
   font-size: 30rpx;
-  line-height: 60rpx;
+  line-height: 50rpx;
   margin: 10rpx;
 }
 
@@ -917,7 +917,7 @@ page {
   justify-content: start;
   margin-right: 30rpx;
   font-size: 22rpx;
-  line-height: 36rpx;
+  line-height: 32rpx;
   color: #033e68;
 }
 

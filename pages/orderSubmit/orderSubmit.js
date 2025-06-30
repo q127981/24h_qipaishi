@@ -650,7 +650,7 @@ Page({
         //进入订单详情页  订单由支付回调函数创建
         setTimeout(function () {
           wx.navigateTo({
-            url: "../orderDetail/orderDetail?toPage=true&OrderNo=" + that.data.orderNo,
+            url: "../orderDetail/orderDetail?toPage=true&orderNo=" + that.data.orderNo,
           });
         }, 1200);
       },
@@ -841,7 +841,7 @@ Page({
             setTimeout(function () {
               wx.navigateTo({
                 url:
-                  "../orderDetail/orderDetail?toPage=true&OrderNo=" + info.data,
+                  "../orderDetail/orderDetail?toPage=true&orderNo=" + that.data.orderNo,
               });
             }, 1000);
           } else {

@@ -233,13 +233,7 @@ Page({
       }
     })
   },
-  openDoor(e) {
-    var that = this;
-    let aindex = e.currentTarget.dataset.index;
-    wx.navigateTo({
-      url: '../orderDetail/orderDetail?toPage=true&OrderNo=' + aindex,
-    })
-  },
+
   // 取消弹窗
   cancelOrder(e) {
     var orderInfo = e.currentTarget.dataset.info

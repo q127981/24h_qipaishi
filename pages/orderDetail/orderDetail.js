@@ -1,4 +1,3 @@
-// pages/orderDetail/orderDetail.js
 const app = getApp()
 var http = require('../../utils/http');
 var lock = require('../../utils/lock.js');
@@ -24,7 +23,7 @@ Page({
     fanDelta: '',
     power: false,
     wifiShow: false,
-    OrderNo: '',//订单id
+    orderNo: '',//订单编码
     orderKey: '',//订单key  用于分享好友 直接打开使用
     isLogin: app.globalData.isLogin,
     OrderInfodata: {},
@@ -63,10 +62,10 @@ Page({
     that.setData({
       isLogin: app.globalData.isLogin,
     })
-    var OrderNo = '';
+    var orderNo = '';
     var orderKey = '';
-    if (options.OrderNo) {
-      OrderNo = options.OrderNo;
+    if (options.orderNo) {
+      orderNo = options.orderNo;
     }
     if (options.orderKey) {
       orderKey = options.orderKey;
@@ -74,19 +73,17 @@ Page({
     if (!options.toPage) {
       var query = wx.getEnterOptionsSync().query;
       if (query) {
-        if (query.OrderNo) {
-          OrderNo = query.OrderNo;
+        if (query.orderNo) {
+          orderNo = query.orderNo;
         }
         if (query.orderKey) {
           orderKey = query.orderKey;
         }
       }
     }
-    console.log(OrderNo);
-    console.log(orderKey);
     that.setData({
       beforeCloseFunction: this.beforeClose(),
-      OrderNo: OrderNo,
+      orderNo: orderNo,
       orderKey: orderKey,
     })
 
@@ -771,12 +768,10 @@ Page({
   //订单取消成功弹窗
   cancelConfirm() {
     var that = this;
-    console.log('确定取消订单')
-    console.log(that.data.OrderNo)
     if (app.globalData.isLogin) {
-      if (that.data.OrderNo) {
+      if (that.data.OrderInfodata) {
         http.request(
-          "/member/order/cancelOrder" + '/' + that.data.OrderNo,
+          "/member/order/cancelOrder" + '/' + that.data.OrderInfodata.orderId,
           "1",
           "post", {
           "orderId": that.data.OrderInfodata.roomId
@@ -809,12 +804,11 @@ Page({
   //获取订单详情
   getOrderInfoData: function (e) {
     var that = this;
-    // console.log(that.data.OrderNo)
     http.request(
-      "/member/order/getOrderInfo",
+      "/member/order/getOrderInfoByNo",
       "1",
       "get", {
-      "orderId": that.data.OrderNo,
+      "orderNo": that.data.orderNo,
       "orderKey": that.data.orderKey
     },
       app.globalData.userDatatoken.accessToken,
@@ -825,10 +819,8 @@ Page({
         if (info.code === 0) {
           that.setData({
             OrderInfodata: info.data,
-            OrderNo: info.data.orderId,
             orderKey: info.data.orderKey
           });
-          console.log(that.data.OrderNo)
           that.getStoreBalance();
         } else {
           wx.showModal({
