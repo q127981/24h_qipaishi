@@ -455,6 +455,9 @@ page {
   margin-right: 1rpx;
   margin-left: 15rpx;
 }
+.popup .couponList{
+  margin-bottom: 60rpx;
+}
 
 .popup .couponItem {
   padding: 20rpx;
@@ -796,7 +799,9 @@ page {
 }
 
 
-
+.popup .pkgList{
+  margin-bottom: 60rpx;
+}
 
 
 .popup .pkgItem {
@@ -814,7 +819,6 @@ page {
 .popup .pkgItem .top .c1 {
   text-align: center;
   align-self: center;
-  width: 100rpx;
 }
 
 .popup .pkgItem .top .c1 .price {

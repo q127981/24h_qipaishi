@@ -941,8 +941,8 @@ Page({
                   order_hour: order_hour,
                 })
                 that.MathDate(new Date(that.data.submit_begin_time));
-                r();
               }
+              r();
             } else {
               wx.showModal({
                 content: info.msg,
