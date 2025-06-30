@@ -585,6 +585,8 @@ Page({
             //唤起微信支付
             if (info.data.payPrice > 0) {
               that.payMent(info);
+            }else{
+              that.submitorder(payType, preSubmit);
             }
           } else {
             //需要支付金额为0元的时候，直接订单提交
