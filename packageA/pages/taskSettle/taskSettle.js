@@ -19,14 +19,14 @@ Page({
       { text: '被驳回', value: 5 },
       { text: '已结算', value: 6 },
     ],
-    finishNum:0,//未结算数量
+    finishNum: 0,//未结算数量
     status: 3,
     sdt: '',
     edt: '',
     show: false, //日期控件
     minDate: new Date(2023, 0, 1).getTime(),
     info: '', //保洁员列表传过来的信息
-    money:'',
+    money: '',
     storeId: '', //列表搜索门店id
     stores: [],
     pageNo: 1,
@@ -35,7 +35,7 @@ Page({
     list: [],
   },
   goSearch() {
-    this.setData({ 
+    this.setData({
       show: true,
     });
   },
@@ -63,7 +63,7 @@ Page({
    */
   onLoad(options) {
     let info = JSON.parse(options.info)
-    this.setData({info: info})
+    this.setData({ info: info })
     this.getXiaLaListAdmin()
     this.getMainListdata("refresh")
   },
@@ -102,9 +102,9 @@ Page({
   onPullDownRefresh() {
     let that = this;
     that.setData({
-        pageNo: 1,
-        canLoadMore:true,
-        list:[]
+      pageNo: 1,
+      canLoadMore: true,
+      list: []
     })
     this.getMainListdata('refresh');
     wx.stopPullDownRefresh();
@@ -131,15 +131,15 @@ Page({
 
   },
   //管理员获取门店下拉列表数据
-  getXiaLaListAdmin:function(e){
+  getXiaLaListAdmin: function (e) {
     var that = this;
     //if (app.globalData.isLogin) 
     {
       http.request(
-        "/member/store/getStoreList",
+        "/member/store/getStoreListByAdmin",
         "1",
         "get", {
-        },
+      },
         app.globalData.userDatatoken.accessToken,
         "",
         function success(info) {
@@ -148,14 +148,14 @@ Page({
           if (info.code == 0) {
             let stores = []
             info.data.map(it => {
-              stores.push({text:it.key,value:it.value})
+              stores.push({ text: it.key, value: it.value })
             })
-            stores.unshift({text:"全部门店",value:""})
-           that.setData({
-             stores: stores,
-             storeId: stores[0].value
-           })
-          }else{
+            stores.unshift({ text: "全部门店", value: "" })
+            that.setData({
+              stores: stores,
+              storeId: stores[0].value
+            })
+          } else {
             wx.showModal({
               content: info.msg,
               showCancel: false,
@@ -163,22 +163,21 @@ Page({
           }
         },
         function fail(info) {
-          
+
         }
       )
-    } 
+    }
   },
   //获取列表数据
-  getMainListdata:function(e){
+  getMainListdata: function (e) {
     var that = this;
     let message = "";
-    if (app.globalData.isLogin) 
-    {
+    if (app.globalData.isLogin) {
       if (e == "refresh") { //刷新，page变为1
         message = "正在加载"
         that.setData({
-          pageNo:1,
-          list:[],
+          pageNo: 1,
+          list: [],
           finishNum: 0
         })
       }
@@ -186,28 +185,28 @@ Page({
         "/member/manager/getClearManagerPage",
         "1",
         "post", {
-          "pageNo": that.data.pageNo,
-          "pageSize": that.data.pageSize,
-          "storeId": that.data.info.storeId,
-          "userId": that.data.info.userId,
-          "status": that.data.status,
-          "startTime": that.data.sdt,
-          "endTime": that.data.edt
-        },
+        "pageNo": that.data.pageNo,
+        "pageSize": that.data.pageSize,
+        "storeId": that.data.info.storeId,
+        "userId": that.data.info.userId,
+        "status": that.data.status,
+        "startTime": that.data.sdt,
+        "endTime": that.data.edt
+      },
         app.globalData.userDatatoken.accessToken,
         message,
         function success(info) {
           console.info('返回111===');
           console.info(info);
           if (info.code == 0) {
-            if(info.data.list.length === 0){
+            if (info.data.list.length === 0) {
               that.setData({
                 canLoadMore: false,
                 finishNum: 0
-            })
-            }else{
-               //有数据
-              if(that.data.list){
+              })
+            } else {
+              //有数据
+              if (that.data.list) {
                 //列表已有数据  那么就追加
                 let arr = that.data.list;
                 let arrs = arr.concat(info.data.list);
@@ -215,17 +214,17 @@ Page({
                   list: arrs,
                   pageNo: that.data.pageNo + 1,
                   canLoadMore: arrs.length < info.data.total,
-                  finishNum:info.data.total
+                  finishNum: info.data.total
                 })
-              }else{
+              } else {
                 that.setData({
                   list: info.data.list,
                   pageNo: that.data.pageNo + 1,
-                  finishNum:info.data.total
+                  finishNum: info.data.total
                 });
               }
             }
-          }else{
+          } else {
             wx.showModal({
               content: info.msg,
               showCancel: false,
@@ -233,14 +232,14 @@ Page({
           }
         },
         function fail(info) {
-          
+
         }
       )
-    } 
+    }
   },
   // 结算
-  toSettle(){
-    if(this.data.money === ''){
+  toSettle() {
+    if (this.data.money === '') {
       wx.showToast({
         title: '请填写结算金额',
         icon: 'error'
@@ -253,22 +252,21 @@ Page({
       content: '是否确定结算？',
       complete: (res) => {
         if (res.cancel) {
-          
+
         }
-    
+
         if (res.confirm) {
-          if (app.globalData.isLogin) 
-          {
+          if (app.globalData.isLogin) {
             http.request(
               "/member/manager/settlementClearUser",
               "1",
               "post", {
-                "userId": that.data.info.userId,
-                "storeId": that.data.info.storeId,
-                "money": Number(that.data.money),
-                "startTime": that.data.sdt,
-                "endTime": that.data.edt
-              },
+              "userId": that.data.info.userId,
+              "storeId": that.data.info.storeId,
+              "money": Number(that.data.money),
+              "startTime": that.data.sdt,
+              "endTime": that.data.edt
+            },
               app.globalData.userDatatoken.accessToken,
               "保存中",
               function success(info) {
@@ -281,7 +279,7 @@ Page({
                   setTimeout(() => {
                     wx.navigateBack()
                   }, 1000);
-                }else{
+                } else {
                   wx.showModal({
                     content: info.msg,
                     showCancel: false,
@@ -291,16 +289,16 @@ Page({
               function fail(info) {
               }
             )
-          } 
+          }
         }
       }
     })
   },
   //门店下拉菜单发生变化
-  storeDropdown(event){
+  storeDropdown(event) {
     //console.log(event)
     this.data.stores.map(it => {
-      if(it.value === event.detail){
+      if (it.value === event.detail) {
         this.setData({
           storeId: it.value,
         })
@@ -309,9 +307,9 @@ Page({
     this.getMainListdata("refresh")
   },
   //状态下拉菜单发生变化
-  statusDropdown(event){
+  statusDropdown(event) {
     this.data.option2.map(it => {
-      if(it.value === event.detail){
+      if (it.value === event.detail) {
         this.setData({
           status: it.value
         })
@@ -320,10 +318,10 @@ Page({
     this.getMainListdata("refresh")
   },
   // 详情页
-  goTaskDetail(e){
+  goTaskDetail(e) {
     var id = e.currentTarget.dataset.info
     wx.navigateTo({
-      url: '../taskDetail/taskDetail?id='+id,
+      url: '../taskDetail/taskDetail?id=' + id,
     })
   },
 })

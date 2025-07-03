@@ -143,13 +143,36 @@
   </view>
 </van-popup>
 
-<van-popup show="{{ xiaoshiShow }}" position="bottom" custom-style="height: 50%; border-radius: 17rpx 17rpx 0rpx 0rpx;background: linear-gradient( 180deg, #C9FFD7 2%, #FFFFFF 80%, #FFFFFF 100%);" bind:close="xiaoshiCancel" class="popup">
+<van-popup show="{{ xiaoshiShow }}" position="bottom" custom-style="height: 60%; border-radius: 17rpx 17rpx 0rpx 0rpx;background: linear-gradient( 180deg, #C9FFD7 2%, #FFFFFF 80%, #FFFFFF 100%);" bind:close="xiaoshiCancel" class="popup">
   <view class="title">小时开台</view>
   <view class="time-items">
     <view class="time-item {{select_time_index == index?'active':''}}" wx:for="{{hour_options}}" wx:key="hour_options" bind:tap="selectTimeHour" data-index="{{index}}" data-hour="{{item}}">{{item}}
-      <view style="font-size: 18rpx;">小时</view>
+      <view style="font-size: 20rpx;">小时</view>
     </view>
   </view>
+  <view class="time-items">
+    <view wx:if="{{roominfodata.morningPrice}}" class="time-item item2 {{select_time_index == 9991?'active':''}}" bind:tap="selectTimeHour" data-index="9991">
+      <view>上午场</view>
+      <view style="font-size: 20rpx;">9~13时</view>
+      <view class="price" style="font-size: 24rpx;color: red;">￥{{roominfodata.morningPrice}}</view>
+    </view>
+    <view wx:if="{{roominfodata.afternoonPrice}}" class="time-item item2 {{select_time_index == 9992?'active':''}}" bind:tap="selectTimeHour" data-index="9992">
+      <view>下午场</view>
+      <view style="font-size: 20rpx;">13~18时</view>
+      <view class="price" style="font-size: 24rpx;color: red;">￥{{roominfodata.afternoonPrice}}</view>
+    </view>
+    <view wx:if="{{roominfodata.nightPrice}}" class="time-item item2 {{select_time_index == 9993?'active':''}}" bind:tap="selectTimeHour" data-index="9993">
+      <view>夜间场</view>
+      <view style="font-size: 20rpx;">18~23时</view>
+      <view class="price" style="font-size: 24rpx;color: red;">￥{{roominfodata.nightPrice}}</view>
+    </view>
+    <view wx:if="{{roominfodata.txPrice}}" class="time-item item2 {{select_time_index == 9994?'active':''}}" bind:tap="selectTimeHour" data-index="9994">
+      <view>通宵场</view>
+      <view style="font-size: 20rpx;">23~8时</view>
+      <view class="price" style="font-size: 24rpx;color: red;">￥{{roominfodata.txPrice}}</view>
+    </view>
+  </view>
+
   <view class="timer">
     <text class="title">时间</text>
     <view class="time {{roominfodata.reserve ? 'active' : 'reserveFalse'}}" bind:tap="setTimeSelect">
@@ -160,7 +183,7 @@
       <text>{{view_end_time}}</text>
     </view>
   </view>
-  <view class="coupon">
+  <view class="coupon" wx:if="{{showCouponSelect}}">
     <view class="top" bind:tap="showCouponList">
       <view class="left">
         <iconfont name="cuxiaohuodong-youhuiquan" size="28"></iconfont>

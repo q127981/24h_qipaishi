@@ -56,6 +56,7 @@ Page({
     const storeId = wx.getStorageSync('global_store_id') || '';
     that.setData({
       storeId: storeId,
+      payMoney: '',
     });
     that.setData({
       isLogin: app.globalData.isLogin
@@ -354,6 +355,12 @@ Page({
   submitpay: function (res) {
     var that = this;
     if (app.globalData.isLogin) {
+      if (!that.data.payMoney) {
+        wx.showToast({
+          title: '请选择充值金额',
+          icon: 'none'
+        })
+      }
       wx.showModal({
         title: '提示',
         content: '您当前选择的门店为：\r\n【 ' + that.data.storeName + '】\r\n充值的余额或卡券仅该门店可用！确认充值吗？',

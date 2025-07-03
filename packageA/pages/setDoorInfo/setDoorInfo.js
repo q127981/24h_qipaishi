@@ -37,6 +37,10 @@ Page({
     timetype: '', //点击的开始还是结束
     currentDate: '12:00',
     showtimefalge: false,
+    morningPrice: 0,
+    afternoonPrice: 0,
+    nightPrice: 0,
+    txPrice: 0,
     filter(type, options) {
       if (type === 'minute') {
         return options.filter((option) => option % 30 === 0);
@@ -163,6 +167,10 @@ Page({
               minHour: info.data.minHour,
               // leadDay: info.data.leadDay,
               tongxiaoPrice: info.data.tongxiaoPrice,
+              morningPrice: info.data.morningPrice,
+              afternoonPrice: info.data.afternoonPrice,
+              nightPrice: info.data.nightPrice,
+              txPrice: info.data.txPrice,
               label: info.data.label,
               sortId: info.data.sortId,
               yunlabaSound: info.data.yunlabaSound,
@@ -283,7 +291,6 @@ Page({
     })
     console.log(this.data)
     if (this.data.roomName && this.data.roomCallName && this.data.type && this.data.price
-      && this.data.tongxiaoPrice
       && this.data.minHour && this.data.leadHour
       && this.data.label && this.data.fileList.length) {
       let that = this
@@ -309,7 +316,11 @@ Page({
           "minHour": that.data.minHour,
           "leadHour": that.data.leadHour,
           // "leadDay": that.data.leadDay,
-          "tongxiaoPrice": that.data.tongxiaoPrice,
+          // "tongxiaoPrice": that.data.tongxiaoPrice,//旧版本用的字段  已废弃
+          "morningPrice": that.data.morningPrice,
+          "afternoonPrice": that.data.afternoonPrice,
+          "nightPrice": that.data.nightPrice,
+          "txPrice": that.data.txPrice,
           "label": that.data.label,
           "imageUrls": imgs.join(","),
           "sortId": that.data.sortId,

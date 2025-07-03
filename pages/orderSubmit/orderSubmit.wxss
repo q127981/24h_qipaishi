@@ -253,6 +253,11 @@ page {
   font-weight: 600;
 }
 
+.popup .time-items .time-item.item2 {
+  margin-top: 20rpx;
+  width: 20% !important;
+}
+
 .popup .time-items .active {
   background: #5AAB6E;
   color: #fff !important;
@@ -455,7 +460,8 @@ page {
   margin-right: 1rpx;
   margin-left: 15rpx;
 }
-.popup .couponList{
+
+.popup .couponList {
   margin-bottom: 60rpx;
 }
 
@@ -799,7 +805,7 @@ page {
 }
 
 
-.popup .pkgList{
+.popup .pkgList {
   margin-bottom: 60rpx;
 }
 

@@ -76,15 +76,75 @@
     </view>
     <view class="tips">注：一般不设置押金。押金只能使用微信支付，即使团购下单也要微信支付额外的押金，押金在订单结束后自动退还</view>
     <view class="line">
+      <label>最低下单小时：</label>
+      <view class="right">
+        <view class="price">
+          <input model:value="{{minHour}}" type="number" placeholder="请输入1-12的数字" />小时
+        </view>
+      </view>
+    </view>
+    <view class="tips">注：设置用小时下单的，最少必须选择几个小时起</view>
+    <view class="line">
+      <label>提前开始时间：</label>
+      <view class="right">
+        <view class="price">
+          <input model:value="{{leadHour}}" type="number" placeholder="请输入1-12的数字" />小时
+        </view>
+      </view>
+    </view>
+    <view class="tips">注：比如原18:00开始的订单，允许提前6小时开始，那么12:00之后都可以提前开始消费，12:00之前就不可以提前开始</view>
+    <view class="baochang">
+      <view class="line">
+        <label>上午场价格：</label>
+        <view class="right">
+          <view class="price">
+            <input model:value="{{morningPrice}}" type="digit" placeholder="请输入" />
+            <text>元</text>
+          </view>
+        </view>
+      </view>
+      <view class="tips">注：上午场为9~13时，13:00结束订单，最长4个小时，设置为则0元不启用</view>
+      <view class="line">
+        <label>下午场价格：</label>
+        <view class="right">
+          <view class="price">
+            <input model:value="{{afternoonPrice}}" type="digit" placeholder="请输入" />
+            <text>元</text>
+          </view>
+        </view>
+      </view>
+      <view class="tips">注：下午场为13~18时，18:00结束订单，最长5个小时，设置为则0元不启用</view>
+      <view class="line">
+        <label>夜间场价格：</label>
+        <view class="right">
+          <view class="price">
+            <input model:value="{{nightPrice}}" type="digit" placeholder="请输入" />
+            <text>元</text>
+          </view>
+        </view>
+      </view>
+      <view class="tips">注：夜间场为18~23时，23:00结束订单，最长5个小时，设置为则0元不启用</view>
+      <view class="line">
+        <label>通宵场价格：</label>
+        <view class="right">
+          <view class="price">
+            <input model:value="{{txPrice}}" type="digit" placeholder="请输入" />
+            <text>元</text>
+          </view>
+        </view>
+      </view>
+      <view class="tips">注：通宵场为23~次日8时，次日8:00结束订单，最长9个小时，设置为则0元不启用</view>
+    </view>
+    <view class="line">
       <label>预付费价格：</label>
       <view class="right">
         <view class="price">
-          <input model:value="{{prePrice}}" type="digit" placeholder="请输入"/>
+          <input model:value="{{prePrice}}" type="digit" placeholder="请输入" />
           <text>元</text>
         </view>
       </view>
     </view>
-    <view class="tips">注：顾客可以选择先付钱消费，订单结束后按使用实际使用时间退款剩余费用。</view>
+    <view class="tips">注：顾客可以选择先付钱消费，订单结束后按使用实际使用时间退款剩余费用。设置为则0元不启用</view>
     <!-- <view class="line">
       <label>预付计费单位：</label>
       <view class="right">
@@ -99,58 +159,18 @@
       <label>预付最低消费：</label>
       <view class="right">
         <view class="price">
-          <input model:value="{{minCharge}}" type="digit" placeholder="请输入"/>
+          <input model:value="{{minCharge}}" type="digit" placeholder="请输入" />
           <text>元</text>
         </view>
       </view>
     </view>
     <view class="tips">注：最低消费门槛，即使只开始了1分钟，只要小于最低消费，均按此价格计费。0元表示不限制最低消费</view>
-    <!-- <view class="line">
-      <label>通宵价格：</label>
-      <view class="right">
-        <view class="price">
-          <input model:value="{{tongxiaoPrice}}" type="digit" placeholder="请输入" />
-          <text>元/场</text>
-        </view>
-      </view>
-    </view> -->
-    <!-- <view class="tips">注：通宵场价格不能为0，并且不能超过凌晨4点下单</view> -->
-    <view class="line">
-      <label>最低下单小时：</label>
-      <view class="right">
-        <view class="price">
-          <input model:value="{{minHour}}" type="text" placeholder="请输入1-12的数字" />小时
-        </view>
-      </view>
-    </view>
-    <view class="line">
-      <label>提前开始时间：</label>
-      <view class="right">
-        <view class="price">
-          <input model:value="{{leadHour}}" type="text" placeholder="请输入1-12的数字" />小时
-        </view>
-      </view>
-    </view>
-    <view class="tips">注：比如原18:00开始的订单，允许提前6小时开始，那么12:00之后都可以提前开始消费，12:00之前就不可以提前开始</view>
-    <!-- <view class="line">
-      <label>提前下单天数：</label>
-      <view class="right">
-        <input  style="width: 300rpx;" model:value="{{leadDay}}" type="text" placeholder="请输入1-5的数字"/>天
-      </view>
-    </view> -->
     <view class="line">
       <label>排序位置：</label>
       <view class="right">
         <input style="width: 300rpx;" model:value="{{sortId}}" type="number" placeholder="数字越小排名靠前" />
       </view>
     </view>
-    <!-- <view class="line">
-      <label>喇叭音量：</label>
-      <view class="right">
-        <input style="width: 400rpx;" model:value="{{yunlabaSound}}" type="number" placeholder="请输入，数字1-5" />
-      </view>
-    </view>
-    <view class="tips">注:旧版本云喇叭兼容字段，新设备可以不用填</view> -->
     <view class="line">
       <label>禁用时间：</label>
       <view class="right">

@@ -470,7 +470,7 @@ Page({
     //if (app.globalData.isLogin) 
     {
       http.request(
-        "/member/store/getStoreList",
+        "/member/store/getStoreListByAdmin",
         "1",
         "get", {
         },

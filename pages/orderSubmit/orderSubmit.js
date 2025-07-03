@@ -22,6 +22,7 @@ Page({
     orderTimeList: [],//房间已占用的订单列表
     hour_options: [],//小时选择选项列表
     couponList: [],//用户的优惠券列表
+    showCouponSelect: false,//是否显示优惠券选择
     submit_couponId: '',//选中使用的优惠券
     submit_couponName: '',//选择的优惠券名称
     select_coupon_index: -1,//选中的优惠券索引
@@ -206,7 +207,7 @@ Page({
             }
             var minHour = info.data.minHour;
             var hour_options = [];
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < 9; i++) {
               hour_options.push(minHour + i);
             }
             that.setData({
@@ -295,6 +296,7 @@ Page({
       that.getStoreBalance();
       that.setData({
         xiaoshiShow: true,
+        showCouponSelect: true,
         order_hour: that.data.roominfodata.minHour,
         submit_couponId: '',
         submit_couponName: '',
@@ -370,14 +372,43 @@ Page({
       xiaoshiShow: false
     })
   },
+  // 检查时间是否在某个场次的有效范围内
+  isInTimeSlot(hours) {
+    var that = this;
+    switch (that.data.select_time_index) {
+      case "9991": return hours >= 9 && hours < 13;   // 上午场
+      case "9992": return hours >= 13 && hours < 18;  // 下午场
+      case "9993": return hours >= 18 && hours < 23;  // 夜间场
+      case "9994": return hours >= 23 || hours < 8;   // 通宵场
+      default: 
+      console.log('不满足场次时间')
+      return false;
+    }
+  },
+  
   //点击的时间
   selectTimeHour: function (event) {
     var that = this;
     let atimeindex = event.currentTarget.dataset.index; //选中的时间索引
+    that.setData({
+      select_time_index: atimeindex,
+    })
+    // 首先检查是否是有效的场次ID
+    if (that.data.select_time_index > 999) {
+     that.MathBaochang();
+      return;
+    }
+    //如果之前点击的包场 现在又点了小时，那么还原成当前时间开始
+    if (that.data.select_time_index > 999) {
+      that.setData({
+        submit_begin_time: new Date()
+      })
+    }
     let hour = event.currentTarget.dataset.hour;
     console.log("点击的小时：", hour);
     that.setData({
-      select_time_index: atimeindex,
+      showCouponSelect: true,//允许选择优惠券
+      
       submit_couponId: '', //清空优惠券
       submit_couponName: '',
       order_hour: hour,
@@ -434,7 +465,7 @@ Page({
   MathPrice(payType, pkgId, preSubmit, wxPay) {
     var that = this;
     wx.showLoading({
-      title: '...',
+      title: '请稍等...',
     })
     http.request(
       "/member/order/preOrder",
@@ -449,6 +480,7 @@ Page({
         endTime: that.data.submit_end_time,
         preSubmit: preSubmit,
         wxPay: wxPay,
+        timeIndex: that.data.select_time_index,
       },
       app.globalData.userDatatoken.accessToken,
       "",
@@ -466,11 +498,20 @@ Page({
               payPrice: 0,
             });
           }
-        } else {
+        } else if (info.code == 1004004021) {
+          //设置开始时间为当前时间
+          that.setData({
+            submit_begin_time: new Date()
+          })
+          if (that.data.select_time_index < 999) {
+            that.MathDate();
+          }
+        }
+        else {
           wx.showToast({
             title: info.msg,
             icon: 'none',
-            duration: 1000,
+            duration: 1500,
             mask: true
           })
         }
@@ -571,6 +612,7 @@ Page({
         endTime: that.data.submit_end_time,
         preSubmit: preSubmit,
         wxPay: wxpay,
+        timeIndex: that.data.select_time_index,
       },
       app.globalData.userDatatoken.accessToken,
       "提交中...",
@@ -585,7 +627,7 @@ Page({
             //唤起微信支付
             if (info.data.payPrice > 0) {
               that.payMent(info);
-            }else{
+            } else {
               that.submitorder(payType, preSubmit);
             }
           } else {
@@ -774,6 +816,159 @@ Page({
       timeSelectShow: false
     })
   },
+  MathBaochang(){
+    var that = this;
+    that.setData({
+      showCouponSelect: false
+    })
+    let startDate = new Date();//选择的时间
+    let price = 0;//默认价格
+    if (that.data.submit_begin_time) {
+      startDate = new Date(that.data.submit_begin_time);
+    }
+    let endDate = null;
+    // 获取当前时间
+    const now = new Date();
+    const nowHours = now.getHours();
+    const nowMinutes = now.getMinutes();
+
+    // 获取选择日期的各部分
+    const selectedDay = new Date(startDate);
+    selectedDay.setHours(0, 0, 0, 0);
+    const startHours = startDate.getHours();
+    const isToday = selectedDay.getTime() === new Date(now).setHours(0, 0, 0, 0);
+    console.log('isToday:',isToday);
+    // 处理场次选择
+    if (that.data.select_time_index == 9991) {
+      // 上午场 9~13时
+      price = that.data.roominfodata.morningPrice;
+
+      if (isToday && that.isInTimeSlot(nowHours)) {
+        // 当天且当前时间在上午场范围内
+        startDate = new Date(now);
+        endDate = new Date(selectedDay);
+        endDate.setHours(13, 0, 0, 0);
+      } else {
+        // 非当天或当前时间不在上午场范围内，设置默认时间
+        startDate = new Date(selectedDay);
+        startDate.setHours(9, 0, 0, 0);
+        endDate = new Date(selectedDay);
+        endDate.setHours(13, 0, 0, 0);
+
+        // 当天但时间已过上午场，提示
+        if (isToday && nowHours >= 13) {
+          wx.showToast({
+            title: '当天上午场已结束',
+            icon: 'none'
+          });
+          return;
+        }
+      }
+
+    } else if (that.data.select_time_index == 9992) {
+      // 下午场 13~18时
+      price = that.data.roominfodata.afternoonPrice;
+
+      if (isToday && that.isInTimeSlot(nowHours)) {
+        // 当天且当前时间在下午场范围内(14:30符合)
+        
+        startDate = new Date(now);
+        endDate = new Date(selectedDay);
+        endDate.setHours(18, 0, 0, 0);
+      } else {
+        // 非当天或当前时间不在下午场范围内，设置默认时间
+        startDate = new Date(selectedDay);
+        startDate.setHours(13, 0, 0, 0);
+        endDate = new Date(selectedDay);
+        endDate.setHours(18, 0, 0, 0);
+
+        // 当天但时间已过下午场，提示
+        if (isToday && nowHours >= 18) {
+          wx.showToast({
+            title: '当天下午场已结束',
+            icon: 'none'
+          });
+          return;
+        }
+      }
+
+    } else if (that.data.select_time_index == 9993) {
+      // 夜间场 18~23时
+      price = that.data.roominfodata.nightPrice;
+      if (isToday && that.isInTimeSlot(nowHours)) {
+        // 当天且当前时间在夜间场范围内
+        startDate = new Date(now);
+        endDate = new Date(selectedDay);
+        endDate.setHours(23, 0, 0, 0);
+      } else {
+        // 非当天或当前时间不在夜间场范围内，设置默认时间
+        startDate = new Date(selectedDay);
+        startDate.setHours(18, 0, 0, 0);
+        endDate = new Date(selectedDay);
+        endDate.setHours(23, 0, 0, 0);
+
+        // 当天但时间已过夜间场，提示
+        if (isToday && nowHours >= 23) {
+          wx.showToast({
+            title: '当天夜间场已结束',
+            icon: 'none'
+          });
+          return;
+        }
+      }
+
+    } else if (that.data.select_time_index == 9994) {
+      // 通宵场 23~次日8时
+      price = that.data.roominfodata.txPrice;
+
+      // 获取用户选择的日期（不自动加1天）
+      const selectedDayStart = new Date(startDate);
+      selectedDayStart.setHours(0, 0, 0, 0);
+
+      // 结束日期（需要判断是否跨日）
+      const endDay = new Date(selectedDayStart);
+
+      // 处理开始时间
+      if (startDate.getHours() < 23) {
+        // 如果选择时间<23点，强制设置为当天23:00开始
+        startDate = new Date(selectedDayStart);
+        startDate.setHours(23, 0, 0, 0);
+        // 结束时间设置为次日8:00
+        endDay.setDate(selectedDayStart.getDate() + 1);
+        endDate = new Date(endDay);
+        endDate.setHours(8, 0, 0, 0);
+      } else {
+        // 如果选择时间>=23点，保持原开始时间
+        // 结束时间需要判断：
+        // 如果开始时间是23:00-23:59，则结束时间是次日8:00
+        // 如果开始时间是0:00-4:00，则结束时间是当日8:00
+        if (startDate.getHours() >= 23) {
+          endDay.setDate(selectedDayStart.getDate() + 1);
+        }
+        endDate = new Date(endDay);
+        endDate.setHours(8, 0, 0, 0);
+      }
+
+      // 特殊处理：如果开始时间在4:00-8:00之间，不允许下单
+      if (startDate.getHours() >= 4 && startDate.getHours() < 8) {
+        wx.showToast({
+          title: '通宵场即将结束，无法下单',
+          icon: 'none'
+        });
+        return;
+      }
+    }
+    that.setData({
+      submit_couponId: '', //清空优惠券
+      submit_couponName: '',//清空优惠券名称
+      submit_begin_time: that.formatDate(startDate.getTime()).text,
+      submit_end_time: that.formatDate(endDate.getTime()).text,
+      view_begin_time: that.formatViewDate(startDate.getTime()).text,
+      view_end_time: that.formatViewDate(endDate.getTime()).text,
+    });
+    that.MathPrice(1, null, false, false);//检查时间占用
+  },
+
   conTimeSelect(e) {
     let that = this;
     let index = e.currentTarget.dataset.index;
@@ -784,9 +979,14 @@ Page({
           timeSelectShow: false,
           submit_begin_time: timeSelect.date,
         })
-        that.MathDate();
-        if (that.data.typeIndex == 0) {
-          that.MathPrice(1, null, false, false);
+        if(that.data.select_time_index>999){
+          that.MathBaochang();
+          return;
+        }else{
+          that.MathDate();
+          if (that.data.typeIndex == 0) {
+            that.MathPrice(1, null, false, false);
+          }
         }
       } else {
         wx.showToast({
@@ -942,7 +1142,7 @@ Page({
                   pkgId: pkgId,
                   order_hour: order_hour,
                 })
-                that.MathDate(new Date(that.data.submit_begin_time));
+                that.MathDate();
               }
               r();
             } else {

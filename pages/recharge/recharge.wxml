@@ -45,7 +45,7 @@
         <view class="num">
           ¥<text>{{item.payMoney}}</text>
         </view>
-       
+
       </view>
       <view class="noRules" wx:if="{{isLogin}}">
         <view wx:if="{{discount.length==0}}" class="noRules">
@@ -76,7 +76,7 @@
       <view class="line">6、若需在超过所购包时卡的可用时间范围外继续消费，则可以按照订单原件支付费用进行订单续费;</view>
       <view class="line">7、本活动最终解释权归商家所有;</view>
     </view>
-    <button class="bg-primary paybtn {{isIpx?'fix-iphonex-button':''}}" disabled="{{payMoney==''}}" wx:if="{{modeIndex === 0}}" bind:tap="submitpay">立即充值</button>
+    <button class="bg-primary paybtn {{isIpx?'fix-iphonex-button':''}}" disabled="{{payMoney==''}}" wx:if="{{discount&&discount.length!=0}}" bind:tap="submitpay">立即充值</button>
     <button class="bg-primary paybtn {{isIpx?'fix-iphonex-button':''}}" disabled="{{selectedPackIndex==-1}}" wx:if="{{modeIndex === 1}}" bind:tap="showConfirm">立即支付</button>
   </view>
 </block>

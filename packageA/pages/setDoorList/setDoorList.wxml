@@ -39,9 +39,16 @@
         </van-divider> -->
         <view class="btns">
           <view class="line2">
-            <view class="btn warning" bindtap="disableRoom" data-roomid="{{item.roomId}}">
-              启用禁用
-            </view>
+            <block wx:if="{{item.status==0}}">
+              <view class="btn yellow" bindtap="disableRoom" data-roomid="{{item.roomId}}">
+                启用房间
+              </view>
+            </block>
+            <block wx:else="">
+              <view class="btn warning" bindtap="disableRoom" data-roomid="{{item.roomId}}">
+                禁用房间
+              </view>
+            </block>
             <navigator class="btn warning" url="../setDoorInfo/setDoorInfo?roomId={{item.roomId}}&&storeId={{storeId}}">
               修改信息
             </navigator>
