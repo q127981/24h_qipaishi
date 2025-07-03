@@ -142,6 +142,24 @@
               </view>
             </view>
           </view>
+          <view class="timeIndexPrice">
+            <view class="index" wx:if="{{item.morningPrice}}">
+            上午场
+            <text class="price"> ￥{{item.morningPrice}}</text>
+            </view>
+            <view class="index" wx:if="{{item.afternoonPrice}}">
+            下午场
+            <text class="price"> ￥{{item.afternoonPrice}}</text>
+            </view>
+            <view class="index" wx:if="{{item.nightPrice}}">
+            夜间场
+            <text class="price"> ￥{{item.nightPrice}}</text>
+            </view>
+            <view class="index" wx:if="{{item.txPrice}}">
+            通宵场
+            <text class="price"> ￥{{item.txPrice}}</text>
+            </view>
+          </view>
           <view class="foot">
             <view class="foot-top">
               <view class="labels">

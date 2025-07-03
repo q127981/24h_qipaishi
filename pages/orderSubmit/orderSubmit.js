@@ -300,6 +300,8 @@ Page({
         order_hour: that.data.roominfodata.minHour,
         submit_couponId: '',
         submit_couponName: '',
+        select_pkg_index: 0,
+        pkgId: '',
       })
       that.MathDate();
       that.MathPrice(1, null, false, false);
@@ -311,6 +313,8 @@ Page({
         payPrice: 0,
         submit_couponId: '',
         submit_couponName: '',
+        select_pkg_index: 0,
+        pkgId: '',
       })
     } else if (index === "2") {
       //获取一下账户余额
@@ -363,6 +367,8 @@ Page({
         payPrice: that.data.roominfodata.prePrice,
         yajinShow: true,
         order_hour: 0,
+        select_pkg_index: 0,
+        pkgId: '',
       })
       that.MathDate();
     }

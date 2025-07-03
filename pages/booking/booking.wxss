@@ -377,6 +377,23 @@ page {
   background: #bebebe;
   color: #fff;
 }
+.lists .item .timeIndexPrice {
+  display:  flex;
+  justify-content: space-around;
+  margin: 10rpx 0rpx;
+}
+.lists .item .timeIndexPrice .index {
+  font-size: 22rpx;
+  /* border: 1rpx  solid #fd4a33; */
+  border-radius: 5rpx;
+  padding: 5rpx 10rpx;
+  background-color: #2fe75d31;
+  /* color: #fd4a33; */
+}
+.lists .item .timeIndexPrice .index .price {
+  color: #fd4a33;
+}
+
 
 .lists .item .foot {
   margin-top: 10rpx;
