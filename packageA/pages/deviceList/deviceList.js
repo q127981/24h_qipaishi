@@ -655,7 +655,7 @@ Page({
             console.log('setRemoteUnlockSwitchState')
             wx.hideLoading();
             if (res.errorCode === 0) {
-              that.postLockData(res.lockData);
+              that.postLockData(res.lockData, that.data.lockSn);
               wx.showToast({
                 title: '设置成功',
                 icon: 'success'
@@ -681,13 +681,14 @@ Page({
       })
     }
   },
-  postLockData(upData) {
+  postLockData(upData, sn) {
     var that = this;
     http.request(
       "/member/store/updateRoomLock",
       "1",
       "post", {
       "upData": upData,
+      "sn": sn,
     },
       app.globalData.userDatatoken.accessToken,
       "",
@@ -768,7 +769,7 @@ Page({
       }
     })
   },
-  initLock: function(){
+  initLock: function () {
     wx.showModal({
       title: '提示',
       content: '仅当门锁发出‘请添加管理员’时，门锁才可以被初始化！一般用于第一次安装锁使用，正常使用的门锁不需要初始化！',
@@ -783,7 +784,7 @@ Page({
               if (res.cancel) {
               }
               if (res.confirm) {
-                
+
               }
             }
           })
