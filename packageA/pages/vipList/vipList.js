@@ -325,4 +325,47 @@ Page({
       showAdd: true
     })
   },
+  deleteVip: function (e) {
+    var that = this;
+    let id = e.currentTarget.dataset.id
+    wx.showModal({
+      title: '提示',
+      content: '您是否确认删除此会员信息？删除后将清空所有积分，不可恢复！',
+      complete: (res) => {
+        if (res.cancel) {
+        }
+        if (res.confirm) {
+          http.request(
+            "/member/manager/deleteVip",
+            "1",
+            "post", {
+            "userId": id,
+            "storeId": that.data.storeId,
+          },
+            app.globalData.userDatatoken.accessToken,
+            "提交中",
+            function success(info) {
+              if (info.code == 0) {
+                wx.showToast({
+                  title: '操作成功',
+                })
+                that.getListData('refresh')
+              } else {
+                wx.showModal({
+                  content: info.msg,
+                  showCancel: false,
+                })
+              }
+            },
+            function fail(info) {
+              wx.showModal({
+                content: info.msg,
+                showCancel: false,
+              })
+            }
+          )
+        }
+      }
+    })
+  },
 })

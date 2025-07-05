@@ -177,15 +177,19 @@ page {
   position: absolute;
   bottom: 12rpx;
   right: 20rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .btn-more {
   background: var(--main-color);
-  width: 120rpx;
+  width: 100rpx;
   height: 60rpx;
   line-height: 60rpx;
-  font-size: 24rpx;
+  font-size: 22rpx;
   color: #fff;
+  margin-right: 20rpx;
 }
 
 .bottom {

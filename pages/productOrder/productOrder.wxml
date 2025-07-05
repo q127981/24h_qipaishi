@@ -98,9 +98,9 @@
                 <!-- </view> -->
 
                 <view class="bottom-button" wx:if="{{item.status == 0 || item.status == 1}}">
-                  <button size="mini" class="to-pay" bind:tap="tpPay" wx:if="{{item.status == 0 && !manager}}" data-orderId="{{item.orderId}}">支付</button>
-                  <button size="mini" class="cancel-button" bind:tap="showCancel" data-orderId="{{item.orderId}}">取消</button>
-                  <button size="mini" class="to-pay" bind:tap="showFinish" wx:if="{{item.status == 1 && manager}}" data-orderId="{{item.orderId}}">完成</button>
+                  <button size="mini" class="to-pay" catch:tap="tpPay" wx:if="{{item.status == 0 && !manager}}" data-orderId="{{item.orderId}}">支付</button>
+                  <button size="mini" class="cancel-button" catch:tap="showCancel" data-orderId="{{item.orderId}}">取消</button>
+                  <button size="mini" class="to-pay" catch:tap="showFinish" wx:if="{{item.status == 1 && manager}}" data-orderId="{{item.orderId}}">完成</button>
                 </view>
               </view>
             </view>

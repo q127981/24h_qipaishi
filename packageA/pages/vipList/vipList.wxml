@@ -32,7 +32,8 @@
         </view>
         <view class="button-wrapper">
           <!-- 添加一个包裹按钮的容器 -->
-          <button class="btn-more" bindtap="edit" data-info="{{item}}">修改等级</button>
+          <button class="btn-more" bind:tap="edit" data-info="{{item}}">修改</button>
+          <iconfont name="shanchu" bind:tap="deleteVip" data-id="{{item.id}}"></iconfont>
         </view>
       </view>
     </view>
@@ -54,7 +55,7 @@
       <van-field label="新等级：" placeholder="请选择新会员等级">
         <picker slot="input" bindchange="bindVipChange" value="{{index}}" range-key="text" range="{{vipList}}">
           <view class="picker">
-            <input type="text" disabled placeholder="请选择会员等级" placeholder-class="plh" value="{{vipList[index].text}}" />
+            <input type="text" disabled placeholder="请选择新会员等级" placeholder-class="plh" value="{{vipList[index].text}}" />
             <van-icon name="arrow-down" />
           </view>
         </picker>

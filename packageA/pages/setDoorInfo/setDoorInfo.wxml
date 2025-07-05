@@ -103,7 +103,7 @@
           </view>
         </view>
       </view>
-      <view class="tips">注：上午场为9~13时，13:00结束订单，最长4个小时，设置为则0元不启用</view>
+      <view class="tips">注：上午场为9~13时，13:00结束订单，最长4个小时，设置为0元则不启用</view>
       <view class="line">
         <label>下午场价格：</label>
         <view class="right">
@@ -113,7 +113,7 @@
           </view>
         </view>
       </view>
-      <view class="tips">注：下午场为13~18时，18:00结束订单，最长5个小时，设置为则0元不启用</view>
+      <view class="tips">注：下午场为13~18时，18:00结束订单，最长5个小时，设置为0元则不启用</view>
       <view class="line">
         <label>夜间场价格：</label>
         <view class="right">
@@ -123,7 +123,7 @@
           </view>
         </view>
       </view>
-      <view class="tips">注：夜间场为18~23时，23:00结束订单，最长5个小时，设置为则0元不启用</view>
+      <view class="tips">注：夜间场为18~23时，23:00结束订单，最长5个小时，设置为0元则不启用</view>
       <view class="line">
         <label>通宵场价格：</label>
         <view class="right">
@@ -133,7 +133,7 @@
           </view>
         </view>
       </view>
-      <view class="tips">注：通宵场为23~次日8时，次日8:00结束订单，最长9个小时，设置为则0元不启用</view>
+      <view class="tips">注：通宵场为23~次日8时，次日8:00结束订单，最长9个小时，设置为0元则不启用</view>
     </view>
     <view class="line">
       <label>预付费价格：</label>
@@ -144,7 +144,7 @@
         </view>
       </view>
     </view>
-    <view class="tips">注：顾客可以选择先付钱消费，订单结束后按使用实际使用时间退款剩余费用。设置为则0元不启用</view>
+    <view class="tips">注：顾客可以选择先付钱消费，订单结束后按使用实际使用时间退款剩余费用。设置为0元则不启用</view>
     <!-- <view class="line">
       <label>预付计费单位：</label>
       <view class="right">
