@@ -59,7 +59,6 @@
             <text class="priceText">,押金￥{{roominfodata.deposit}}</text>
           </block>
         </view>
-
       </view>
       <view class="btns">
         <view class="btn" bind:tap="handleExchange">切换</view>
@@ -123,8 +122,8 @@
   </view>
   <view class="content">
     <view class="title">消费须知</view>
-    <view class="line">1.订单开始前可以自助在订单详情更换房间</view>
-    <view class="line">2.下单5分钟内可以取消订单，超时联系客服处理</view>
+    <view class="line">1.订单开始前可以在订单详情更换房间</view>
+    <view class="line">2.订单未开始下单5分钟内可取消，超时联系客服处理</view>
     <view class="line">3.当您迟到消费，订单会按原预定时间自动开始计费</view>
     <view class="line">4.深夜消费时，请您放低音量，不要影响邻居休息</view>
     <view class="line">5.有任何问题可以联系门店客服进行处理</view>

@@ -155,6 +155,10 @@
             <iconfont name="tongjitu" size="32" color="#5AAB6E"></iconfont>
             <view>数据统计</view>
           </navigator>
+          <navigator class="item" url="/packageA/pages/addLock/addLock">
+            <iconfont name="e23lock" size="32" color="#5AAB6E"></iconfont>
+            <text>门锁配置</text>
+          </navigator>
         </view>
         <view class="control" wx:else>
           <!-- 保洁端 -->
@@ -174,5 +178,5 @@
       </view>
     </block>
   </view>
-  <view class="version">版本:25.07.05</view>
+  <view class="version">版本:25.07.20</view>
 </view>

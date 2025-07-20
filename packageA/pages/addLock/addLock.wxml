@@ -1,5 +1,8 @@
 <!--packageA/pages/addLock/addLock.wxml-->
 <view class="container">
+  <view style="font-size: 36rpx;text-align: center;font-weight: bold;">
+  无编码的锁、网关打不开的锁，可在此处进行初始化配置，初始化前确保门锁处于配置模式
+  </view>
   <view class="info">
     <view class="line">1. 打开手机蓝牙设置开关,并靠近门锁</view>
     <view class="line">2. 输入从物联网平台获得的智能锁编号</view>
@@ -23,7 +26,7 @@
           {{item.deviceName}}
           <text wx:if="{{!item.isSettingMode}}">(锁已注册)</text>
         </view>
-        <view class="btn" bind:tap="initLock" wx:if="{{item.isSettingMode}}">初始化</view>
+        <view class="btn" bind:tap="initLock" wx:if="{{item.isSettingMode}}" data-index="{{index}}">初始化</view>
       </view>
     </view>
   </view>

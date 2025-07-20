@@ -30,7 +30,7 @@ page {
 
 .container .top {
   background-color: #fff;
-  padding: 0rpx 30rpx 20rpx 30rpx;
+  padding: 0rpx 10rpx 20rpx 10rpx;
   border-radius: 20rpx;
 }
 
@@ -53,7 +53,7 @@ page {
 }
 
 .container .roomInfo .right .roomName {
-  font-size: 34rpx;
+  font-size: 32rpx;
   font-weight: bold;
   display: flex;
   /* color: var(--main-color); */
@@ -101,7 +101,7 @@ page {
 }
 
 .container .roomInfo .btns {
-  width: 120rpx;
+  width: 100rpx;
 }
 
 .container .roomInfo .btns .btn {
@@ -611,13 +611,15 @@ page {
   text-align: left;
   margin-left: 30rpx;
   font-size: 30rpx;
-  color: #f19b1a;
-  white-space: nowrap;
-  /* 确保文本在一行内显示 */
+  color: #d88d1b;
+  display: -webkit-box;
+  /* 使用 Flexbox 布局 */
+  -webkit-line-clamp: 2;
+  /* 最多显示两行 */
+  -webkit-box-orient: vertical;
+  /* 设置垂直方向 */
   overflow: hidden;
-  /* 隐藏超出容器的文本 */
   text-overflow: ellipsis;
-  /* 使用省略号表示被截断的文本 */
 }
 
 .reserveFalse {

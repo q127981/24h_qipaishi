@@ -47,6 +47,7 @@ Page({
     dayIndex: 0,//选择的日期组件
     timeSelectList: [],//时间选择列表
     pkgId: '',//选择的套餐
+    nightLong: false,//旧版本是否通宵场的判断条件
   },
   /**
    * 生命周期函数--监听页面加载
@@ -289,7 +290,7 @@ Page({
     let index = e.currentTarget.dataset.index;
     console.log('点击了:', index);
     that.setData({
-      typeIndex: index
+      typeIndex: index,
     })
     if (index === "0") {
       //获取一下账户余额
@@ -302,6 +303,7 @@ Page({
         submit_couponName: '',
         select_pkg_index: 0,
         pkgId: '',
+        nightLong: false
       })
       that.MathDate();
       that.MathPrice(1, null, false, false);
@@ -317,6 +319,9 @@ Page({
         pkgId: '',
       })
     } else if (index === "2") {
+      that.setData({
+        nightLong: false
+      })
       //获取一下账户余额
       that.getStoreBalance();
       if (!that.data.pkgList) {
@@ -348,6 +353,9 @@ Page({
       }
     } else if (index === "3") {
       //获取一下账户余额
+      that.setData({
+        nightLong: false
+      })
       that.getStoreBalance();
       if (!that.data.roominfodata.prePrice) {
         wx.showModal({
@@ -486,6 +494,7 @@ Page({
         endTime: that.data.submit_end_time,
         preSubmit: preSubmit,
         wxPay: wxPay,
+        nightLong: that.data.nightLong,
         timeIndex: that.data.select_time_index,
       },
       app.globalData.userDatatoken.accessToken,
@@ -618,6 +627,7 @@ Page({
         endTime: that.data.submit_end_time,
         preSubmit: preSubmit,
         wxPay: wxpay,
+        nightLong: that.data.nightLong,
         timeIndex: that.data.select_time_index,
       },
       app.globalData.userDatatoken.accessToken,
@@ -792,18 +802,31 @@ Page({
         "",
         function success(info) {
           if (info.code == 0) {
-            var order_hour = info.data.hours;
+            let order_hour = info.data.hours;
+            let title = info.data.title;
+            let nightLong = false;
+            if(order_hour === 99){
+              //旧版本的通宵场
+              nightLong = true;
+              order_hour = that.data.roominfodata.txHour;
+            }
             that.setData({
-              groupPayTitle: info.data.title,
+              groupPayTitle: title,
               order_hour: order_hour,
               payPrice: 0,
+              nightLong: nightLong,
             });
             that.MathDate();
           } else {
-            wx.showToast({
-              title: info.msg,
-              icon: "none",
-            });
+            that.setData({
+              groupPayTitle: info.msg
+            })
+            // wx.showToast({
+            //   title: info.msg,
+            //   icon: "none",
+            //   duration: 1500,
+            //   mask: true
+            // });
           }
         },
         function fail(info) { }
@@ -829,6 +852,7 @@ Page({
     })
     let startDate = new Date();//选择的时间
     let price = 0;//默认价格
+    let order_hour = 0;
     if (that.data.submit_begin_time) {
       startDate = new Date(that.data.submit_begin_time);
     }
@@ -848,7 +872,7 @@ Page({
     if (that.data.select_time_index == 9991) {
       // 上午场 9~13时
       price = that.data.roominfodata.morningPrice;
-
+      order_hour = 4;
       if (isToday && that.isInTimeSlot(nowHours)) {
         // 当天且当前时间在上午场范围内
         startDate = new Date(now);
@@ -874,7 +898,7 @@ Page({
     } else if (that.data.select_time_index == 9992) {
       // 下午场 13~18时
       price = that.data.roominfodata.afternoonPrice;
-
+      order_hour = 5;
       if (isToday && that.isInTimeSlot(nowHours)) {
         // 当天且当前时间在下午场范围内(14:30符合)
         
@@ -900,6 +924,7 @@ Page({
 
     } else if (that.data.select_time_index == 9993) {
       // 夜间场 18~23时
+      order_hour = 5;
       price = that.data.roominfodata.nightPrice;
       if (isToday && that.isInTimeSlot(nowHours)) {
         // 当天且当前时间在夜间场范围内
@@ -926,7 +951,7 @@ Page({
     } else if (that.data.select_time_index == 9994) {
       // 通宵场 23~次日8时
       price = that.data.roominfodata.txPrice;
-
+      order_hour = 9;
       // 获取用户选择的日期（不自动加1天）
       const selectedDayStart = new Date(startDate);
       selectedDayStart.setHours(0, 0, 0, 0);
@@ -967,6 +992,7 @@ Page({
     that.setData({
       submit_couponId: '', //清空优惠券
       submit_couponName: '',//清空优惠券名称
+      order_hour: order_hour,
       submit_begin_time: that.formatDate(startDate.getTime()).text,
       submit_end_time: that.formatDate(endDate.getTime()).text,
       view_begin_time: that.formatViewDate(startDate.getTime()).text,
@@ -1026,6 +1052,7 @@ Page({
           endTime: that.data.submit_end_time,
           payType: payType,
           groupPayNo: that.data.groupPayNo,
+          nightLong: that.data.nightLong,
           orderNo: that.data.orderNo,
           preSubmit: preSubmit
         },
