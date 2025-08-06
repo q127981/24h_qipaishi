@@ -2,7 +2,7 @@ const app = getApp()
 var http = require('../../utils/http');
 var lock = require('../../utils/lock.js');
 var Moment = require('../../lib/moment.js');
-
+import drawQrcode from '../../utils/weapp.qrcode.min.js'
 // const { TABLE } = require('XrFrame/core/Component');
 
 Page({
@@ -52,6 +52,7 @@ Page({
     modeIndex: 0,
     scrollPosition: 0,
     select_pkg_index: -1,
+    showQrModal: false,
   },
 
   /**
@@ -578,7 +579,24 @@ Page({
         function success(info) {
           if (info.code == 0) {
             console.log('锁定微信支付订单');
-            that.payMent(pay);//微信支付
+            if(pay.data.prePayTn){
+              wx.openEmbeddedMiniProgram({
+                appId: pay.data.appId,
+                envVersion: 'release',
+                path: pay.data.prePayTn,
+                success:(res)=>{
+                  console.log(res)
+                },
+                fail:(err)=>{
+                  wx.showToast({
+                    title: err,
+                    icon: 'none'
+                  })
+                }
+              })
+            }else{
+              that.payMent(pay);
+            }
           } else {
             wx.showModal({
               title: '温馨提示',
@@ -1387,5 +1405,29 @@ Page({
       }
     });
   },
-
+  showOrderQr(e) {
+    const orderNo = e.currentTarget.dataset.no;
+    this.setData({ showQrModal: true }, () => {
+      // 使用 nextTick 确保 DOM 渲染完成
+      wx.nextTick(() => {
+        drawQrcode({
+          width: 200,  
+          height: 200,
+          canvasId: 'myQrcode2',
+          text: "houey_" + orderNo,
+          // x: 20,
+          // y: 20,
+          callback: (e) => {
+            console.log(e);
+          }
+        });
+      });
+    });
+  },
+  closeModal() {
+    this.setData({ showQrModal: false });
+  },
+  preventTouch() {
+    // 空函数即可阻止页面滚动
+  },
 })

@@ -333,7 +333,24 @@ Page({
         function success(info) {
           if (info.code == 0) {
             wx.hideLoading()
-            that.payMent(info);
+            if(info.data.prePayTn){
+              wx.openEmbeddedMiniProgram({
+                appId: info.data.appId,
+                envVersion: 'release',
+                path: info.data.prePayTn,
+                success:(res)=>{
+                  console.log(res)
+                },
+                fail:(err)=>{
+                  wx.showToast({
+                    title: err,
+                    icon: 'none'
+                  })
+                }
+              })
+            }else{
+              that.payMent(info);
+            }
           }
         }
       );

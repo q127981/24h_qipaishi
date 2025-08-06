@@ -15,16 +15,7 @@
         <view class="color-primary">总订单数</view>
         <view class="price">{{topinfo.totalOrder}}</view>
       </view>
-      <!-- <view class="item">
-        <view class="color-primary">已提现(元)</view>
-        <view class="price">{{topinfo.withdrawalMoney}}</view>
-      </view> -->
     </view>
-    <!-- <view class="btns">
-      <button hover-class="button-click"  class="btn bg-primary" bindtap="cashOut">申请提现</button>
-      <navigator class="btn record" url="../cashOut/cashOut">提现记录</navigator>
-    </view> -->
-
   </view>
   <view class="section total">
     <view class="box">
@@ -41,16 +32,9 @@
           <view class="label color-primary">代下单</view>
           <view class="price2">{{businfo.adminMoney}}</view>
         </view>
-        <view class="item">
-          <view class="label color-primary">美团预订</view>
-          <view class="price2">{{businfo.ydMoney}}</view>
-        </view>
       </view>
       <view class="line">
-        <view class="item">
-          <view class="label color-primary">微信</view>
-          <view class="price2">{{businfo.money}}</view>
-        </view>
+      
         <view class="item">
           <view class="label color-primary">美团</view>
           <view class="price2">{{businfo.mtMoney}}</view>
@@ -64,12 +48,20 @@
           <view class="price2">{{businfo.ksMoney}}</view>
         </view>
       </view>
-
-
-      <!-- <view class="item">
-        <view class="label">下单人数</view>
-        <view class="price">{{businfo.memberCount}}</view>
-      </view> -->
+      <view class="line">
+        <view class="item">
+          <view class="label color-primary">微信支付</view>
+          <view class="price2">{{businfo.money}}</view>
+        </view>
+        <view class="item">
+          <view class="label color-primary">美团预订</view>
+          <view class="price2">{{businfo.ydMoney}}</view>
+        </view>
+        <view class="item">
+          <view class="label color-primary">平台订单</view>
+          <view class="price2">{{businfo.plMoney}}</view>
+        </view>
+      </view>
     </view>
     <view class="times">
       <view class="{{!isDefine && sdt==date?'item active':'item'}}">

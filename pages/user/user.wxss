@@ -304,3 +304,119 @@
   text-align: center;
   font-weight: 600;
 }
+/* ===== 遮罩层 ===== */
+.expire-mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn .25s ease-out;
+}
+
+/* ===== 弹窗主体 ===== */
+.expire-mask .expire-modal {
+  width: 680rpx;
+  max-height: 78vh;
+  background: #ffffff;
+  border-radius: 24rpx;
+  box-shadow: 0 12rpx 40rpx rgba(0, 0, 0, .18);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ===== 标题 ===== */
+.expire-mask .expire-title {
+  padding: 36rpx 24rpx;
+  font-size: 34rpx;
+  font-weight: 600;
+  text-align: center;
+  color: #333;
+  border-bottom: 1rpx solid #f0f0f0;
+  background: #fafafa;
+}
+.expire-mask .expire-info {
+  font-size: 34rpx;
+  font-weight: 600;
+  text-align: center;
+  color: rgb(238, 36, 36);
+}
+/* ===== 滚动列表 ===== */
+.expire-mask .expire-list {
+  flex: 1;
+  padding: 0 32rpx;
+  box-sizing: border-box;
+}
+
+/* ===== 单条门店信息 ===== */
+.expire-mask .expire-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 0;
+  border-bottom: 1rpx solid #f7f7f7;
+  font-size: 30rpx;
+  line-height: 1.45;
+}
+
+/* 左侧类型+名称（超长省略号） */
+.expire-mask .expire-item .name-box {
+  flex: 1;
+  min-width: 0;            /* 必须，配合 text-overflow */
+  margin-right: 16rpx;
+}
+.expire-mask .expire-item .name-type,
+.expire-mask .expire-item .name {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.expire-mask .expire-item .name-type {
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 4rpx;
+}
+.expire-mask .expire-item .name {
+  font-weight: 500;
+  color: #333;
+}
+
+/* 右侧日期 */
+.expire-mask .expire-item .date {
+  flex-shrink: 0;
+  font-size: 26rpx;
+  color: #ff4757;
+}
+
+/* ===== 底部按钮 ===== */
+.expire-mask .expire-footer {
+  padding: 32rpx;
+  display: flex;
+  justify-content: center;
+}
+.expire-mask .btn {
+  width: 240rpx;
+  height: 76rpx;
+  line-height: 76rpx;
+  text-align: center;
+  font-size: 30rpx;
+  border-radius: 38rpx;
+  border: none;
+}
+.expire-mask .primary {
+  background: linear-gradient(135deg, #07c160, #06a050);
+  color: #fff;
+}
+.expire-mask .primary:active {
+  opacity: .9;
+}
+
+/* ===== 入场动画 ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(.95); }
+  to   { opacity: 1; transform: scale(1); }
+}

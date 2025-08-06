@@ -42,10 +42,6 @@
           </view>
         </view>
       </view>
-      <view class="info-line">
-        <text class="bold">下单时间：</text>
-        <text>{{OrderInfodata.createTime}}</text>
-      </view>
       <view class="info-line" bind:tap="copyOrderNo" data-order="{{OrderInfodata.orderNo}}">
         <text class="bold">订单编号：</text>
         <text>{{OrderInfodata.orderNo}}</text>
@@ -73,7 +69,16 @@
         <text class="bold">订单退款：</text>
         <text>¥ {{OrderInfodata.refundPrice}}</text>
       </view>
+      <view class="info-line">
+        <text class="bold">下单时间：</text>
+        <text>{{OrderInfodata.createTime}}</text>
+      </view>
     </view>
+    <block wx:if="{{OrderInfodata.status==0||OrderInfodata.status==1}}">
+      <view class="status-tag" catch:tap="showOrderQr" data-no="{{OrderInfodata.orderNo}}">
+        <iconfont name="erweima1" size="60"></iconfont>
+      </view>
+    </block>
   </view>
   <view class="order-container">
     <view class="wifi-container">
@@ -509,3 +514,23 @@
     </view>
   </view>
 </van-dialog>
+
+
+<view wx:if="{{showQrModal}}" class="modal-mask" catchtouchmove="preventTouch">
+  <view class="modal-content" catchtap="true">
+    <!-- 标题 -->
+    <view class="modal-title">请将二维码对准识别区</view>
+
+    <!-- 二维码容器，确保强制居中 -->
+    <view class="qrcode-canvas-wrapper">
+      <canvas class="qrcode-canvas" canvas-id="myQrcode2"></canvas>
+    </view>
+
+    <!-- 操作提示 -->
+    <view class="guide-section">
+      <image src="/img/zhiyin.jpg" class="guide-image" mode="aspectFit" />
+    </view>
+    <!-- 关闭按钮 -->
+    <button class="close-btn" bindtap="closeModal">关闭</button>
+  </view>
+</view>

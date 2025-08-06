@@ -4,23 +4,28 @@
     <van-dropdown-item value="{{ type }}" options="{{ types }}"  bind:change="typeDropdown" />
   </van-dropdown-menu>
 </view>
+
 <view class="container" style="{{isSelect?'padding-bottom:0;':isIpx?'padding-bottom:188rpx':'padding-bottom:120rpx'}}">
 <block wx:if="{{list.length}}">
   <view class="list">
     <view class="item" wx:for="{{list}}" wx:key="item">
+      <!-- 红色渐变背景 -->
       <block wx:if="{{item.type===1}}">
-        <image class="img" src="/img/coupon_red.png" mode="scaleToFill"></image>
+        <view class="gradient-bg gradient-red"></view>
       </block>
+      <!-- 黄色渐变背景 -->
       <block wx:if="{{item.type===2}}">
-        <image class="img" src="/img/coupon_yellow.png" mode="scaleToFill"></image>
+        <view class="gradient-bg gradient-yellow"></view>
       </block>
+      <!-- 蓝色渐变背景 -->
       <block wx:if="{{item.type===3}}">
-        <image class="img" src="/img/order_blue.png" mode="scaleToFill"></image>
+        <view class="gradient-bg gradient-blue"></view>
       </block>
+      
       <view class="info">
         <view class="left">
           <view class="name">{{item.couponName}}</view>
-          <view class="text">适用门店：{{item.storeName}}</view>
+          <!-- <view class="text">适用门店：{{item.storeName}}</view> -->
           <view class="text">包间限制：{{item.roomType===1?'小包':item.roomType===2?'中包':item.roomType===3?'大包':item.roomType===4?'豪包':item.roomType===5?'商务包':item.roomType===6?'斯洛克':item.roomType===7?'中式黑八':item.roomType===8?'美式球桌':'不限制'}}</view>
           <view class="text">抵扣额度：
               <text wx:if="{{item.type===2}}">{{item.price}}元</text>
@@ -29,7 +34,7 @@
               <text wx:if="{{item.type===2}}">满{{item.minUsePrice}}元可用</text>
               <text wx:else>满{{item.minUsePrice}}小时可用</text></view>
           <view class="text">过期时间：{{item.expriceTime}}</view>
-          <view class="text">状态：<text class="{{item.status===0?'normal':'expired'}}">{{item.status===0?'待使用':item.status===1?'已使用':'已过期'}}</text></view>
+          <view class="text">状态：<text class="{{item.status===0?'normal':'expired'}}">{{item.status===0?'可使用':item.status===1?'已使用':'已过期'}}</text></view>
         </view>
         <view class="right">
           <view class="btns" wx:if="{{isSelect}}">
@@ -49,6 +54,7 @@
   <view class="nodata">暂无数据</view>
 </block>
 </view>
+
 <!-- 底部按钮 -->
 <view class="bt">
   <navigator wx:if="{{!isSelect}}" url="../setCouponInfo/setCouponInfo?storeId={{storeId}}&storeName={{storeName}}" class="bottom bg-primary {{isIpx?'fix-iphonex-button transparent':''}}">添加优惠券</navigator>

@@ -18,7 +18,9 @@ Page({
       giftBalance: 0,
       balance: 0
     },//用户信息
-    cardList: []
+    cardList: [],
+    serviceInfo: [],
+    showExpireModal: false,
   },
 
   /**
@@ -115,6 +117,31 @@ Page({
             that.setData({
               userinfo: info.data,
             })
+            if(info.data.userType ==12 || info.data.userType ==13){
+              http.request(
+                "/member/store/getServiceInfo",
+                "1",
+                "post", {
+              },
+                app.globalData.userDatatoken.accessToken,
+                "",
+                function success(res) {
+                  console.info(res);
+                  if (res.code == 0) {
+                    that.setData({
+                      serviceInfo: res.data,
+                    })
+                    if(res.data && res.data.length >0){
+                      that.setData({
+                        showExpireModal: true,
+                      })
+                    }
+                  }
+                },
+                function fail(info) {
+                }
+              )
+            }
           }
         },
         function fail(info) {
@@ -203,5 +230,10 @@ Page({
     wx.navigateTo({
       url: '../coupon/coupon',
     })
-  }
+  },
+  closeExpireModal(){
+    this.setData({
+      showExpireModal: false
+    })
+  },
 })

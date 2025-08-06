@@ -3,6 +3,7 @@ var http = require("../../utils/http");
 var util1 = require("../../utils/util.js");
 const app = getApp();
 const moment = require("../../lib/moment.js");
+import drawQrcode from '../../utils/weapp.qrcode.min.js'
 
 Page({
   /**
@@ -53,6 +54,7 @@ Page({
     submit_couponInfo: "",
     couponCount: 0,
     payTypes: [{ name: '微信支付', value: 1, checked: true }, { checked: false, name: '钱包余额', value: 2 }],
+    showModal: false,
   },
 
   /**
@@ -82,7 +84,6 @@ Page({
     if (app.globalData.isLogin) {
       that.getOrderListdata("refresh");
       // that.getuserinfo();
-      that.getCouponListData();
     }
   },
 
@@ -604,227 +605,30 @@ Page({
       payTypes: payTypes
     })
   },
-  //预支付
-  SubmitOrderInfoData() {
-    if (
-      (this.data.modeIndex === 0 && !this.data.addTime) ||
-      (this.data.modeIndex === 1 && !this.data.pkgId)
-    ) {
-      wx.showToast({
-        title: this.data.modeIndex === 1 ? "请选择套餐" : "请选择增加时间",
-        icon: "none",
-      });
-      return false;
-    }
-    var that = this;
-    if (app.globalData.isLogin) {
-      http.request(
-        "/member/order/preOrder",
-        "1",
-        "post",
-        {
-          roomId: that.data.currentOrder.roomId,
-          couponId: that.data.couponId,
-          startTime: that.data.currentOrder.endTime,
-          endTime: that.data.newTime,
-          orderId: that.data.currentOrder.orderId,
-          payType: that.data.payType,
-          pkgId: that.data.pkgId,
-        },
-        app.globalData.userDatatoken.accessToken,
-        "提交中...",
-        function success(info) {
-          console.info("支付信息===");
-          console.info(info);
-          if (info.code == 0) {
-            that.data.renewOrderNo = info.data.orderNo;
-            //判断是不是微信支付 微信支付让回调去处理
-            if (that.data.payType == 1) {
-              that.lockWxOrder(info);
-            } else {
-              that.renewConfirm();
-            }
-          } else {
-            wx.showModal({
-              title: "温馨提示",
-              content: info.msg,
-              showCancel: false,
-              confirmText: "确定",
-              success(res) { },
-            });
+  showOrderQr(e) {
+    const orderNo = e.currentTarget.dataset.no;
+    this.setData({ showModal: true }, () => {
+      // 使用 nextTick 确保 DOM 渲染完成
+      wx.nextTick(() => {
+        drawQrcode({
+          width: 200,  
+          height: 200,
+          canvasId: 'myQrcode',
+          text: "houey_" + orderNo,
+          // x: 20,
+          // y: 20,
+          callback: (e) => {
+            console.log(e);
           }
-        },
-        function fail(info) { }
-      );
-    }
-  },
-  // 锁定微信订单
-  lockWxOrder: function (pay) {
-    var that = this;
-    if (app.globalData.isLogin) {
-      http.request(
-        "/member/order/lockWxOrder",
-        "1",
-        "post",
-        {
-          roomId: that.data.currentOrder.roomId,
-          couponId: that.data.couponId,
-          startTime: that.data.currentOrder.endTime,
-          endTime: that.data.newTime,
-          orderId: that.data.currentOrder.orderId,
-        },
-        app.globalData.userDatatoken.accessToken,
-        "提交中...",
-        function success(info) {
-          if (info.code == 0) {
-            console.log("锁定微信支付订单");
-            that.payMent(pay); //微信支付
-          } else {
-            wx.showModal({
-              title: "温馨提示",
-              content: info.msg,
-              showCancel: false,
-              confirmText: "确定",
-              success(res) { },
-            });
-          }
-        },
-        function fail(info) { }
-      );
-    }
-  },
-  //支付
-  payMent: function (pay) {
-    var that = this;
-    wx.requestPayment({
-      timeStamp: pay.data.timeStamp,
-      nonceStr: pay.data.nonceStr,
-      package: pay.data.pkg,
-      signType: pay.data.signType,
-      paySign: pay.data.paySign,
-      success: function (res) {
-        //console.log('*************支付成功');
-        // that.renewConfirm();
-        that.renewCancel();
-        that.getOrderListdata("refresh");
-      },
-      fail: function (res) {
-        wx.showToast({
-          title: "支付失败!",
-          icon: "error",
         });
-        //console.log('*************支付失败');
-      },
-      complete: function (res) {
-        //console.log('*************支付完成');
-      },
+      });
     });
   },
-  //支付
-  renewConfirm: function () {
-    var that = this;
-    if (app.globalData.isLogin) {
-      http.request(
-        "/member/order/renew",
-        "1",
-        "post",
-        {
-          orderId: that.data.currentOrder.orderId,
-          // "minutes": that.data.addTime * 60,
-          endTime: that.data.newTime,
-          payType: that.data.payType,
-          orderNo: that.data.renewOrderNo,
-          userId: that.data.userinfo.id,
-          groupPayNo: "",
-          pkgId: that.data.pkgId,
-          couponId: that.data.couponId,
-        },
-        app.globalData.userDatatoken.accessToken,
-        "",
-        function success(info) {
-          console.info("续费返回111===");
-          console.info(info);
-          if (info.code == 0) {
-            wx.showToast({
-              title: "续时成功",
-            });
-            that.getOrderListdata("refresh");
-            that.renewCancel();
-          } else {
-            wx.showModal({
-              content: info.msg,
-              showCancel: false,
-            });
-          }
-        },
-        function fail(info) { }
-      );
-    }
+  closeModal() {
+    this.setData({ showModal: false });
   },
-  // 去优惠券页面
-  goCoupon() {
-    var that = this;
-    if (!that.data.newTime) {
-      wx.showToast({
-        title: '请先选择时间',
-        icon: 'none'
-      })
-      return
-    }
-    wx.navigateTo({
-      url: '../coupon/coupon?from=1&roomId=' + that.data.currentOrder.roomId + '&nightLong=false' + '&startTime=' + that.data.currentOrder.endTime + '&endTime=' + that.data.newTime,
-      events: {
-        // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
-        pageDataList: function (data) {
-          console.log('页面B触发事件时传递的数据1：', data)
-          that.setData({
-            submit_couponInfo: data,
-            couponId: data.couponId
-          });
-          // that.setshowpayMoney(data);
-        },
-        pageDataList_no: function (data) {
-          //console.log('页面B触发事件时传递的数据1：',data)
-          that.setData({
-            submit_couponInfo: data,
-            couponId: ''
-          });
-          // that.setshowpayMoney(data);
-        },
-      }
-    })
+  preventTouch() {
+    // 空函数即可阻止页面滚动
   },
-  //获取优惠券列表数据
-  getCouponListData: function (e) {
-    var that = this;
-    let message = "";
-    if (app.globalData.isLogin) {
-      http.request(
-        "/member/user/getCouponPage",
-        "1",
-        "post",
-        {
-          pageNo: 1,
-          pageSize: 100,
-          status: 0,
-          storeId: that.data.storeId,
-        },
-        app.globalData.userDatatoken.accessToken,
-        message,
-        function success(info) {
-          if (info.code == 0) {
-            that.setData({
-              couponCount: info.data.total
-            })
-          } else {
-            wx.showModal({
-              content: info.msg,
-              showCancel: false,
-            });
-          }
-        },
-        function fail(info) { }
-      );
-    }
-  },
+
 });

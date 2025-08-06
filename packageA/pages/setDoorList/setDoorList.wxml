@@ -34,9 +34,6 @@
             <text wx:if="{{item.orderTime}}">{{item.orderTime}}</text>
           </view>
         </view>
-        <!-- <van-divider contentPosition="center" customStyle="color: #108ee9;" bind:tap="foldTap" data-index="{{item.roomId}}">
-          {{foldIndex === item.roomId ? "隐藏":"显示管理功能"}}
-        </van-divider> -->
         <view class="btns">
           <view class="line2">
             <block wx:if="{{item.status==0}}">

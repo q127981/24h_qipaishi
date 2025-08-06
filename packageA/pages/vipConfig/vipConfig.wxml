@@ -10,7 +10,7 @@
         <view class="info">
           <view class="line"><label>会员名称：</label><text>{{item.vipName}}</text></view>
           <view class="line"><label>会员等级：</label><text>{{item.vipLevel}}</text></view>
-          <view class="line"><label>会员折扣：</label><text>0.{{item.vipDiscount}}折</text></view>
+          <view class="line"><label>会员折扣：</label><text>0.{{item.vipDiscount}}比例折扣</text></view>
           <view class="line"><label>积分门槛：</label><text>{{item.score}}元</text></view>
         </view>
         <view class="btns">
@@ -53,7 +53,7 @@
         placeholder="请输入1-99的数字"
         type="digit"
       />
-      <text class="tip">输入99表示9.9折</text>
+      <text class="tip">输入99表示0.99比例折扣</text>
       <van-field
         model:value="{{ score }}"
         label="积分门槛："

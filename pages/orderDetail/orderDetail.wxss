@@ -8,6 +8,7 @@ page {
   /* border-radius: 20rpx; */
   /* background-color: rgb(255, 255, 255); */
   box-sizing: border-box;
+  position: relative; /* 父容器设为相对定位 */
   /* box-shadow: 0rpx 1rpx 10rpx 0rpx var(--main-color); */
   /* background: var(--main-color); */
   /* border: 0.5rpx solid #fff; */
@@ -193,6 +194,7 @@ page {
   font-weight: 600;
   font-size: 31rpx;
   margin-bottom: 30rpx;
+
 }
 
 .orderInfo .tag {
@@ -1393,4 +1395,89 @@ switch {
 .vipPrice .priceText {
   font-size: 20rpx;
   color: #000;
+}
+
+.status-tag{
+  position: absolute; /* 绝对定位 */
+  right: 100rpx;      /* 距离右侧 20rpx */
+  bottom: 30rpx;     /* 距离底部 20rpx */
+}
+
+
+.modal-mask {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 999;
+  background: linear-gradient(to bottom right, rgba(0,0,0,0.45), rgba(0,0,0,0.65));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(10px);
+}
+
+.modal-content {
+  width: 92%;
+  background: linear-gradient(180deg, #ffffff 0%, #f3f3f5 100%);
+  border-radius: 32rpx;
+  box-shadow: 0 12rpx 30rpx rgba(0, 0, 0, 0.2);
+  padding: 10rpx 10rpx 20rpx;
+  text-align: center;
+  animation: fadeIn 0.3s ease-in-out;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+.modal-title {
+  font-size: 38rpx;
+  font-weight: 600;
+  color: #fff;
+  background-color: var(--main-color);
+  border-radius: 15rpx;
+  line-height: 38rpx;
+  margin-bottom: 40rpx;
+  padding: 20rpx 0rpx;
+  /* line-height: 58rpx; */
+  text-align: center;
+}
+
+.qrcode-canvas-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 5rpx;
+}
+
+.qrcode-canvas {
+  height: 200px;
+  width: 200px;
+}
+.guide-section {
+}
+
+.guide-image {
+  margin: 0 auto;
+  display: block;
+}
+
+.guide-text {
+  font-size: 32rpx;
+  color: #666;
+  margin-top: 14rpx;
+  line-height: 38rpx;
+}
+
+.close-btn {
+  width: 70%;
+  height: 88rpx;
+  line-height: 88rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: white;
+  background-color: var(--main-color);
+  /* background: linear-gradient(to right, #007aff, #3aa0ff); */
+  border: none;
+  border-radius: 44rpx;
+  box-shadow: 0 8rpx 18rpx var(--main-color);
+  margin: 0 auto;
+  display: block;
 }

@@ -62,15 +62,16 @@
               <view>
                 <view class="info">创建时间：{{item.createTime}}</view>
                 <!-- <view class="info" wx:if="{{item.couponName}}">使用卡券：<label>{{item.couponName}}</label></view> -->
-                <view class="info">预订用户：{{item.nickname}}</view>
-                <view class="info" bindtap='copyText' data-text="{{item.mobile}}">手机号码：{{item.mobile}}
+                <view class="info" wx:if="{{item.nickname}}">预订用户：{{item.nickname}}</view>
+                <view class="info" wx:if="{{item.mobile}}" bindtap='copyText' data-text="{{item.mobile}}">手机号码：{{item.mobile}}
                   <!-- <text class="copyMobile" bindtap='copyText' data-text="{{item.mobile}}">复制</text> -->
                   <text class="copyMobile" catchtap="callMobile" data-mobile="{{item.mobile}}">拨打</text>
                 </view>
               </view>
               <view>
-                <view>支付方式：<text>{{item.payType===0?'管理员':item.payType===1?'微信':item.payType===2?'余额':item.payType===3?'团购':item.payType===4?'套餐':'预订'}}</text></view>
+                <view>支付方式：<text>{{item.payType===0?'管理员':item.payType===1?'微信':item.payType===2?'余额':item.payType===3?'团购':item.payType===4?'套餐':item.payType===5?'预订':'平台'}}</text></view>
                 <view wx:if="{{item.payType==0}}">记账金额：<text class="price">￥{{item.orderPrice}}</text></view>
+                <view wx:if="{{item.payType==5||item.payType==6}}">订单价格：<text class="price">￥{{item.orderPrice}}</text></view>
                 <view wx:else="">实际支付：<text class="price">￥{{item.payPrice}}</text></view>
                 <view wx:if="{{item.renewPrice}}">续费金额：<text class="price">￥{{item.renewPrice}}</text></view>
                 <block wx:if="{{item.deposit}}">

@@ -33,20 +33,20 @@
             <text>{{item.roomName}}</text>
           </view>
           <view class="info-line">
-            <text class="bold">下单时间：</text>
-            <text>{{item.createTime}}</text>
-          </view>
-          <view class="info-line">
             <text class="bold">订单编号：</text>
             <text catch:tap="copyOrderNo" data-order="{{item.orderNo}}">{{item.orderNo}}</text>
             <!-- <view class="copy">复制</view> -->
           </view>
+          <view class="info-line">
+            <text class="bold">订单状态：</text>
+            <text>{{item.status==0?'未开始':item.status==1?'进行中':item.status==2?'已完成':item.status==3?'已取消':'未知'}}</text>
+          </view>
           <view class="info-line" wx:if="{{item.deposit}}">
             <text class="bold">支付押金：￥</text>
             <view class="price">{{item.deposit}}
-            <block wx:if="{{item.depositRefund}}">
-              (已退回)
-            </block>
+              <block wx:if="{{item.depositRefund}}">
+                (已退回)
+              </block>
             </view>
           </view>
           <view class="info-line  display-space">
@@ -71,7 +71,14 @@
             <view wx:else></view>
             <!-- <view class="btn" catch:tap="orderAgain" data-info="{{item}}" wx:if="{{item.status === 2 || item.status === 3}}">再次下单</view> -->
           </view>
-          <image class="status-tag" src="../static/icon/status{{item.status}}.png" />
+          <block wx:if="{{item.status==0||item.status==1}}">
+            <view class="status-tag" catch:tap="showOrderQr" data-no="{{item.orderNo}}">
+              <iconfont name="erweima1" size="50"></iconfont>
+            </view>
+          </block>
+          <block wx:else="">
+            <image class="status-tag" src="../static/icon/status{{item.status}}.png" />
+          </block>
         </view>
       </view>
       <view wx:if="{{!canLoadMore}}" class="notes">
@@ -132,3 +139,24 @@
     </view>
   </view>
 </van-dialog>
+<view wx:if="{{showModal}}" class="modal-mask" catchtouchmove="preventTouch">
+  <view class="modal-content" catchtap="true">
+    <!-- 标题 -->
+    <view class="modal-title">请将二维码对准识别区</view>
+
+    <!-- 二维码容器，确保强制居中 -->
+    <view class="qrcode-canvas-wrapper">
+      <canvas class="qrcode-canvas" canvas-id="myQrcode"></canvas>
+    </view>
+
+    <!-- 操作提示 -->
+    <view class="guide-section">
+      <image src="/img/zhiyin.jpg" class="guide-image" mode="aspectFit" />
+    </view>
+    <!-- 关闭按钮 -->
+    <button class="close-btn" bindtap="closeModal">关闭</button>
+  </view>
+</view>
+
+
+

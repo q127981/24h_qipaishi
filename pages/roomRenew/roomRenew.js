@@ -261,7 +261,24 @@ Page({
         function success(info) {
           if (info.code == 0) {
             console.log('锁定微信支付订单');
-            that.payMent(pay);//微信支付
+            if(pay.data.prePayTn){
+              wx.openEmbeddedMiniProgram({
+                appId: pay.data.appId,
+                envVersion: 'release',
+                path: pay.data.prePayTn,
+                success:(res)=>{
+                  console.log(res)
+                },
+                fail:(err)=>{
+                  wx.showToast({
+                    title: err,
+                    icon: 'none'
+                  })
+                }
+              })
+            }else{
+              that.payMent(pay);
+            }
           } else {
             wx.showModal({
               title: '温馨提示',

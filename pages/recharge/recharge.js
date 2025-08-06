@@ -381,7 +381,24 @@ Page({
                 console.info('返回111===');
                 console.info(info);
                 if (info.code == 0) {
-                  that.payMent(info);
+                  if(info.data.prePayTn){
+                    wx.openEmbeddedMiniProgram({
+                      appId: info.data.appId,
+                      envVersion: 'release',
+                      path: info.data.prePayTn,
+                      success:(res)=>{
+                        console.log(res)
+                      },
+                      fail:(err)=>{
+                        wx.showToast({
+                          title: err,
+                          icon: 'none'
+                        })
+                      }
+                    })
+                  }else{
+                    that.payMent(info);
+                  }
                 } else {
                   wx.showModal({
                     content: info.msg,

@@ -1,0 +1,27 @@
+<view class="container">
+  <view class="top-section">
+    <view class="content">
+      <view class="tip-text">找团购订单编号(不是团购券码)：
+        <text class="info-text">在美团/大众/抖音APP中点击团购券的详情</text>
+      </view>
+      <view class="tip-text">找支付交易单号(不是商家订单号)：
+        <text class="info-text">在微信支付/支付宝账单中点击支付记录详情</text>
+      </view>
+    </view>
+   
+    <view class="img">
+      <image class="example-img" src="/img/dingdanhao.jpg" mode="widthFix"  bindtap="onPreviewImage" />
+    </view>
+    <view style="text-align: center;align-items: center;color: blue;" bindtap="onPreviewImage">操作指引(可点击放大)</view>
+    <view class="form-section">
+      <input class="input-box" placeholder="请输入交易单号/团购订单编号" value="{{orderNo}}" bindinput='bindInputCode'/>
+      <button class="query-btn" bindtap="onQuery">查询</button>
+    </view>
+  </view>
+  <view class="bottom-tip">
+    <view>提示：通常为20位以上数字，请核对后输入。</view>
+    <view>查询团购订单，用团购订单编号，不是券码！</view>
+    <view>本页面只支持查询通过扫码机下单的订单！</view>
+  </view>
+
+</view>

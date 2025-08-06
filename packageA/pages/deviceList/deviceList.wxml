@@ -16,13 +16,15 @@
           <text class="sn">{{item.deviceSn}}</text>
         </view>
         <view class="info">
-          <label>类型：</label>
           <text>{{(item.typeName)}}</text>
         </view>
         <!-- <view class="info" wx:if="{{item.type!=6&&item.type!=5}}">
           <label>状态：</label>
           <text>{{item.status==1?'在线':'离线'}}</text>
         </view> -->
+        <view class="btns" wx:if="{{item.type==11}}">
+          <view class="btn" bind:tap="configQrPrice" data-sn="{{item.deviceSn}}">扫码价格配置</view>
+        </view>
         <view class="btns" wx:if="{{item.type==5}}">
           <view class="btn" bind:tap="lockOption" data-lock="{{item.deviceData}}" data-sn="{{item.deviceSn}}">门锁功能</view>
         </view>
@@ -35,7 +37,7 @@
       </view>
       <view class="line2">
         <view class="info" wx:if="{{item.storeName}}">
-          <label>信号：</label>
+          <label wx:if="{{item.rssi}}">信号：</label>
           <text class="name" wx:if="{{item.rssi}}">{{item.rssi}} </text>
         </view>
         <view class="info">
@@ -133,15 +135,10 @@
     <view class="btn bg-primary1" bind:tap="addLockCard">添加锁卡片</view>
   </view>
   <view class="item">
-    
     <view class="btn bg-primary" bind:tap="unlock">蓝牙开锁</view>
     <view class="btn bg-primary" bind:tap="oplock">蓝牙关锁</view>
   </view>
-
-
 </van-dialog>
-
-
 
 <van-dialog class="lockPwd" use-slot title="设置门锁密码" show="{{ setLockPwdShow }}" show-cancel-button confirm-button-text="确认" bind:confirm="confirmSetLockPwd">
   <view class="dialog">
@@ -151,3 +148,25 @@
     </view>
   </view>
 </van-dialog>
+
+<view wx:if="{{showQrConfig}}" class="modal-mask" catchtouchmove="preventTouch">
+  <view class="modal-content" catchtap="true">
+    <view class="modal-title">扫码支付价格配置</view>
+    <view class="form">
+      <view class="line">
+        价格：
+        <input class="input" type="number"  data-type="qrPrice" bindinput="onInput" placeholder="价格(单元/分)" value="{{qrPrice}}"></input>分
+      </view>
+      <view class="line">
+        时长：
+        <input class="input" type="number"  data-type="qrHour" bindinput="onInput" placeholder="时长(单元/小时)" value="{{qrHour}}"></input>小时
+      </view>
+    </view>
+    <view class="tip" style="font-size: 24rpx;color: #3b3b3b;">价格单位是分,100分=1元,10000分=100元</view>
+    <view class="tip" style="font-size: 24rpx;color: red;">提示：必须先在后台给门店绑定支付收款信息</view>
+    <view class="btns">
+      <button class="save-btn" bindtap="saveQrConfig">保存</button>
+      <button class="close-btn" bindtap="closeQrConfig">关闭</button>
+    </view>
+  </view>
+</view>

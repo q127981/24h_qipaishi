@@ -1,0 +1,252 @@
+/* 主容器 */
+.container {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding: 48rpx 32rpx;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  box-sizing: border-box;
+}
+
+/* 顶部主要区域 */
+.top-section {
+  background: #ffffff;
+  border-radius: 16rpx;
+  margin-bottom: 40rpx;
+  border: 2rpx solid #e5e5e5;
+  overflow: hidden;
+}
+
+/* 提示文字容器 */
+.tip-text {
+  margin-bottom: 34rpx;
+  font-size: 34rpx;
+  font-weight: bold;
+  color: #33a2d6;
+  line-height: 1.5;
+}
+
+.tip-text:last-child {
+  margin-bottom: 0;
+}
+
+/* 详细信息文字 */
+.info-text {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 400;
+  color: #666666;
+  margin-top: 8rpx;
+  line-height: 1.4;
+}
+
+/* 图片区域 - 铺满整行 */
+.img {
+  padding: 0;
+  background: #ffffff;
+  display: block;
+  width: 100%;
+  border-bottom: 2rpx solid #f0f0f0;
+}
+
+.example-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: none;
+  border-radius: 0;
+}
+
+/* 表单区域 */
+.form-section {
+  padding: 48rpx 40rpx;
+  background: #ffffff;
+}
+
+/* 输入框样式 */
+.input-box {
+  width: 100%;
+  height: 96rpx;
+  border: 2rpx solid #d9d9d9;
+  border-radius: 12rpx;
+  padding: 0 32rpx;
+  font-size: 32rpx;
+  color: #333333;
+  background: #ffffff;
+  margin-bottom: 26rpx;
+  font-family: inherit;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+.input-box:focus {
+  outline: none;
+  border-color: #1890ff;
+}
+
+.input-box::placeholder {
+  color: #bfbfbf;
+  font-size: 30rpx;
+}
+
+/* 查询按钮 */
+.query-btn {
+  width: 100%;
+  height: 96rpx;
+  background: var(--main-color);
+  border: none;
+  border-radius: 12rpx;
+  color: #ffffff;
+  font-size: 32rpx;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: background-color 0.2s ease;
+}
+
+
+/* 底部提示区域 */
+.bottom-tip {
+  background: #ffffff;
+  border-radius: 12rpx;
+  font-size: 24rpx;
+  padding: 40rpx;
+  color: #d40a0a;
+  border: 2rpx solid #e5e5e5;
+}
+
+
+/* 小屏幕适配 */
+@media (max-width: 480px) {
+  .container {
+    padding: 40rpx 24rpx;
+  }
+  
+  .content {
+    padding: 40rpx 32rpx;
+  }
+  
+  .tip-text {
+    font-size: 30rpx;
+  }
+  
+  .info-text {
+    font-size: 26rpx;
+  }
+  
+  .form-section {
+    padding: 40rpx 32rpx;
+  }
+  
+  .input-box {
+    height: 88rpx;
+    font-size: 30rpx;
+    padding: 0 28rpx;
+  }
+  
+  .query-btn {
+    height: 88rpx;
+    font-size: 30rpx;
+  }
+  
+  .bottom-tip {
+    padding: 32rpx;
+  }
+  
+  .bottom-tip view {
+    font-size: 26rpx;
+  }
+}
+
+/* 超小屏幕适配 */
+@media (max-width: 360px) {
+  .container {
+    padding: 32rpx 16rpx;
+  }
+  
+  .content {
+    padding: 36rpx 28rpx;
+  }
+  
+  .tip-text {
+    font-size: 28rpx;
+  }
+  
+  .info-text {
+    font-size: 24rpx;
+  }
+  
+  .form-section {
+    padding: 36rpx 28rpx;
+  }
+  
+  .input-box {
+    height: 84rpx;
+    font-size: 28rpx;
+    padding: 0 24rpx;
+  }
+  
+  .query-btn {
+    height: 84rpx;
+    font-size: 28rpx;
+    background-color: var(--main-color);
+  }
+  
+  .bottom-tip {
+    padding: 28rpx;
+  }
+  
+  .bottom-tip view {
+    font-size: 24rpx;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 焦点状态 */
+.input-box:focus {
+  border-color: var(--main-color);
+  box-shadow: 0 0 0 4rpx rgba(24, 144, 255, 0.1);
+}
+
+.query-btn:focus {
+  outline: 4rpx solid rgba(24, 144, 255, 0.3);
+  outline-offset: 4rpx;
+}
+
+/* 禁用状态 */
+.query-btn:disabled {
+  background: #f5f5f5;
+  color: #bfbfbf;
+  cursor: not-allowed;
+  border: 2rpx solid #d9d9d9;
+}
+
+.input-box:disabled {
+  background: #f5f5f5;
+  color: #bfbfbf;
+  cursor: not-allowed;
+}
+
+/* 微信小程序特定样式 */
+button::after {
+  border: none;
+}
+
+input {
+  outline: none;
+}
+
+/* 图片高清显示优化 */
+.example-img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+}

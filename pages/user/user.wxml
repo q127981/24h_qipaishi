@@ -108,13 +108,17 @@
           <image src="../static/icon/pack.png"/>
           <text>包时卡</text>
         </navigator> -->
-        <!-- <navigator class="item">
-          <image src="../static/icon/bargain.png"/>
-          <text>我的砍价</text>
-        </navigator> -->
+        <navigator class="item" url="../yeepay/index" wx:if="{{isLogin}}">
+          <iconfont name="youhuikaquan" size="32" color="#000"></iconfont>
+          <text>收款账户</text>
+        </navigator>
         <navigator class="item" url="../help/help">
           <iconfont name="changjianwentixiangguanwenti" size="32" color="#000"></iconfont>
           <text>常见问题</text>
+        </navigator>
+         <navigator class="item" url="../searchOrder/index">
+          <iconfont name="sousuo" size="32" color="#000"></iconfont>
+          <text>订单查询</text>
         </navigator>
         <!-- <navigator class="item" url="/packageA/pages/addLock/addLock">
           <iconfont name="changjianwentixiangguanwenti" size="32" color="#000"></iconfont>
@@ -178,5 +182,27 @@
       </view>
     </block>
   </view>
-  <view class="version">版本:25.07.20</view>
+  <view class="version">版本:25.08.06</view>
+</view>
+
+<view wx:if="{{showExpireModal}}" class="expire-mask">
+  <view class="expire-modal">
+    <view class="expire-title">到期提醒</view>
+    <view class="expire-info">请及时联系管理员进行续期</view>
+    <scroll-view scroll-y class="expire-list">
+      <block wx:for="{{serviceInfo}}" wx:key="id">
+        <view class="expire-item" wx:if="{{item.show}}">
+          <view class="name-box">
+            <text class="name-type">{{item.type==1?'租户':item.type==2?'门店':item.type==3?'团购核销':'未知'}}</text>
+            <text class="name">{{item.name}}</text>
+          </view>
+          <text class="date">到期时间{{item.expireDate}}</text>
+        </view>
+      </block>
+    </scroll-view>
+
+    <view class="expire-footer">
+      <button class="btn primary" bindtap="closeExpireModal">我知道了</button>
+    </view>
+  </view>
 </view>

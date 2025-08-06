@@ -153,3 +153,80 @@
 .lockPwd .dialog {
   padding: 20rpx 50rpx;
 }
+
+
+.modal-mask {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 999;
+  background: linear-gradient(to bottom right, rgba(0,0,0,0.45), rgba(0,0,0,0.65));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(10px);
+}
+
+.modal-content {
+  width: 85%;
+  background: linear-gradient(180deg, #ffffff 0%, #f3f3f5 100%);
+  border-radius: 32rpx;
+  box-shadow: 0 12rpx 30rpx rgba(0, 0, 0, 0.2);
+  padding: 10rpx 10rpx 20rpx;
+  text-align: center;
+  animation: fadeIn 0.3s ease-in-out;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
+  margin-bottom: 150rpx;
+}
+.modal-content .btns {
+  margin-top: 30rpx;
+  display: flex;
+  justify-content: space-around;
+}
+.modal-title {
+  font-size: 38rpx;
+  font-weight: 600;
+  color: #fff;
+  background-color: var(--main-color);
+  border-radius: 15rpx;
+  line-height: 38rpx;
+  margin-bottom: 40rpx;
+  padding: 20rpx 0rpx;
+  /* line-height: 58rpx; */
+  text-align: center;
+}
+.modal-content .btns .close-btn {
+  width: 200rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: white;
+  background-color: #d48989;
+  border: none;
+}
+
+.modal-content .btns .save-btn {
+  width: 200rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: white;
+  background-color: var(--main-color);
+  border: none;
+}
+
+.modal-content .form .line{
+  text-align: left;
+  align-items: left;
+  display: flex;
+  justify-content: start;
+  margin-left: 50rpx;
+  padding: 20rpx ;
+}
+
+.modal-content .form .line .input {
+  border: 1rpx solid #000;
+  padding: 5rpx;
+  width: 300rpx;
+}

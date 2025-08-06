@@ -46,19 +46,103 @@ page {
   margin-bottom: 0;
 }
 
-.list .item .img {
+/* 渐变背景基础样式 */
+.gradient-bg {
   position: absolute;
   width: 100%;
+  height: 100%;
   right: 0;
   top: 0;
   z-index: -1;
+  border-radius: 20rpx;
+}
+
+/* 红色渐变背景 */
+.gradient-red {
+  background: linear-gradient(135deg, #ff4757 0%, #ff6b7a 50%, #ff8a9b 100%);
+}
+
+.gradient-red::before {
+  content: '';
+  position: absolute;
+  top: -20rpx;
+  right: 160rpx;
+  width: 200rpx;
+  height: 200rpx;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+}
+
+.gradient-red::after {
+  content: '';
+  position: absolute;
+  bottom: 20rpx;
+  left: 40rpx;
+  width: 120rpx;
+  height: 120rpx;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+}
+
+/* 黄色渐变背景 */
+.gradient-yellow {
+  background: linear-gradient(135deg, #ff8c42 0%, #ffa726 30%, #ffcc02 100%);
+}
+
+.gradient-yellow::before {
+  content: '';
+  position: absolute;
+  top: 40rpx;
+  right: 120rpx;
+  width: 240rpx;
+  height: 240rpx;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+}
+
+.gradient-yellow::after {
+  content: '';
+  position: absolute;
+  bottom: -40rpx;
+  left: 80rpx;
+  width: 160rpx;
+  height: 160rpx;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+/* 蓝色渐变背景 */
+.gradient-blue {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #4facfe 100%);
+}
+
+.gradient-blue::before {
+  content: '';
+  position: absolute;
+  top: 60rpx;
+  right: 100rpx;
+  width: 280rpx;
+  height: 280rpx;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.gradient-blue::after {
+  content: '';
+  position: absolute;
+  bottom: -60rpx;
+  left: 120rpx;
+  width: 180rpx;
+  height: 180rpx;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 50%;
 }
 
 .list .item .info {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: rgba(255, 255, 255, 0.877);
+  color: #fff;
   font-size: 26rpx;
   line-height: 40rpx;
   height: 260rpx;
@@ -79,13 +163,12 @@ page {
 .list .item .info label {
   flex-shrink: 0;
   display: block;
-  /* width: 100rpx; */
   text-align: justify;
   text-align-last: justify;
 }
 
 .list .item .info .expired {
-  color: #f24f4f;
+  color: #b10808;
 }
 
 .list .item .info .btns .btn {
@@ -104,7 +187,6 @@ page {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  /* height: 260rpx; */
 }
 
 .list .item .info .btns .yellow {

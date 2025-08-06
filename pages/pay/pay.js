@@ -20,7 +20,9 @@ Page({
     userName: '', //用户姓名
     userPhone: '', // 用户联系方式
     mark: '', // 订单备注
-    productNum: 0, // 商品数量
+    productNum: 0, // 商品数量'
+    orderNo: '',
+    showYeepay: false,
   },
 
   /**
@@ -55,8 +57,18 @@ Page({
    */
   onShow() {
     let that = this
-    that.getRoomList();
-    that.calculateCartTotalPrice();
+    if (that.data.showYeepay && that.data.orderNo) {
+      // 清除跳转标记
+      that.setData({
+        showYeepay: false,
+      });
+      wx.navigateTo({
+        url: '../productOrder/productOrder',
+      })
+    }else{
+      that.getRoomList();
+      that.calculateCartTotalPrice();
+    }
   },
 
   /**
@@ -139,8 +151,30 @@ Page({
         function success(info) {
           if (info.code == 0) {
             wx.hideLoading()
+            that.setData({
+              orderNo: info.data.orderNo
+            })
             // 直接微信支付
-            that.payMent(info);
+            if(info.data.prePayTn){
+              wx.openEmbeddedMiniProgram({
+                appId: info.data.appId,
+                envVersion: 'release',
+                path: info.data.prePayTn,
+                success:(res)=>{
+                  that.setData({
+                    showYeepay: true,
+                  });
+                },
+                fail:(err)=>{
+                  wx.showToast({
+                    title: err,
+                    icon: 'none'
+                  })
+                }
+              })
+            }else{
+              that.payMent(info);
+            }
           }
           let pay = that.data.payCart
           let cart = []

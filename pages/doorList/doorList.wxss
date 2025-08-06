@@ -4,6 +4,9 @@ page {
   height: 100%;
 }
 
+.container {
+  margin-top: 10rpx;
+}
 /* 头部搜索框 */
 .top-back {
   position: relative;
@@ -26,10 +29,11 @@ page {
   width: 100%;
   background-size: cover;
   background-color: #6da773fd;
+
 }
 
 .top .banner {
-  margin-top: 20rpx;
+  /* margin-top: 20rpx; */
   height: 206rpx;
   background: linear-gradient(180deg, #6da773fd 0%, #FFFFFF 100%);
 }
@@ -106,6 +110,7 @@ page {
 .top-search {
   display: flex;
   justify-content: center;
+  padding-bottom: 20rpx;
 }
 
 .top-search .left {
@@ -430,8 +435,6 @@ page {
   text-align: center;
   line-height: 1;
 }
-
-.item-buttom .info .iconfont {}
 
 .quickBtns .btn .iconfont {
   font-size: 40rpx;

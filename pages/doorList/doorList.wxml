@@ -19,16 +19,16 @@
       <iconfont name="dingwei" size="30"></iconfont>
     </view>
   </view>
-  <view class="banner">
-    <swiper autoplay indicator-dots wx:if="{{bannershowlist.length>0}}">
+  <view class="banner" wx:if="{{bannershowlist.length>0}}">
+    <swiper autoplay indicator-dots >
       <block wx:for="{{bannershowlist}}" wx:key="banner">
         <swiper-item>
-          <image src="{{item.imgUrl}}" mode="widthFix"></image>
+          <image src="{{item.imgUrl}}" mode="scaleToFill"></image>
         </swiper-item>
       </block>
     </swiper>
-    <image wx:else="" class="top-image" src="/pages/static/img/top-backImage.png" mode="aspectFit">
-    </image>
+    <!-- <image wx:else="" class="top-image" src="/pages/static/img/top-backImage.png" mode="aspectFit">
+    </image> -->
   </view>
 </view>
 <!-- <view class="tab" bind:tap="handleTabChange">

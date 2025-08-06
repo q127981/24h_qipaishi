@@ -31,7 +31,10 @@
     "pages/placeOrder/placeOrder",
     "pages/roomRenew/roomRenew",
     "pages/map/map",
-    "pages/pay/pay"
+    "pages/pay/pay",
+    "pages/searchOrder/index",
+    "pages/yeepay/index",
+    "pages/yeepay/agreement"
   ],
   "subpackages": [
     {
@@ -158,7 +161,6 @@
     "van-tabs": "@vant/weapp/tabs/index",
     "van-popup": "@vant/weapp/popup/index",
     "van-icon": "@vant/weapp/icon/index",
-    "van-divider": "@vant/weapp/divider/index",
     "iconfont": "./iconfont/iconfont"
   },
   "requiredPrivateInfos": [

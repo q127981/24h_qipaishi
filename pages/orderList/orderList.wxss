@@ -180,10 +180,12 @@ page {
 
 .lists .item .status-tag {
   width: 108rpx;
-  height: 102rpx;
+  height: 108rpx;
   position: absolute;
-  top: 42%;
+  top: 46%;
   right: 35rpx;
+  align-items: center;
+  text-align: center;
 }
 
 .lists .item:last-child {
@@ -797,4 +799,86 @@ page {
 .vipPrice .priceText {
   font-size: 20rpx;
   color: #000;
+}
+
+.modal-mask {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 999;
+  background: linear-gradient(to bottom right, rgba(0,0,0,0.45), rgba(0,0,0,0.65));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(10px);
+}
+
+.modal-content {
+  width: 92%;
+  background: linear-gradient(180deg, #ffffff 0%, #f3f3f5 100%);
+  border-radius: 32rpx;
+  box-shadow: 0 12rpx 30rpx rgba(0, 0, 0, 0.2);
+  padding: 10rpx 10rpx 20rpx;
+  text-align: center;
+  animation: fadeIn 0.3s ease-in-out;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+.modal-title {
+  font-size: 38rpx;
+  font-weight: 600;
+  color: #fff;
+  background-color: var(--main-color);
+  border-radius: 15rpx;
+  line-height: 38rpx;
+  margin-bottom: 40rpx;
+  padding: 20rpx 0rpx;
+  /* line-height: 58rpx; */
+  text-align: center;
+}
+
+.qrcode-canvas-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 5rpx;
+}
+
+.qrcode-canvas {
+  /* justify-content: center ; */
+  /* width: 100%; */
+  /* width: 420px; */
+  height: 200px;
+  width: 200px;
+  /* margin: 20rpx; */
+}
+.guide-section {
+}
+
+.guide-image {
+  margin: 0 auto;
+  display: block;
+}
+
+.guide-text {
+  font-size: 32rpx;
+  color: #666;
+  margin-top: 14rpx;
+  line-height: 38rpx;
+}
+
+.close-btn {
+  width: 70%;
+  height: 88rpx;
+  line-height: 88rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: white;
+  background-color: var(--main-color);
+  /* background: linear-gradient(to right, #007aff, #3aa0ff); */
+  border: none;
+  border-radius: 44rpx;
+  box-shadow: 0 8rpx 18rpx var(--main-color);
+  margin: 0 auto;
+  display: block;
 }

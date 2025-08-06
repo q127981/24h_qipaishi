@@ -12,7 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@vant/weapp": "^1.10.22"
+    "@vant/weapp": "^1.10.22",
+    "weapp-qrcode": "^1.0.0"
   },
   "directories": {
     "lib": "lib"

@@ -93,7 +93,6 @@ Page({
     }).catch(res => {
       that.getDoorInfoData(storeId);
     });
-    that.daySlotInit();
     // this.MathDate(new Date());
     that.getListData();
     that.getDoorListdata(storeId)
@@ -120,10 +119,7 @@ Page({
         "获取中...",
         function success(info) {
           if (info.code == 0) {
-            // const timeText = that.timeFilter(
-            //   info.data.startTime,
-            //   info.data.endTime
-            // );
+
             that.setData({
               doorinfodata: info.data,
               // timeText,
@@ -141,60 +137,8 @@ Page({
   },
 
   voucherCheck() { },
-  daySlotInit() {
-    const today = moment();
-    const dates = [];
-    const weekdays = [
-      "星期日",
-      "星期一",
-      "星期二",
-      "星期三",
-      "星期四",
-      "星期五",
-      "星期六",
-    ];
 
-    for (let i = 0; i < 5; i++) {
-      const date = today.clone().add(i, "days");
-      const day = date.format("MM-DD");
-      const dayOrigin = date.format("YYYY/MM/DD");
-      let desc = "";
-
-      if (i === 0) {
-        desc = "今天";
-      } else if (i === 1) {
-        desc = "明天";
-      } else {
-        const weekday = date.day();
-        desc = weekdays[weekday];
-      }
-
-      dates.push({ dayOrigin, day, desc });
-    }
-
-    this.setData({
-      daySlot: dates,
-    });
-  },
-  handleDayChange(e) {
-    const dayOrigin = e.currentTarget.dataset.day;
-
-    const originalMoment = moment(
-      this.data.submit_begin_time,
-      "YYYY/MM/DD HH:mm"
-    );
-    const newDate = moment(dayOrigin, "YYYY/MM/DD");
-
-    const updatedMoment = originalMoment.set({
-      year: newDate.year(),
-      month: newDate.month(),
-      date: newDate.date(),
-    });
-    this.setData({
-      dayIndex: e.currentTarget.dataset.index,
-      submit_begin_time: updatedMoment.format("YYYY/MM/DD HH:mm"),
-    });
-  },
+ 
   setshowSelectHour() {
     this.setData({
       showtimefalge: true,
