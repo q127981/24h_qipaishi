@@ -130,6 +130,29 @@ Page({
       bankCode: this.data.bankCode,
     };
 
+      // 3. 必填字段列表（新增/删除字段只改这里）
+  const requiredMap = {
+    legalName: '真实姓名',
+    phone: '手机号',
+    idCard: '身份证号',
+    shopName: '店铺简称',
+    address: '详细地址',
+    bankCard: '银行卡号',
+    fullAddress: '所在城市',
+    bankCode: '开户银行',
+    idCardFront: '身份证人像面照片',
+    idCardBack: '身份证国徽面照片',
+    storeFront: '店铺门头照片',
+    scene: '店铺场景照片',
+  };
+  for (const k in requiredMap) {
+    if (!data[k]) {
+      wx.showToast({ title: `请填写 ${requiredMap[k]}`, icon: 'none' });
+      return;
+    }
+  }
+
+
     http.request("/member/merchant-account/apply", "1", "post", data,
       app.globalData.userDatatoken.accessToken, "提交中...", res => {
         if (res.code === 0) {
