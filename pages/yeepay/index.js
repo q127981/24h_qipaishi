@@ -40,13 +40,8 @@ Page({
     this.setData({ isLogin: app.globalData.isLogin });
     this.loadRegion();
     this.loadBankList();
-    if(!this.data.status){
-      this.setData({
-        showUserConsent: true
-      })
-    }else{
-      this.loadAccount();
-    }
+    this.loadAccount();
+    
   },
 
   /* ===== 省市区 ===== */
@@ -199,6 +194,11 @@ Page({
           shimingCode: 'data:image/png;base64,'+acc.shimingCode || '',
           statusClass: acc.status === 4 ? 'success' : acc.status === 2 ? 'error' : ''
         });
+        if(!this.data.status){
+          this.setData({
+            showUserConsent: true
+          })
+        }
       }
     });
   },

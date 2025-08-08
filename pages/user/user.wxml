@@ -182,7 +182,7 @@
       </view>
     </block>
   </view>
-  <view class="version">版本:25.08.06</view>
+  <view class="version">版本:25.08.08</view>
 </view>
 
 <view wx:if="{{showExpireModal}}" class="expire-mask">
