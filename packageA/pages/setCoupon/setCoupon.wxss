@@ -34,7 +34,7 @@ page {
 }
 
 .list .item {
-  height: 300rpx;
+  /* height: 300rpx; */
   border-radius: 20rpx;
   margin-bottom: 16rpx;
   padding: 10rpx 30rpx;
@@ -59,7 +59,7 @@ page {
 
 /* 红色渐变背景 */
 .gradient-red {
-  background: linear-gradient(135deg, #ff4757 0%, #ff6b7a 50%, #ff8a9b 100%);
+  background: linear-gradient(135deg, #f04b59 0%, #f06573 50%, #ff8a9b 70%);
 }
 
 .gradient-red::before {
@@ -199,6 +199,21 @@ page {
   background-color: #27c0fdf8;
   font-weight: 600;
   color: #fff;
+}
+
+
+.list .item .buttom {
+  display: flex;
+  justify-content: space-around;
+}
+
+.list .item .buttom .btn {
+  background-color: var(--main-color);
+  /* font-weight: 600; */
+  font-size: 26rpx;
+  color: #fff;
+  /* padding: 10rpx 30rpx; */
+  border-radius: 10rpx;
 }
 
 .bt {

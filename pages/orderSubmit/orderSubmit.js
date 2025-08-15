@@ -100,22 +100,27 @@ Page({
   onShow() {
     var that = this;
     var _app = getApp();
+    console.log('onShow...');
+    console.log(that.data.groupPayNo);
     that.setData({
       isLogin: _app.globalData.isLogin,
       xiaoshiShow: false, //小时开台
-      tuangouShow: false, //团购开台
+      tuangouShow: that.data.groupPayNo?true:false, //团购开台
       taocanShow: false, //套餐开台
       yajinShow: false, //押金开台
     });
     if (that.data.showYeepay && that.data.orderNo) {
-      // 清除跳转标记
+      //支付完过来的 清除跳转标记
       that.setData({
         showYeepay: false,
       });
       that.getOrderInfoData();
     }else{
+      console.log('不是从支付过来的');
+      //不是从支付过来的
       if (!that.data.goPage) {
         //扫码过来的延时1秒
+        console.log('goPage...');
         wx.showLoading({
           title: "加载中...",
         });
@@ -126,7 +131,10 @@ Page({
           wx.hideLoading();
         }, 1000);
       }
-      that.getroomInfodata(that.data.roomId).then((res) => {});
+      //没有房间信息再获取房间信息
+      if(!that.data.roominfodata){
+        that.getroomInfodata(that.data.roomId).then((res) => {});
+      }
       if (that.data.groupPayNo) {
         console.log("有团购券");
         that.setData({
@@ -740,10 +748,10 @@ Page({
         that.setData({
           goPage: true,
         });
+        that.getOrderInfoData();
       },
       fail: function (res) {
         console.log("*************支付失败");
-        console.log(res);
         wx.showToast({
           title: "支付失败!",
           icon: "error",
@@ -808,13 +816,15 @@ Page({
       success(res) {
         //扫描成功
         //console.log(res) //输出回调信息
+        // wx.showToast({
+        //   title: "扫码成功",
+        //   icon: "success",
+        //   duration: 500,
+        // });
         that.setData({
           groupPayNo: res.result,
-        });
-        wx.showToast({
-          title: "扫码成功",
-          icon: "error",
-          duration: 1000,
+          tuangouShow: true,
+          typeIndex: 1,
         });
         that.checkGroup();
       },

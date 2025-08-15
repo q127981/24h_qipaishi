@@ -1,0 +1,667 @@
+.container {
+  padding: 0;
+  /* 保持精致的多层渐变背景 */
+  background: linear-gradient(180deg, #4a90e2 0%, #6bb6ff 25%, #87ceeb 50%, #f8fafc 70%);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* 添加加载状态样式 */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: white;
+  background: radial-gradient(circle at center, rgba(74, 144, 226, 0.8), rgba(74, 144, 226, 1));
+}
+
+.loading-spinner {
+  width: 80rpx;
+  height: 80rpx;
+  border: 6rpx solid rgba(255, 255, 255, 0.2);
+  border-top: 6rpx solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  box-shadow: 0 0 20rpx rgba(255, 255, 255, 0.3);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  margin-top: 30rpx;
+  font-size: 32rpx;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+.main-content {
+  opacity: 1;
+  animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(40rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 减少顶部装饰区域高度 */
+.top-decoration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 350rpx;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.decoration-circle {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(1rpx);
+}
+
+.circle-1 {
+  width: 280rpx;
+  height: 280rpx;
+  top: -140rpx;
+  right: -70rpx;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.4) 0%, rgba(255, 193, 7, 0.2) 40%, rgba(255, 215, 0, 0.05) 70%, transparent 100%);
+  animation: float 8s ease-in-out infinite;
+}
+
+.circle-2 {
+  width: 160rpx;
+  height: 160rpx;
+  top: 80rpx;
+  left: -40rpx;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.02) 80%, transparent 100%);
+  animation: float 6s ease-in-out infinite reverse;
+}
+
+.circle-3 {
+  width: 120rpx;
+  height: 120rpx;
+  top: 180rpx;
+  right: 120rpx;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.5) 0%, rgba(255, 193, 7, 0.2) 40%, rgba(255, 215, 0, 0.05) 70%, transparent 100%);
+  animation: float 7s ease-in-out infinite;
+}
+
+/* 添加额外的装饰元素 */
+.circle-4 {
+  width: 60rpx;
+  height: 60rpx;
+  top: 300rpx;
+  left: 100rpx;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(255, 193, 7, 0.2) 60%, transparent 100%);
+  animation: float 5s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-30rpx) scale(1.05); }
+}
+
+/* 减少优惠券卡片的外边距 */
+.coupon-card {
+  background: linear-gradient(145deg, #ffffff 0%, #fafbfc 100%);
+  border-radius: 32rpx;
+  margin: 50rpx 30rpx 30rpx;
+  box-shadow: 
+    0 32rpx 80rpx rgba(0, 0, 0, 0.12),
+    0 16rpx 40rpx rgba(74, 144, 226, 0.08),
+    0 8rpx 20rpx rgba(0, 0, 0, 0.04);
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  border: 1rpx solid rgba(255, 255, 255, 0.8);
+}
+
+.coupon-card::before {
+  content: '';
+  position: absolute;
+  left: -24rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48rpx;
+  height: 48rpx;
+  background: linear-gradient(145deg, #f8fafc, #e2e8f0);
+  border-radius: 50%;
+  z-index: 2;
+  box-shadow: 
+    inset 0 0 0 6rpx white,
+    0 8rpx 16rpx rgba(0, 0, 0, 0.1);
+}
+
+.coupon-card::after {
+  content: '';
+  position: absolute;
+  right: -24rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48rpx;
+  height: 48rpx;
+  background: linear-gradient(145deg, #f8fafc, #e2e8f0);
+  border-radius: 50%;
+  z-index: 2;
+  box-shadow: 
+    inset 0 0 0 6rpx white,
+    0 8rpx 16rpx rgba(0, 0, 0, 0.1);
+}
+
+/* 减少活动标题区域的内边距 */
+.activity-header {
+  background: linear-gradient(135deg, #4a90e2 0%, #6bb6ff 50%, #87ceeb 100%);
+  padding: 35rpx 30rpx;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.activity-header::before {
+  content: '';
+  position: absolute;
+  top: -60%;
+  left: -60%;
+  width: 220%;
+  height: 220%;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, rgba(255, 193, 7, 0.08) 40%, transparent 70%);
+  animation: rotate 25s linear infinite;
+}
+
+/* 添加微妙的光效 */
+.activity-header::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  animation: headerShine 3s ease-in-out infinite;
+}
+
+@keyframes headerShine {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 减少活动徽章的间距 */
+.activity-badge {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 193, 7, 0.4));
+  color: #ff8f00;
+  font-size: 22rpx;
+  padding: 8rpx 20rpx;
+  border-radius: 20rpx;
+  display: inline-block;
+  margin-bottom: 16rpx;
+  border: 2rpx solid rgba(255, 215, 0, 0.7);
+  position: relative;
+  z-index: 1;
+  font-weight: 600;
+  backdrop-filter: blur(10rpx);
+  box-shadow: 0 4rpx 12rpx rgba(255, 193, 7, 0.3);
+}
+
+.activity-badge.ended {
+  background: linear-gradient(135deg, rgba(255, 77, 79, 0.3), rgba(255, 107, 107, 0.4));
+  color: #ff4d4f;
+  border: 2rpx solid rgba(255, 77, 79, 0.6);
+  box-shadow: 0 4rpx 12rpx rgba(255, 77, 79, 0.3);
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* 减少活动标题字体大小 */
+.activity-title {
+  color: white;
+  text-align: left;
+  font-size: 32rpx;
+  font-weight: bold;
+  text-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.3);
+  flex: 1;
+}
+
+/* 重新设计分享按钮 */
+/* 调整分享按钮尺寸 */
+.share-btn {
+  width: 120rpx;
+  height: 56rpx;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+  border: 2rpx solid rgba(255, 255, 255, 0.4);
+  border-radius: 28rpx;
+  padding: 0;
+  margin: 0;
+  backdrop-filter: blur(20rpx);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+}
+
+.share-btn::after {
+  border: none;
+}
+
+.share-btn:active {
+  transform: scale(0.95) translateY(2rpx);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.2));
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.15);
+}
+
+.share-btn-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+  width: 100%;
+  height: 100%;
+}
+
+.share-icon {
+  font-size: 28rpx;
+  color: white;
+  text-shadow: 0 1rpx 2rpx rgba(0, 0, 0, 0.2);
+}
+
+/* 减少分享按钮字体大小 */
+.share-text {
+  color: white;
+  font-size: 22rpx;
+  font-weight: 600;
+  text-shadow: 0 1rpx 2rpx rgba(0, 0, 0, 0.2);
+}
+
+/* 优惠券主体 */
+/* 减少优惠券主体的内边距 */
+.coupon-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx;
+  border-bottom: 2rpx dashed #e8e8e8;
+}
+
+.coupon-main.ended {
+  opacity: 0.6;
+}
+
+/* 减少优惠券名称字体大小 */
+.coupon-name {
+  color: #333;
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-bottom: 12rpx;
+}
+
+.coupon-type-badge {
+  /* 使用调整后的浅蓝色 */
+  background: linear-gradient(135deg, #4a90e2, #6bb6ff);
+  color: white;
+  font-size: 22rpx;
+  padding: 8rpx 16rpx;
+  border-radius: 16rpx;
+  display: inline-block;
+  font-weight: 600;
+  box-shadow: 0 4rpx 12rpx rgba(74, 144, 226, 0.3);
+}
+
+.coupon-value {
+  /* 使用调整后的浅蓝色 */
+  color: #4a90e2;
+  font-size: 46rpx;
+  font-weight: 800;
+  text-align: right;
+  text-shadow: 0 2rpx 4rpx rgba(74, 144, 226, 0.2);
+}
+
+.coupon-unit {
+  color: #999;
+  font-size: 24rpx;
+  text-align: right;
+  margin-top: 8rpx;
+}
+
+/* 增强重要信息区域视觉效果 */
+/* 减少重要信息区域的内边距 */
+.important-info {
+  padding: 30rpx;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  position: relative;
+  margin: 0 -1rpx;
+}
+
+.important-info::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20rpx;
+  right: 20rpx;
+  height: 3rpx;
+  background: linear-gradient(90deg, transparent 0%, #4a90e2 20%, #6bb6ff 50%, #4a90e2 80%, transparent 100%);
+  border-radius: 2rpx;
+}
+
+.important-info::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 20rpx;
+  right: 20rpx;
+  height: 1rpx;
+  background: linear-gradient(90deg, transparent 0%, rgba(74, 144, 226, 0.3) 50%, transparent 100%);
+}
+
+/* 减少信息项之间的间距 */
+.info-highlight {
+  display: flex;
+  justify-content: space-between;
+  gap: 20rpx;
+}
+
+.highlight-item {
+  flex: 1;
+  text-align: center;
+}
+
+.highlight-label {
+  color: #666;
+  font-size: 26rpx;
+  margin-bottom: 8rpx;
+}
+
+.highlight-value {
+  color: #333;
+  font-size: 26rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+}
+
+.highlight-value.countdown {
+  /* 使用调整后的浅蓝色 */
+  color: #4a90e2;
+  text-shadow: 0 1rpx 2rpx rgba(74, 144, 226, 0.2);
+}
+
+/* 增强进度条视觉效果 */
+/* 调整进度条高度 */
+.progress-bar {
+  width: 100%;
+  height: 16rpx;
+  background: linear-gradient(135deg, #e2e8f0, #cbd5e0);
+  border-radius: 8rpx;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 
+    inset 0 2rpx 4rpx rgba(0, 0, 0, 0.1),
+    0 1rpx 2rpx rgba(0, 0, 0, 0.05);
+  border: 1rpx solid rgba(255, 255, 255, 0.8);
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ffd700 0%, #4a90e2 30%, #6bb6ff 70%, #87ceeb 100%);
+  border-radius: 8rpx;
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 
+    0 2rpx 8rpx rgba(74, 144, 226, 0.4),
+    inset 0 1rpx 0 rgba(255, 255, 255, 0.3);
+}
+
+.progress-fill::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+  animation: progress-shine 2.5s ease-in-out infinite;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3), transparent);
+  border-radius: 8rpx 8rpx 0 0;
+}
+
+@keyframes progress-shine {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* 减少紧急提示字体大小 */
+.urgency-tip {
+  /* 使用调整后的浅蓝色 */
+  color: #4a90e2;
+  font-size: 20rpx;
+  margin-top: 8rpx;
+  font-weight: 600;
+  text-shadow: 0 1rpx 2rpx rgba(74, 144, 226, 0.2);
+}
+
+/* 详情信息 */
+/* 减少详情信息的内边距和间距 */
+.coupon-details {
+  padding: 25rpx 30rpx;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+
+.detail-row:last-child {
+  margin-bottom: 0;
+}
+
+.detail-item {
+  flex: 1;
+}
+
+/* 优化标题和内容的样式区分 */
+.detail-label {
+  color: #64748b;
+  font-size: 24rpx;
+  margin-bottom: 8rpx;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5rpx;
+}
+
+.detail-value {
+  color: #1e293b;
+  font-size: 26rpx;
+  font-weight: 700;
+  line-height: 1.4;
+  padding: 6rpx 12rpx;
+  background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+  border-radius: 8rpx;
+  border-left: 3rpx solid #4a90e2;
+}
+
+.label {
+  color: #666;
+  font-size: 26rpx;
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.value {
+  color: #333;
+  font-size: 28rpx;
+  font-weight: 500;
+}
+
+/* 状态提示 */
+/* 减少状态提示的间距 */
+.status-tip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 30rpx 20rpx;
+  padding: 20rpx;
+  background: #f6ffed;
+  border-radius: 16rpx;
+  border: 2rpx solid #b7eb8f;
+}
+
+.status-tip.ended {
+  background: #fff2f0;
+  border: 2rpx solid #ffccc7;
+}
+
+.success-icon {
+  width: 40rpx;
+  height: 40rpx;
+  background: #52c41a;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  margin-right: 16rpx;
+}
+
+.ended-icon {
+  width: 40rpx;
+  height: 40rpx;
+  background: #ff4d4f;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  font-weight: bold;
+  margin-right: 16rpx;
+}
+
+.received-text {
+  color: #52c41a;
+  font-size: 28rpx;
+  font-weight: 500;
+}
+
+.ended-text {
+  color: #ff4d4f;
+  font-size: 28rpx;
+  font-weight: 500;
+}
+
+/* 增强按钮视觉效果 */
+/* 减少按钮的高度和间距 */
+.receive-btn {
+  width: calc(100% - 60rpx);
+  height: 96rpx;
+  margin: 0 30rpx 15rpx;
+  /* 使用调整后的浅蓝色渐变 */
+  background: linear-gradient(135deg, #4a90e2 0%, #6bb6ff 50%, #87ceeb 100%);
+  border-radius: 48rpx;
+  border: none;
+  box-shadow: 
+    0 16rpx 40rpx rgba(74, 144, 226, 0.4),
+    0 8rpx 20rpx rgba(74, 144, 226, 0.2),
+    inset 0 1rpx 0 rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.receive-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), transparent);
+  border-radius: 48rpx 48rpx 0 0;
+}
+
+.btn-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* 减少按钮字体大小 */
+.btn-text {
+  color: white;
+  font-size: 32rpx;
+  font-weight: 800;
+  z-index: 2;
+  text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.2);
+}
+
+.receive-btn:not(.disabled):active {
+  transform: translateY(6rpx) scale(0.98);
+  box-shadow: 
+    0 8rpx 20rpx rgba(74, 144, 226, 0.4),
+    0 4rpx 12rpx rgba(74, 144, 226, 0.2);
+}
+
+/* 添加返回下单按钮样式 */
+/* 调整返回下单按钮尺寸 */
+.back-order-btn {
+  width: calc(100% - 60rpx);
+  height: 80rpx;
+  margin: 0 30rpx 30rpx;
+  background: linear-gradient(135deg, #ffffff, #f8fafc);
+  border: 3rpx solid #4a90e2;
+  border-radius: 40rpx;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 
+    0 8rpx 20rpx rgba(74, 144, 226, 0.15),
+    inset 0 1rpx 0 rgba(255, 255, 255, 0.8);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.back-order-btn::after {
+  border: none;
+}
+
+/* 减少返回下单按钮字体大小 */
+.back-order-btn .btn-text {
+  color: #4a90e2;
+  font-size: 28rpx;
+  font-weight: 700;
+  text-shadow: none;
+}
+
+.back-order-btn:active {
+  transform: translateY(3rpx) scale(0.98);
+  background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+  box-shadow: 
+    0 4rpx 12rpx rgba(74, 144, 226, 0.2),
+    inset 0 1rpx 0 rgba(255, 255, 255, 0.6);
+}

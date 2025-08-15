@@ -34,7 +34,8 @@
     "pages/pay/pay",
     "pages/searchOrder/index",
     "pages/yeepay/index",
-    "pages/yeepay/agreement"
+    "pages/yeepay/agreement",
+    "pages/couponActive/index"
   ],
   "subpackages": [
     {

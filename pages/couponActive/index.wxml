@@ -1,0 +1,134 @@
+<view class="container">
+  
+  <!-- 加载状态显示 -->
+  <view class="loading-container" wx:if="{{isLoading}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+  
+  <view class="main-content" wx:else>
+    <!-- 顶部装饰背景 -->
+    <view class="top-decoration">
+      <view class="decoration-circle circle-1"></view>
+      <view class="decoration-circle circle-2"></view>
+      <view class="decoration-circle circle-3"></view>
+    </view>
+    
+    <!-- 优惠券卡片 -->
+    <view class="coupon-card">
+      <!-- 活动标题区域 -->
+      <view class="activity-header">
+        <!-- <view class="activity-badge {{isActivityEnded ? 'ended' : ''}}">
+          {{isActivityEnded ? '活动已结束' : '限时活动'}}
+        </view> -->
+        <!-- 重新设计标题和分享按钮布局 -->
+        <view class="header-top">
+          <view class="activity-title">{{activeName}}</view>
+          <button class="share-btn" open-type="share" data-id="{{couponId}}">
+            <view class="share-btn-inner">
+              <view class="share-icon">
+                <view class="share-arrow"></view>
+                <view class="share-dot"></view>
+              </view>
+              <text class="share-text">分享</text>
+            </view>
+          </button>
+        </view>
+      </view>
+      
+      <!-- 优惠券主体信息 -->
+      <view class="coupon-main {{isActivityEnded ? 'ended' : ''}}">
+        <view class="coupon-left">
+          <view class="coupon-name">{{couponName}}</view>
+          <view class="coupon-type-badge">{{couponTypeText}}</view>
+        </view>
+        <view class="coupon-right">
+          <!-- 使用price字段显示面额 -->
+          <view class="coupon-value" wx:if="{{type==2}}">¥{{price}}元</view>
+          <view class="coupon-value" wx:else="">{{price}}小时</view>
+          <view class="coupon-unit">面额</view>
+        </view>
+      </view>
+      
+      <!-- 重要信息突出显示 -->
+      <view class="important-info">
+        <view class="info-highlight">
+          <view class="highlight-item">
+            <view class="highlight-label">剩余数量</view>
+            <!-- 使用balanceNum替代banlanceNum -->
+            <view class="highlight-value">{{balanceNum}}/{{num}}</view>
+            <view class="progress-bar">
+              <view class="progress-fill" style="width: {{(balanceNum/num)*100}}%"></view>
+            </view>
+          </view>
+          <view class="highlight-item">
+            <view class="highlight-label">活动截止</view>
+            <view class="highlight-value countdown {{isActivityEnded ? 'ended' : ''}}">{{endTime}}</view>
+            <view class="urgency-tip {{isActivityEnded ? 'ended' : ''}}">
+              {{isActivityEnded ? '活动已结束' : '仅剩' + remainingDays + '天'}}
+            </view>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 优惠券详情 -->
+      <view class="coupon-details">
+        <view class="detail-row">
+          <view class="detail-item">
+            <!-- 优化标题和内容的样式区分 -->
+            <view class="detail-label">优惠券过期时间</view>
+            <view class="detail-value">{{expriceTime}}</view>
+          </view>
+          <view class="detail-item">
+            <view class="detail-label">适用门店</view>
+            <view class="detail-value">{{storeName}}</view>
+          </view>
+        </view>
+        <view class="detail-row">
+          <view class="detail-item">
+            <view class="detail-label">使用门槛</view>
+            <view class="detail-value" wx:if="{{type==2}}">满¥{{minUsePrice}}元可用</view>
+            <view class="detail-value" wx:if="{{type==1||type==3}}">满{{minUsePrice}}小时可用</view>
+          </view>
+          <view class="detail-item">
+            <view class="detail-label">适用房型</view>
+            <view class="detail-value">{{roomTypeText}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 使用isGet字段判断领取状态 -->
+    <view class="status-tip" wx:if="{{isGet && !isActivityEnded}}">
+      <view class="success-icon">✓</view>
+      <text class="received-text">您已成功领取此优惠券</text>
+    </view>
+    
+    <view class="status-tip ended" wx:if="{{isActivityEnded}}">
+      <view class="ended-icon">!</view>
+      <text class="ended-text">你来晚了，活动已结束！</text>
+    </view>
+    
+    <!-- 领取按钮 -->
+    <button 
+      class="receive-btn {{isGet && !isActivityEnded ? 'disabled' : ''}} {{balanceNum <= 0 && !isActivityEnded ? 'sold-out' : ''}}" 
+      disabled="{{isGet || balanceNum <= 0}}"
+      bindtap="receiveCoupon"
+      wx:if="{{!isActivityEnded}}">
+      <view class="btn-content">
+        <text class="btn-text">{{buttonText}}</text>
+        <view class="btn-shine" wx:if="{{!isGet && balanceNum > 0}}"></view>
+      </view>
+    </button>
+    
+    <!-- 返回下单按钮，在特定状态下显示，包括活动已结束 -->
+    <button 
+      class="back-order-btn" 
+      wx:if="{{isGet || balanceNum <= 0 || isActivityEnded}}"
+      bindtap="goBackToOrder">
+      <view class="btn-content">
+        <text class="btn-text">返回门店下单</text>
+      </view>
+    </button>
+  </view>
+</view>

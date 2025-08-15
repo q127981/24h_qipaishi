@@ -1,7 +1,6 @@
 const datepicker = require("../../utils/datepicker");
 const app = getApp();
 var http = require("../../utils/http");
-var lock = require("../../utils/lock.js");
 
 Page({
   data: {
