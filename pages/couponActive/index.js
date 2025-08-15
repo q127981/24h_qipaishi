@@ -279,4 +279,21 @@ Page({
       imageUrl: "/img/share_coupon.jpg",
     };
   },
+  onShareTimeline(res){
+    console.log('分享触发', res);
+    let couponId = res.target.dataset.id;
+    if (couponId) {
+      return {
+        title: '邀请您领取优惠券~',
+        path: `/pages/couponActive/index?couponId=${couponId}`,
+        imageUrl: '/img/share_coupon.jpg',
+      };
+    }else{
+      wx.showToast({
+        title: '请选择优惠券',
+        icon: 'error'
+      })
+        return {};
+    }
+  },
 });
