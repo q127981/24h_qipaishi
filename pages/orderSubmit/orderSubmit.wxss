@@ -676,6 +676,11 @@ page {
   background-color: rgb(226, 226, 226);
 }
 
+.timeSelect .timeOutlet .item.hight{
+  /* background-color: #8ef0a6; */
+  color: #108ee9;
+}
+
 
 .timeSelect .item .time {
   font-size: 42rpx;
@@ -686,6 +691,9 @@ page {
   font-size: 24rpx;
   text-align: center;
   color: rgb(136, 134, 134);
+}
+.timeSelect .item .available.hight {
+  color: #108ee9;
 }
 
 .timeSelect .item .remark {

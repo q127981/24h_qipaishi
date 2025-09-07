@@ -48,6 +48,7 @@
         </view>
       </view>
       <view class="buttom">
+        <button class="btn" bind:tap="deleteCoupon" data-id="{{item.couponId}}">删除</button>
         <button class="btn" bind:tap="openActive" data-id="{{item.couponId}}" data-name="{{item.couponName}}">发起活动</button>
         <button class="btn" bind:tap="stopActice" data-id="{{item.couponId}}">结束活动</button>
         <button class="btn" open-type="share" data-id="{{item.couponId}}">分享领券</button>

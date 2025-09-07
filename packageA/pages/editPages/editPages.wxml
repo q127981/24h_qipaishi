@@ -43,12 +43,12 @@
       </view>
       <input name="dyId" class="input lt" placeholder="抖音团购商品id" required type="number" value="{{item.dyId}}" />
     </view>
-    <view class="form-item">
+    <!-- <view class="form-item">
       <view class="label-container">
         <text class="label">快手团购商品id</text>
       </view>
       <input name="ksId" class="input lt" placeholder="快手团购商品id" required type="number" value="{{item.ksId}}" />
-    </view>
+    </view> -->
     <view class="form-item">
       <view class="label-container">
         <view class="label">包间限制：</view>

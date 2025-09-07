@@ -275,7 +275,7 @@ function configLockWifi(lockData, wifiSSid, wifiPwd) {
             })
           }
         })
-      }, 5000);
+      }, 1000);
     } else {
       wx.hideLoading();
       wx.showModal({
@@ -290,10 +290,10 @@ function configLockWifi(lockData, wifiSSid, wifiPwd) {
 }
 
 
+
 function getPlugin() {
   return plugin;
 }
-
 
 module.exports = {
   blueDoorOpen: blueDoorOpen,

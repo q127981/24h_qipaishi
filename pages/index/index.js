@@ -57,11 +57,6 @@ Page({
    */
   onLoad(options) {
     var that = this;
-
-    that.setData({
-      // isLogin: app.globalData.isLogin,
-      popshow: true
-    })
     console.log("onLoad index");
     that.getTap();
     var storeId = '';
@@ -77,6 +72,10 @@ Page({
       });
       wx.setStorageSync('global_store_id', storeId);
     }
+    that.setData({
+      // isLogin: app.globalData.isLogin,
+      popshow: true
+    })
   },
 
   /**

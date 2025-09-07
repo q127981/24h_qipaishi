@@ -20,6 +20,8 @@ Page({
     expireTime: '',
     storeId: '',
     setLockPwdShow: false,
+    setDYShow: false,
+    dyId: '',
     lockData: '',
     erweima: false,
   },
@@ -30,13 +32,12 @@ Page({
   onLoad: function (options) {
     let that = this;
     let storeInfo = JSON.parse(decodeURIComponent(options.storeInfo));
-    console.log(storeInfo)
     that.setData({
       storeId: storeInfo.storeId,
       expireTime: storeInfo.expireTime,
       lockData: storeInfo.lockData
     });
-    that.getData()
+    // that.getData();
   },
 
   /**
@@ -111,6 +112,7 @@ Page({
             that.setData({
               storeName: info.data.storeName,
               qrCode: info.data.qrCode,
+              dyId: info.data.dyId,
               simpleModel: info.data.simpleModel,
               templateKey: info.data.templateKey,
             })
@@ -199,7 +201,7 @@ Page({
         if (info.code == 0) {
           wx.showModal({
             title: '提示',
-            content: '请点击复制按钮,然后打开系统浏览器,并粘贴链接打开! 完成授权流程',
+            content: '请点击复制按钮,然后打开系统浏览器,并粘贴链接打开! 完成授权流程,授权完成后一定要设置抖音门店ID！',
             confirmText: '复制',
             complete: (res) => {
               if (res.confirm) {
@@ -285,6 +287,83 @@ Page({
     } else {
       wx.showToast({
         title: '未使用密码锁',
+      })
+    }
+  },
+  resetQrCode(e){
+    var that = this;
+    let storeId = e.currentTarget.dataset.id
+    wx.showModal({
+      title: '温馨提示',
+      content: '将重新生成此门店的二维码以及所有房间的二维码、续费码，时间较长，请耐心等待！您是否确认重置？',
+      complete: (res) => {
+        if (res.cancel) {
+        }
+        if (res.confirm) {
+          http.request(
+            "/member/store/resetQrcode?storeId=" + storeId,
+            "1",
+            "post", {
+            },
+            app.globalData.userDatatoken.accessToken,
+            "操作中...",
+            function success(info) {
+              if (info.code == 0) {
+                wx.showToast({
+                  title: '操作成功',
+                })
+                that.getData();
+              } else {
+                wx.showModal({
+                  content: info.msg,
+                  showCancel: false,
+                })
+              }
+            },
+            function fail(info) {
+            }
+          )
+        }
+      }
+    })
+  },
+  setDouyinId(){
+    var that = this;
+    that.setData({
+      setDYShow: true
+    })
+  },
+  confirmSetDYID(){
+    var that = this;
+    if(that.data.dyId && that.data.dyId.length>0){
+      http.request(
+        "/member/store/setDouyinId?storeId=" + that.data.storeId +"&dyId="+that.data.dyId,
+        "1",
+        "post", {
+        },
+        app.globalData.userDatatoken.accessToken,
+        "操作中...",
+        function success(info) {
+          if (info.code == 0) {
+            wx.showToast({
+              title: '操作成功',
+            })
+            that.getData();
+          } else {
+            wx.showModal({
+              content: info.msg,
+              showCancel: false,
+            })
+          }
+        },
+        function fail(info) {
+        }
+      )
+
+    }else{
+      wx.showToast({
+        title: '未填写门店ID',
+        icon: 'error'
       })
     }
   },

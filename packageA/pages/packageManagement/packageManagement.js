@@ -281,6 +281,39 @@ Page({
       url: '../editPages/editPages?item=' + params+'&storeId='+this.data.storeId+'&storeName='+this.data.storeName,
     })
   },
+  deletePkg(e){
+    var that = this;
+    let id= e.currentTarget.dataset.id;
+    wx.showModal({
+      title: '温馨提示',
+      content: '您是否确认删除此套餐？',
+      complete: (res) => {
+        if (res.cancel) {
+        }
+        if (res.confirm) {
+          http.request(
+            "/member/pkg/admin/delete/"+id,
+            "1",
+            "post",
+            {
+            },
+            app.globalData.userDatatoken.accessToken,
+            "加载中...",
+            function success(info) {
+              if (info.code == 0 ) {
+                wx.showToast({
+                  title: '操作成功',
+                  icon: 'success'
+                })
+                that.getPkgList('refresh');
+              }
+            },
+            function fail(info) {}
+          );
+        }
+      }
+    })
+  },
 
 
 })

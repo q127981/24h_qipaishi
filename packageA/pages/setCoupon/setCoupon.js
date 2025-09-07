@@ -574,4 +574,38 @@ Page({
     
 
   },
+  deleteCoupon(e){
+    var that = this;
+    let couponId= e.currentTarget.dataset.id;
+    wx.showModal({
+      title: '温馨提示',
+      content: '您是否确认删除此优惠券？',
+      complete: (res) => {
+        if (res.cancel) {
+        }
+        if (res.confirm) {
+          http.request(
+            "/member/manager/deleteCoupon?couponId="+couponId,
+            "1",
+            "post",
+            {
+            },
+            app.globalData.userDatatoken.accessToken,
+            "加载中...",
+            function success(info) {
+              if (info.code == 0 ) {
+                wx.showToast({
+                  title: '操作成功',
+                  icon: 'success'
+                })
+                that.getMainListdata("refresh");
+              }
+            },
+            function fail(info) {}
+          );
+        }
+      }
+    })
+
+  }
 });

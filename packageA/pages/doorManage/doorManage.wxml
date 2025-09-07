@@ -70,6 +70,10 @@
           <iconfont name="shebeiguanli1" size="28"></iconfont>
           <text>设备管理</text>
         </navigator>
+        <view class="item" bind:tap="resetQrCode" data-id="{{storeId}}">
+          <iconfont name="xiaochengxuma" size="28"></iconfont>
+          <text>一键重新生成全部小程序码</text>
+        </view>
       </view>
     </view>
 
@@ -136,47 +140,29 @@
       <view class="top">团购营销</view>
       <view class="control">
         <!-- todo 页面新增 -->
-        <navigator class="item" bind:tap="meituanScope" data-id="{{storeId}}">
+        <view class="item" bind:tap="meituanScope" data-id="{{storeId}}">
           <iconfont name="meituan" size="28"></iconfont>
           <text>美团授权</text>
-        </navigator>
-        <navigator class="item" bind:tap="douyinScope" data-id="{{storeId}}">
-          <iconfont name="douyin" size="28"></iconfont>
-          <text>抖音授权</text>
-        </navigator>
+        </view>
         <!-- <navigator class="item" url="/packageA/pages/pushrule/pushrule?storeId={{storeId}}">
           <iconfont name="meituan" size="28"></iconfont>
           <text>预订配置</text>
         </navigator> -->
-        <!-- todo 预定退款暂时不做 -->
         <navigator class="item" url="/packageA/pages/ydCancel/index?storeId={{storeId}}">
           <iconfont name="meituan" size="28"></iconfont>
           <text>预订退款</text>
         </navigator>
-
+        <view class="item" bind:tap="douyinScope" data-id="{{storeId}}">
+          <iconfont name="douyin" size="28"></iconfont>
+          <text>抖音授权</text>
+        </view>
+        <view class="item" bind:tap="setDouyinId" data-id="{{storeId}}">
+          <iconfont name="douyin" size="28"></iconfont>
+          <text>设置抖音ID</text>
+        </view>
       </view>
     </view>
-    <!-- <view class="control-box">
-      <view class="top">设备管理</view>
-      <view class="control" wx:if="{{userinfo.userType!= 14}}">
-        <navigator class="item" url="/packageA/pages/deviceList/deviceList?storeId={{storeId}}&storeName={{storeName}}">
-          <iconfont name="shebeiguanli1" size="28"></iconfont>
-          <text>设备列表</text>
-        </navigator>
-        <navigator class="item" bindtap="queryLockPwd" data-lockdata="{{lockData}}">
-          <iconfont name="e23lock" size="28"></iconfont>
-          <text>查询锁密码</text>
-        </navigator>
-        <navigator class="item" bindtap="setLockPwdShow" data-lockdata="{{lockData}}">
-          <iconfont name="chengseyuechi" size="28"></iconfont>
-          <text>设置锁密码</text>
-        </navigator>
-        <navigator class="item" bindtap="addLockCard" data-lockdata="{{lockData}}" data-roomid="{{storeId}}">
-          <iconfont name="kapian" size="28"></iconfont>
-          <text>添加锁卡片</text>
-        </navigator>
-      </view>
-    </view> -->
+   
   </view>
 </view>
 
@@ -186,6 +172,17 @@
       <label>新管理员密码：</label>
       <input model:value="{{ lockPwd }}" type="number" maxlength="10" style="border: 1px solid var(--main-color);margin: 20rpx;" placeholder="请输入4-10位纯数字密码" />
     </view>
+  </view>
+</van-dialog>
+
+
+<van-dialog use-slot title="设置抖音ID" show="{{ setDYShow }}" show-cancel-button confirm-button-text="确认" bind:confirm="confirmSetDYID">
+  <view class="dialog">
+    <view class="item" style="align-items: center;padding: 20rpx;">
+      <label>抖音门店ID：</label>
+      <input model:value="{{ dyId }}" type="number" maxlength="10" style="border: 1px solid var(--main-color);margin: 20rpx;" placeholder="请输入抖音门店ID（不是账户ID）" />
+    </view>
+    <view>重要提示：抖音授权完成后，必须设置，否则无法核销。在抖音来客APP=》门店管理，查看门店ID。不是账户ID！不是账户ID！不是账户ID！</view>
   </view>
 </van-dialog>
 

@@ -203,7 +203,7 @@
                 </view>
               </view>
               <!-- 有订单 显示等待时间 -->
-              <view class="tab-img-box-wait" wx:if="{{item.status==3}}">
+              <view class="tab-img-box-wait" wx:if="{{item.status==3&&item.endTime}}" bind:tap="goOrder" data-status="{{item.status}}" data-index="{{index}}" data-info="{{item.roomId}}">
                 <view class="tab-wait">
                   <text class="tab-wait-roomName">{{item.roomName}}</text>
                   <view></view>

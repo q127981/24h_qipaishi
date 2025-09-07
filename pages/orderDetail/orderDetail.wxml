@@ -470,12 +470,12 @@
             <iconfont name="yue" size="26"></iconfont>
             <view class="desc">
               <view>
-                余额：
-                {{balance}}元
+                余￥
+                {{balance}}
               </view>
               <view>
-                赠送：
-                {{giftBalance}}元
+                赠￥
+                {{giftBalance}}
               </view>
             </view>
             <view class="selector {{payType == 2 && item.checked ? 'active':''}}"></view>

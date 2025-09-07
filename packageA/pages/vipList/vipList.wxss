@@ -184,12 +184,12 @@ page {
 
 .btn-more {
   background: var(--main-color);
-  width: 100rpx;
-  height: 60rpx;
-  line-height: 60rpx;
-  font-size: 22rpx;
+  /* width: 100rpx; */
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 20rpx;
   color: #fff;
-  margin-right: 20rpx;
+  margin-right: 10rpx;
 }
 
 .bottom {

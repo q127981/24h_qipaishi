@@ -25,7 +25,7 @@
   <view class="form-card" wx:if="{{ !status || status === 2 || status === 5}}">
     <form bindsubmit="submit">
       <view class="hidden" value=""></view>
-      <!-- 一行字段 -->
+
       <view class="field-row">
         <text class="label">真实姓名*</text>
         <input name="legalName" value="{{legalName}}" class="input" placeholder="请输入真实姓名"/>
@@ -39,6 +39,7 @@
         <input name="idCard" value="{{idCard}}" maxlength="18" bindinput="onIdCardInput" class="input" placeholder="身份证号"/>
       </view>
       <text wx:if="{{idCardErr}}" class="err">{{idCardErr}}</text>
+
       <view class="section-title">身份证照片</view>
       <view class="img-row">
         <view class="img-box" bindtap="choose" data-key="idCardFront">
@@ -56,10 +57,17 @@
         <input name="shopName" value="{{shopName}}" class="input" placeholder="请输入3-16个字的简称"/>
       </view>
 
+      <!-- 使用自定义地区树的三级联动选择器 -->
       <view class="field-row">
         <text class="label">所在城市*</text>
-        <picker mode="region" value="{{regionValue}}" bindchange="regionChange">
-          <text class="picker-text">{{regionText || '请选择'}}</text>
+        <picker mode="multiSelector"
+                range="{{regionRange}}"
+                range-key="name"
+                value="{{regionIndex}}"
+                bindchange="onRegionConfirm"
+                bindcolumnchange="onRegionColumnChange">
+          <!-- 显示：优先中文 regionText，没计算好再显示 fullAddress（code 串），最后显示占位 -->
+          <text class="picker-text">{{regionText || fullAddress || '请选择'}}</text>
         </picker>
       </view>
 
@@ -67,7 +75,8 @@
         <text class="label">详细地址*</text>
         <input name="address" value="{{address}}" class="input"/>
       </view>
-      <view class="tip">请务必填写真实的地址信息，否则可能会被风控</view>
+      <view class="tip">请务必填写真实的地址信息（不需要重复写省市区）</view>
+
       <!-- 图片上传 -->
       <view class="section-title">店铺经营照片</view>
       <view class="img-row">
@@ -81,8 +90,8 @@
         </view>
       </view>
       <view class="tip">店铺经营场景为店内实拍照片，可以是收银台、消费的房间、商品陈列柜等，能体现经营的内容。如果不方便拍摄，可以用“豆包”辅助生成照片。银行要求必须上传</view>
+
       <view class="section-title">银行收款信息</view>
-      <!-- 银行信息 -->
       <view class="field-row">
         <text class="label">开户银行*</text>
         <view class="bank-search" bindtap="toggleBankPicker">
@@ -99,8 +108,9 @@
             <text class="close" bindtap="toggleBankPicker">✕</text>
           </view>
           <scroll-view scroll-y class="bank-list">
-            <block wx:for="{{bankList}}" wx:key="code">
-              <view class="bank-item" bindtap="selectBank" data-item="{{item}}">{{item.name}}</view>
+            <block wx:for="{{bankList}}" wx:key="code" wx:for-item="bank">
+              <!-- 将 bank.code 传到 dataset，避免直接传 object 导致问题 -->
+              <view class="bank-item" bindtap="selectBank" data-code="{{bank.code}}">{{bank.name}}</view>
             </block>
           </scroll-view>
         </view>
@@ -111,9 +121,11 @@
         <input name="bankCard" value="{{bankCard}}" type="number" class="input" placeholder="输入本人实名的银行卡号码"/>
       </view>
       <view class="tip">仅支持储蓄卡，不支持信用卡！</view>
+
       <input type="hidden" style="display: none;" value="{{id}}"></input>
       <input type="hidden" style="display: none;" value="{{requestNo}}"></input>
       <input type="hidden" style="display: none;" value="{{fullAddress}}"></input>
+
       <button form-type="submit" class="btn">提交申请</button>
     </form>
   </view>
@@ -123,13 +135,13 @@
     <view class="readonly-row"><text class="label">真实姓名</text><text class="value">{{legalName}}</text></view>
     <view class="readonly-row"><text class="label">手机号</text><text class="value">{{phone}}</text></view>
     <view class="readonly-row"><text class="label">店铺简称</text><text class="value">{{shopName}}</text></view>
-    <view class="readonly-row"><text class="label">经营地址</text><text class="value">{{fullAddress}}</text></view>
+    <!-- 回显：优先显示中文名称（regionText），否则兜底显示 fullAddress（后端 code 串） -->
+    <view class="readonly-row"><text class="label">经营地址</text><text class="value">{{regionText || fullAddress}}</text></view>
     <view class="readonly-row"><text class="label">详细地址</text><text class="value">{{address}}</text></view>
     <view class="readonly-row"><text class="label">开户银行</text><text class="value">{{bankName}}</text></view>
     <view class="readonly-row"><text class="label">银行卡号</text><text class="value">{{bankCard}}</text></view>
   </view>
 </view>
-
 
 <!-- 用户使用需知弹框 -->
 <view wx:if="{{showUserConsent}}" class="mask" catchtouchmove="true">

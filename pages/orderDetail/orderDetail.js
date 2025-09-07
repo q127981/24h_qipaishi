@@ -676,7 +676,8 @@ Page({
           "couponId": that.data.couponId,
           "endTime": that.data.newTime,
           "payType": that.data.payType,
-          "orderNo": that.data.renewOrderNo
+          "orderNo": that.data.renewOrderNo,
+          "pkgId": that.data.pkgId,
         },
           app.globalData.userDatatoken.accessToken,
           "",

@@ -29,8 +29,8 @@
           <view class="price2">{{businfo.orderCount}}</view>
         </view>
         <view class="item">
-          <view class="label color-primary">代下单</view>
-          <view class="price2">{{businfo.adminMoney}}</view>
+          <view class="label color-primary">用户数</view>
+          <view class="price2">{{businfo.userCount}}</view>
         </view>
       </view>
       <view class="line">
@@ -44,9 +44,13 @@
           <view class="price2">{{businfo.dyMoney}}</view>
         </view>
         <view class="item">
+          <view class="label color-primary">代下单</view>
+          <view class="price2">{{businfo.adminMoney}}</view>
+        </view>
+        <!-- <view class="item">
           <view class="label color-primary">快手</view>
           <view class="price2">{{businfo.ksMoney}}</view>
-        </view>
+        </view> -->
       </view>
       <view class="line">
         <view class="item">
