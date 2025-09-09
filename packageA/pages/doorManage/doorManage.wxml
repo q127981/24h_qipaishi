@@ -180,7 +180,7 @@
   <view class="dialog">
     <view class="item" style="align-items: center;padding: 20rpx;">
       <label>抖音门店ID：</label>
-      <input model:value="{{ dyId }}" type="number" maxlength="10" style="border: 1px solid var(--main-color);margin: 20rpx;" placeholder="请输入抖音门店ID（不是账户ID）" />
+      <input model:value="{{ dyId }}" type="number" maxlength="32" style="border: 1px solid var(--main-color);margin: 20rpx;" placeholder="请输入抖音门店ID（不是账户ID）" />
     </view>
     <view>重要提示：抖音授权完成后，必须设置，否则无法核销。在抖音来客APP=》门店管理，查看门店ID。不是账户ID！不是账户ID！不是账户ID！</view>
   </view>
