@@ -157,10 +157,10 @@
               </view>
             </view>
           </view>
+          <view class="pkgInfo" wx:for="{{item.pkgList}}" wx:for-item="pkgItem">
+                  {{pkgItem.pkgName}} ￥{{pkgItem.price}}
+                </view>
           <view class="line2 bt">
-            <view class="pkgInfo" wx:if="{{item.pkgName}}">
-              {{item.pkgName}}
-            </view>
             <view class="bottom">
               <block wx:if="{{item.status == 0}}">
                 <!-- 禁用状态 -->
@@ -353,8 +353,8 @@
               </block>
             </view>
           </view>
-          <view class="pkgInfo" wx:if="{{item.pkgName}}">
-            {{item.pkgName}}
+          <view class="pkgInfo" wx:for="{{item.pkgList}}" wx:for-item="pkgItem">
+                {{pkgItem.pkgName}} ￥{{pkgItem.price}}
           </view>
         </view>
       </view>
@@ -614,10 +614,11 @@
                   </view>
                 </view>
               </view>
-              <view class="line2 bt">
-                <view class="pkgInfo" wx:if="{{item.pkgName}}">
-                  {{item.pkgName}}
+              <view class="pkgInfo" wx:for="{{item.pkgList}}" wx:for-item="pkgItem">
+                  {{pkgItem.pkgName}} ￥{{pkgItem.price}}
                 </view>
+              <view class="line2 bt">
+               
                 <view class="bottom">
                   <block wx:if="{{item.status == 0}}">
                     <!-- 禁用状态 -->
@@ -810,9 +811,9 @@
                   </block>
                 </view>
               </view>
-              <view class="pkgInfo" wx:if="{{item.pkgName}}">
-                {{item.pkgName}}
-              </view>
+              <view class="pkgInfo" wx:for="{{item.pkgList}}" wx:for-item="pkgItem">
+                  {{pkgItem.pkgName}} ￥{{pkgItem.price}}
+                </view>
             </view>
           </view>
         </view>

@@ -58,19 +58,33 @@
       </view>
 
       <!-- 使用自定义地区树的三级联动选择器 -->
-      <view class="field-row">
-        <text class="label">所在城市*</text>
-        <picker mode="multiSelector"
-                range="{{regionRange}}"
-                range-key="name"
-                value="{{regionIndex}}"
-                bindchange="onRegionConfirm"
-                bindcolumnchange="onRegionColumnChange">
-          <!-- 显示：优先中文 regionText，没计算好再显示 fullAddress（code 串），最后显示占位 -->
-          <text class="picker-text">{{regionText || fullAddress || '请选择'}}</text>
-        </picker>
-      </view>
+    <!-- 所在城市 * -->
+<view class="field-row">
+  <text class="label">所在城市*</text>
+  <view class="picker-text" bindtap="toggleRegionPicker">
+    {{regionText || '请选择'}}
+  </view>
+</view>
 
+<!-- 省市区搜索弹窗（复用银行样式） -->
+<view class="bank-modal {{showRegion ? 'show' : ''}}" catchtouchmove="true">
+  <view class="bank-mask" bindtap="toggleRegionPicker"/>
+  <view class="bank-body">
+    <view class="bank-header">
+      <input placeholder="搜索省市区" value="{{regionKey}}" bindinput="onRegionSearch" class="search-input"/>
+      <text class="close" bindtap="toggleRegionPicker">✕</text>
+    </view>
+    <scroll-view scroll-y class="bank-list">
+      <block wx:for="{{regionFilter}}" wx:key="index">
+        <view class="bank-item" bindtap="selectRegion"
+              data-codes="{{item.codes}}"
+              data-text="{{item.text}}">
+          {{item.text}}
+        </view>
+      </block>
+    </scroll-view>
+  </view>
+</view>
       <view class="field-row">
         <text class="label">详细地址*</text>
         <input name="address" value="{{address}}" class="input"/>

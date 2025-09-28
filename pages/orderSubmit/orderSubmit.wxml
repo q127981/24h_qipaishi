@@ -387,7 +387,7 @@
         <view class="item" wx:if="{{item.balanceBuy}}">
           <iconfont name="yue" size="16"></iconfont>可余额支付
         </view>
-        <view class="item">
+        <view class="item" wx:if="{{item.enableHoliday}}">
           <iconfont name="shijian1" size="16"></iconfont>节假日可用
         </view>
       </view>
