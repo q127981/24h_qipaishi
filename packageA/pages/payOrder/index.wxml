@@ -1,0 +1,107 @@
+<view class="container">
+  <!-- 搜索区域 -->
+  <view class="search-area">
+    <view class="search-input">
+      <input type="text" placeholder="请输入订单编号或支付单号" value="{{orderNo}}" bindinput="onSearchInput" />
+    </view>
+    <view class="search-btn" bind:tap="onSearch">
+      <text>搜索</text>
+    </view>
+  </view>
+
+<block wx:if="{{list.length}}">
+  <!-- 列表 -->
+  <view class="list">
+    <view class="item" wx:for="{{list}}" wx:key="item">
+      <view class="top">
+        <view class="info">订单编号：{{item.orderNo}}</view>
+        <view wx:if="{{item.refundPrice<item.price}}" class="btn bg-warning" data-item="{{item}}" bind:tap="refund">退款</view>
+      </view>
+      <view class="info">支付单号：{{item.payOrderNo}}</view>
+      <view class="info">付款时间：{{item.payTime}}</view>
+      <view class="price">
+        <view class="price-item pay-amount">
+          <view class="amount-label">支付金额</view>
+          <view class="amount-value">{{item.price/100.0}}</view>
+        </view>
+        <view class="price-divider"></view>
+        <view class="price-item refund-amount">
+          <view class="amount-label">已退款金额</view>
+          <view class="amount-value">{{item.refundPrice/100.0}}</view>
+        </view>
+      </view>
+      <view class="desc">       
+         订单内容：{{item.goodsName}}
+      </view>
+    </view>
+  </view>
+  <view wx:if="{{canLoadMore}}" class="noteMore">下拉刷新查看更多...</view>
+</block>
+<block wx:else>
+  <view class="nodata">暂无数据</view>
+</block>
+
+<!-- 退款弹框 -->
+<view wx:if="{{showRefundModal}}" class="modal-mask">
+  <view class="modal-content">
+    <view class="modal-header">
+      <text class="modal-title">手动退款</text>
+    </view>
+    
+    <view class="modal-body">
+      <view class="refund-info">
+        <text class="refund-label">最大可退款金额：</text>
+        <text class="refund-max-amount">¥{{maxRefundAmount}}</text>
+      </view>
+      
+      <view class="input-group">
+        <text class="input-label">退款金额(可修改)</text>
+        <view class="input-wrapper">
+          <text class="input-prefix">¥</text>
+          <input 
+            class="amount-input" 
+            type="digit" 
+            value="{{refundAmount}}" 
+            placeholder="请输入退款金额"
+            bindinput="onAmountInput"
+          />
+        </view>
+      </view>
+      
+      <view class="quick-options">
+        <view class="option-buttons">
+          <view 
+            class="option-btn {{selectedOption === 'full' ? 'active' : ''}}" 
+            data-option="full"
+            bind:tap="selectOption"
+          >
+            全退
+          </view>
+          <view 
+            class="option-btn {{selectedOption === 'half' ? 'active' : ''}}" 
+            data-option="half"
+            bind:tap="selectOption"
+          >
+            退一半
+          </view>
+          <view 
+            class="option-btn {{selectedOption === 'quarter' ? 'active' : ''}}" 
+            data-option="quarter"
+            bind:tap="selectOption"
+          >
+            退25%
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="tip">
+      提示：此处为直接退款，并不会对订单产生任何影响
+    </view>
+    
+    <view class="modal-footer">
+      <view class="btn-cancel" bind:tap="hideRefundModal">取消</view>
+      <view class="btn-confirm" bind:tap="confirmRefund">确定</view>
+    </view>
+  </view>
+</view>
+</view>

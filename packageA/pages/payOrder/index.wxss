@@ -1,0 +1,428 @@
+.container {
+  padding: 16rpx;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+/* 搜索区域样式 */
+.search-area {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 20rpx;
+  background: #ffffff;
+  padding: 20rpx;
+  border-radius: 12rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
+}
+
+.search-input {
+  flex: 1;
+}
+
+.search-input input {
+  width: 85%;
+  height: 64rpx;
+  padding: 0 20rpx;
+  background: #f8f9fa;
+  border: 1rpx solid #e1e5e9;
+  border-radius: 32rpx;
+  font-size: 26rpx;
+  color: var(--main-color);
+}
+
+.search-input input::placeholder {
+  color: #999;
+}
+
+.search-input input:focus {
+  border-color: #3498db;
+  background: #fff;
+}
+
+.search-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+  background-color: var(--main-color);
+  color: white;
+  padding: 16rpx 24rpx;
+  border-radius: 32rpx;
+  font-size: 26rpx;
+  font-weight: 500;
+  white-space: nowrap;
+  min-width: 120rpx;
+}
+
+.search-btn:active {
+  background: linear-gradient(135deg, #2980b9, #2471a3);
+  transform: scale(0.98);
+}
+
+.search-icon {
+  font-size: 24rpx;
+}
+
+/* 列表样式 */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+/* 列表项样式 */
+.item {
+  background: #ffffff;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
+  border: 1rpx solid #e1e5e9;
+}
+
+/* 顶部行 - 订单号和按钮 */
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.top .info {
+  flex: 1;
+  font-size: 28rpx;
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+/* 按钮样式 */
+.btn {
+  background: #ff6b35;
+  color: white;
+  padding: 10rpx 30rpx;
+  border-radius: 20rpx;
+  font-size: 22rpx;
+  font-weight: 500;
+  margin-left: 16rpx;
+  white-space: nowrap;
+}
+
+.btn:active {
+  background: #e55a2b;
+  transform: scale(0.98);
+}
+
+/* 信息行样式 */
+.info {
+  font-size: 26rpx;
+  color: #4a5568;
+  line-height: 1.5;
+  margin-bottom: 8rpx;
+}
+
+/* 金额区域样式 */
+.price {
+  display: flex;
+  justify-content: space-between;
+  /* margin: 16rpx 0; */
+  background: linear-gradient(135deg, #f8fafc 0%, #e8f4fd 100%);
+  /* padding: 20rpx; */
+  border-radius: 10rpx;
+  border: 1rpx solid #e1f0ff;
+  position: relative;
+  overflow: hidden;
+}
+
+.price::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4rpx;
+  height: 100%;
+  background: linear-gradient(to bottom, #3498db, #9b59b6);
+}
+
+.price-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.amount-label {
+  font-size: 22rpx;
+  color: #666;
+  margin-bottom: 6rpx;
+}
+
+.amount-value {
+  font-size: 28rpx;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+}
+
+.amount-value::before {
+  font-size: 20rpx;
+  margin-right: 4rpx;
+}
+
+.pay-amount .amount-value {
+  color: #27ae60;
+}
+
+.pay-amount .amount-value::before {
+  content: '¥';
+}
+
+.refund-amount .amount-value {
+  color: #e74c3c;
+}
+
+.refund-amount .amount-value::before {
+  content: '¥';
+}
+
+/* 分隔线 */
+.price-divider {
+  width: 1rpx;
+  background: linear-gradient(to bottom, transparent, #d1d8e0, transparent);
+  margin: 0 20rpx;
+}
+
+/* 描述区域样式 */
+.desc {
+  background: #f8f9fa;
+  padding: 16rpx;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+  color: #666;
+  line-height: 1.4;
+  margin-top: 8rpx;
+  border-left: 3rpx solid #3498db;
+}
+
+/* 加载更多提示 */
+.noteMore {
+  text-align: center;
+  padding: 30rpx 20rpx;
+  color: #999;
+  font-size: 24rpx;
+}
+
+/* 无数据样式 */
+.nodata {
+  text-align: center;
+  padding: 80rpx 40rpx;
+  color: #999;
+  font-size: 28rpx;
+}
+
+/* 响应式适配 */
+@media (max-width: 750rpx) {
+  .container {
+    padding: 12rpx;
+  }
+  
+  .search-area {
+    padding: 16rpx;
+    gap: 12rpx;
+  }
+  
+  .search-input input {
+    height: 60rpx;
+    font-size: 24rpx;
+  }
+  
+  .search-btn {
+    padding: 14rpx 20rpx;
+    font-size: 24rpx;
+    min-width: 110rpx;
+  }
+  
+  .item {
+    padding: 16rpx;
+  }
+  
+  .info {
+    font-size: 24rpx;
+  }
+  
+  .btn {
+    padding: 6rpx 16rpx;
+    font-size: 20rpx;
+  }
+  
+  .price {
+    padding: 16rpx;
+  }
+  
+  .amount-value {
+    font-size: 26rpx;
+  }
+}
+
+/* 退款弹框样式 */
+.modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 20rpx;
+  width: 600rpx;
+  max-width: 90vw;
+  box-shadow: 0 10rpx 40rpx rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  padding: 30rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+  text-align: center;
+}
+
+.modal-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.modal-body {
+  padding: 30rpx;
+}
+
+.refund-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30rpx;
+  padding: 20rpx;
+  background: #f8f9fa;
+  border-radius: 10rpx;
+}
+.modal-content .tip{
+  font-size: 24rpx;
+  margin: 10rpx;
+  color: rgb(201, 7, 7);
+}
+.refund-label {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.refund-max-amount {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #e74c3c;
+}
+
+.input-group {
+  margin-bottom: 30rpx;
+}
+
+.input-label {
+  display: block;
+  font-size: 26rpx;
+  color: #333;
+  margin-bottom: 16rpx;
+  font-weight: 500;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1rpx solid #e1e5e9;
+  border-radius: 10rpx;
+  padding: 0 20rpx;
+  background: #fff;
+}
+
+.input-prefix {
+  font-size: 28rpx;
+  color: #333;
+  margin-right: 10rpx;
+}
+
+.amount-input {
+  flex: 1;
+  height: 80rpx;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.quick-options {
+  margin-bottom: 10rpx;
+}
+
+.options-label {
+  display: block;
+  font-size: 26rpx;
+  color: #333;
+  margin-bottom: 16rpx;
+  font-weight: 500;
+}
+
+.option-buttons {
+  display: flex;
+  gap: 16rpx;
+}
+
+.option-btn {
+  flex: 1;
+  padding: 16rpx;
+  text-align: center;
+  background: #f8f9fa;
+  border: 1rpx solid #e1e5e9;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+  color: #666;
+  transition: all 0.3s;
+}
+
+.option-btn.active {
+  background: var(--main-color);
+  color: #fff;
+}
+
+.modal-footer {
+  display: flex;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.btn-cancel, .btn-confirm {
+  flex: 1;
+  padding: 24rpx;
+  text-align: center;
+  font-size: 28rpx;
+  font-weight: 500;
+}
+
+.btn-cancel {
+  color: #666;
+  border-right: 1rpx solid #f0f0f0;
+}
+
+.btn-cancel:active {
+  background: #f8f9fa;
+  border-bottom-left-radius: 20rpx;
+}
+
+.btn-confirm {
+  background: var(--main-color);
+  color: #fff;
+  border-bottom-right-radius: 20rpx;
+}
+
+.btn-confirm:active {
+  background: #2980b9;
+}

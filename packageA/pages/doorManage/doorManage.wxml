@@ -125,15 +125,14 @@
           <iconfont name="shangpin" size="28"></iconfont>
           <text>商品管理</text>
         </navigator>
-        <navigator class="item" url="/packageA/pages/SetOrder/SetOrder">
-          <iconfont name="dingdan1" size="28"></iconfont>
-          <text>预定订单</text>
-        </navigator>
         <navigator class="item" url="/pages/productOrder/productOrder?manager={{true}}&storeId={{storeId}}">
           <iconfont name="shangpindingdan" size="28"></iconfont>
           <text>商品订单</text>
         </navigator>
-
+        <navigator class="item" url="/packageA/pages/payOrder/index?storeId={{storeId}}">
+          <iconfont name="dingdan1" size="28"></iconfont>
+          <text>微信支付退款</text>
+        </navigator>
       </view>
     </view>
     <view class="control-box">

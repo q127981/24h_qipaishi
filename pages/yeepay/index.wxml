@@ -1,174 +1,107 @@
-<!-- pages/merchant/index.wxml -->
 <view class="page">
-  <!-- 顶部账户信息：iOS 风卡片 -->
-  <view class="account-card">
-    <view class="header">
-      <view class="left">
-        <view class="title">申请状态：{{status == 0 ? '待提交' : status == 1 ? '审核中' : status == 2 ? '审核不通过' : status == 3 ? '待实名' : status == 4 ? '已开通' : '待整改'}}</view>
-        <view class="remark" wx:if="{{status!=4}}">{{remark}}</view>
+  <!-- 顶部输入区域 -->
+  <view class="top-card">
+    <view class="input-row">
+      <view class="input-group compact">
+        <view class="label">手机号</view>
+        <input 
+          class="input" 
+          type="number" 
+          placeholder="请输入手机号" 
+          value="{{phone}}" 
+          maxlength="11"
+          bindinput="onPhoneInput"
+        />
       </view>
-      <view class="status" wx:if="{{status === 4 || status === 5}}">
-        <view class="mchId">易宝商户号:{{mchId}}</view>
-        <text  class="copy" bindtap="copyMchId">复制</text>
-      </view>
-      <view class="tip" wx:if="{{status === 4}}">
-        查看资金记录，用“易宝支付”微信小程序，或应用市场下载“老板管账商户版”App，使用商户号进行登陆！
+      
+      <view class="input-group compact">
+        <view class="label">查询密码</view>
+        <input 
+          class="input code-input" 
+          type="number" 
+          placeholder="4位纯数字密码" 
+          value="{{queryCode}}" 
+          maxlength="4"
+          bindinput="onCodeInput"
+        />
       </view>
     </view>
-    <view wx:if="{{status === 3}}" class="qr-wrap">
-      <image src="{{shimingCode}}" mode="scaleToFill" class="qr"/>
-      <text class="qr-tip">请使用支付宝和微信扫码，分别完成实名认证</text>
+    <view class="tip">查询密码由4位纯数字组成(自行设置)，用于查询申请单记录。忘记或输入错误将无法查询到原申请单</view>
+    <view class="btns">
+      <view class="btn btn-primary" bind:tap="onAddApply">
+        <text class="btn-text">新增申请</text>
+      </view>
+      <view class="btn btn-secondary" bind:tap="onQueryApply">
+        <text class="btn-text">查询申请单</text>
+      </view>
     </view>
   </view>
 
-  <!-- 可编辑表单 -->
-  <view class="form-card" wx:if="{{ !status || status === 2 || status === 5}}">
-    <form bindsubmit="submit">
-      <view class="hidden" value=""></view>
 
-      <view class="field-row">
-        <text class="label">真实姓名*</text>
-        <input name="legalName" value="{{legalName}}" class="input" placeholder="请输入真实姓名"/>
-      </view>
-      <view class="field-row">
-        <text class="label">手机号*</text>
-        <input name="phone" value="{{phone}}" type="number" maxlength="11" class="input" placeholder="本人实名手机号"/>
-      </view>
-      <view class="field-row">
-        <text class="label">身份证号*</text>
-        <input name="idCard" value="{{idCard}}" maxlength="18" bindinput="onIdCardInput" class="input" placeholder="身份证号"/>
-      </view>
-      <text wx:if="{{idCardErr}}" class="err">{{idCardErr}}</text>
-
-      <view class="section-title">身份证照片</view>
-      <view class="img-row">
-        <view class="img-box" bindtap="choose" data-key="idCardFront">
-          <image wx:if="{{idCardFront}}" src="{{idCardFront}}" mode="scaleToFill"/>
-          <text wx:else>身份证人像面 *</text>
-        </view>
-        <view class="img-box" bindtap="choose" data-key="idCardBack">
-          <image wx:if="{{idCardBack}}" src="{{idCardBack}}" mode="scaleToFill"/>
-          <text wx:else>身份证国徽面 *</text>
-        </view>
-      </view>
-
-      <view class="field-row">
-        <text class="label">店铺简称*</text>
-        <input name="shopName" value="{{shopName}}" class="input" placeholder="请输入3-16个字的简称"/>
-      </view>
-
-      <!-- 使用自定义地区树的三级联动选择器 -->
-    <!-- 所在城市 * -->
-<view class="field-row">
-  <text class="label">所在城市*</text>
-  <view class="picker-text" bindtap="toggleRegionPicker">
-    {{regionText || '请选择'}}
-  </view>
-</view>
-
-<!-- 省市区搜索弹窗（复用银行样式） -->
-<view class="bank-modal {{showRegion ? 'show' : ''}}" catchtouchmove="true">
-  <view class="bank-mask" bindtap="toggleRegionPicker"/>
-  <view class="bank-body">
-    <view class="bank-header">
-      <input placeholder="搜索省市区" value="{{regionKey}}" bindinput="onRegionSearch" class="search-input"/>
-      <text class="close" bindtap="toggleRegionPicker">✕</text>
+  <!-- 申请信息区域 - 点击按钮后显示 -->
+  <view class="info-card" wx:if="{{showInfo}}">
+    <view class="card-header">
+      <text class="card-title">申请单信息</text>
     </view>
-    <scroll-view scroll-y class="bank-list">
-      <block wx:for="{{regionFilter}}" wx:key="index">
-        <view class="bank-item" bindtap="selectRegion"
-              data-codes="{{item.codes}}"
-              data-text="{{item.text}}">
-          {{item.text}}
-        </view>
-      </block>
-    </scroll-view>
-  </view>
-</view>
-      <view class="field-row">
-        <text class="label">详细地址*</text>
-        <input name="address" value="{{address}}" class="input"/>
-      </view>
-      <view class="tip">请务必填写真实的地址信息（不需要重复写省市区）</view>
-
-      <!-- 图片上传 -->
-      <view class="section-title">店铺经营照片</view>
-      <view class="img-row">
-        <view class="img-box" bindtap="choose" data-key="storeFront">
-          <image wx:if="{{storeFront}}" src="{{storeFront}}" mode="scaleToFill"/>
-          <text wx:else>店铺门头/招牌 *</text>
-        </view>
-        <view class="img-box" bindtap="choose" data-key="scene">
-          <image wx:if="{{scene}}" src="{{scene}}" mode="scaleToFill"/>
-          <text wx:else>店铺经营场景 *</text>
+    
+    <view class="info-content">
+      <view class="info-item">
+        <view class="info-label">申请链接</view>
+        <view class="info-value">{{applyUrl}}</view>
+        <view class="copy-btn" bind:tap="copyText" data-text="{{applyUrl}}">
+          <text class="copy-text">复制</text>
         </view>
       </view>
-      <view class="tip">店铺经营场景为店内实拍照片，可以是收银台、消费的房间、商品陈列柜等，能体现经营的内容。如果不方便拍摄，可以用“豆包”辅助生成照片。银行要求必须上传</view>
-
-      <view class="section-title">银行收款信息</view>
-      <view class="field-row">
-        <text class="label">开户银行*</text>
-        <view class="bank-search" bindtap="toggleBankPicker">
-          <text class="picker-text">{{bankName || '请选择银行'}}</text>
+      
+      <view class="info-item">
+        <view class="info-label">商户编码</view>
+        <block wx:if="{{merchantNo}}">
+          <view class="info-value">{{merchantNo}}</view>
+          <view class="copy-btn" bind:tap="copyText" data-text="{{merchantNo}}">
+          <text class="copy-text">复制</text>
         </view>
+        </block>
+        <block wx:else="">
+          <view class="info-value">暂未生成</view>
+        </block>
       </view>
-
-      <!-- 银行搜索弹窗 -->
-      <view class="bank-modal {{showBank ? 'show' : ''}}" catchtouchmove="true">
-        <view class="bank-mask" bindtap="toggleBankPicker"/>
-        <view class="bank-body">
-          <view class="bank-header">
-            <input placeholder="搜索银行" bindinput="onBankSearch" class="search-input"/>
-            <text class="close" bindtap="toggleBankPicker">✕</text>
-          </view>
-          <scroll-view scroll-y class="bank-list">
-            <block wx:for="{{bankList}}" wx:key="code" wx:for-item="bank">
-              <!-- 将 bank.code 传到 dataset，避免直接传 object 导致问题 -->
-              <view class="bank-item" bindtap="selectBank" data-code="{{bank.code}}">{{bank.name}}</view>
-            </block>
-          </scroll-view>
-        </view>
+      
+      <view class="info-item">
+        <view class="info-label">申请状态</view>
+        <block wx:if="{{remark}}">
+          <view class="info-value status-{{statusType}}">{{remark}}</view>
+        </block>
+       <block wx:else="">
+        <view class="info-value status-{{statusType}}">待提交</view>
+       </block>
       </view>
-
-      <view class="field-row">
-        <text class="label">银行卡号*</text>
-        <input name="bankCard" value="{{bankCard}}" type="number" class="input" placeholder="输入本人实名的银行卡号码"/>
-      </view>
-      <view class="tip">仅支持储蓄卡，不支持信用卡！</view>
-
-      <input type="hidden" style="display: none;" value="{{id}}"></input>
-      <input type="hidden" style="display: none;" value="{{requestNo}}"></input>
-      <input type="hidden" style="display: none;" value="{{fullAddress}}"></input>
-
-      <button form-type="submit" class="btn">提交申请</button>
-    </form>
-  </view>
-
-  <!-- 只读卡片：状态=1/3/4 -->
-  <view class="readonly-card" wx:else>
-    <view class="readonly-row"><text class="label">真实姓名</text><text class="value">{{legalName}}</text></view>
-    <view class="readonly-row"><text class="label">手机号</text><text class="value">{{phone}}</text></view>
-    <view class="readonly-row"><text class="label">店铺简称</text><text class="value">{{shopName}}</text></view>
-    <!-- 回显：优先显示中文名称（regionText），否则兜底显示 fullAddress（后端 code 串） -->
-    <view class="readonly-row"><text class="label">经营地址</text><text class="value">{{regionText || fullAddress}}</text></view>
-    <view class="readonly-row"><text class="label">详细地址</text><text class="value">{{address}}</text></view>
-    <view class="readonly-row"><text class="label">开户银行</text><text class="value">{{bankName}}</text></view>
-    <view class="readonly-row"><text class="label">银行卡号</text><text class="value">{{bankCard}}</text></view>
-  </view>
-</view>
-
-<!-- 用户使用需知弹框 -->
-<view wx:if="{{showUserConsent}}" class="mask" catchtouchmove="true">
-  <view class="modal">
-    <view class="modal-title">用户使用需知</view>
-    <view class="modal-content">
-      使用本服务前，请先仔细阅读
-      <text class="link" bindtap="openAgreement" data-type="service">《用户服务协议》</text>及
-      <text class="link" bindtap="openAgreement" data-type="privacy">《隐私政策》</text>。
     </view>
-    <view class="modal-footer">
-      <button class="btn-cancel" bindtap="onCancelConsent">暂不使用</button>
-      <button class="btn-confirm" bindtap="onAgreeConsent">同意</button>
+    
+    <view class="steps-box">
+      <view class="step-title">操作指引</view>
+      <view class="step-item">
+        <text class="step-num">1</text>
+        <text class="step-text">复制申请链接到浏览器打开，完成账户资料填写</text>
+      </view>
+      <view class="step-item">
+        <text class="step-num">2</text>
+        <text class="step-text">资质信息中，《入网完成自动实名认证》选择"是"</text>
+      </view>
+      <view class="step-item">
+        <text class="step-num">3</text>
+        <text class="step-text">个体户/企业审核通过后，需复制签约链接进行签约</text>
+      </view>
+      <view class="step-item">
+        <text class="step-num">4</text>
+        <text class="step-text">使用微信/支付宝扫实名二维码完成实名认证</text>
+      </view>
     </view>
   </view>
+
+    <!-- 二维码区域 - 一直显示 -->
+    <view class="qr-card">
+    <text class="qr-tip">申请通过后，请使用支付宝和微信，分别扫码实名</text>
+    <image src="/img/shimingcode.png" mode="aspectFit" class="qr"/>
+  </view>
+  
 </view>

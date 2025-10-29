@@ -86,7 +86,8 @@
         "pages/vipList/vipList",
         "pages/configPrePay/configPrePay",
         "pages/configLockWifi/index",
-        "pages/setTemplate/index"
+        "pages/setTemplate/index",
+        "pages/payOrder/index"
       ]
     }
   ],
@@ -101,12 +102,12 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "麻老板无人系统",
+    "navigationBarTitleText": "闪订-智慧门店",
     "navigationBarTextStyle": "black"
   },
   "plugins": {
     "myPlugin": {
-      "version": "3.1.4",
+      "version": "3.1.5",
       "provider": "wx43d5971c94455481"
     }
   },
