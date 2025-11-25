@@ -186,7 +186,7 @@
 .info-item {
   display: flex;
   align-items: center;
-  padding: 20rpx 0;
+  padding: 10rpx 0;
   border-bottom: 1rpx solid #f0f0f0;
 }
 
@@ -255,7 +255,7 @@
 .steps-box {
   background: linear-gradient(135deg, #f8f9fa, #e8f4fd);
   border-radius: 16rpx;
-  padding: 24rpx;
+  padding: 10rpx;
   border-left: 6rpx solid #3498db;
 }
 
@@ -276,7 +276,7 @@
 .step-item {
   display: flex;
   align-items: flex-start;
-  margin-bottom: 16rpx;
+  margin-bottom: 10rpx;
 }
 
 .step-item:last-child {

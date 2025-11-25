@@ -78,7 +78,6 @@
     </view>
     
     <view class="steps-box">
-      <view class="step-title">操作指引</view>
       <view class="step-item">
         <text class="step-num">1</text>
         <text class="step-text">复制申请链接到浏览器打开，完成账户资料填写</text>
@@ -99,9 +98,9 @@
   </view>
 
     <!-- 二维码区域 - 一直显示 -->
-    <view class="qr-card">
+    <view class="qr-card" wx:if="{{showInfo}}">
     <text class="qr-tip">申请通过后，请使用支付宝和微信，分别扫码实名</text>
-    <image src="/img/shimingcode.png" mode="aspectFit" class="qr"/>
+    <image src="{{shimingCode}}" mode="aspectFit" class="qr"/>
   </view>
   
 </view>

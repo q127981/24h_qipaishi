@@ -73,9 +73,9 @@
       <view class="nodata">暂无数据</view>
     </block>
   </view>
-  <view class="submit {{isIpx?'fix-iphonex-button':''}}">
+  <!-- <view class="submit {{isIpx?'fix-iphonex-button':''}}">
     <navigator url="../recharge/recharge" class="btn bg-primary">充值</navigator>
-  </view>
+  </view> -->
   <view class="footer"></view>
 </view>
 <!-- 日期选择弹窗 -->

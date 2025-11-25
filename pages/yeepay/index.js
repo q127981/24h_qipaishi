@@ -10,6 +10,7 @@ Page({
     applyUrl: '',
     merchantNo: '',
     remark: '',
+    shimingCode: '',
     statusType: 'default'
   },
 
@@ -94,6 +95,7 @@ Page({
           merchantNo: info.data.merchantNo,
           remark: info.data.remark,
           showInfo: true,
+          shimingCode: 'data:image/png;base64,' +info.data.shimingCode,
          })
         }else{
           wx.showModal({
