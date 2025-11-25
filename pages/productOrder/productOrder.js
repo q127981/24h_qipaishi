@@ -491,7 +491,7 @@ Page({
     let orderId = e.currentTarget.dataset.orderid
     wx.showModal({
       title: '温馨提示',
-      content: '您确定要取消此订单吗？',
+      content: '您确定要完成此订单吗？',
       complete: (res) => {
         if (res.cancel) {
 
