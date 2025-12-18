@@ -31,7 +31,7 @@
               <text wx:if="{{item.type==2}}">{{item.price}}元</text>
               <text wx:else>{{item.price}}小时</text></view>
           <view class="text">使用门槛：
-              <text wx:if="{{item.type!=2}}">满{{item.minUsePrice}}元可用</text>
+              <text wx:if="{{item.type==2}}">满{{item.minUsePrice}}元可用</text>
               <text wx:else>满{{item.minUsePrice}}小时可用</text></view>
           <view class="text">过期时间：{{item.expriceTime}}</view>
           <view class="text">状态：<text class="{{item.status===0?'normal':'expired'}}">{{item.status===0?'可使用':item.status===1?'已使用':'已过期'}}</text></view>

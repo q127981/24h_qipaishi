@@ -158,33 +158,33 @@ Page({
             // 先上传数据  减少失败率
            that.postLockData(lockData, "");
               // 开启远程控制
-              setTimeout(() => {
-                plugin
-                  .setRemoteUnlockSwitchState({
-                    enable: true,
-                    lockData: lockData,
-                  })
-                  .then((res) => {
-                    if (res.errorCode === 0) {
-                      that.postLockData("", res.lockData);
-                      wx.hideLoading();
-                      wx.showToast({
-                        title: "初始化成功",
-                      });
-                    } else {
-                      lock.handleResetLock(lockData);
-                      wx.hideLoading();
-                      wx.showModal({
-                        content: `初始化失败：${res.errorMsg}`,
-                        showCancel: false,
-                      });
-                      that.setData({
-                        checkSuccess: false,
-                      });
-                      return;
-                    }
-                  });
-              }, 4000);
+              // setTimeout(() => {
+              //   plugin
+              //     .setRemoteUnlockSwitchState({
+              //       enable: true,
+              //       lockData: lockData,
+              //     })
+              //     .then((res) => {
+              //       if (res.errorCode === 0) {
+              //         that.postLockData("", res.lockData);
+              //         wx.hideLoading();
+              //         wx.showToast({
+              //           title: "初始化成功",
+              //         });
+              //       } else {
+              //         lock.handleResetLock(lockData);
+              //         wx.hideLoading();
+              //         wx.showModal({
+              //           content: `初始化失败：${res.errorMsg}`,
+              //           showCancel: false,
+              //         });
+              //         that.setData({
+              //           checkSuccess: false,
+              //         });
+              //         return;
+              //       }
+              //     });
+              // }, 4000);
           } else {
             lock.handleResetLock(result.lockData);
             wx.hideLoading();
@@ -217,6 +217,10 @@ Page({
         if (info.code == 0) {
           that.setData({
             checkSuccess: false,
+          });
+          wx.hideLoading();
+          wx.showToast({
+            title: "初始化成功",
           });
         } else {
           lock.handleResetLock(lockData);

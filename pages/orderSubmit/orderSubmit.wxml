@@ -372,7 +372,7 @@
         </view>
         <view class="c2">
           <view class="item-name">{{item.pkgName}}</view>
-          <view class="item-room"><label>包间：</label>{{item.roomType===1?'小包':item.roomType===2?'中包':item.roomType===3?'大包':item.roomType===4?'豪包':item.roomType===5?'商务包':item.roomType===6?'斯洛克':item.roomType===7?'中式黑八':item.roomType===8?'美式球桌':'不限制'}}</view>
+          <!-- <view class="item-room"><label>包间：</label>{{item.roomType===1?'小包':item.roomType===2?'中包':item.roomType===3?'大包':item.roomType===4?'豪包':item.roomType===5?'商务包':item.roomType===6?'斯洛克':item.roomType===7?'中式黑八':item.roomType===8?'美式球桌':'不限制'}}</view> -->
           <view class="item-room">星期：{{item.desc}}</view>
           <view class="item-room">时间：{{item.timeQuantum}}</view>
         </view>

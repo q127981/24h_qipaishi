@@ -817,6 +817,7 @@ page {
 
 .popup .pkgList {
   margin-bottom: 60rpx;
+  padding-bottom: 20rpx;
 }
 
 
