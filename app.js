@@ -1,4 +1,5 @@
 // app.js
+import { parseNfcData, nfcManager } from './utils/nfc.js'
 App({
   globalData: {
     //接口地址 只修改域名为api.xxxx.com  后面的/app-api不要删
@@ -99,8 +100,15 @@ App({
   onShow() {
     console.log('app.js onShow');
     var _this = this;
-
+    // 页面显示时初始化NFC
+    _this.initNfc()
+    _this.startNfc()
   },
+  onHide() {
+    // 页面隐藏时停止NFC
+    // this.stopNfc()
+  },
+
   // 判断设备是否为 iPhone X
   checkIsIPhoneX: function () {
     var that = this
@@ -123,5 +131,45 @@ App({
         // }
       }
     })
+  },
+  // 初始化NFC
+  initNfc() {
+    // 使用全局NFC管理器初始化
+    const isSupported = nfcManager.init('nfc-read')
+    console.log('NFC读取初始化完成')
+  },
+  // 开始NFC监听
+  startNfc() {
+    // 使用全局NFC管理器开始发现
+    const success = nfcManager.startDiscovery((res) => {
+      this.handleNfcData(res)
+    }, 'nfc-read')
+  },
+  // 停止NFC监听
+  stopNfc() {
+    try {
+      // 使用全局NFC管理器清理页面资源
+      nfcManager.cleanupPage('nfc-read')
+      console.log('NFC读取页面已停止')
+    } catch (error) {
+      console.log('停止NFC读取时出错:', error)
+    }
+  },
+  // 处理NFC数据
+  handleNfcData(nfcData) {
+    try {
+      const tagInfo = parseNfcData(nfcData)
+      console.log('tagInfo.text:'+ tagInfo.text)
+      if(tagInfo.text){
+        //有结果
+        console.log('跳转下单页面')
+        wx.navigateTo({
+          url: '/pages/orderSubmit/orderSubmit?goPage=true&'+tagInfo.text,
+        })
+      }
+
+    } catch (error) {
+      console.error('解析NFC数据失败:', error)
+    }
   },
 })

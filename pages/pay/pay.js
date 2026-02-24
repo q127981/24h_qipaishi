@@ -33,6 +33,7 @@ Page({
     let cart = wx.getStorageSync("payCart")
     that.setData({
       storeId: options.storeId,
+      roomId: options.roomId,
       payCart: cart,
       showItems: cart.slice(0, 2)
     })
@@ -133,9 +134,9 @@ Page({
       wx.showToast({ title: '请选择下单房间', icon: 'none' });
       return
     }
-    wx.showLoading({
-      title: '努力加载中',
-    })
+    // wx.showLoading({
+    //   title: '努力加载中',
+    // })
     if (app.globalData.isLogin) {
       http.request(
         "/product/order/create",
@@ -175,6 +176,21 @@ Page({
             }else{
               that.payMent(info);
             }
+          }else{
+            wx.showModal({
+              title: '温馨提示',
+              content: info.msg,
+              showCancel: false,
+              complete: (res) => {
+                if (res.cancel) {
+                }
+            
+                if (res.confirm) {
+                  
+                }
+              }
+            })
+            return
           }
           let pay = that.data.payCart
           let cart = []
@@ -299,12 +315,17 @@ Page({
       function success(info) {
         if (info.code == 0) {
           let roomList = []
-          info.data.map(it => {
+          let index = '';
+          info.data.map((it, idx) => {
             roomList.push({ text: it.key, value: it.value })
+            if(it.value==that.data.roomId){
+              index = idx
+            }
           })
           roomList.unshift({ text: "请选择房间", value: "" })
           that.setData({
             roomList: roomList,
+            roomIndex: index
           })
         }
       },

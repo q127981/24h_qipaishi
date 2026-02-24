@@ -150,7 +150,7 @@ page{
   flex-wrap: wrap;
 }
 .lists .item .btns .btn{
-  margin: 0 20rpx;
+  margin: 5rpx 20rpx;
   padding: 0;
   width: 200rpx;
   height: 70rpx;
@@ -271,7 +271,7 @@ page{
 }
 .lists .item .btns .finish{
   width: 560rpx;
-  margin-top: 20rpx;
+  /* margin-top: 20rpx; */
 }
 .lists .item .btns .cancel{
   background: var(--main-orange);

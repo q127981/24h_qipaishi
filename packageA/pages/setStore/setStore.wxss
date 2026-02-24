@@ -133,10 +133,20 @@ page {
 
 .btns {
   overflow: hidden;
+  margin-top: 20rpx;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-around;
 }
-
+.btns .btn {
+  padding: 10rpx 30rpx;
+  font-size: 32rpx;
+  line-height: 60rpx;
+  align-items: center;
+  text-align: center;
+  border-radius: 20rpx;
+  color: #fff;
+  background-color: var(--main-color);
+}
 .opendoor {
   margin: 10rpx;
 }

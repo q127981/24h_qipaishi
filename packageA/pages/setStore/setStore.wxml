@@ -12,6 +12,9 @@
         <view class="top">
           <view class="img">
             <image src="{{item.headImg}}" preview-size="200rpx" mode="widthFix"></image>
+            <view class="{{item.status===0?'status green':item.status===1?'status yellow':'status gray'}}">
+              {{item.status===0?'开业':item.status===1?'审核中':'已到期'}}
+            </view>
           </view>
           <view class="right" bind:tap="goDoorManage" data-info="{{item}}">
             <view class="flex-space-between">
@@ -30,10 +33,9 @@
             <block wx:if="{{item.expireTime}}">
               <text class="label orage">{{item.expireTime}}到期</text>
             </block>
-            <view class="{{item.status===0?'status green':item.status===1?'status yellow':'status gray'}}">
-              {{item.status===0?'开业':item.status===1?'审核中':'已到期'}}
-            </view>
+            
             <view class="btns">
+              <view class="btn" catch:tap="goShopOrder" data-info="{{item.storeId}}">商品订单</view>
               <iconfont name="open-door" size="32" class="opendoor" catch:tap="openStoreDoor" data-info="{{item.storeId}}"></iconfont>
               <iconfont name="setting-01" size="32" class="opendoor" catch:tap="goDoorManage" data-info="{{item}}"></iconfont>
             </view>

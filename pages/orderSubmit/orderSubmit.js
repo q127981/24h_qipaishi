@@ -49,15 +49,19 @@ Page({
     pkgId: "", //选择的套餐
     nightLong: false, //旧版本是否通宵场的判断条件
     showYeepay: false, //是否打开了易宝支付
+    isNfc: '',
+    currentOrder: '',
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    console.log("onload");
+    console.log("onload options");
+    console.log(options);
     var that = this;
     var storeId = options.storeId;
     var roomId = options.roomId;
+    var nfc = options.nfc;
     var goPage = options.goPage;
     var groupPayNo = "";
     if (options.groupPayNo) {
@@ -68,6 +72,7 @@ Page({
     } else {
       //扫码的
       var query = wx.getEnterOptionsSync().query;
+      console.log("onload query");
       console.log(query);
       if (query) {
         if (query.storeId) {
@@ -75,6 +80,9 @@ Page({
         }
         if (query.roomId) {
           roomId = query.roomId;
+        }
+        if (query.nfc) {
+          nfc = query.nfc;
         }
       }
     }
@@ -84,6 +92,7 @@ Page({
       roomId: roomId,
       groupPayNo: groupPayNo,
       goPage: goPage,
+      isNfc: nfc,
       submit_begin_time: that.formatDate(startDate).text,
     });
     wx.setStorageSync("global_store_id", storeId);
@@ -101,7 +110,6 @@ Page({
     var that = this;
     var _app = getApp();
     console.log('onShow...');
-    console.log(that.data.groupPayNo);
     that.setData({
       isLogin: _app.globalData.isLogin,
       xiaoshiShow: false, //小时开台
@@ -130,6 +138,10 @@ Page({
           });
           wx.hideLoading();
         }, 1000);
+      }
+      console.log('that.data.isNfc='+that.data.isNfc)
+      if(that.data.isNfc){
+        that.getOrderInfoByRoomId(that.data.roomId);
       }
       //没有房间信息再获取房间信息
       if(!that.data.roominfodata){
@@ -1271,5 +1283,73 @@ Page({
     this.setData({
       yajinShow: false,
     });
+  },
+  getOrderInfoByRoomId(roomId){
+    var that = this;
+    http.request(
+      "/member/order/getOrderInfoByRoomId?roomId="+roomId,
+      "1",
+      "get",
+      {
+      },
+      app.globalData.userDatatoken.accessToken,
+      "获取中...",
+      function success(info) {
+        if (info.code == 0) {
+          that.setData({
+            currentOrder: info.data,
+            isNfc: ''
+          });
+          if(info.data){
+            //调用开门开电
+            that.openRoomDoor();
+            //再跳转订单详情
+            that.goOrderDetail();
+          }
+        } else {
+          wx.showModal({
+            content: info.msg,
+            showCancel: false,
+          });
+        }
+      },
+      function fail(info) {
+      }
+    );
+  },
+  goOrderDetail(){
+    wx.navigateTo({
+      url: "../orderDetail/orderDetail?orderNo=" + this.data.currentOrder.orderNo + "&toPage=true",
+    });
+  },
+  openRoomDoor() {
+    let that = this;
+    //开房间门
+    console.log('开房间门');
+    http.request(
+      "/member/order/openRoomDoor?orderKey=" + that.data.currentOrder.orderKey,
+      "1",
+      "post", {
+      // "orderKey":that.data.orderKey,
+    },
+      app.globalData.userDatatoken.accessToken,
+      "开门中...",
+      function success(info) {
+        if (info.code == 0) {
+          wx.showToast({
+            title: "操作成功",
+            icon: 'success'
+          })
+        } else {
+          wx.showModal({
+            title: "提示",
+            content: info.msg,
+            showCancel: false,
+          })
+        }
+      },
+      function fail(info) {
+      }
+    )
   },
 });

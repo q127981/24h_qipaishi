@@ -157,7 +157,7 @@ Page({
             });
             if (!refuse) {
               that.setData({
-                productOrderList: that.data.productList.concat(productOrderList),
+                productOrderList: that.data.productOrderList.concat(productOrderList),
                 hasMore: that.data.currentPage * 10 < info.data.total,
               });
             } else {
@@ -413,8 +413,9 @@ Page({
               item.productNum = totalNumber;
             });
             if (!refuse) {
+              console.log(that.data.productList)
               that.setData({
-                productOrderList: that.data.productList.concat(productOrderList),
+                productOrderList: that.data.productOrderList.concat(productOrderList),
                 hasMore: that.data.currentPage * 10 < info.data.total,
               });
             } else {

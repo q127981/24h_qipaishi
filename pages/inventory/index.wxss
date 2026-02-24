@@ -1,0 +1,221 @@
+/* pages/storage/storage.wxss */
+page {
+  background-color: #f5f5f5;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* 标签切换 */
+.tabs {
+  background-color: #FFE600;
+  display: flex;
+  justify-content: space-around;
+  padding: 0 40rpx;
+  position: relative;
+}
+
+.tab-item {
+  padding: 20rpx 40rpx;
+  font-size: 32rpx;
+  color: #666;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tab-item.active {
+  color: #333;
+  font-weight: 500;
+}
+
+.tab-line {
+  position: absolute;
+  bottom: 10rpx;
+  width: 40rpx;
+  height: 4rpx;
+  background-color: #333;
+  border-radius: 2rpx;
+}
+
+/* 筛选区域 */
+.filter-section {
+  background-color: #fff;
+  padding: 20rpx 30rpx;
+  margin-bottom: 2rpx;
+}
+
+.filter-item {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.filter-label {
+  font-size: 28rpx;
+  color: #666;
+  flex-shrink: 0;
+}
+
+.filter-input {
+  flex: 1;
+  background-color: #f5f5f5;
+  padding: 16rpx 24rpx;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  color: #333;
+  height: 40rpx;
+}
+
+/* 内容区域 */
+.content {
+  flex: 1;
+  padding: 20rpx;
+}
+
+.tab-content {
+  padding-bottom: 40rpx;
+}
+
+/* 卡片样式 - 待取 */
+.store-card {
+  background-color: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.05);
+}
+
+.store-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.store-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.goods-list {
+  margin-top: 10rpx;
+}
+
+.goods-item {
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.goods-item:last-child {
+  border-bottom: none;
+}
+
+/* 商品第一排：图片、名称、标签 */
+.goods-row-first {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.goods-img {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 8rpx;
+  margin-right: 20rpx;
+  background-color: #f0f0f0;
+  flex-shrink: 0;
+}
+
+.goods-name {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+  word-break: break-all;
+}
+
+.goods-tag {
+  padding: 8rpx 20rpx;
+  border-radius: 30rpx;
+  font-size: 24rpx;
+  flex-shrink: 0;
+  margin-left: 16rpx;
+}
+
+.goods-tag.remaining {
+  background-color: #FFE600;
+  color: #333;
+}
+
+/* 商品第二排：时间信息 */
+.goods-row-second {
+  /* padding-left: 80rpx; */
+}
+
+.time-text {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 已取卡片 */
+.taken-card {
+  background-color: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.05);
+}
+
+.goods-tag.taken-info {
+  background-color: #fff;
+  color: #333;
+  border: 2rpx solid #ddd;
+}
+
+/* 过期卡片 */
+.expired-card {
+  background-color: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.05);
+}
+
+.goods-tag.expired-info {
+  background-color: #f5f5f5;
+  color: #999;
+  border: 2rpx solid #e0e0e0;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 100rpx 0;
+  color: #999;
+  font-size: 28rpx;
+}
+
+/* 使用图标的空状态样式 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 150rpx 40rpx;
+}
+
+.empty-icon {
+  font-size: 120rpx;
+  margin-bottom: 30rpx;
+  opacity: 0.4;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #999;
+}

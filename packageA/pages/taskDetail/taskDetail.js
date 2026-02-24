@@ -372,5 +372,67 @@ Page({
   // 返回
   back: function () {
     wx.navigateBack()
-  }
+  },
+  // 操作房间设备
+  opRoom: function (e) {
+    let that = this
+    let id = that.data.clearId
+    let type = e.currentTarget.dataset.type
+    let tip = ''
+    //1 开门开电 2关门关电  3仅开门  4仅关门  5仅开灯 6仅关灯
+    if(type == "1"){
+      tip = '确定打开门和全部电源吗？'
+    }else if(type == "2"){
+      tip = '确定关闭门和全部电源吗？'
+    }else if(type == "3"){
+      tip = '确定仅打开房间门锁吗？'
+    }else if(type == "4"){
+      tip = '确定仅关闭房间门锁吗？'
+    }else if(type == "5"){
+      tip = '确定仅打开房间灯光吗？'
+    }else if(type == "6"){
+      tip = '确定仅关闭房间灯光吗？'
+    }
+    wx.showModal({
+      title: '提示',
+      content: tip,
+      complete: (res) => {
+        if (res.cancel) {
+        }
+        if (res.confirm) {
+          if (app.globalData.isLogin) {
+            http.request(
+              "/member/clear/opRoom",
+              "1",
+              "post", {
+              "id": id,
+              "type": type
+            },
+              app.globalData.userDatatoken.accessToken,
+              "",
+              function success(info) {
+                console.info('返回111===');
+                console.info(info);
+                if (info.code == 0) {
+                  wx.showToast({
+                    title: '操作成功',
+                    icon: 'success'
+                  })
+                } else {
+                  wx.showModal({
+                    title: "提示",
+                    content: info.msg,
+                    showCancel: false,
+                  })
+                }
+              },
+              function fail(info) {
+
+              }
+            )
+          }
+        }
+      }
+    })
+  },
 })

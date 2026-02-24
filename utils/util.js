@@ -40,6 +40,7 @@ function getDeviceTypeName(type){
     case 13: return '三路控制器';
     case 14: return 'AI锁球器';
     case 16: return '计时器';
+    case 17: return '点歌机';
   }
 }
 module.exports = {

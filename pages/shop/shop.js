@@ -29,6 +29,7 @@ Page({
     isCartShow: true,
     uToast: null,
     storeId: '',
+    roomId: '',
     doorinfodata: {},
     lat: '',
     lon: '',
@@ -45,7 +46,8 @@ Page({
   onLoad(options) {
     let that = this
     that.setData({
-      storeId: options.storeId
+      storeId: options.storeId,
+      roomId: options.roomId
     })
     
   },
@@ -421,7 +423,7 @@ Page({
       wx.setStorageSync("payCart", JSON.parse(JSON.stringify(topay)));
 
       wx.navigateTo({
-        url: "/pages/pay/pay?storeId=" + that.data.storeId
+        url: "/pages/pay/pay?storeId=" + that.data.storeId+"&roomId="+that.data.roomId
       });
     }
     wx.hideLoading();

@@ -21,7 +21,7 @@
           <label>门店：</label>
           <text class="storeName">{{item.storeName}}</text>
         </view>
-        <view class="info">
+        <view class="info {{item.status==2?'clear':''}}">
           <label>状态：</label>
           <text>{{item.status==1?'空闲':item.status==2?'待清洁':item.status==3?'使用中':item.status==4?'已预约':'禁用'}}</text>
         </view>
@@ -41,11 +41,12 @@
           </view>
         </block>
       </view>
-      <block wx:if="{{userinfo.userType!=14||(userinfo.userType==14&&item.clearOpenDoor)}}">
         <view class="right">
-          <view class="btn red" bindtap="roomOp" data-room="{{item}}">控制功能</view>
+          <view class="btn yellow" bindtap="openStoreDoorById" data-room="{{item}}" style="background-color: rgb(3, 189, 3);">门店大门</view>
+          <block wx:if="{{userinfo.userType!=14||(userinfo.userType==14&&item.clearOpenDoor)}}">
+            <view class="btn red" bindtap="roomOp" data-room="{{item}}">房间控制</view>
+          </block>
         </view>
-      </block>
     </view>
   </view>
   <view class="buttom">- 加载完毕 -</view>
@@ -58,19 +59,31 @@
       【{{roomName}}】
     </view>
    </view>
+   <!-- //1 开门开电 2关门关电  3仅开门  4仅关门  5仅开灯 6仅关灯 -->
     <view class="item">
-        <view class="btn red" bindtap="openDoor">开电</view>
-        <view class="btn red" bindtap="closeDoor">关电</view>
+        <view class="btn red" bindtap="opRoom" data-type="1">开门开电</view>
+        <view class="btn yellow" bindtap="opRoom" data-type="2">关门关电</view>
+        <view class="btn waring" bindtap="opBlueLock" data-type="unlock">蓝牙开锁</view>
+    </view>
+    <view class="item">
+        <view class="btn red" bindtap="opRoom" data-type="3">仅开门锁</view>
+        <view class="btn yellow" bindtap="opRoom" data-type="4">仅关门锁</view>
+        <view class="btn waring" bindtap="opBlueLock" data-type="lock">蓝牙关锁</view>
+    </view>
+    <view class="item">
+        <view class="btn red" bindtap="opRoom" data-type="5">仅开灯</view>
+        <view class="btn yellow" bindtap="opRoom" data-type="6">仅关灯</view>
         <view class="btn waring" bindtap="testYunlaba">喇叭提醒</view>
     </view>
     <view class="item" wx:if="{{userinfo.userType!=14}}">
         <view class="btn waring" bindtap="showModal">空调控制</view>
-        <view class="btn yellow" bindtap="clearAndFinish">保洁完成</view>
+        <view class="btn waring" bindtap="clearAndFinish">设置空闲</view>
         <view class="btn yellow" bindtap="finishOrder">结束订单</view>
     </view>
-    <view class="item" wx:if="{{userinfo.userType!=14}}">
-        <!-- <view class="btn red" bindtap="getLockPwd">开锁密码</view> -->
-        <view class="btn red" bindtap="toPlaceOrder">代客下单</view>
+    <view class="item">
+      <block class="item" wx:if="{{userinfo.userType!=14}}">
+          <view class="btn red" bindtap="toPlaceOrder">代客下单</view>
+        </block>
     </view>
   </view>
 </van-dialog>

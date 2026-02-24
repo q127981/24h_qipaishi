@@ -180,10 +180,19 @@ Page({
     let that = this;
     let roomId = that.data.roomItem.roomId;
     let storeId = that.data.roomItem.storeId;
+    let type = e.currentTarget.dataset.type
+    let tip = ''
+    if(type == "1"){
+      tip = '确定打开门和全部电源吗？'
+    }else if(type == "2"){
+      tip = '确定仅打开房间门锁吗？'
+    }else if(type == "3"){
+      tip = '确定仅打开房间灯光吗？'
+    }
     // console.log(roomId);
     wx.showModal({
       title: '提示',
-      content: '确定打开门和电源吗',
+      content: tip,
       complete: (res) => {
         if (res.cancel) {
         }
@@ -194,7 +203,8 @@ Page({
               "/member/store/openRoomDoor/" + roomId,
               "1",
               "post", {
-              "roomId": roomId
+              "roomId": roomId,
+              "type": type
             },
               app.globalData.userDatatoken.accessToken,
               "",
@@ -203,7 +213,7 @@ Page({
                 console.info(info);
                 if (info.code == 0) {
                   wx.showToast({
-                    title: '开门成功',
+                    title: '发送成功',
                     icon: 'success'
                   })
                 } else {
@@ -262,23 +272,40 @@ Page({
       }
     })
   },
-  // 关房间门
-  closeDoor: function () {
+  // 操作房间设备
+  opRoom: function (e) {
     let that = this
     let roomId = that.data.roomItem.roomId;
+    let type = e.currentTarget.dataset.type
+    let tip = ''
+    //1 开门开电 2关门关电  3仅开门  4仅关门  5仅开灯 6仅关灯
+    if(type == "1"){
+      tip = '确定打开门和全部电源吗？'
+    }else if(type == "2"){
+      tip = '确定关闭门和全部电源吗？'
+    }else if(type == "3"){
+      tip = '确定仅打开房间门锁吗？'
+    }else if(type == "4"){
+      tip = '确定仅关闭房间门锁吗？'
+    }else if(type == "5"){
+      tip = '确定仅打开房间灯光吗？'
+    }else if(type == "6"){
+      tip = '确定仅关闭房间灯光吗？'
+    }
     wx.showModal({
       title: '提示',
-      content: '确定关闭门和电源吗',
+      content: tip,
       complete: (res) => {
         if (res.cancel) {
         }
         if (res.confirm) {
           if (app.globalData.isLogin) {
             http.request(
-              "/member/store/closeRoomDoor/" + roomId,
+              "/member/store/opRoom",
               "1",
               "post", {
-              "roomId": roomId
+              "roomId": roomId,
+              "type": type
             },
               app.globalData.userDatatoken.accessToken,
               "",
@@ -287,7 +314,7 @@ Page({
                 console.info(info);
                 if (info.code == 0) {
                   wx.showToast({
-                    title: '关门成功',
+                    title: '操作成功',
                     icon: 'success'
                   })
                 } else {
@@ -370,6 +397,37 @@ Page({
       )
     }
     // console.info(id);
+
+  },
+  openStoreDoorById: function (e) {
+    var that = this;
+    let room = e.currentTarget.dataset.room
+    let storeId = room.storeId
+    http.request(
+      "/member/store/openStoreDoor/" + storeId,
+      "1",
+      "post", {
+    },
+      app.globalData.userDatatoken.accessToken,
+      "",
+      function success(info) {
+        console.info(info);
+        if (info.code == 0) {
+          wx.showToast({
+            title: "操作成功",
+            icon: 'success'
+          })
+        } else {
+          wx.showModal({
+            content: info.msg,
+            showCancel: false,
+          })
+        }
+      },
+      function fail(info) {
+
+      }
+    )
 
   },
   roomOp: function (e) {
@@ -756,5 +814,21 @@ Page({
       function fail(info) {
       }
     )
+  },
+  opBlueLock(e){
+    let that = this;
+    let type = e.currentTarget.dataset.type
+    if (that.data.roomItem.lockData) {
+      if(type=="unlock"){
+        lock.blueDoorOpen(that.data.roomItem.lockData);
+      }else{
+        lock.blueCloseOpen(that.data.roomItem.lockData);
+      }
+    }else{
+      wx.showToast({
+        title: '未使用蓝牙锁',
+        icon: 'none'
+      })
+    }
   },
 })

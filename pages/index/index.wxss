@@ -648,6 +648,7 @@ page {
 }
 
 .pop .content {
+  padding: 10rpx;
   /* margin: 10rpx; */
   font-size: 28rpx;
   line-height: 40rpx;
@@ -1100,7 +1101,7 @@ page {
 
 .pkgInfo {
   margin-top: 10rpx;
-  font-size: 26rpx;
+  font-size: 24rpx;
   font-weight: 600;
   color: #fd4a33;
 }

@@ -67,11 +67,19 @@
   </view>
   <!-- 保洁端按钮 -->
   <view class="btns" wx:else>
-    <view class="left">
+    <view class="top">
+    <view>
       <view wx:if="{{info.status==2}}" class="btn open" bindtap="open"><view class="iconfont icon-damen"></view>开大门</view>
-      <view wx:if="{{info.status==2}}" class="btn bg-primary" bindtap="openDoor"><view class="iconfont icon-fangjian"></view>开房间门</view>
+      <view wx:if="{{info.status==2}}" class="btn open" bindtap="opRoom" data-type="1"><view class="iconfont icon-fangjian"></view>开门开电</view>
     </view>
-    <view wx:if="{{info.status==2}}" class="btn finish" bindtap="finish">完成任务</view>
-    <view class="btn back" bindtap="back">返回</view>
+      <view>
+        <view wx:if="{{info.status==2}}" class="btn bg-primary" bindtap="opRoom"  data-type="3"><view class="iconfont icon-fangjian"></view>仅开门锁</view>
+      <view wx:if="{{info.status==2}}" class="btn bg-primary" bindtap="opRoom"  data-type="5"><view class="iconfont icon-fangjian"></view>仅开灯光</view>
+      </view>
+    </view>
+    <view class="buttom">
+      <view wx:if="{{info.status==2}}" class="btn finish" bindtap="finish">完成任务</view>
+      <view class="btn back" bindtap="back">返回</view>
+    </view>
   </view>
 </view>

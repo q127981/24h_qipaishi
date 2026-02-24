@@ -50,10 +50,13 @@
               修改信息
             </navigator>
             <view class="btn yellow" data-src="{{item.qrCode}}" bind:tap="previewImage">
-              预定二维码
+              预定码
             </view>
             <view class="btn yellow" data-src="{{item.renewCode}}" bind:tap="previewImage">
-              续费二维码
+              续费码
+            </view>
+            <view class="btn origin" data-item="{{item}}" bind:tap="writeNFC">
+              碰一碰写码
             </view>
           </view>
         </view>

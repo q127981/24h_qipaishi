@@ -249,12 +249,14 @@
             <view class="roomtime">
               <view class="item table-header">
                 <view class="table1">门店名称</view>
+                <view class="table1">手机号</view>
                 <view class="table2">金额(元)</view>
                 <view class="table4">时间</view>
               </view>
               <view class="box">
                 <view class="item table-line" wx:for="{{recharge}}" wx:key="item">
                   <view class="table1 storeName">{{item.storeName}}</view>
+                  <view class="table1 storeName">{{item.mobile}}</view>
                   <view class="table2">{{item.price}}</view>
                   <view class="table4">{{item.createTime}}</view>
                 </view>

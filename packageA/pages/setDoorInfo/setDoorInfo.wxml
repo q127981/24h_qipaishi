@@ -57,6 +57,15 @@
     </view>
     <view class="tips">注:不可预订代表不能修改下单开始时间，只能当前时间开始</view>
     <view class="line">
+      <label>是否可小时下单：</label>
+      <view class="right">
+        <view>
+          <switch bindchange="changeSubmitStatus" checked="{{xiaoshiSubmit}}" />
+        </view>
+      </view>
+    </view>
+    <view class="tips">注:关闭后将不显示小时下单选项</view>
+    <view class="line">
       <label>单价：</label>
       <view class="right">
         <view class="price">

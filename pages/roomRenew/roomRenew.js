@@ -26,6 +26,7 @@ Page({
     select_pkg_index: -1,
     payType: 1,
     payTypes:[],
+    roominfodata: '',
   },
 
   /**
@@ -55,7 +56,7 @@ Page({
       roomId: roomId,
     });
     console.log('storeId,roomId,' +storeId + ',' + roomId)
-
+    that.getroomInfodata(roomId)
   },
 
   /**
@@ -135,27 +136,6 @@ Page({
             OrderInfodata: info.data
           });
           that.getStoreBalance();
-        } else {
-          wx.showModal({
-            title: '温馨提示',
-            content: info.msg,
-            showCancel: false,
-            success(res) {
-              if (res.confirm) {
-                let pages = getCurrentPages();
-                if (pages.length > 1) {
-                  wx.navigateBack({//返回
-                    delta: 1
-                  });
-                }
-                if (pages.length == 1) {
-                  wx.reLaunch({
-                    url: '/pages/index/index',
-                  })
-                }
-              }
-            }
-          })
         }
       },
       function fail(info) {
@@ -206,6 +186,10 @@ Page({
       })
       return
     }
+    let wxpay = false;
+    if (that.data.payType == 1) {
+      wxpay = true;
+    }
     if (app.globalData.isLogin) {
       http.request(
         "/member/order/preOrder",
@@ -215,7 +199,10 @@ Page({
         couponId: that.data.couponId,
         startTime: that.data.OrderInfodata.endTime,
         endTime: that.data.newTime,
-        orderId: that.data.OrderInfodata.orderId
+        orderId: that.data.OrderInfodata.orderId,
+        pkgId: that.data.pkgId,
+        payType: that.data.payType,
+        wxPay: wxpay
       },
         app.globalData.userDatatoken.accessToken,
         "提交中...",
@@ -412,6 +399,9 @@ Page({
   renewClick() {
     var that = this;
     let OrderInfodata = that.data.OrderInfodata;
+    if(!OrderInfodata){
+      return
+    }
     if (OrderInfodata.status == 3 || OrderInfodata.status == 2) {
       wx.showToast({
         title: "订单已结束！",
@@ -724,6 +714,10 @@ Page({
       return false;
     }
     var that = this;
+    let wxpay = false;
+    if (that.data.payType == 1) {
+      wxpay = true;
+    }
     if (app.globalData.isLogin) {
       http.request(
         "/member/order/preOrder",
@@ -737,6 +731,7 @@ Page({
           orderId: that.data.OrderInfodata.orderId,
           payType: that.data.payType,
           pkgId: that.data.pkgId,
+          wxPay: wxpay,
         },
         app.globalData.userDatatoken.accessToken,
         "提交中...",
@@ -811,5 +806,49 @@ Page({
         )
       }
     }
+  },
+  goShop() {
+    // 跳转到商品点单页面
+    wx.navigateTo({
+      url: '/pages/shop/shop?storeId='+this.data.storeId+'&roomId='+this.data.roomId
+    })
+  },
+  gotoSubmit(){
+    wx.navigateTo({
+      url: '/pages/orderSubmit/orderSubmit?goPage=1&storeId='+this.data.storeId+'&roomId='+this.data.roomId
+    })
+  },
+  //获取房间信息
+  getroomInfodata: function (roomId) {
+    return new Promise((r, t) => {
+      var that = this;
+      http.request(
+        "/member/index/getRoomInfo/" + roomId,
+        "1",
+        "post",
+        {
+          roomId: roomId,
+        },
+        app.globalData.userDatatoken.accessToken,
+        "获取中...",
+        function success(info) {
+          if (info.code == 0) {
+            that.setData({
+              roominfodata: info.data,
+            });
+            r();
+          } else {
+            wx.showModal({
+              content: info.msg,
+              showCancel: false,
+            });
+            t();
+          }
+        },
+        function fail(info) {
+          t();
+        }
+      );
+    });
   },
 })

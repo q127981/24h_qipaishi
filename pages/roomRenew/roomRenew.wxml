@@ -1,6 +1,34 @@
 <wxs src="../../utils/magic.wxs" module="magic" />
 <view class="container">
-  <view class="top-container">
+  <view class="roomName">{{roominfodata.roomName}}</view>
+  <!-- 顶部双按钮 -->
+  <view class="top-actions">
+    <view class="action-btn renew-btn" bind:tap="renewClick">
+      <view class="btn-icon">⏱️</view>
+      <view class="btn-text">订单续费</view>
+      <view class="btn-desc">延长使用时间</view>
+    </view>
+    <view class="action-btn shop-btn" bind:tap="goShop">
+      <view class="btn-icon">🛍️</view>
+      <view class="btn-text">商品点单</view>
+      <view class="btn-desc">零食饮料送到房</view>
+    </view>
+  </view>
+<!-- 空状态 - 当 OrderInfodata 为空时显示 -->
+<view class="empty-state" wx:if="{{!OrderInfodata}}" bind:tap="gotoSubmit">
+  <view class="empty-icon">
+    <image src="../static/icon/empty-order.png" mode="aspectFit" wx:if="{{false}}" />
+    <text class="icon-text">📋</text>
+  </view>
+  <view class="empty-title">暂无进行中的订单</view>
+  <view class="empty-desc">当前场地没有正在进行的订单</view>
+  <view class="empty-action">
+    <text>去下单</text>
+    <text class="arrow">›</text>
+  </view>
+</view>
+  <!-- 订单信息区域 -->
+  <view class="order-section" wx:if="{{OrderInfodata}}">
     <!-- 时间段 -->
     <view class="timeBox">
       <view class="time">
@@ -21,6 +49,7 @@
       <view class="no-end" style="font-weight: 300;" wx:if="{{!OrderInfodata.endTime}}">至</view>
       <view class="no-end" wx:if="{{!OrderInfodata.endTime}}">主动离店</view>
     </view>
+
     <!-- 订单详情 -->
     <view class="orderInfo">
       <view class="top">
@@ -72,13 +101,14 @@
       </view>
     </view>
   </view>
-  <view class="btns">
-    <button class="bg-primary1" bind:tap="backHome">返回首页</button>
-    <button class="bg-primary" bind:tap="renewClick">订单续费</button>
-  </view>
 
+  <!-- 底部返回 -->
+  <view class="bottom-action">
+    <button class="back-btn" bind:tap="backHome">返回门店</button>
+  </view>
 </view>
 
+<!-- 导航/电话弹窗 - 保持原始 -->
 <van-overlay show="{{ show }}" bind:click="onClickHide">
   <view class="popup navigation" wx:if="{{popupIndex === 0}}">
     <view class="title">导航到店</view>
@@ -106,7 +136,8 @@
   </view>
 </van-overlay>
 
-<van-popup show="{{ renewShow }}" position="bottom" custom-style="height: 64%; border-radius: 17rpx 17rpx 0rpx 0rpx;background: linear-gradient( 180deg, #C9FFD7 0%, #FFFFFF 20%, #FFFFFF 100%);" bind:close="renewCancel">
+<!-- 订单续费弹窗 - 完全保持原始代码不变 -->
+<van-popup show="{{ renewShow }}" position="bottom" custom-style="height: 74%; border-radius: 17rpx 17rpx 0rpx 0rpx;background: linear-gradient( 180deg, #C9FFD7 0%, #FFFFFF 20%, #FFFFFF 100%);" bind:close="renewCancel">
   <view class="renewBox">
     <view class="title">订单续费</view>
     <view class="line">

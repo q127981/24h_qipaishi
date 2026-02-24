@@ -69,6 +69,10 @@ page {
   /* 使用省略号表示被截断的文本 */
 }
 
+.list .item .left .info.clear{
+  background-color: var(--main-color);
+  color: #fff;
+}
 
 .list .item .left .time {
   font-size: 26rpx;
@@ -78,8 +82,6 @@ page {
 
 .list .item .right .btn {
   width: 180rpx;
-  position: relative;
-  top: 50rpx;
   margin-bottom: 10rpx;
   text-align: center;
   height: 60rpx;
@@ -98,7 +100,7 @@ page {
 }
 
 .dialog {
-  padding: 30rpx;
+  padding: 40rpx;
 }
 
 .dialog .item {
@@ -106,7 +108,7 @@ page {
   justify-content: center;
   font-size: 28rpx;
   line-height: 40rpx;
-  padding: 10rpx 10rpx;
+  padding: 10rpx 20rpx;
   margin: 15rpx;
 }
 
@@ -114,7 +116,7 @@ page {
   text-align: center;
   border-radius: 10rpx;
   color: #fff;
-  margin: 0rpx 30rpx;
+  margin: 0rpx 20rpx;
   width: 150rpx;
   height: 50rpx;
   line-height: 50rpx;

@@ -77,34 +77,14 @@
       </view>
     </view>
 
-    <view class="control-box">
-      <view class="top">权限管理</view>
-      <view class="control">
-        <navigator class="item" url="/packageA/pages/admin/admin?storeId={{storeId}}&storeName={{storeName}}">
-          <iconfont name="yuangongguanli" size="28"></iconfont>
-          <text>员工管理</text>
-        </navigator>
-        <navigator class="item" url="/packageA/pages/cleaner/cleaner?storeId={{storeId}}&storeName={{storeName}}">
-          <iconfont name="shangmenjiazheng" size="28"></iconfont>
-          <text>保洁员管理</text>
-        </navigator>
-        <navigator class="item" url="../faceBlacklist/faceBlacklist?storeId={{storeId}}">
-          <iconfont name="heimingdan" size="28"></iconfont>
-          <text>门禁黑名单</text>
-        </navigator>
-        <navigator class="item" url="../faceRecord/faceRecord?storeId={{storeId}}">
-          <iconfont name="renlianshibie1" size="28"></iconfont>
-          <text>门禁识别记录</text>
-        </navigator>
-        <navigator class="item" url="/packageA/pages/vipBlacklist/vipBlacklist?storeId={{storeId}}">
-          <iconfont name="heimingdan1" size="28"></iconfont>
-          <text>会员黑名单</text>
-        </navigator>
-      </view>
-    </view>
+   
     <view class="control-box">
       <view class="top">经营管理</view>
       <view class="control">
+        <navigator class="item" url="/inventory/pages/detail/index?storeId={{storeId}}">
+          <iconfont name="fenlei" size="28"></iconfont>
+          <text>商品寄存</text>
+        </navigator>
         <navigator class="item" url="../setDiscount/setDiscount?storeId={{storeId}}">
           <iconfont name="chongzhi" size="28"></iconfont>
           <text>充值规则</text>
@@ -132,6 +112,31 @@
         <navigator class="item" url="/packageA/pages/payOrder/index?storeId={{storeId}}">
           <iconfont name="dingdan1" size="28"></iconfont>
           <text>微信支付退款</text>
+        </navigator>
+      </view>
+    </view>
+    <view class="control-box">
+      <view class="top">权限管理</view>
+      <view class="control">
+        <navigator class="item" url="/packageA/pages/admin/admin?storeId={{storeId}}&storeName={{storeName}}">
+          <iconfont name="yuangongguanli" size="28"></iconfont>
+          <text>员工管理</text>
+        </navigator>
+        <navigator class="item" url="/packageA/pages/cleaner/cleaner?storeId={{storeId}}&storeName={{storeName}}">
+          <iconfont name="shangmenjiazheng" size="28"></iconfont>
+          <text>保洁员管理</text>
+        </navigator>
+        <navigator class="item" url="../faceBlacklist/faceBlacklist?storeId={{storeId}}">
+          <iconfont name="heimingdan" size="28"></iconfont>
+          <text>门禁黑名单</text>
+        </navigator>
+        <navigator class="item" url="../faceRecord/faceRecord?storeId={{storeId}}">
+          <iconfont name="renlianshibie1" size="28"></iconfont>
+          <text>门禁识别记录</text>
+        </navigator>
+        <navigator class="item" url="/packageA/pages/vipBlacklist/vipBlacklist?storeId={{storeId}}">
+          <iconfont name="heimingdan1" size="28"></iconfont>
+          <text>会员黑名单</text>
         </navigator>
       </view>
     </view>

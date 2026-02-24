@@ -1,0 +1,400 @@
+/* pages/goodsType/goodsType.wxss */
+page {
+  background-color: #f5f5f5;
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.header-right {
+  width: 60rpx;
+}
+
+/* 悬浮新增按钮 */
+.fab-add {
+  position: fixed;
+  right: 40rpx;
+  bottom: 300rpx;
+  width: 100rpx;
+  height: 100rpx;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8rpx 30rpx rgba(102, 126, 234, 0.4);
+  z-index: 100;
+  transition: all 0.3s;
+}
+
+.fab-add:active {
+  transform: scale(0.95);
+  box-shadow: 0 4rpx 15rpx rgba(102, 126, 234, 0.3);
+}
+
+.fab-add .plus {
+  font-size: 60rpx;
+  color: #fff;
+  font-weight: 300;
+  line-height: 1;
+  margin-bottom: 8rpx;
+}
+
+.clear-icon {
+  font-size: 32rpx;
+  color: #999;
+  padding: 0 10rpx;
+}
+
+/* 列表区域 */
+.content {
+  flex: 1;
+  padding: 20rpx;
+}
+
+.type-list {
+  padding-bottom: 40rpx;
+}
+
+.type-card {
+  background-color: #fff;
+  border-radius: 16rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.08);
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.type-card.disabled {
+  opacity: 0.7;
+  background-color: #fafafa;
+}
+
+.card-main {
+  padding: 20rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.goods-info {
+  flex: 1;
+}
+.goods-info .top {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  text-align: center;
+}
+
+.goods-name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 12rpx;
+  margin-left: 20rpx;
+}
+
+.goods-meta {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.unit-tag {
+  background: var(--main-color);
+  color: #fff;
+  font-size: 28rpx;
+  padding: 15rpx;
+  width: 28rpx;
+  line-height: 28rpx;
+  border-radius: 100%;
+}
+
+.store-name {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.status-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.status-switch {
+  transform: scale(0.8);
+}
+
+.status-text {
+  font-size: 22rpx;
+  font-weight: 500;
+}
+
+.status-text.enabled {
+  color: #07c160;
+}
+
+.status-text.disabled {
+  color: #999;
+}
+
+.card-actions {
+  display: flex;
+  border-top: 1rpx solid #f0f0f0;
+  background-color: #fafafa;
+}
+
+.action-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24rpx 0;
+  font-size: 26rpx;
+  color: #666;
+  transition: all 0.2s;
+}
+
+.action-btn:active {
+  background-color: #f0f0f0;
+}
+
+.action-btn.edit {
+  color: #667eea;
+}
+
+.action-btn.delete {
+  color: #ff4d4f;
+}
+
+.action-icon {
+  margin-right: 8rpx;
+  font-size: 28rpx;
+}
+
+.action-divider {
+  width: 1rpx;
+  background-color: #e0e0e0;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 200rpx 40rpx;
+}
+
+.empty-icon {
+  font-size: 120rpx;
+  margin-bottom: 30rpx;
+  opacity: 0.5;
+}
+
+.empty-text {
+  font-size: 32rpx;
+  color: #666;
+  margin-bottom: 16rpx;
+}
+
+.empty-subtext {
+  font-size: 26rpx;
+  color: #999;
+}
+
+/* 加载中 */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100rpx;
+  color: #999;
+  font-size: 28rpx;
+}
+
+.loading-spinner {
+  width: 60rpx;
+  height: 60rpx;
+  border: 4rpx solid #f0f0f0;
+  border-top-color: #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20rpx;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* 弹窗 */
+.modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-content {
+  background-color: #fff;
+  border-radius: 24rpx;
+  width: 85%;
+  max-width: 600rpx;
+  animation: slideUp 0.3s;
+  overflow: hidden;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(50rpx); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40rpx 40rpx 30rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.modal-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.modal-close {
+  font-size: 48rpx;
+  color: #999;
+  line-height: 1;
+  padding: 0 10rpx;
+}
+
+.modal-body {
+  padding: 30rpx 40rpx;
+}
+
+.form-item {
+  margin-bottom: 30rpx;
+}
+
+.form-item:last-child {
+  margin-bottom: 0;
+}
+
+.form-label {
+  display: block;
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 16rpx;
+}
+
+.form-label.required::before {
+  content: '*';
+  color: #ff4d4f;
+  margin-right: 8rpx;
+}
+
+.picker-value {
+  background-color: #f8f8f8;
+  padding: 24rpx 30rpx;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.picker-value.placeholder {
+  color: #999;
+}
+
+.picker-arrow {
+  color: #999;
+  font-size: 28rpx;
+}
+
+.form-input {
+  background-color: #f8f8f8;
+  padding: 24rpx 30rpx;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  color: #333;
+  height: 40rpx;
+}
+
+.switch-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f8f8f8;
+  padding: 20rpx 30rpx;
+  border-radius: 12rpx;
+}
+
+.switch-item .form-label {
+  margin-bottom: 0;
+}
+
+.modal-footer {
+  display: flex;
+  padding: 30rpx 40rpx 50rpx;
+  gap: 20rpx;
+}
+
+.btn-cancel, .btn-confirm {
+  flex: 1;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  border-radius: 44rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.btn-cancel {
+  background-color: #f0f0f0;
+  color: #666;
+}
+
+.btn-confirm {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+}
+
+.btn-confirm.disabled {
+  opacity: 0.5;
+  background: #ccc;
+}
+
+.btn-confirm::after {
+  border: none;
+}
+
+.btn-cancel::after {
+  border: none;
+}

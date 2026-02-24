@@ -1,0 +1,196 @@
+<!-- pages/storageHome/storageHome.wxml -->
+<view class="container">
+  <!-- 顶部操作按钮 -->
+  <view class="header-btns">
+    <view class="top-btn goods-manage" bindtap="goToGoodsManage">
+      <text class="btn-icon">📦</text>
+      <text class="btn-text">商品管理</text>
+    </view>
+    <view class="top-btn add-storage" bindtap="showAddModal">
+      <text class="btn-icon">➕</text>
+      <text class="btn-text">新增寄存</text>
+    </view>
+  </view>
+
+  <!-- 查询区域 -->
+  <view class="query-section">
+    <view class="query-title">寄存查询</view>
+    <view class="query-input-wrap">
+      <input 
+        class="query-input" 
+        type="number"
+        placeholder="请输入用户手机号" 
+        value="{{queryPhone}}"
+        maxlength="11"
+        bindinput="onQueryPhoneInput"
+      />
+      <view class="query-btns">
+        <button class="btn-query" bindtap="queryStorage">查询</button>
+        <button class="btn-reset" bindtap="resetQuery">重置</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 查询结果区域 -->
+  <scroll-view class="result-section" scroll-y="{{true}}" wx:if="{{storageList.length > 0}}">
+    <view class="result-header">
+      <text class="result-title">用户寄存商品</text>
+      <text class="result-count">共 {{storageList.length}} 条</text>
+    </view>
+    
+    <view class="storage-list">
+      <view class="storage-card" wx:for="{{storageList}}" wx:key="id">
+        <view class="card-row-first">
+          <view class="goods-info-left">
+            <text class="goods-name">{{item.goodsName}}</text>
+            <text class="goods-unit">{{item.units}}</text>
+          </view>
+          <text class="stock-remain">剩余 {{item.stockNum}}{{item.units}}</text>
+        </view>
+        
+        <view class="card-row-second">
+          <text class="expire-time">到期: {{item.expireTime}}</text>
+          <view class="card-actions">
+            <view class="stepper-wrap">
+              <text class="stepper-btn {{item.takeNum <= 0 ? 'disabled' : ''}}" bindtap="changeTakeNum" data-index="{{index}}" data-delta="-1">-</text>
+              <input 
+                class="stepper-input" 
+                type="number" 
+                value="{{item.takeNum}}"
+                data-index="{{index}}"
+                bindblur="onTakeNumInput"
+              />
+              <text class="stepper-btn {{item.takeNum >= item.stockNum ? 'disabled' : ''}}" bindtap="changeTakeNum" data-index="{{index}}" data-delta="1">+</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="confirm-bar" wx:if="{{hasSelected}}">
+      <view class="selected-info">
+        <text>已选 {{selectedCount}} 种商品</text>
+        <text class="total-num">共 {{selectedTotal}} 件</text>
+      </view>
+      <button class="btn-confirm-take" bindtap="confirmTakeOut">确认取出</button>
+    </view>
+  </scroll-view>
+
+  <view class="empty-state" wx:if="{{queryPhone && storageList.length === 0 && !loading}}">
+    <text class="empty-icon">🔍</text>
+    <text class="empty-text">未找到该用户的寄存记录</text>
+  </view>
+
+  <!-- 新增寄存弹窗 -->
+  <view class="modal-mask" wx:if="{{showAddModal}}" catchtap="preventBubble">
+    <view class="modal-content" catchtap="preventBubble">
+      <view class="modal-header">
+        <text class="modal-title">新增寄存</text>
+        <text class="modal-close" catchtap="hideAddModal">×</text>
+      </view>
+      
+      <scroll-view class="modal-body" scroll-y="{{true}}">
+        <view class="form-item-inline">
+          <view class="form-row">
+            <text class="form-label-inline required">用户手机号</text>
+            <input 
+              class="form-input-inline" 
+              type="number"
+              placeholder="请输入手机号" 
+              value="{{addForm.phone}}"
+              maxlength="11"
+              data-field="phone"
+              bindinput="onAddFormInput"
+            />
+          </view>
+        </view>
+
+        <view class="form-item-inline">
+          <view class="form-row">
+            <text class="form-label-inline required">到期时间</text>
+            <picker mode="multiSelector" range="{{dateTimeArray}}" value="{{dateTimeIndex}}" bindchange="onExpireDateTimeChange" bindcolumnchange="onDateTimeColumnChange">
+              <view class="picker-value-inline">
+                {{addForm.expireDateTime}} 
+                <text class="picker-arrow">(默认30天)</text>
+              </view>
+            </picker>
+          </view>
+        </view>
+
+        <view class="form-item goods-list-item">
+          <view class="goods-list-header">
+            <text class="form-label required">寄存商品</text>
+            <view class="add-goods-btn" catchtap="addGoodsItem">
+              <text class="add-icon">+</text>
+              <text>添加商品</text>
+            </view>
+          </view>
+          
+          <view class="add-goods-list">
+            <view class="add-goods-item" wx:for="{{addForm.goodsList}}" wx:key="index">
+              <view class="goods-select-row">
+                <view class="goods-select-box" catchtap="openGoodsSelector" data-index="{{index}}">
+                  <view class="goods-select-display {{item.goodsId ? '' : 'placeholder'}}">
+                    <text class="select-text">{{item.goodsName || '点击选择商品'}}</text>
+                  </view>
+                </view>
+                
+                <view class="stepper-wrap large">
+                  <text class="stepper-btn {{item.num <= 1 ? 'disabled' : ''}}" catchtap="changeGoodsNum" data-index="{{index}}" data-delta="-1">-</text>
+                  <input 
+                    class="stepper-input" 
+                    type="number" 
+                    value="{{item.num}}"
+                    data-index="{{index}}"
+                    bindblur="onGoodsNumInput"
+                  />
+                  <text class="stepper-btn" catchtap="changeGoodsNum" data-index="{{index}}" data-delta="1">+</text>
+                </view>
+                {{item.unit}}
+                <view class="delete-goods {{addForm.goodsList.length <= 1 ? 'disabled' : ''}}" catchtap="deleteGoodsItem" data-index="{{index}}">
+                  <text>🗑</text>
+                </view>
+              </view>
+              <!-- <view class="goods-unit-hint" wx:if="{{item.unit}}">单位: {{item.unit}}</view> -->
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+
+      <view class="modal-footer">
+        <button class="btn-cancel" catchtap="hideAddModal">取消</button>
+        <button class="btn-confirm {{!isAddFormValid ? 'disabled' : ''}}" catchtap="submitAddStorage">确认寄存</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 商品选择弹窗（第二层） -->
+  <view class="goods-selector-mask" wx:if="{{showGoodsSelector}}" catchtap="preventBubble">
+    <view class="goods-selector-content" catchtap="preventBubble">
+      <view class="selector-header">
+        <text class="selector-title">选择商品</text>
+        <text class="selector-close" catchtap="closeGoodsSelector">×</text>
+      </view>
+      
+      <scroll-view class="selector-body" scroll-y="{{true}}">
+        <view 
+          class="goods-option {{item.id === null ? 'placeholder' : ''}} {{tempSelectedGoodsId === item.id ? 'selected' : ''}}" 
+          wx:for="{{goodsTypeList}}" 
+          wx:key="id"
+          data-goods="{{item}}"
+          catchtap="onGoodsOptionTap"
+        >
+          <view class="option-info">
+            <text class="option-name">{{item.goodsName}}</text>
+            <text class="option-unit" wx:if="{{item.units}}">{{item.units}}</text>
+          </view>
+          <text class="option-check" wx:if="{{tempSelectedGoodsId === item.id}}">✓</text>
+        </view>
+      </scroll-view>
+      
+      <view class="selector-footer">
+        <button class="btn-confirm-select {{!tempSelectedGoodsId ? 'disabled' : ''}}" catchtap="confirmGoodsSelect">确认选择</button>
+      </view>
+    </view>
+  </view>
+</view>

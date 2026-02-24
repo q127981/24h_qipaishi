@@ -1,0 +1,115 @@
+<view class="container">
+
+  <!-- 列表区域 -->
+  <scroll-view class="content" scroll-y="true" enhanced show-scrollbar="{{false}}">
+    <view class="type-list" wx:if="{{goodsTypeList.length > 0}}">
+      <view 
+        class="type-card {{item.enable ? '' : 'disabled'}}" 
+        wx:for="{{goodsTypeList}}" 
+        wx:key="id"
+      >
+        <view class="card-main">
+          <view class="goods-info">
+            <view class="top">
+              <text class="unit-tag">{{item.units}}</text>
+              <text class="goods-name">{{item.goodsName}}</text>
+            </view>
+          </view>
+          <view class="status-section">
+            <switch 
+              class="status-switch" 
+              checked="{{item.enable}}" 
+              color="#07c160"
+              data-id="{{item.id}}"
+              data-index="{{index}}"
+              bindchange="toggleEnable"
+            />
+          </view>
+        </view>
+        <view class="card-actions">
+          <view class="action-btn edit" bindtap="editItem" data-item="{{item}}">
+            <text class="action-icon">✎</text>
+            <text>编辑</text>
+          </view>
+          <view class="action-divider"></view>
+          <view class="action-btn delete" bindtap="deleteItem" data-id="{{item.id}}" data-index="{{index}}">
+            <text class="action-icon">🗑</text>
+            <text>删除</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{goodsTypeList.length === 0 && !loading}}">
+      <view class="empty-icon">📦</view>
+      <text class="empty-text">暂无商品</text>
+      <text class="empty-subtext">点击右侧 + 添加</text>
+    </view>
+
+    <!-- 加载中 -->
+    <view class="loading-state" wx:if="{{loading}}">
+      <view class="loading-spinner"></view>
+      <text>加载中...</text>
+    </view>
+  </scroll-view>
+
+  <!-- 新增/编辑弹窗 -->
+  <view class="modal-mask" wx:if="{{showModal}}" bindtap="hideModal">
+    <view class="modal-content" catchtap="preventBubble">
+      <view class="modal-header">
+        <text class="modal-title">{{isEdit ? '编辑寄存商品' : '新增寄存商品'}}</text>
+        <text class="modal-close" bindtap="hideModal">×</text>
+      </view>
+      
+      <view class="modal-body">
+
+        <!-- 商品名称 -->
+        <view class="form-item">
+          <text class="form-label required">商品名称</text>
+          <input 
+            class="form-input" 
+            placeholder="请输入商品名称" 
+            value="{{formData.goodsName}}"
+            data-field="goodsName"
+            bindinput="onInputChange"
+            maxlength="50"
+          />
+        </view>
+
+        <!-- 单位 -->
+        <view class="form-item">
+          <text class="form-label required">单位</text>
+          <input 
+            class="form-input" 
+            placeholder="请输入单位，如：瓶、份、个" 
+            value="{{formData.units}}"
+            data-field="units"
+            bindinput="onInputChange"
+            maxlength="10"
+          />
+        </view>
+
+        <!-- 启用状态 -->
+        <view class="form-item switch-item">
+          <text class="form-label">是否启用</text>
+          <switch 
+            checked="{{formData.enable}}" 
+            color="#07c160"
+            data-field="enable"
+            bindchange="onSwitchChange"
+          />
+        </view>
+      </view>
+
+      <view class="modal-footer">
+        <button class="btn-cancel" bindtap="hideModal">取消</button>
+        <button class="btn-confirm {{!isFormValid ? 'disabled' : ''}}" bindtap="saveItem">保存</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="fab-add" bindtap="showAddModal">
+  <text class="plus">+</text>
+</view>
+</view>

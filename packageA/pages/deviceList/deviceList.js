@@ -29,6 +29,7 @@ Page({
       { value: 9, text: "人脸门禁机" },
       { value: 11, text: "二维码识别器" },
       { value: 12, text: "红外控制器" },
+      { value: 17, text: "点歌机" },
     ],
     deviceTypeIndex: "",
     deviceType: "",

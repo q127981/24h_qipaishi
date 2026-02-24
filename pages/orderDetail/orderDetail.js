@@ -519,6 +519,10 @@ Page({
       return false;
     }
     var that = this;
+    let wxpay = false;
+    if (that.data.payType == 1) {
+      wxpay = true;
+    }
     if (app.globalData.isLogin) {
       http.request(
         "/member/order/preOrder",
@@ -532,6 +536,7 @@ Page({
           orderId: that.data.OrderInfodata.orderId,
           payType: that.data.payType,
           pkgId: that.data.pkgId,
+          wxPay: wxpay,
         },
         app.globalData.userDatatoken.accessToken,
         "提交中...",

@@ -369,4 +369,10 @@ Page({
       })
     }
   },
+  goShopOrder(e){
+    let id = e.currentTarget.dataset.info
+    wx.navigateTo({
+      url: '/pages/productOrder/productOrder?manager=true&storeId='+id,
+    })
+  },
 })

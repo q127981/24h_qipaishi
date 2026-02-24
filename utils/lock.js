@@ -25,7 +25,7 @@ function blueDoorOpen(lockData) {
         wx.showToast({ icon: "success", title: "已开锁" });
       } else {
         wx.hideLoading();
-        wx.showToast({ icon: "none", title: "蓝牙开锁失败" });
+        wx.showToast({ icon: "none", title: "蓝牙开锁失败:"+res.errorMsg });
       }
     })
   }

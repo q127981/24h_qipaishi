@@ -27,6 +27,7 @@ Page({
     minHour: '',
     leadHour: '',
     // leadDay: '',
+    xiaoshiSubmit: '',
     label: '',
     sortId: '',
     yunlabaSound: '',
@@ -166,6 +167,7 @@ Page({
               leadHour: info.data.leadHour,
               minHour: info.data.minHour,
               // leadDay: info.data.leadDay,
+              xiaoshiSubmit: info.data.xiaoshiSubmit,
               tongxiaoPrice: info.data.tongxiaoPrice,
               morningPrice: info.data.morningPrice,
               afternoonPrice: info.data.afternoonPrice,
@@ -315,6 +317,7 @@ Page({
           "deposit": that.data.deposit,
           "minHour": that.data.minHour,
           "leadHour": that.data.leadHour,
+          "xiaoshiSubmit": that.data.xiaoshiSubmit,
           // "leadDay": that.data.leadDay,
           // "tongxiaoPrice": that.data.tongxiaoPrice,//旧版本用的字段  已废弃
           "morningPrice": that.data.morningPrice,
@@ -419,6 +422,12 @@ Page({
     let that = this
     that.setData({
       reserve: !that.data.reserve // 根据当前状态取反
+    });
+  },
+  changeSubmitStatus: function () {
+    let that = this
+    that.setData({
+      xiaoshiSubmit: !that.data.xiaoshiSubmit // 根据当前状态取反
     });
   },
 })

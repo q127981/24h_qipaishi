@@ -79,7 +79,7 @@
     </view>
   </view>
   <view class="info">
-    <view class="btn" bind:tap="openSubmit" data-index="0">
+    <view class="btn" bind:tap="openSubmit" data-index="0" wx:if="{{roominfodata.xiaoshiSubmit}}">
       <view class="left">
         <view class="text1">小时开台</view>
         <view class="text2">选择指定消费时长开台</view>

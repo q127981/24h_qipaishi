@@ -31,7 +31,9 @@
           <button hover-class="button-click" class="btn cancel" wx:if="{{item.status==1}}" bindtap="cancelTake" data-info="{{item.clearId}}">取消接单</button>
           <button hover-class="button-click" class="btn bg-primary" wx:if="{{item.status==1}}" bindtap="begin" data-info="{{item.clearId}}">开始任务</button>
           <button hover-class="button-click" class="btn share" wx:if="{{item.status==2}}" bindtap="open" data-info="{{item.clearId}}">开大门</button>
-          <button hover-class="button-click" class="btn bg-primary" wx:if="{{item.status==2}}" bindtap="openDoor" data-info="{{item.clearId}}">开房间门</button>
+          <button hover-class="button-click" class="btn bg-primary" wx:if="{{item.status==2}}" bindtap="opRoom" data-id="{{item.clearId}}" data-type="1">开门开电</button>
+          <button hover-class="button-click" class="btn bg-primary" wx:if="{{item.status==2}}" bindtap="opRoom" data-id="{{item.clearId}}" data-type="3">仅开门锁</button>
+          <button hover-class="button-click" class="btn bg-primary" wx:if="{{item.status==2}}" bindtap="opRoom" data-id="{{item.clearId}}" data-type="5">仅开灯光</button>
           <button hover-class="button-click" class="btn bg-primary finish" wx:if="{{item.status==2}}" bindtap="goTaskDetail" data-info="{{item.clearId}}">完成任务</button>
           <button hover-class="button-click" class="btn bg-primary" wx:if="{{item.status==3||item.status==5||item.status==6}}" bindtap="goTaskDetail" data-info="{{item.clearId}}">查看详情</button>
         </view>

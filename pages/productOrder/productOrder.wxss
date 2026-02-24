@@ -127,7 +127,7 @@
 
 .order-time {
   flex: 1;
-  font-size: 24rpx;
+  font-size: 26rpx;
 }
 
 .buy-num {
@@ -169,19 +169,19 @@
 }
 
 .attrs {
-  width: 30%;
+  width: 40%;
   margin-left: 20rpx;
 }
 
 .attrs view {
   display: flex;
-  height: 50%;
+  height: 60%;
 }
 
 .price-num {
   display: flex;
-  width: 55%;
-  justify-content: center;
+  width: 20%;
+  justify-content: space-around;
   margin: auto 0;
 }
 

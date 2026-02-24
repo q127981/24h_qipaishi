@@ -47,9 +47,9 @@ page{
 }
 .btns{
   margin-top: 30rpx;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  /* display: flex; */
+  /* justify-content: space-between; */
+  /* flex-wrap: wrap; */
 }
 .btns .btn{
   border-radius: 10rpx;
@@ -57,21 +57,26 @@ page{
   text-align: center;
   font-size: 40rpx;
   margin-bottom: 20rpx;
-  display: flex;
-  justify-content: center;
   align-items: center;
   box-sizing: border-box;
+  padding: 5rpx 30rpx;
 }
 .btns .btn .iconfont{
   font-size: 40rpx;
   margin-right: 10rpx;
 }
-.btns .left{
-  width: 336rpx;
+.btns .top{
+  display: flex;
+  justify-content: space-around;
+}
+.btns .buttom{
+  display: flex;
+  justify-content: space-around;
 }
 .btns .left .btn{
   height: 80rpx;
   font-size: 30rpx;
+
 }
 .btns .open{
   border: 1rpx solid var(--main-color);
@@ -80,12 +85,13 @@ page{
 .btns .finish{
   width: 360rpx;
   background: var(--main-green);
+  margin: 10rpx;
 }
 .btns .back{
-  width: 100%;
+  width: 360rpx;
   border:1px solid #05b3cc;
   color: #05b3cc;
-  height: 90rpx;
+  margin: 10rpx;
 }
 .admin {
   justify-content: space-around;

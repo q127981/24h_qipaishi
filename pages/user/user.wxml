@@ -120,7 +120,11 @@
           <iconfont name="sousuo" size="32" color="#000"></iconfont>
           <text>订单查询</text>
         </navigator>
-        <!-- <navigator class="item" url="../couponActive/index?couponId=224">
+        <navigator class="item" url="../inventory/index" wx:if="{{isLogin}}">
+          <iconfont name="huiyuanlibao" size="32" color="#000"></iconfont>
+          <text>商品存取</text>
+        </navigator>
+        <!-- <navigator class="item" url="../roomRenew/roomRenew?storeId=167&roomId=762">
           <iconfont name="changjianwentixiangguanwenti" size="32" color="#000"></iconfont>
           <text>常见问题</text>
         </navigator> -->
@@ -182,7 +186,7 @@
       </view>
     </block>
   </view>
-  <view class="version">版本:25.12.18</view>
+  <view class="version">版本:26.02.23</view>
 </view>
 
 <view wx:if="{{showExpireModal}}" class="expire-mask">
