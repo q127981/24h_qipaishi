@@ -2,6 +2,27 @@
 page {
   /* background: #fff; */
 }
+.top .shop{
+  display: flex;
+  justify-content: space-around;
+}
+.top .shop .btn{
+  margin: 10rpx;
+  border-radius: 10rpx;
+  width: 250rpx;
+  text-align: center;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 36rpx;
+  color: #fff;
+}
+
+.top .shop .btn.waring{
+  background-color: #1865f3;
+}
+.top .shop .btn.waring1{
+  background-color: #fd943e;
+}
 
 .tabs {
   background-color: #fff;
@@ -41,7 +62,7 @@ page {
   padding: 20rpx;
   background-color: #fff;
   /* background-image: linear-gradient(181.2deg, rgb(204, 235, 250) 10.5%, rgba(169, 232, 243, 0.678) 86.8%); */
-  height: 150rpx;
+  /* height: 150rpx; */
   margin-bottom: 20rpx;
   display: flex;
   justify-content: space-between;
@@ -424,4 +445,8 @@ page {
   display: flex;
   justify-content: center;
   margin-top: 10rpx;
+}
+
+.orderList{
+  font-size: 26rpx;
 }

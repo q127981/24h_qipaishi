@@ -517,4 +517,40 @@ Page({
       }
     })
   },
+   // 完成任务
+   finish: function (e) {
+    var that = this;
+    let id = e.currentTarget.dataset.info
+    if (app.globalData.isLogin) {
+      http.request(
+        "/member/clear/finish/" + id,
+        "1",
+        "post", {
+        "id": id,
+        "lat": that.data.lat,
+        "lon": that.data.lon,
+      },
+        app.globalData.userDatatoken.accessToken,
+        '',
+        function success(info) {
+          console.info('返回111===');
+          console.info(info);
+          if (info.code == 0) {
+            wx.showToast({
+              title: '完成成功',
+            })
+            that.getMainListdata("refresh")
+          } else {
+            wx.showModal({
+              content: info.msg,
+              showCancel: false,
+            })
+          }
+        },
+        function fail(info) {
+
+        }
+      )
+    }
+  },
 })

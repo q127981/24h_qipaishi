@@ -7,7 +7,10 @@
 .form-item {
   margin-bottom: 20rpx;
 }
-
+.tip{
+  font-size: 26rpx;
+  color: red;
+}
 .label {
   margin-bottom: 10rpx;
   color: #000;

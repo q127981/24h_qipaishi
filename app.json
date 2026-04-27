@@ -36,7 +36,9 @@
     "pages/yeepay/index",
     "pages/yeepay/agreement",
     "pages/couponActive/index",
-    "pages/inventory/index"
+    "pages/inventory/index",
+    "pages/coupon/lottery",
+    "pages/ktv/index"
   ],
   "subpackages": [
     {
@@ -88,7 +90,8 @@
         "pages/configPrePay/configPrePay",
         "pages/configLockWifi/index",
         "pages/setTemplate/index",
-        "pages/payOrder/index"
+        "pages/payOrder/index",
+        "pages/lottery/index"
       ]
     },
     {
@@ -117,7 +120,7 @@
   },
   "plugins": {
     "myPlugin": {
-      "version": "3.1.6",
+      "version": "3.1.7",
       "provider": "wx43d5971c94455481"
     }
   },
@@ -137,6 +140,12 @@
         "text": "优惠中心",
         "iconPath": "pages/static/icon/bar-coupon.png",
         "selectedIconPath": "pages/static/icon/coupon-in.png"
+      },
+      {
+        "pagePath": "pages/ktv/index",
+        "text": "手机点歌",
+        "iconPath": "pages/static/icon/ktv.png",
+        "selectedIconPath": "pages/static/icon/ktv-in.png"
       },
       {
         "pagePath": "pages/orderList/orderList",

@@ -125,6 +125,7 @@ Page({
         if (goods.length == 0) {
           wx.showToast({
             title: '暂无商品',
+            icon: 'none'
           })
         }
         that.setData({
@@ -188,7 +189,7 @@ Page({
       'good.number': 1,
       'good.price': parseFloat(productValue.price).toFixed(2),
       'good.stock': productValue.stock,
-      'good.image': productValue.image ? productValue.image : that.data.good.value.image,
+      // 'good.image': productValue.image ? productValue.image : that.data.good.value.image,
       'good.valueStr': valueStr,
       newValue: newValue,
     });
@@ -221,7 +222,7 @@ Page({
       'good.number': 1,
       'good.price': parseFloat(productValue.price).toFixed(2),
       'good.stock': productValue.stock,
-      'good.image': productValue.image ? productValue.image : that.data.good.value.image,
+      // 'good.image': productValue.image ? productValue.image : that.data.good.value.image,
       'good.valueStr': valueStr,
       newValue: newValue,
     });
@@ -587,6 +588,18 @@ Page({
             that.setData({
               doorinfodata: info.data,
             });
+            if(!info.data.shopOpen){
+                wx.showModal({
+                  title: '温馨提示',
+                  content: '门店当前无法提供在线点单服务，请您前往自助柜购物！',
+                  showCancel: false,
+                  complete: (res) => {
+                    if (res.confirm) {
+                      wx.navigateBack();
+                    }
+                  }
+                })
+            }
           } else {
             wx.showModal({
               content: info.msg,

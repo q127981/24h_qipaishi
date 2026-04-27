@@ -1,0 +1,184 @@
+<view class="lottery-page">
+  <!-- 顶部背景装饰 -->
+  <view class="header-bg">
+    <view class="decoration-left"></view>
+    <view class="decoration-right"></view>
+  </view>
+  <!-- 门店名称 -->
+  <view class="store-name">{{lotteryInfo.storeName}}</view>
+
+  <!-- 活动卡片 -->
+  <view class="activity-card">
+    <!-- 活动标题 -->
+    <view class="activity-title">
+      <view class="title-icon"></view>
+      <text>{{lotteryInfo.title || '抽奖活动'}}</text>
+      <view class="title-icon"></view>
+    </view>
+
+    <!-- 开奖时间 -->
+    <view class="expire-time-box">
+      <view class="time-icon-simple"></view>
+      <text class="time-label">开奖时间：</text>
+      <text class="time-value">{{lotteryInfo.expireTime}} 12:00</text>
+    </view>
+
+    <!-- 奖品展示 -->
+    <view class="prizes-container">
+      <view class="prize-item prize-1">
+        <view class="prize-badge badge-1">一等奖</view>
+        <view class="prize-name">{{lotteryInfo.prize1 || '待设置'}}</view>
+      </view>
+      <view class="prize-item prize-2">
+        <view class="prize-badge badge-2">二等奖</view>
+        <view class="prize-name">{{lotteryInfo.prize2 || '待设置'}}</view>
+      </view>
+      <view class="prize-item prize-3">
+        <view class="prize-badge badge-3">三等奖</view>
+        <view class="prize-name">{{lotteryInfo.prize3 || '待设置'}}</view>
+      </view>
+      <view class="prize-item prize-4" wx:if="{{lotteryInfo.prize4}}">
+        <view class="prize-badge badge-4">保底奖</view>
+        <view class="prize-name">{{lotteryInfo.prize4}}</view>
+      </view>
+    </view>
+
+    <!-- 保底奖提示 -->
+    <view class="guarantee-tip" wx:if="{{lotteryInfo.prize4 && lotteryInfo.minOrderNum}}">
+      <text>活动期间消费</text>
+      <text class="highlight">{{lotteryInfo.minOrderNum}}</text>
+      <text>单必中保底奖</text>
+    </view>
+  </view>
+ <!-- 用户状态区域 -->
+ <view class="user-status-card">
+    <!-- 未登录或未参与 -->
+    <block wx:if="{{!lotteryInfo.join}}">
+      <view class="status-content" wx:if="{{lotteryInfo.status === 0}}">
+        <view class="join-btn" bindtap="handleJoin">
+          <text>参与抽奖</text>
+        </view>
+        <view class="join-tip">参与活动，赢取大奖</view>
+      </view>
+      <view class="status-content" wx:else>
+        <view class="ended-tip">
+          <view class="ended-icon"></view>
+          <text>活动已结束</text>
+        </view>
+      </view>
+    </block>
+
+    <!-- 已参与但未开奖 -->
+    <block wx:elif="{{lotteryInfo.join && lotteryInfo.status === 0}}">
+      <view class="status-content joined">
+        <view class="joined-text">您已成功参与，当前中奖倍数： <text class="count-value">{{lotteryInfo.myWinCount}}倍</text></view>
+        <view class="rules-highlight-tip">
+      <text class="tip-text">中奖结果随机产生，活动期间每在门店消费一单可增加一倍中奖倍数，中奖倍数越高越有机会获得大奖</text>
+      </view>
+      </view>
+    </block>
+
+    <!-- 已参与且已开奖 -->
+    <block wx:elif="{{lotteryInfo.join && lotteryInfo.status === 1}}">
+      <view class="status-content result">
+        <!-- 中奖 -->
+        <block wx:if="{{lotteryInfo.myPrize}}">
+          <view class="win-result">
+            <view class="win-text">恭喜您中奖了！</view>
+            <view class="win-prize prize-level-{{lotteryInfo.myPrize}}">
+              {{prizeNames[lotteryInfo.myPrize]}}
+            </view>
+            <view class="tip">请到店后凭中奖截图联系工作人员兑换</view>
+          </view>
+        </block>
+        <!-- 未中奖 -->
+        <block wx:else>
+          <view class="no-win-result">
+            <view class="no-win-icon"></view>
+            <view class="no-win-text">很遗憾，您未中奖</view>
+            <view class="no-win-tip">感谢您的参与，下次好运！</view>
+          </view>
+        </block>
+      </view>
+    </block>
+  </view>
+  <!-- 活动规则卡片 -->
+  <view class="rules-card">
+    <view class="rules-content">
+      <view class="rule-item" wx:if="{{lotteryInfo.orderNum}}">
+        <view class="rule-number"></view>
+        <view class="rule-text">
+          <text class="rule-label">参与要求：</text>
+          <text class="rule-value">活动期间在门店消费{{lotteryInfo.orderNum || 0}} 单可参与</text>
+        </view>
+      </view>
+      <!-- <view class="rule-item" wx:if="{{lotteryInfo.prize4 && lotteryInfo.minOrderNum}}">
+        <view class="rule-number"></view>
+        <view class="rule-text">
+          <text class="rule-label">保底中奖：</text>
+          <text class="rule-value">活动期间消费达到 {{lotteryInfo.minOrderNum || 0}} 单必中保底奖</text>
+        </view>
+      </view> -->
+      <view class="rule-item remark-item" wx:if="{{lotteryInfo.remark}}">
+        <view class="rule-text">
+          <text class="rule-value remark-value">{{lotteryInfo.remark}}</text>
+        </view>
+      </view>
+    </view>
+
+  
+  </view>
+
+ 
+
+  <!-- 参与用户排行榜 -->
+  <view class="rank-card">
+    <view class="rank-header">
+      <view class="rank-title-decoration left"></view>
+      <view class="rank-title" wx:if="{{lotteryInfo.status}}">中奖用户</view>
+      <view class="rank-title" wx:else="">排行榜</view>
+      <view class="rank-title-decoration right"></view>
+    </view>
+
+    <!-- 表头 -->
+    <view class="rank-table-header">
+      <view class="col-rank">排名</view>
+      <view class="col-mobile">手机号</view>
+      <view class="col-count" wx:if="{{lotteryInfo.status === 0}}">中奖倍数</view>
+      <view class="col-prize" wx:else>中奖结果</view>
+    </view>
+
+    <!-- 列表 -->
+    <view class="rank-list">
+      <view class="rank-item" wx:for="{{lotteryInfo.detailList}}" wx:key="userId">
+        <view class="col-rank">
+          <view class="rank-badge rank-{{index < 3 ? index + 1 : 'normal'}}">
+            <text wx:if="{{index < 3}}">{{index + 1}}</text>
+            <text wx:else>{{index + 1}}</text>
+          </view>
+        </view>
+        <view class="col-mobile">{{item.mobile}}</view>
+        <!-- 未开奖显示中奖倍数 -->
+        <view class="col-count" wx:if="{{lotteryInfo.status === 0}}">
+          <text class="count-text">{{item.winCount}}倍</text>
+        </view>
+        <!-- 已开奖显示中奖结果 -->
+        <view class="col-prize" wx:else>
+          <view class="prize-result {{item.prize ? 'prize-win prize-level-' + item.prize : 'prize-none'}}">
+            {{item.prize ? prizeNames[item.prize] : '未中奖'}}
+          </view>
+        </view>
+      </view>
+
+      <!-- 空状态 -->
+      <view class="empty-list" wx:if="{{!lotteryInfo.detailList || lotteryInfo.detailList.length === 0}}">
+        <view class="empty-icon"></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部提示 -->
+  <view class="footer-tip">
+    <text>活动最终解释权归本店所有</text>
+  </view>
+</view>

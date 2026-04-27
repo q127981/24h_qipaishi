@@ -37,6 +37,7 @@
       </view>
       <input name="mtId" class="input lt" placeholder="美团团购商品id" required type="number" value="{{item.mtId}}" />
     </view>
+    <view class="tip">注意：如果开通了美团预定，修改套餐规则后，一定要推送美团。否则美团预定的数据会不正确</view>
     <view class="form-item">
       <view class="label-container">
         <text class="label">抖音团购商品id</text>
@@ -94,6 +95,8 @@
         <view bindtap="invertSelection">反选</view>
       </view>
     </view>
+    <view class="tip">注意：比如选了22时，那么订单结束时间可以用到22:00</view>
+    <view class="tip">如果你想套餐22:00后还能用，那么需要选到23</view>
     <view class="form-item">
       <view class="label">可用星期</view>
       <checkbox-group name="enableWeek" class="checkbox-containe-group">

@@ -32,6 +32,14 @@
       <view class="tip">例如通宵23时开始，时长9个小时，那么通宵场即23:00~08:00</view>
     </van-cell-group>
     <van-cell-group>
+      <van-field model:value="{{ shopBegin }}" placeholder="请输入0-23的数字" border="{{ false }}" label="在线点单开放时间(时)" />
+      <view class="tip">门店在每日X点，自动开启商品在线点单,-1或空不生效</view>
+    </van-cell-group>
+    <van-cell-group>
+      <van-field model:value="{{ shopEnd }}" placeholder="请输入0-23的数字,-1或空不生效" border="{{ false }}" label="在线点单关闭时间(时)" />
+      <view class="tip">门店在每日X点，自动关闭商品在线点单,-1或空不生效</view>
+    </van-cell-group>
+    <van-cell-group>
       <van-cell center title="延时5分钟灯光">
         <switch checked="{{ delayLight }}"  data-tag="delayLight" bindchange="onChangeSwitch"/>
       </van-cell>

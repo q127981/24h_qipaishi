@@ -99,7 +99,7 @@
 
     <!-- 二维码区域 - 一直显示 -->
     <view class="qr-card" wx:if="{{showInfo}}">
-    <text class="qr-tip">申请通过后，请使用支付宝和微信，分别扫码实名</text>
+    <text class="qr-tip">申请通过后，请让商户扫码实名</text>
     <image src="{{shimingCode}}" mode="aspectFit" class="qr"/>
   </view>
   

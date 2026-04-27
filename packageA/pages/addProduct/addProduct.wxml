@@ -18,13 +18,16 @@
     <van-cell-group >
       <van-field required model:value="{{ storeName }}" placeholder="请输入商品名称" label="商品名称" />
     </van-cell-group>
+   
     <van-cell-group >
       <van-cell required title="商品分类" model:value="{{productKind}}" is-link bind:click="showPopup"></van-cell>
     </van-cell-group>
     <van-cell-group >
       <van-field required model:value="{{ unitName }}" placeholder="请输入单位名称" label="单位名称" />
     </van-cell-group>
-
+    <van-cell-group >
+      <van-field  model:value="{{ keyword }}" placeholder="请输入下单备注" label="下单备注" />
+    </van-cell-group>
 <!-- 商品规格 -->
     <view style="margin-top: 15rpx;">
     *商品规格

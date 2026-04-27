@@ -113,6 +113,10 @@
           <iconfont name="dingdan1" size="28"></iconfont>
           <text>微信支付退款</text>
         </navigator>
+        <navigator class="item" url="/packageA/pages/lottery/index?storeId={{storeId}}">
+          <iconfont name="taocan" size="28"></iconfont>
+          <text>抽奖活动</text>
+        </navigator>
       </view>
     </view>
     <view class="control-box">

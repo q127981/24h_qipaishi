@@ -1,9 +1,9 @@
 <view class="container">
   <view class="control-box">
-    <view class="top">下单房间</view>
+    <!-- <view class="top">下单房间</view> -->
     <view class="info">
       <van-cell-group>
-        <van-field label="房间：" placeholder="请选择房间">
+        <van-field label="下单房间：" placeholder="请选择房间">
           <picker slot="input" bindchange="bindRoomSelect" value="{{roomIndex}}" range-key="text" range="{{roomList}}">
             <view class="picker">
               <input type="text" disabled placeholder="请选择房间" placeholder-class="plh" value="{{roomList[roomIndex].text}}" />
@@ -11,6 +11,7 @@
             </view>
           </picker>
         </van-field>
+        <view class="tip">避免配送错误，请正确选择您的房间！</view>
       </van-cell-group>
     </view>
   </view>

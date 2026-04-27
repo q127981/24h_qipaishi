@@ -16,4 +16,6 @@
   bind:bindinput='bindinput' 
   bind:insertImageEvent='insertImageEvent' 
   bind:getEditorContent='getEditorContent'></richText>
+
+  <view>提示：单图公共的图片尺寸为650x850</view>
 </view>

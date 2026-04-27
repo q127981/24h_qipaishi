@@ -640,6 +640,15 @@ page {
   width: 620rpx;
   padding-bottom: 10rpx;
 }
+.popImg{
+  width: 650rpx;
+  height: 850rpx;
+}
+
+.popImg .img {
+  width: 650rpx;
+  height: 850rpx;
+}
 
 .pop .head {
   text-align: center;

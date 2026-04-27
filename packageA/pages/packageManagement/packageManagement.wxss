@@ -116,19 +116,26 @@ page {
 }
 
 .enableBtn {
-  width: 160rpx;
-  height: 60rpx;
-  line-height: 60rpx;
-  font-size: 32rpx;
+  width: 130rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 30rpx;
   background-color: #da635f;
   color: #fff;
 }
 
 .editBtn {
-  width: 160rpx;
-  height: 60rpx;
-  line-height: 60rpx;
-  font-size: 32rpx;
+  width: 130rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 30rpx;
   background-color: #45cf40;
+  color: #fff;
+}
+.mtBtn {
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 30rpx;
+  background-color: #f1b40b;
   color: #fff;
 }

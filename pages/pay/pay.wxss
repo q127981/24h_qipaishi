@@ -16,9 +16,16 @@
   font-size: 28rpx;
 }
 
-.control-box .top .info {
+.control-box .info {
   display: flex;
   justify-content: flex-start;
+}
+
+.control-box  .info .tip{
+  text-align: center;
+  align-items: center;
+  color: red;
+  font-size: 26rpx;
 }
 
 .control-box .top .info .title {
@@ -112,9 +119,11 @@
   border-radius: 50rpx;
   box-sizing: border-box;
   height: 44rpx;
-  width: 60rpx;
+  /* width: 60rpx; */
 }
 
 .picker {
   display: flex;
+  font-size: 32rpx;
+  font-weight: bold;
 }

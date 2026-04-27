@@ -1,4 +1,19 @@
 <view class="container">
+  <view class="notice">
+    <view class="tip open" wx:if="{{doorinfodata.shopOpen}}">在线点单开放中</view>
+    <view class="tip close" wx:else="">
+      <view>门店配送人员已下班</view>
+      <view>请您前往自助柜购物</view>
+    </view>
+    <!-- <block wx:if="{{doorinfodata.shopBegin!=null && doorinfodata.shopEnd!=null}}">
+      <view class="line1">本店商品在线点单开放时间为</view>
+      <view class="line2">每日{{doorinfodata.shopBegin}}时 ~ {{doorinfodata.shopEnd}}时</view>
+    </block> -->
+    <block wx:if="{{doorinfodata.shopOpen}}">
+      <view class="line3">提交订单后将尽快为您送到包间</view>
+      <view class="line3">您也可以前往自助柜区自助购物</view>
+    </block>
+  </view>
   <view class="main">
     <view class="nav">
       <view class="header">
@@ -9,12 +24,8 @@
         </view>
       </view>
     </view>
-    <!-- #ifdef H5 -->
     <view class="content">
-      <!-- #endif -->
-      <!-- #ifndef H5 -->
       <view class="content">
-        <!-- #endif -->
         <scroll-view class="menus" scroll-into-view="{{menuScrollIntoView}}" scroll-with-animation scroll-y>
           <view class="wrapper">
             <view class="menu" wx:for="{{goods}}" wx:key="index" id="menu-{{item.id}}" :class="{'current': item.id === currentCateId}" bind:tap="handleMenuTap">
@@ -23,23 +34,19 @@
             </view>
           </view>
         </scroll-view>
-        <!-- goods list begin -->
         <scroll-view class="goods {{cart.length > 0 && isCartShow ? 'goods-bommon' :''}}" scroll-with-animation scroll-y scroll-into-view="{{menuScrollIntoView}}">
-          <!--  -->
           <view class="wrapper">
             <view class="list">
-              <!-- category begin -->
               <view class="category" wx:for="{{goods}}" wx:for-item="category" wx:key="index" id="cate-{{category.id}}">
                 <view class="title">
                   <text>{{ category.name }}</text>
                 </view>
                 <view class="items">
-                  <!-- 商品 begin -->
                   <view class="good" wx:for="{{category.goodsList}}" wx:key="key" :class="{'backgroud-grey': good.stock <= 0}">
                     <image mode="aspectFill" src="{{item.image}}" class="image" bind:tap="showGoodDetailModal" data-item="{{category}}" data-good="{{item}}"></image>
                     <view class="right">
                       <text class="name">{{ item.storeName }}</text>
-                      <text class="tips">{{ item.storeInfo }}</text>
+                      <text class="tips">{{ item.keyword }}</text>
                       <view class="price_and_action">
                         <text class="price">￥{{ item.price }}</text>
                         <view class="btn-group" wx:if="{{item.stock > 0}}">
@@ -51,20 +58,14 @@
                         </view>
                         <view wx:if="{{good.stock == 0}}">已售罄</view>
                       </view>
-
                     </view>
                   </view>
-                  <!-- 商品 end -->
                 </view>
               </view>
-              <!-- category end -->
             </view>
           </view>
         </scroll-view>
-        <!-- goods list end -->
       </view>
-      <!-- content end -->
-      <!-- 购物车栏 begin -->
       <view class="cart-box" wx:if="{{cart.length > 0 && isCartShow}}">
         <view class="mark">
           <image src="/pages/static/img/cart.png" class="cart-img" bind:tap="openCartPopup"></image>
@@ -75,9 +76,7 @@
           去结算
         </button>
       </view>
-      <!-- 购物车栏 end -->
     </view>
-    <!-- 购物车详情popup -->
     <view class="mask" wx:if="{{popupVisible}}" bind:tap="closePopup"></view>
     <view class="cart-popup" wx:if="{{popupVisible}}" animation="{{animationData}}">
       <view class="top">
@@ -108,9 +107,7 @@
         </view>
       </scroll-view>
     </view>
-    <!-- 购物车详情popup -->
   </view>
-  <!--轻提示-->
 </view>
 
 <van-popup round show="{{ goodDetailModalVisible }}">
@@ -135,7 +132,7 @@
         <view class="properties">
           <view class="property" wx:for="{{good.productAttr}}" wx:for-item="item" wx:for-index="idx" wx:key="index">
             <view class="title">
-              <text class="name">{{ item.attrName }}</text>
+              <text class="name">{{ good.keyword }}</text>
             </view>
             <view class="values">
               <view class="value" wx:for="{{item.attrValueArr}}" wx:for-item="itemvalue" wx:key="key" data-index="{{idx}}" data-key="{{index}}" bind:tap="changeDefault">

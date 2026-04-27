@@ -27,16 +27,25 @@ Page({
     storeList: [],
     status: -1,
     statusOption: [
-      { text: '全部状态', value: -1 },
-      { text: '待支付', value: 0 },
-      { text: '已支付', value: 1 },
+      // { text: '已支付', value: 1 },
       { text: '已完成', value: 2 },
+      // { text: '全部状态', value: -1 },
+      { text: '待支付', value: 0 },
+      
       { text: '已取消', value: 3 },
     ],
     tabs: [
+      // { id: 1, name: '已支付' },
+      { id: 2, name: '已完成' },
+      // { id: -1, name: '全部' },
+      { id: 0, name: '待支付' },
+      
+      { id: 3, name: '已取消' }
+    ],
+    tabs1: [
       { id: -1, name: '全部' },
       { id: 0, name: '待支付' },
-      { id: 1, name: '已支付' },
+      // { id: 1, name: '已支付' },
       { id: 2, name: '已完成' },
       { id: 3, name: '已取消' }
     ],
@@ -49,14 +58,19 @@ Page({
     let that = this
     let manager = options.manager
     let storeId = options.storeId
+    let status = -1
     if (manager == undefined) {
       manager = false;
+    }
+    if(manager){
+      status = 2
     }
     if (storeId == undefined) {
       storeId = '';
     }
     that.setData({
       manager: manager,
+      status: status,
       storeId: storeId
     })
   },
@@ -351,6 +365,12 @@ Page({
             }else{
               that.payMent(info);
             }
+          }else{
+            wx.hideLoading();
+            wx.showToast({
+              title: info.msg,
+              icon: 'none',
+            })
           }
         }
       );

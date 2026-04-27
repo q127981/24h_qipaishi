@@ -14,6 +14,12 @@ const defaultTabList = [
     selectedIconPath: "../pages/static/icon/coupon-in.png",
   },
   {
+    "pagePath": "/pages/ktv/index",
+    "text": "手机点歌",
+    "iconPath": "../pages/static/icon/ktv.png",
+    "selectedIconPath": "../pages/static/icon/ktv-in.png"
+  },
+  {
     pagePath: "/pages/orderList/orderList",
     text: "我的订单",
     iconPath: "../pages/static/icon/order.png",
@@ -39,6 +45,12 @@ const selectedTabList = [
     text: "优惠中心",
     iconPath: "../pages/static/icon/bar-coupon.png",
     selectedIconPath: "../pages/static/icon/coupon-in.png",
+  },
+  {
+    "pagePath": "/pages/ktv/index",
+    "text": "手机点歌",
+    "iconPath": "../pages/static/icon/ktv.png",
+    "selectedIconPath": "../pages/static/icon/ktv-in.png"
   },
   {
     pagePath: "/pages/orderList/orderList",

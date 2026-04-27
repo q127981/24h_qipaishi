@@ -23,34 +23,38 @@
           </view>
           <!-- <view>套餐时长：{{item.hours}}小时</view> -->
         </view>
-        <view>
-          <view>套餐时长：{{item.hours}}小时</view>
+        <view class="line2">
+          <view wx:if="{{item.mtId}}">美团ID: {{item.mtId}}</view>
+          <view wx:if="{{item.dyId}}">抖音ID: {{item.dyId}}</view>
         </view>
-        <view class="can-time">
+        <!-- <view>
+          <view>套餐时长：{{item.hours}}小时</view>
+        </view> -->
+        <!-- <view class="can-time">
           可用日期： <text wx:if="{{item.enableWeek && item.enableWeek.length ==26}}">不限制</text>
           <text wx:else>限{{item.weekQuantum}}可用</text>
-        </view>
-        <view class="can-time">
+        </view> -->
+        <!-- <view class="can-time">
           可用时间段： <text wx:if="{{item.enableTime && item.enableTime.length ==24}}">不限制</text>
           <text wx:else>限{{item.timeQuantum}}时可用</text>
-        </view>
+        </view> -->
         <!-- <view class="line1">
           <view>适用门店：{{item.storeName}}</view>
            </view> -->
-        <view class="line2">
+        <!-- <view class="line2">
           <view>
             <text>节假日： {{item.enableHoliday==true?'可用':'不可用'}}</text>
           </view>
-          <!-- <view>
+          <view>
               <text wx:if="{{item.enable}}">套餐状态：  启用</text>
               <text wx:else>套餐状态：  禁用</text>
-             </view> -->
+             </view>
           <view>
             可余额支付：
             <text wx:if="{{item.balanceBuy}}">是</text>
             <text wx:else>否</text>
           </view>
-        </view>
+        </view> -->
         <view class="line3">
           <view>
             <text style="font-size: 40rpx;color: var(--main-color);" wx:if="{{item.enable}}">正常</text>
@@ -69,11 +73,10 @@
     </view>
   </block>
   <block wx:else>
-    <!-- 无订单和未登录 -->
-    <view class="nodata">暂无套餐，请新增</view>
+    <view class="nodata">暂无活动，请新增</view>
   </block>
 </view>
 <!-- 底部按钮 -->
 <button bindtap="goToAddPage" class="bottom bg-primary {{isIpx?'fix-iphonex-button':''}}">
-  新增套餐
+  新增活动
 </button>

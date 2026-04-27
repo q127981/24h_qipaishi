@@ -87,6 +87,10 @@ page{
   margin-top: 10rpx;
   font-size: 32rpx;
 }
+.lists .item .info.roomName{
+  font-size: 38rpx;
+  font-weight: bold;
+}
 .lists .item .info label{
   flex-shrink: 0;
 }

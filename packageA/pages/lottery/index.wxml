@@ -1,0 +1,194 @@
+<view class="container">
+  <!-- 活动列表 -->
+  <view class="lottery-list">
+    <block wx:for="{{lotteryList}}" wx:key="id">
+      <view class="lottery-card {{item.status === 1 ? 'card-drawn' : 'card-pending'}}" >
+        <view class="card-main">
+          <view class="card-info">
+            <view class="title-row">
+              <text class="title" catch:tap="goDetail" data-id="{{item.id}}">{{item.title}}</text>
+              <view class="status-badge {{item.status === 1 ? 'status-drawn' : 'status-pending'}}">
+                {{item.status === 1 ? '已开奖' : '未开奖'}}
+              </view>
+            </view>
+            <view class="meta-row">
+              <view class="meta-item">
+                <text class="meta-icon">📅</text>
+                <text class="meta-text">{{item.expireTime}}开奖</text>
+              </view>
+              <view class="meta-item">
+                <text class="meta-icon">👥</text>
+                <text class="meta-text">{{item.userCount || 0}}人参与</text>
+              </view>
+            </view>
+          </view>
+          
+          <view class="card-action">
+            <block wx:if="{{item.status !== 1}}">
+              <view class="action-btn btn-edit" bindtap="showEditModal" data-item="{{item}}">修改信息</view>
+            </block>
+            <block wx:else>
+              <view class="action-btn btn-result" bindtap="showResultModal" data-id="{{item.id}}">开奖结果</view>
+            </block>
+            <view class="action-btn btn-share" bindtap="goDetail" data-id="{{item.id}}">查看详情</view>
+          </view>
+        </view>
+      </view>
+    </block>
+    
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{lotteryList.length === 0}}">
+      <view class="empty-icon">📋</view>
+      <text class="empty-text">暂无活动数据</text>
+    </view>
+  </view>
+
+  <!-- 底部悬浮新增按钮 -->
+  <view class="bottom-safe-area">
+    <view class="fab-container">
+      <view class="fab-btn" bindtap="showAddModal">
+        <text class="fab-icon">+</text>
+        <text class="fab-text">新增活动</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 新增/编辑活动弹窗 -->
+  <view class="modal-mask" wx:if="{{showModal}}" bindtap="hideModal">
+    <view class="modal-content" catchtap="preventBubble">
+      <view class="modal-header">
+        <view class="header-line"></view>
+        <text class="modal-title">{{isEdit ? '修改活动' : '新增活动'}}</text>
+        <view class="modal-close" bindtap="hideModal">
+          <text class="close-icon">×</text>
+        </view>
+      </view>
+      
+      <scroll-view class="modal-body" scroll-y>
+        <!-- 基本信息 -->
+        <view class="form-section">
+          <view class="form-item">
+            <text class="form-label required">活动名称</text>
+            <input class="form-input" placeholder="请输入活动名称（1-12个字）" maxlength="12" value="{{formData.title}}" bindinput="inputChange" data-field="title"/>
+          </view>
+        </view>
+        <view class="form-section" wx:if="{{isEdit}}">
+          <view class="form-item">
+            <text class="form-label">推广员</text>
+            <input class="form-input" placeholder="请输入推广员手机号" maxlength="11" value="{{formData.bmd}}"  bindinput="inputChange" data-field="bmd"/>
+          </view>
+        </view>
+
+        <!-- 新增模式显示奖品设置 -->
+        <block wx:if="{{!isEdit}}">
+          <view class="form-section">
+            <view class="section-title">奖品设置</view>
+            <view class="form-item">
+              <text class="form-label required">一等奖</text>
+              <input class="form-input" placeholder="请输入一等奖名称（1-12个字）" maxlength="12" value="{{formData.prize1}}" bindinput="inputChange" data-field="prize1"/>
+            </view>
+            <view class="form-item">
+              <text class="form-label required">二等奖</text>
+              <input class="form-input" placeholder="请输入二等奖名称（1-12个字）" maxlength="12" value="{{formData.prize2}}" bindinput="inputChange" data-field="prize2"/>
+            </view>
+            <view class="form-item">
+              <text class="form-label required">三等奖</text>
+              <input class="form-input" placeholder="请输入三等奖名称（1-12个字）" maxlength="12" value="{{formData.prize3}}" bindinput="inputChange" data-field="prize3"/>
+            </view>
+            <view class="form-item">
+              <text class="form-label">保底奖</text>
+              <text class="tip">可以不设置保底，设置了就必须设置保底中奖最少单数</text>
+              <input class="form-input" placeholder="请输入保底奖名称（选填，1-12个字）" maxlength="12" value="{{formData.prize4}}" bindinput="inputChange" data-field="prize4"/>
+            </view>
+            <view class="form-item">
+              <text class="form-label">保底中奖最少单数</text>
+              <text class="tip">必须大于1，意思是只要用户的订单大于这个数，就会中保底奖</text>
+              <input type="number" class="form-input" placeholder="请输入保底中奖单数（选填）" value="{{formData.minOrderNum}}" bindinput="inputChange" data-field="minOrderNum"/>
+            </view>
+          </view>
+
+          <view class="form-section">
+            <view class="form-item">
+              <text class="form-label required">开奖日期</text>
+              <text class="tip">设置后不可修改，在当日的中午12:00自动开奖</text>
+              <picker mode="date" value="{{formData.expireTime}}" bindchange="dateChange">
+                <view class="form-picker {{formData.expireTime ? '' : 'placeholder'}}">
+                  {{formData.expireTime || '请选择开奖日期'}}
+                </view>
+              </picker>
+            </view>
+            <view class="form-item">
+              <text class="form-label">参与用户订单数量</text>
+              <text class="tip">用户在活动期间，必须有X个订单，才能参与活动</text>
+              <text class="tip">0或不填表示不限制，所有人都可以参与</text>
+              <input type="number" class="form-input" placeholder="请输入参与订单数量（选填）" value="{{formData.orderNum}}" bindinput="inputChange" data-field="orderNum"/>
+            </view>
+            
+          </view>
+        </block>
+
+        <!-- 备注 -->
+        <view class="form-section">
+          <view class="form-item">
+            <text class="form-label">备注说明</text>
+            <text class="tip">显示在活动抽奖页面，可以写一些活动介绍</text>
+            <textarea class="form-textarea" placeholder="请输入备注信息（选填）" maxlength="200" value="{{formData.remark}}" bindinput="inputChange" data-field="remark"/>
+          </view>
+        </view>
+      </scroll-view>
+
+      <view class="modal-footer">
+        <view class="btn btn-cancel" bindtap="hideModal">取消</view>
+        <view class="btn btn-confirm" bindtap="saveLottery">保存</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 中奖结果弹窗 -->
+  <view class="modal-mask" wx:if="{{showResultModal}}" bindtap="hideResultModal">
+    <view class="modal-content result-modal" catchtap="preventBubble">
+      <view class="modal-body result-body">
+        <view class="result-stats">
+          <text class="result-count">共 {{resultList.length}} 位中奖者</text>
+        </view>
+        
+        <view class="result-list">
+          <view class="result-header">
+            <view class="col-rank">奖项</view>
+            <view class="col-phone">手机号</view>
+            <view class="col-action">操作</view>
+          </view>
+          <scroll-view class="result-scroll" scroll-y>
+            <block wx:for="{{resultList}}" wx:key="index">
+              <view class="result-row">
+                <view class="col-rank">
+                  <view class="rank-tag">{{item.prize}}等奖</view>
+                </view>
+                <view class="col-phone" bindtap="copyPhone" data-phone="{{item.mobile}}">
+                  <text class="phone-text">{{item.mobile}}</text>
+                </view>
+                <view class="col-action">
+                  <label class="verify-tag {{item.verified ? 'verified' : 'unverified'}}" 
+                        bindtap="{{item.verified ? '' : 'toggleVerify'}}" 
+                        data-id="{{item.lotteryId}}" 
+                        data-user="{{item.userId}}">
+                    {{item.verified ? '已核销' : '未核销'}}
+                  </label>
+                  <!-- <label class="copy-tag" bindtap="copyPhone" data-phone="{{item.mobile}}">复制</label> -->
+                </view>
+              </view>
+            </block>
+          </scroll-view>
+        </view>
+        
+        <view class="empty-mini" wx:if="{{resultList.length === 0}}">
+          <text>暂无中奖数据</text>
+        </view>
+      </view>
+
+      <view class="modal-footer">
+        <view class="btn btn-confirm btn-full" bindtap="hideResultModal">我知道了</view>
+      </view>
+    </view>
+  </view>
+</view>

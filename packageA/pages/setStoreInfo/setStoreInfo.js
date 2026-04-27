@@ -41,6 +41,8 @@ Page({
     txHour: '',
     orderWebhook: '',
     templateKey: '',
+    shopBegin: '',
+    shopEnd: '',
     citylist: [], //城市列表
     ritem: [
       {value: true, name: '是' , checked: 'true'},
@@ -206,6 +208,8 @@ Page({
               orderDoorOpen: info.data.orderDoorOpen,
               clearOpenDoor: info.data.clearOpenDoor,
               templateKey: info.data.templateKey,
+              shopBegin: info.data.shopBegin,
+              shopEnd: info.data.shopEnd,
             })
           }else{
             wx.showModal({
@@ -410,6 +414,8 @@ Page({
         "txHour": that.data.txHour,
         "orderDoorOpen": that.data.orderDoorOpen,
         "clearOpenDoor": that.data.clearOpenDoor,
+        "shopBegin": that.data.shopBegin,
+        "shopEnd": that.data.shopEnd,
       }
     }else{
       //个性化模式 需要上传那些模板图片
@@ -463,6 +469,8 @@ Page({
         "txHour": that.data.txHour,
         "orderDoorOpen": that.data.orderDoorOpen,
         "clearOpenDoor": that.data.clearOpenDoor,
+        "shopBegin": that.data.shopBegin,
+        "shopEnd": that.data.shopEnd,
       };
     }
     console.log('提交保存门店信息');

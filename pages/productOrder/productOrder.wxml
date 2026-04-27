@@ -9,7 +9,12 @@
 <scroll-view scroll-y="true" bindscrolltolower="onReachBottom">
   <view class="container">
     <view class="tabs">
-      <view class="{{item.id===status?'tab border-primary color-primary active':'tab'}}" wx:for="{{tabs}}" wx:key="item" bindtap="tabChange" data-status="{{item.id}}">{{item.name}}</view>
+      <block wx:if="{{manager}}">
+        <view class="{{item.id===status?'tab border-primary color-primary active':'tab'}}" wx:for="{{tabs}}" wx:key="item" bindtap="tabChange" data-status="{{item.id}}">{{item.name}}</view>
+      </block>
+      <block wx:else="">
+        <view class="{{item.id===status?'tab border-primary color-primary active':'tab'}}" wx:for="{{tabs1}}" wx:key="item" bindtap="tabChange" data-status="{{item.id}}">{{item.name}}</view>
+      </block>
     </view>
     <!-- 列表 -->
     <view class="lists" style="flex: 1;">
@@ -23,21 +28,21 @@
                   <view class="order-top">
                     <view class="store-name">
                       <text class="name">{{item.orderNo}}</text>
-                      <view wx:if="{{item.status ==0}}" class="status-css wait">
-                        <text>待支付</text>
-                      </view>
                       <view wx:if="{{item.status ==1}}" class="status-css send">
                         <text>待配送</text>
                       </view>
                       <view wx:if="{{item.status ==2}}" class="status-css end">
                         <text>已完成</text>
                       </view>
+                      <view wx:if="{{item.status ==0}}" class="status-css wait">
+                        <text>待支付</text>
+                      </view>
                       <view wx:if="{{item.status ==3}}" class="status-css cancel">
                         <text>已取消</text>
                       </view>
                     </view>
                     <view class="price">
-                      <text>￥{{item.payPrice/100}}</text>
+                      <text>￥{{item.totalPrice/100}}</text>
                     </view>
                   </view>
                   <view class="time-num">
@@ -96,11 +101,11 @@
                   </view>
                 </view>
                 <!-- </view> -->
-
-                <view class="bottom-button" wx:if="{{item.status == 0 || item.status == 1}}">
+                <!-- 订单状态(0:待支付,1:已支付,2:已完成,3:已经取消) -->
+                <view class="bottom-button" wx:if="{{item.status != 3}}">
                   <button size="mini" class="to-pay" catch:tap="tpPay" wx:if="{{item.status == 0 && !manager}}" data-orderId="{{item.orderId}}">支付</button>
-                  <button size="mini" class="cancel-button" catch:tap="showCancel" data-orderId="{{item.orderId}}">取消</button>
-                  <button size="mini" class="to-pay" catch:tap="showFinish" wx:if="{{item.status == 1 && manager}}" data-orderId="{{item.orderId}}">完成</button>
+                  <button size="mini" class="cancel-button" catch:tap="showCancel" data-orderId="{{item.orderId}}" wx:if="{{item.status == 2 && manager}}">取消</button>
+                  <button size="mini" class="cancel-button" catch:tap="showCancel" data-orderId="{{item.orderId}}" wx:if="{{item.status == 0}}">取消</button>
                 </view>
               </view>
             </view>

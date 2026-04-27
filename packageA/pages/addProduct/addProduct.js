@@ -36,6 +36,7 @@ Page({
     shwoUpdateStock:false, // 是否显示修改库存
     updateStock:0,   // 修改库存
     temporarilyList:[],  // 修改商品信息 暂存数据
+    keyword: '',
   },
 
   /**
@@ -478,6 +479,7 @@ generateProperty: function() {
         "items":that.data.productSpecificationList,
         "attrs":propertyList,
         "spec_type": '1',
+        "keyword" : that.data.keyword,
         },
         app.globalData.userDatatoken.accessToken,
         "",
@@ -516,6 +518,7 @@ generateProperty: function() {
             "items":that.data.productSpecificationList,
             "attrs":propertyListReq,
             "spec_type": '1',
+            "keyword" : that.data.keyword,
             },
             app.globalData.userDatatoken.accessToken,
             "",
@@ -587,7 +590,8 @@ generateProperty: function() {
                     productSpecificationList: productSpecificationList,
                     propertyList:propertyList,
                     productKind: kindName,
-                    productKindId:cate_id
+                    productKindId:cate_id,
+                    keyword: info.data.productInfo.keyword
                   })
               }
 

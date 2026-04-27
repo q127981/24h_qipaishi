@@ -34,7 +34,9 @@ Page({
     showGoodsSelector: false,
     currentSelectIndex: -1,
     tempSelectedGoodsId: null,
-    tempSelectedGoods: null
+    tempSelectedGoods: null,
+    showList: true,
+    dataList:[],
   },
 
   onLoad(options) {
@@ -63,6 +65,9 @@ Page({
     this.initDateTimePicker();
     this.setDefaultExpireDate();
     this.loadGoodsTypeList();
+  },
+  onShow(){
+      this.loadAllData();
   },
 
   // 初始化时间选择器
@@ -216,6 +221,34 @@ Page({
     });
   },
 
+  loadAllData() {
+    var that = this;
+    wx.request({
+      url: app.globalData.baseUrl + '/member/inventory/getAllInventory?storeId=' + this.data.storeId,
+      method: 'POST',
+      header: {
+        'Authorization': 'Bearer ' + app.globalData.userDatatoken.accessToken
+      },
+      success: (res) => {
+        if (res.data.code === 0) {
+          that.setData({
+            dataList: res.data.data
+          });
+        } else {
+          wx.showModal({
+            content: res.data.msg,
+            showCancel: false
+          });
+        }
+      },
+      fail: () => {
+        wx.showToast({
+          title: '加载失败',
+          icon: 'none'
+        });
+      }
+    });
+  },
   // 跳转到商品管理
   goToGoodsManage() {
     wx.navigateTo({
@@ -439,7 +472,7 @@ Page({
       return;
     }
     
-    this.setData({ loading: true });
+    this.setData({ loading: true,showList: false });
     let params= {
       mobile: phone,
       storeId: this.data.storeId
@@ -480,7 +513,8 @@ Page({
   resetQuery() {
     this.setData({
       queryPhone: '',
-      storageList: []
+      storageList: [],
+      showList: true,
     });
   },
 

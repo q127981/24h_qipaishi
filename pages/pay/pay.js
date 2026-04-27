@@ -319,10 +319,11 @@ Page({
           info.data.map((it, idx) => {
             roomList.push({ text: it.key, value: it.value })
             if(it.value==that.data.roomId){
+              // console.log("it=",it,"idx=",idx)
               index = idx
             }
           })
-          roomList.unshift({ text: "请选择房间", value: "" })
+          // roomList.unshift({ text: "请选择房间", value: "" })
           that.setData({
             roomList: roomList,
             roomIndex: index

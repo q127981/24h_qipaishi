@@ -35,8 +35,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    this.getXiaLaListAdmin()
     this.getuserinfo();
+   
   },
 
   /**
@@ -96,10 +96,14 @@ Page({
   //管理员获取门店下拉列表数据
   getXiaLaListAdmin: function (e) {
     var that = this;
+    let url ="/member/store/getStoreListByAdmin";
+    if(that.data.userinfo.userType==14){
+      url ="/member/store/getStoreListByAdmin2";
+    }
     //if (app.globalData.isLogin) 
     {
       http.request(
-        "/member/store/getStoreListByAdmin",
+        url,
         "1",
         "get", {
       },
@@ -116,8 +120,14 @@ Page({
             stores.unshift({ text: "全部门店", value: "" })
             that.setData({
               stores: stores,
-              storeId: stores[0].value
             })
+            if(stores){
+              if(!that.data.storeId){
+                that.setData({
+                  storeId: stores[1].value
+                })
+              }
+            }
           } else {
             wx.showModal({
               content: info.msg,
@@ -351,6 +361,7 @@ Page({
             that.setData({
               userinfo: info.data,
             })
+            that.getXiaLaListAdmin();
           }
         },
         function fail(info) {
@@ -830,5 +841,156 @@ Page({
         icon: 'none'
       })
     }
+  },
+  openShop(){
+    var that = this;
+    if (!that.data.storeId) {
+      wx.showModal({
+        content: '请选择操作的门店',
+        showCancel: false,
+      })
+    } else {
+      http.request(
+        "/member/store/opShop" ,
+        "1",
+        "post", {
+          "storeId":  that.data.storeId,
+          "open": true
+      },
+        app.globalData.userDatatoken.accessToken,
+        "",
+        function success(info) {
+          console.info(info);
+          if (info.code == 0) {
+            wx.showToast({
+              title: "操作成功",
+              icon: 'success'
+            })
+          } else {
+            wx.showModal({
+              content: info.msg,
+              showCancel: false,
+            })
+          }
+        },
+        function fail(info) {
+
+        }
+      )
+    }
+  },
+  closeShop(){
+    var that = this;
+    if (!that.data.storeId) {
+      wx.showModal({
+        content: '请选择操作的门店',
+        showCancel: false,
+      })
+    } else {
+      http.request(
+        "/member/store/opShop" ,
+        "1",
+        "post", {
+          "storeId":  that.data.storeId,
+          "open": false
+      },
+        app.globalData.userDatatoken.accessToken,
+        "",
+        function success(info) {
+          console.info(info);
+          if (info.code == 0) {
+            wx.showToast({
+              title: "操作成功",
+              icon: 'success'
+            })
+          } else {
+            wx.showModal({
+              content: info.msg,
+              showCancel: false,
+            })
+          }
+        },
+        function fail(info) {
+
+        }
+      )
+    }
+  },
+  finishOrder2(e){
+    var that = this;
+    let roomId= e.currentTarget.dataset.room;
+    let url = "/member/store/finishRoomOrder/" + roomId;
+    if(that.data.userinfo.userType == 14){
+      url = "/member/clear/finishRoomOrder/" + roomId;
+    }
+    wx.showModal({
+      title: '注意提示',
+      content: '注意！！！进行中的订单，将会被结束，并立即关电！！请谨慎确认后再操作！！！',
+      complete: (res) => {
+        if (res.cancel) {
+        }
+        if (res.confirm) {
+          if (app.globalData.isLogin) {
+            http.request(
+              url,
+              "1",
+              "get", {
+            },
+              app.globalData.userDatatoken.accessToken,
+              "",
+              function success(info) {
+                // console.info('返回111===');
+                // console.info(info);
+                if (info.code == 0) {
+                  wx.showToast({
+                    title: '操作成功',
+                    icon: 'success'
+                  })
+                  that.getDoorList();
+                } else {
+                  wx.showModal({
+                    content: info.msg,
+                    showCancel: false,
+                  })
+                }
+              },
+              function fail(info) {
+
+              }
+            )
+          }
+        }
+      }
+    })
+
+  },
+  upQrcode(){
+    var that = this;
+    let roomId= that.data.roomItem.roomId;
+    http.request(
+      "/member/store/upQrUrl?roomId="+roomId,
+      "1",
+      "post", {
+      },
+      app.globalData.userDatatoken.accessToken,
+      "",
+      function success(info) {
+        if (info.code == 0) {
+          wx.showToast({
+            title: '操作成功',
+            icon: 'success'
+          })
+        } else {
+          wx.showModal({
+            content: info.msg,
+            showCancel: false,
+          })
+        }
+      },
+      function fail(info) {
+
+      }
+    )
+
   },
 })

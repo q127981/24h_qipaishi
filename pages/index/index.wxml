@@ -13,10 +13,10 @@
         <image src="../static/icon/reorder.png" />
         <text>续单</text>
       </view>
-      <view class="item" bind:tap="toShop">
+      <!-- <view class="item" bind:tap="toShop">
         <image src="../static/icon/discount.png" />
         <text>商品</text>
-      </view>
+      </view> -->
       <view class="item" bind:tap="gototuangou">
         <image src="../static/icon/coupon-check.png" />
         <text>团购</text>
@@ -316,7 +316,7 @@
     </view>
     <view class="section">
       <block wx:if="{{storeEnvImg.length}}">
-        <view class="title">门店介绍</view>
+        <view class="title">门店环境</view>
         <view class="content">
           <block wx:for="{{storeEnvImg}}" wx:key="storeEnvImg">
             <image src="{{item}}" mode="widthFix"></image>
@@ -748,7 +748,7 @@
           </view>
         </view>
       </view>
-      <view class="title">门店介绍</view>
+      <view class="title">门店环境</view>
     </view>
     <view class="section">
       <block wx:if="{{storeEnvImg.length}}">
@@ -904,7 +904,7 @@
     </view>
     <view class="section">
       <block wx:if="{{storeEnvImg.length}}">
-        <view class="title">门店介绍</view>
+        <view class="title">门店环境</view>
         <view class="content">
           <block wx:for="{{storeEnvImg}}" wx:key="storeEnvImg">
             <image src="{{item}}" mode="widthFix"></image>
@@ -978,16 +978,27 @@
 </van-popup>
 
 <!-- 弹出层提示 -->
-<van-popup round show="{{ popshow }}">
-  <view class="pop">
-    <view class="head bg-primary">门店公告</view>
-    <scroll-view scroll-y class="content">
-      <rich-text nodes="{{doorinfodata.notice}}"></rich-text>
-    </scroll-view>
-    <view class="foot border-primary" bind:tap="popClose">我已仔细阅读</view>
-  </view>
-  
-</van-popup>
+<block wx:if="{{ popshow }}">
+  <block wx:if="{{doorinfodata.noticeImg}}">
+    <van-popup round show="{{ popshow }}" style="background: transparent !important">
+      <view class="popImg" catch:tap="popClose">
+        <image class="img" src="{{doorinfodata.noticeImg}}" mode="scaleToFill" /> 
+      </view>
+    </van-popup>
+  </block>
+  <block wx:else="">
+    <van-popup round show="{{ popshow }}">
+      <view class="pop">
+        <view class="head bg-primary">门店公告</view>
+        <scroll-view scroll-y class="content">
+          <rich-text nodes="{{doorinfodata.notice}}"></rich-text>
+        </scroll-view>
+        <view class="foot border-primary" bind:tap="popClose">我已仔细阅读</view>
+      </view>
+    </van-popup>
+  </block>
+</block>
+
 
 <van-dialog use-slot title="WiFi信息" class="wifiDialog" show="{{ wifiShow }}">
   <view class="dialog">

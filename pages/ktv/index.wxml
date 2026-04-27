@@ -1,0 +1,460 @@
+<view class="page-container">
+  <view class="fixed-header">
+    <!-- 自定义导航栏 -->
+    <view class="nav-bar" style="height: {{navBarHeight}}px; padding-top: {{statusBarHeight}}px;">
+      <view class="nav-content">
+        <view class="scan-area" catch:tap="scanCode">
+          <iconfont name="scan-qr-code" size="26"></iconfont>
+          <view class="room-text">
+            <block wx:if="{{ktvkey}}">
+              <text style="color: rgb(255, 105, 180);">已绑定包厢</text>
+            </block>
+            <block wx:else>
+              <text>暂无包厢</text>
+            </block>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 搜索区域 -->
+    <view class="search-section" style="margin-top: {{navBarHeight}}px;">
+      <view class="search-box">
+        <view class="search-icon">
+          <view class="magnifier"></view>
+        </view>
+        <input class="search-input" placeholder="搜索歌曲、歌手" placeholder-class="placeholder" value="{{keyword}}" data-field="keyword" bindinput="onInputChange" maxlength="20" confirm-type="search" bindconfirm="getSearch" disabled="{{!ktvkey}}" />
+        <view class="search-clear" wx:if="{{keyword.length > 0}}" catch:tap="clearKeyword">
+          <view class="clear-x">
+            <view class="cx-line"></view>
+            <view class="cx-line"></view>
+          </view>
+        </view>
+        <view class="search-btn" catch:tap="getSearch">搜索</view>
+      </view>
+    </view>
+
+    <!-- 菜单区域 -->
+    <view class="menu-section">
+      <view class="menu-row">
+        <view class="menu-card" catch:tap="onMenuTap" data-action="shop">
+          <view class="menu-icon-wrap purple">
+            <view class="icon-shop">
+              <view class="bag-body"></view>
+              <view class="bag-handle"></view>
+              <view class="bag-dot"></view>
+            </view>
+          </view>
+          <view class="menu-text">
+            <text>商品点单</text>
+          </view>
+        </view>
+        <view class="menu-card" catch:tap="onMenuTap" data-action="danmu">
+          <view class="menu-icon-wrap green">
+            <view class="icon-danmu">
+              <text>666</text>
+            </view>
+          </view>
+          <view class="menu-text">
+            <text>发送弹幕</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- Tab切换 -->
+    <view class="tab-section" id="tabSection">
+      <view class="tab-item {{selectTab==1?'active':''}}" catch:tap="onTabTap" data-type="1">
+        <text>歌曲</text>
+      </view>
+      <view class="tab-item {{selectTab==2?'active':''}}" catch:tap="onTabTap" data-type="2">
+        <text>歌手</text>
+      </view>
+      <view class="tab-item {{selectTab==3?'active':''}}" catch:tap="onTabTap" data-type="3">
+        <text>歌单</text>
+      </view>
+    </view>
+
+    <!-- 详情头部（歌手/歌单详情模式时显示） -->
+    <view class="detail-header" wx:if="{{viewMode !== 'normal'}}">
+      <view class="detail-left">
+        <image wx:if="{{viewMode === 'singer'}}" class="detail-img" src="{{selectedSinger.singerImage}}" mode="aspectFill"></image>
+        <view wx:if="{{viewMode === 'class'}}" class="detail-cover {{selectedClass.coverClass}}">
+          <text class="cover-text">{{selectedClass.songClassName}}</text>
+        </view>
+        <view class="detail-info">
+          <view class="detail-name">{{viewMode === 'singer' ? selectedSinger.singerName : selectedClass.songClassName}}</view>
+        </view>
+      </view>
+      <view class="detail-back" catch:tap="backToList">
+        <view class="back-arrow"></view>
+        <text>返回</text>
+      </view>
+    </view>
+
+  </view>
+
+
+
+  <!-- 列表区域 -->
+  <view class="list-section" scroll-y="true" style="margin-top: {{headerHeight}}px;" lower-threshold="50" enhanced="true" show-scrollbar="false">
+    <!-- 歌曲列表 -->
+    <block wx:if="{{selectTab==1}}">
+      <view class="song-list" wx:if="{{viewMode === 'normal'}}">
+        <view class="song-item" wx:for="{{songList}}" wx:key="songId" data-index="{{index}}">
+          <view class="song-main">
+            <view class="song-name">{{item.songName}}</view>
+            <view class="song-meta">
+              <view class="np-tag" wx:if="{{item.isScore}}">评分</view>
+              <view class="singer">{{item.singerName}}</view>
+            </view>
+          </view>
+          <view class="song-actions">
+            <view class="action-btn {{item._pressed?'pressed':''}}" catch:tap="diange" data-item="{{item}}" data-index="{{index}}">
+              <iconfont name="diange" size="22" color="#707070"></iconfont>
+              <text>点歌</text>
+            </view>
+          </view>
+        </view>
+        <view class="loading-more" wx:if="{{isLoading}}">
+          <view class="loading-dot"></view>
+          <view class="loading-dot"></view>
+          <view class="loading-dot"></view>
+        </view>
+        <view class="no-more" wx:if="{{!canLoadMore && songList.length > 0}}">已经到底了</view>
+      </view>
+
+    </block>
+    <!-- 详情歌曲列表（歌手/歌单详情模式） -->
+    <block wx:if="{{viewMode !== 'normal'}}">
+      <view class="song-list detail-song-list">
+        <view class="song-item" wx:for="{{detailSongList}}" wx:key="songId" data-index="{{index}}">
+          <view class="song-main">
+            <view class="song-name">{{item.songName}}</view>
+            <view class="song-meta">
+              <view class="np-tag" wx:if="{{item.isScore}}">评分</view>
+              <view class="singer">{{item.singerName}}</view>
+            </view>
+          </view>
+          <view class="song-actions">
+            <view class="action-btn {{item._pressed?'pressed':''}}" catch:tap="diange" data-item="{{item}}" data-index="{{index}}">
+              <iconfont name="diange" size="22" color="#707070"></iconfont>
+              <text>点歌</text>
+            </view>
+          </view>
+        </view>
+        <view class="no-more" wx:if="{{detailSongList.length > 0}}">已经到底了</view>
+        <view class="yd-empty" wx:if="{{detailSongList.length === 0}}">暂无歌曲</view>
+      </view>
+    </block>
+    <!-- 歌手列表 -->
+    <block wx:if="{{selectTab==2 && viewMode === 'normal'}}">
+
+      <view class="grid-list">
+        <view class="grid-item" wx:for="{{singerList}}" wx:key="singerId" catch:tap="showSingerDetail" data-item="{{item}}">
+          <image class="grid-img" src="{{item.singerImage}}" mode="aspectFill" lazy-load="true"></image>
+          <view class="grid-name">{{item.singerName}}</view>
+        </view>
+      </view>
+    </block>
+
+    <!-- 歌单列表 - 直接使用数据中计算好的类名 -->
+    <block wx:if="{{selectTab==3 && viewMode === 'normal'}}">
+
+      <view class="grid-list">
+        <view class="grid-item" wx:for="{{songClassList}}" wx:key="classId" catch:tap="showClassDetail" data-item="{{item}}">
+          <view class="grid-cover {{item.coverClass}}">
+            <text class="cover-text">{{item.songClassName}}</text>
+            <view class="cover-icon {{item.iconClass}}"></view>
+          </view>
+          <view class="grid-name">{{item.songClassName}}</view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 底部固定控制栏 -->
+  <view class="bottom-bar">
+    <view class="bottom-inner">
+      <view class="bottom-btn" catch:tap="onBottomTap" data-action="bokong">
+        <iconfont name="kongzhi" size="20"></iconfont>
+        <text class="btn-label">播控</text>
+      </view>
+
+      <view class="bottom-center" catch:tap="onBottomTap" data-action="center">
+        <view class="center-btn {{centerPressed?'pressed':''}}">
+          <iconfont name="qiege" size="20"></iconfont>
+          <text class="btn-label">切歌</text>
+        </view>
+      </view>
+
+      <view class="bottom-btn" catch:tap="onBottomTap" data-action="yidian">
+        <iconfont name="liebiao" size="20"></iconfont>
+        <text class="btn-label">已点</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ====== 弹层 ====== -->
+
+  <!-- 弹幕弹框 -->
+  <view class="modal-mask {{showDanmu?'show':''}}" wx:if="{{showDanmu}}" bind:tap="closeDanmuDialog">
+    <view class="modal-content danmu-modal" catch:tap="stopPropagation">
+      <view class="modal-header">
+        <text class="modal-title">发送弹幕 - 在电视上显示</text>
+        <view class="modal-close" bind:tap="closeDanmuDialog">
+          <view class="close-x"></view>
+        </view>
+      </view>
+      <view class="modal-body">
+        <textarea class="danmu-textarea" placeholder="请输入要发送的弹幕内容（最多30字）" maxlength="30" value="{{danmuText}}" bindinput="onDanmuInput" auto-height></textarea>
+        <view class="char-count">{{danmuText.length}}/30</view>
+      </view>
+      <view class="modal-footer">
+        <view class="modal-btn btn-cancel" bind:tap="closeDanmuDialog">取消</view>
+        <view class="modal-btn btn-confirm" bind:tap="sendDanmu">确认发送</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 扫码绑定弹框 -->
+  <view class="modal-mask {{showQrDialog?'show':''}}" wx:if="{{showQrDialog}}" bind:tap="closeQrDialog">
+    <view class="qr-modal" catch:tap="stopPropagation">
+      <view class="qr-close" bind:tap="closeQrDialog">
+        <view class="close-x"></view>
+      </view>
+      <view class="qr-box-wrap">
+        <view class="qr-frame">
+          <view class="qr-corner tl"></view>
+          <view class="qr-corner tr"></view>
+          <view class="qr-corner bl"></view>
+          <view class="qr-corner br"></view>
+          <view class="qr-inner">
+            <view class="qr-scan-line"></view>
+          </view>
+        </view>
+      </view>
+      <view class="qr-tip">请使用微信扫描电视机二维码</view>
+      <view class="qr-btn-wrap">
+        <view class="qr-btn" bind:tap="scanCode">确认</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 已点歌曲悬浮层 -->
+  <view class="sheet-mask {{showYidianSheet?'show':''}}" wx:if="{{showYidianSheet}}" bind:tap="closeYidian">
+    <view class="sheet-content yidian-sheet" catch:tap="stopPropagation">
+      <view class="sheet-close-area" bind:tap="closeYidian">
+        <view class="close-bar"></view>
+      </view>
+
+      <view class="sheet-header">
+        <text class="sheet-title">已点 {{orderedList.length}}</text>
+        <view class="sheet-close-btn" bind:tap="closeYidian">
+          <view class="close-x"></view>
+        </view>
+      </view>
+
+      <view class="now-playing" wx:if="{{currentSong}}">
+        <view class="np-left">
+          <view class="np-name">{{currentSong.songName}}</view>
+          <view class="np-meta">
+            <view class="np-tag" wx:if="{{currentSong.isScore}}">评分</view>
+            <text class="np-singer">{{currentSong.singerName}}</text>
+          </view>
+        </view>
+        <view class="np-right">
+          <view class="np-badge">演唱中</view>
+          <view class="np-wave">
+            <view class="wave-bar"></view>
+            <view class="wave-bar"></view>
+            <view class="wave-bar"></view>
+          </view>
+        </view>
+      </view>
+
+      <view class="yidian-subheader">
+        <text class="sub-title">已点歌曲</text>
+        <view class="shuffle-btn {{shufflePressed?'pressed':''}}" catch:tap="shuffleOrdered">
+          <iconfont name="suiji"></iconfont>
+          <text>打乱</text>
+        </view>
+      </view>
+
+      <scroll-view class="yidian-scroll" scroll-y="true">
+        <view class="yidian-list">
+          <view class="yd-item" wx:for="{{orderedList}}" wx:key="songId" wx:if="{{index > 0 || !currentSong}}">
+            <view class="yd-left">
+              <view class="yd-name">{{item.songName}}</view>
+              <view class="yd-meta">
+                <view class="np-tag" wx:if="{{item.isScore}}">评分</view>
+                <text class="yd-singer">{{item.singerName}}</text>
+              </view>
+            </view>
+            <view class="yd-right">
+              <view class="yd-act-btn {{item._pressed?'pressed':''}}" catch:tap="topOrdered" data-index="{{index}}" data-item="{{item}}" wx:if="{{index >= 2}}">
+                <iconfont name="zhiding" size="20"></iconfont>
+              </view>
+              <view class="yd-act-btn del {{item._delPressed?'pressed':''}}" catch:tap="removeOrdered" data-index="{{index}}" data-item="{{item}}">
+                <iconfont name="shanchu" size="20"></iconfont>
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="yd-empty" wx:if="{{orderedList.length === 0}}">暂无已点歌曲</view>
+        <view class="yd-bottom">已经到底了</view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <!-- 播控悬浮层 -->
+  <view class="sheet-mask {{showBokongSheet?'show':''}}" wx:if="{{showBokongSheet}}" bind:tap="closeBokong">
+    <view class="sheet-content bokong-sheet" catch:tap="stopPropagation">
+      <view class="sheet-close-area" bind:tap="closeBokong">
+        <view class="close-bar"></view>
+        <!-- <view class="close-text">点击关闭</view> -->
+      </view>
+
+      <view class="sheet-header">
+        <text class="sheet-title">播放控制</text>
+        <view class="sheet-close-btn" bind:tap="closeBokong">
+          <view class="close-x"></view>
+        </view>
+      </view>
+
+      <view class="control-section">
+        <view class="ctrl-row">
+          <view class="ctrl-item" catch:tap="toggleAccompany">
+            <view class="ctrl-btn {{accompanyPressed?'pressed':''}}">
+              <iconfont name="yinle" size="26"></iconfont>
+            </view>
+            <text>原/伴唱</text>
+          </view>
+          <view class="ctrl-item" catch:tap="togglePlay">
+            <view class="ctrl-btn {{playPressed?'pressed':''}}">
+              <iconfont name="zanting" size="26"></iconfont>
+            </view>
+            <text>暂停/播放</text>
+          </view>
+          <view class="ctrl-item" catch:tap="toggleRepeat">
+            <view class="ctrl-btn {{repeatPressed?'pressed':''}}">
+              <iconfont name="zhongchang" size="26"></iconfont>
+            </view>
+            <text>重唱</text>
+          </view>
+          <view class="ctrl-item" catch:tap="toggleScore">
+            <view class="ctrl-btn {{scorePressed?'pressed':''}}">
+              <iconfont name="pingfen" size="26"></iconfont>
+            </view>
+            <text>评分</text>
+          </view>
+        </view>
+        <view class="ctrl-row">
+          <view>
+            <view class="vol-bar">
+              <view class="vol-minus {{volMinusPressed?'pressed':''}}" catch:tap="changeVol" data-delta="-1">
+                <view class="vm-circle">−</view>
+              </view>
+              <view class="vol-info">
+                <view class="vol-name">音量</view>
+              </view>
+              <view class="vol-plus {{volPlusPressed?'pressed':''}}" catch:tap="changeVol" data-delta="1">
+                <view class="vp-circle">+</view>
+              </view>
+            </view>
+          </view>
+          <view class="kt" bind:tap="showModal">
+            空调控制
+          </view>
+        </view>
+      </view>
+
+      <!-- 灯光控制 -->
+      <view class="light-section">
+        <view class="light-list">
+          <view class="light-btn light-soft" catch:tap="changeLight" data-index="0">
+            <text class="light-name">柔和</text>
+          </view>
+          <view class="light-btn light-bright" catch:tap="changeLight" data-index="1">
+            <text class="light-name">明亮</text>
+          </view>
+          <view class="light-btn light-dynamic" catch:tap="changeLight" data-index="2">
+            <text class="light-name">动感</text>
+          </view>
+          <view class="light-btn light-lyric" catch:tap="changeLight" data-index="3">
+            <text class="light-name">抒情</text>
+          </view>
+          <view class="light-btn light-romantic" catch:tap="changeLight" data-index="4">
+            <text class="light-name">浪漫</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+
+<view class="ac-control">
+  <view class="ac-control__modal {{kongtiaoShow ? 'ac-control__modal--show' : ''}}" bindtap="hideModal">
+    <view class="ac-control__modal-content" catchtap="stopPropagation">
+      <view class="ac-control__modal-header">
+        <text class="ac-control__modal-title">空调控制</text>
+        <text class="ac-control__modal-close" bindtap="hideModal">×</text>
+      </view>
+      <view class="ac-control__modal-body">
+        <view class="ac-control__temperature-control">
+          <button class="ac-control__control-button" bindtap="adjustTemperature" data-delta="-1">-</button>
+          <view class="ac-control__temperature-display">
+            <text class="ac-control__temperature-text">温度</text>
+          </view>
+          <button class="ac-control__control-button" bindtap="adjustTemperature" data-delta="1">+</button>
+        </view>
+        <view class="ac-control__fan-control">
+          <button class="ac-control__control-button" bindtap="adjustFanSpeed" data-delta="-1">-</button>
+          <view class="ac-control__fan-display">
+            <text class="text">风量</text>
+            <view class="ac-control__fan-level">
+              <view wx:for="{{5}}" wx:key="index" class="ac-control__fan-dot {{fanSpeed >= index + 1 ? 'ac-control__fan-dot--active' : ''}}"></view>
+            </view>
+          </view>
+          <button class="ac-control__control-button" bindtap="adjustFanSpeed" data-delta="1">+</button>
+        </view>
+
+
+        <view class="ac-control__mode-grid">
+          <view class="ac-control__mode-button {{mode === 'cool' ? 'ac-control__mode-button--active' : ''}} " bindtap="setMode" data-mode="cool">
+            <text class="ac-control__mode-icon">❄️</text>
+            <text>制冷</text>
+          </view>
+          <view class="ac-control__mode-button {{mode === 'heat' ? 'ac-control__mode-button--active' : ''}}" bindtap="setMode" data-mode="heat">
+            <text class="ac-control__mode-icon">🔆</text>
+            <text>制热</text>
+          </view>
+          <view class="ac-control__mode-button {{mode === 'auto' ? 'ac-control__mode-button--active' : ''}}" bindtap="setMode" data-mode="auto">
+            <text class="ac-control__mode-icon">🔄</text>
+            <text>自动</text>
+          </view>
+        </view>
+
+        <view class="ac-control__swing-row">
+          <view class="ac-control__swing-button {{verticalSwing ? 'ac-control__swing-button--active' : ''}} " bindtap="toggleVerticalSwing">
+            <text class="ac-control__mode-icon">↕️</text>
+            <text>上下扫风</text>
+          </view>
+          <view class="ac-control__swing-button {{horizontalSwing ? 'ac-control__swing-button--active' : ''}} " bindtap="toggleHorizontalSwing">
+            <text class="ac-control__mode-icon">↔️</text>
+            <text>左右扫风</text>
+          </view>
+        </view>
+        <view class="btn">
+          <button class="ac-control__power-button ac-control__power-button--on" bindtap="togglePowerOn">
+            开机
+          </button>
+          <button class="ac-control__power-button ac-control__power-button--off" bindtap="togglePowerOff">
+            关机
+          </button>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -876,50 +876,53 @@ Page({
   call: function () {
     // let that = this
     let that = this;
-    var phoneLength = that.data.OrderInfodata.kefuPhone.length;
-    if (phoneLength > 0) {
-      if (phoneLength == 11) {
-        wx.makePhoneCall({
-          phoneNumber: that.data.OrderInfodata.kefuPhone,
-          success: function () {
-            //console.log("拨打电话成功！")
-          },
-          fail: function () {
-            //console.log("拨打电话失败！")
-          }
-        })
-      } else {
-        wx.showModal({
-          title: '提示',
-          content: '客服上班时间10：00~23：00\r\n如您遇到问题，建议先查看“使用帮助”！\r\n本店客服微信号：' + that.data.OrderInfodata.kefuPhone,
-          confirmText: '复制',
-          complete: (res) => {
-            if (res.confirm) {
-              wx.setClipboardData({
-                data: that.data.OrderInfodata.kefuPhone,
-                success: function (res) {
-                  wx.showToast({ title: '微信号已复制到剪贴板！' })
-                }
-              })
-            } else if (res.cancel) {
-              //console.log('用户点击取消')
-            }
-          }
-        })
-      }
+    var phone = that.data.OrderInfodata.kefuPhone || '';
+    
+    if (phone.length === 0) return;
+    
+    // 判断是否为手机号、座机号或400电话
+    var isPhone = false;
+    
+    // 手机号：1开头，第二位是3-9，共11位
+    var mobileReg = /^1[3-9]\d{9}$/;
+    // 座机号：区号(3-4位)-号码(7-8位)，或没有区号的7-8位号码
+    var telReg = /^(\d{3,4}-?\d{7,8}|\d{7,8})$/;
+    // 400电话：400开头，后面跟7位数字
+    var fourReg = /^400\d{7}$/;
+    
+    if (mobileReg.test(phone) || telReg.test(phone) || fourReg.test(phone)) {
+      isPhone = true;
     }
-    // if(that.data.OrderInfodata.kefuPhone.length>0){
-    //   //console.log("拨打电话+++")
-    //   wx.makePhoneCall({
-    //     phoneNumber:that.data.OrderInfodata.kefuPhone,
-    //     success:function () {
-    //       //console.log("拨打电话成功！")
-    //     },
-    //     fail:function () {
-    //       //console.log("拨打电话失败！")
-    //     }
-    //   })
-    // }
+    
+    if (isPhone) {
+      wx.makePhoneCall({
+        phoneNumber: phone,
+        success: function () {
+          //console.log("拨打电话成功！")
+        },
+        fail: function () {
+          //console.log("拨打电话失败！")
+        }
+      })
+    } else {
+      wx.showModal({
+        title: '提示',
+        content: '如您遇到问题，建议先查看"使用帮助"！\n本店客服微信号：' + phone,
+        confirmText: '复制',
+        complete: (res) => {
+          if (res.confirm) {
+            wx.setClipboardData({
+              data: phone,
+              success: function (res) {
+                wx.showToast({ title: '微信号已复制到剪贴板！' })
+              }
+            })
+          } else if (res.cancel) {
+            //console.log('用户点击取消')
+          }
+        }
+      })
+    }
   },
   goTencentMap(e) {
     let store = this.data.OrderInfodata

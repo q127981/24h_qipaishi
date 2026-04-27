@@ -31,6 +31,26 @@
     </view>
   </view>
 
+  <scroll-view class="result-section" scroll-y="{{true}}" wx:if="{{showList}}">
+    <view class="result-header">
+      <text class="result-title">店铺目前所有寄存商品清单</text>
+    </view>
+    <view class="storage-list">
+      <view class="storage-card" wx:for="{{dataList}}" wx:key="id">
+        <view class="card-row-first">
+          <view class="goods-info-left">
+            <text class="goods-name">{{item.goodsName}}</text>
+            <text class="goods-unit">{{item.units}}</text>
+          </view>
+          <text class="stock-remain">剩余 {{item.stockNum}}{{item.units}}</text>
+        </view>
+        <view class="card-row-second">
+          <text class="expire-time">手机号: {{item.mobile}}</text>
+          <text class="expire-time">到期: {{item.expireTime}}</text>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
   <!-- 查询结果区域 -->
   <scroll-view class="result-section" scroll-y="{{true}}" wx:if="{{storageList.length > 0}}">
     <view class="result-header">

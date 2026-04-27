@@ -73,15 +73,13 @@ Page({
   },
   bindInputCode: function (e) {
     var that = this;
-    if (e.detail.value.length >= 20) {
-      that.setData({
-        orderNo: e.detail.value,
-      });
-    }
+    that.setData({
+      orderNo: e.detail.value,
+    });
   },
   onQuery(){
     var that = this;
-    if(!that.data.orderNo||that.data.orderNo.length<20){
+    if(!that.data.orderNo||that.data.orderNo.length<16){
       wx.showToast({
         title: '错误的编号长度',
         icon:'error'

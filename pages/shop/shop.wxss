@@ -173,15 +173,14 @@ page {
 }
 
 .content .goods .wrapper .list .items .good .right {
-  flex: 1;
+  /* flex: 1; */
   height: 160rpx;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
-  padding-right: 14rpx;
-
+  /* padding-right: 14rpx; */
 }
 
 .content .goods .wrapper .list .items .good .right .price_and_action {
@@ -254,8 +253,8 @@ page {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 30rpx;
-  color: #919293;
+  font-size: 24rpx;
+  color: #eb0000;
   margin-bottom: 10rpx;
 }
 
@@ -266,12 +265,13 @@ page {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  /* color: red; */
 }
 
 .content .goods .wrapper .list .items .good .image {
-  width: 160rpx;
-  height: 160rpx;
-  margin-right: 20rpx;
+  width: 150rpx;
+  height: 150rpx;
+  margin-right: 10rpx;
   border-radius: 8rpx;
 }
 
@@ -469,6 +469,8 @@ page {
   padding-bottom: -16rpx;
 }
 
+
+
 .good-detail-modal .detail .wrapper .properties .property .values {
   width: 100%;
   display: flex;
@@ -508,7 +510,7 @@ page {
 
 .good-detail-modal .detail .wrapper .properties .property .title .name {
   font-size: 26rpx;
-  color: black;
+  color: rgb(255, 0, 0);
   margin-right: 20rpx;
 }
 
@@ -744,4 +746,36 @@ page {
   width: 50%;
   background-color: #FFF;
   border-radius: 100rpx;
+}
+
+.notice{
+  text-align: center;
+  align-items: center;
+}
+
+.notice .tip{
+  font-size: 52rpx;
+  padding: 20rpx;
+}
+.notice .tip.open{
+  background-color: var(--main-color);
+  color: #fff;
+}
+.notice .tip.close{
+  background-color: #ff0000;
+  color: #fff;
+}
+.notice .line1{
+  font-size: 32rpx;
+}
+.notice .line2{
+  font-size: 36rpx;
+  font-weight: bold;
+  color: rgb(248, 141, 0);
+}
+.notice .line3{
+  background-color: #fff;
+  font-size: 36rpx;
+  font-weight: bold;
+  color: rgb(248, 141, 0);
 }
