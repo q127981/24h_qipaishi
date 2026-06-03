@@ -1,35 +1,155 @@
-<!--pages/join/join.wxml-->
-<view class="container">
-  <view class="form" wx:if="{{!success}}">
-    <van-cell-group>
-      <van-field label="预约场地" model:value="{{ roomName }}" />
-    </van-cell-group>
-    <van-cell-group>
-      <van-field label="手机号" model:value="{{ phone }}" placeholder="请填写手机号" maxlength="11" />
-    </van-cell-group>
-    <van-cell-group>
-      <van-cell title="开始时间">
-        <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}">
-          {{startTime}}
-          <!-- <view class="triangle_border_down"> </view> -->
-        </picker>
-      </van-cell>
-    </van-cell-group>
-    <van-cell-group>
-      <van-cell title="结束时间">
-        <picker mode="multiSelector" bindchange="bindMultiPickerChanges" bindcolumnchange="bindMultiPickerColumnChanges" value="{{multiEndIndex}}" range="{{multiArray}}">
-          {{endTime}}
-          <!-- <view class="triangle_border_down" > </view> -->
-        </picker>
-      </van-cell>
-    </van-cell-group>
-    <van-cell-group>
-      <van-field label="记账金额：" model:value="{{ money }}" placeholder="单位元，默认0元" maxlength="10" />
-    </van-cell-group>
-    <view style="margin-left:40rpx;margin-bottom: 10rpx;">单位/元，添加记账金额后可在数据统计查看</view>
+<!--pages/placeOrder/placeOrder.wxml-->
+<view class="page-container">
+  <!-- 表单卡片 -->
+  <view class="form-card">
+    <!-- 预约场地（只读） -->
+    <view class="form-item form-item-disabled">
+      <view class="form-item-left">
+        <van-icon name="location-o" size="36rpx" color="#5AAB6E" />
+        <text class="form-item-label">预约场地</text>
+      </view>
+      <view class="form-item-right">
+        <text class="room-name">{{ roomName }}</text>
+      </view>
+    </view>
+
+    <view class="form-divider"></view>
+
+    <!-- 手机号 -->
+    <view class="form-item">
+      <view class="form-item-left">
+        <van-icon name="phone-o" size="36rpx" color="#5AAB6E" />
+        <text class="form-item-label">手机号</text>
+      </view>
+      <view class="form-item-input-wrapper">
+        <input
+          class="form-input"
+          type="number"
+          maxlength="11"
+          placeholder="请填写手机号"
+          value="{{phone}}"
+          bindinput="onPhoneInput"
+        />
+      </view>
+    </view>
+
+    <view class="form-divider"></view>
+
+    <!-- 开始时间 -->
+    <view class="form-item form-item-clickable" bindtap="onStartTimeTap">
+      <view class="form-item-left">
+        <van-icon name="clock-o" size="36rpx" color="#FF976A" />
+        <text class="form-item-label">开始时间</text>
+      </view>
+      <view class="form-item-right">
+        <text class="{{startTime !== '选择开始时间' ? 'time-value' : 'time-placeholder'}}">{{startTime}}</text>
+        <van-icon name="arrow" size="32rpx" color="#c8c9cc" />
+      </view>
+    </view>
+
+    <view class="form-divider"></view>
+
+    <!-- 结束时间 -->
+    <view class="form-item form-item-clickable" bindtap="onEndTimeTap">
+      <view class="form-item-left">
+        <van-icon name="clock" size="36rpx" color="#FF6034" />
+        <text class="form-item-label">结束时间</text>
+      </view>
+      <view class="form-item-right">
+        <text class="{{endTime !== '选择结束时间' ? 'time-value' : 'time-placeholder'}}">{{endTime}}</text>
+        <van-icon name="arrow" size="32rpx" color="#c8c9cc" />
+      </view>
+    </view>
+
+    <view class="form-divider"></view>
+
+    <!-- 记账金额 -->
+    <view class="form-item">
+      <view class="form-item-left">
+        <van-icon name="balance-pay" size="36rpx" color="#07c160" />
+        <text class="form-item-label">记账金额</text>
+      </view>
+      <view class="form-item-input-wrapper">
+        <input
+          class="form-input"
+          type="digit"
+          placeholder="默认0元"
+          value="{{money}}"
+          bindinput="onMoneyInput"
+        />
+      </view>
+    </view>
   </view>
 
-  <view class="btns">
-    <button hover-class="button-click" class="btn submit bg-primary" bindtap="submit">提交申请</button>
+  <!-- 快捷时间选择卡片 -->
+  <view class="quick-card">
+    <view class="quick-header">
+      <van-icon name="flash" size="32rpx" color="#FFC107" />
+      <text class="quick-title">快捷选择时长</text>
+    </view>
+    <view class="quick-btns">
+      <view class="quick-btn {{selectedHours === 1 ? 'quick-btn-active' : ''}}" bindtap="setQuickTime" data-hours="1">
+        <text class="quick-btn-num">1</text>
+        <text class="quick-btn-unit">时</text>
+      </view>
+      <view class="quick-btn {{selectedHours === 2 ? 'quick-btn-active' : ''}}" bindtap="setQuickTime" data-hours="2">
+        <text class="quick-btn-num">2</text>
+        <text class="quick-btn-unit">时</text>
+      </view>
+      <view class="quick-btn {{selectedHours === 3 ? 'quick-btn-active' : ''}}" bindtap="setQuickTime" data-hours="3">
+        <text class="quick-btn-num">3</text>
+        <text class="quick-btn-unit">时</text>
+      </view>
+      <view class="quick-btn {{selectedHours === 4 ? 'quick-btn-active' : ''}}" bindtap="setQuickTime" data-hours="4">
+        <text class="quick-btn-num">4</text>
+        <text class="quick-btn-unit">时</text>
+      </view>
+      <view class="quick-btn {{selectedHours === 5 ? 'quick-btn-active' : ''}}" bindtap="setQuickTime" data-hours="5">
+        <text class="quick-btn-num">5</text>
+        <text class="quick-btn-unit">时</text>
+      </view>
+      <view class="quick-btn {{selectedHours === 24 ? 'quick-btn-active' : ''}}" bindtap="setQuickTime" data-hours="24">
+        <text class="quick-btn-num">1</text>
+        <text class="quick-btn-unit">天</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 提示信息 -->
+  <view class="tips-card">
+    <van-icon name="info-o" size="28rpx" color="#969799" />
+    <text class="tips-text">结束时间最大允许选择7天后，记账金额可在数据统计查看</text>
+  </view>
+
+  <!-- 提交按钮 -->
+  <view class="submit-container">
+    <button class="submit-btn" bindtap="submit">
+      <van-icon name="checked" size="40rpx" color="#fff" />
+      <text>提交下单</text>
+    </button>
   </view>
 </view>
+
+<!-- 开始时间选择弹窗 -->
+<van-popup show="{{ showStartTimePicker }}" position="bottom" round bind:close="onStartTimeClose">
+  <van-datetime-picker
+    type="datetime"
+    value="{{ startDate }}"
+    min-date="{{ minDate }}"
+    max-date="{{ maxStartDate }}"
+    bind:confirm="onStartTimeConfirm"
+    bind:cancel="onStartTimeClose"
+  />
+</van-popup>
+
+<!-- 结束时间选择弹窗 -->
+<van-popup show="{{ showEndTimePicker }}" position="bottom" round bind:close="onEndTimeClose">
+  <van-datetime-picker
+    type="datetime"
+    value="{{ endDate }}"
+    min-date="{{ minEndDate }}"
+    max-date="{{ maxEndDate }}"
+    bind:confirm="onEndTimeConfirm"
+    bind:cancel="onEndTimeClose"
+  />
+</van-popup>

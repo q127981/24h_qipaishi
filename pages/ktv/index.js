@@ -494,6 +494,8 @@ Page({
             content: info.msg,
             showCancel: false,
           });
+          that.clearStorage();
+          that.loadDefaultSongs();
         }
       },
       function fail(info) {}

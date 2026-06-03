@@ -1,4 +1,3 @@
-const datepicker = require("../../utils/datepicker");
 const app = getApp();
 var http = require("../../utils/http");
 
@@ -6,19 +5,22 @@ Page({
   data: {
     startTime: "选择开始时间",
     endTime: "选择结束时间",
-    multiArray: [],
-    multiIndex: [],
-    multiEndIndex: [],
-    year: "",
-    month: "",
-    day: "",
-    hour: "",
-    minute: "",
     roomId: "",
     roomName: "",
     name: "",
     phone: "",
     money: "",
+    // 时间选择器相关
+    showStartTimePicker: false,
+    showEndTimePicker: false,
+    startDate: null,
+    endDate: null,
+    minDate: null,
+    maxStartDate: null,
+    minEndDate: null,
+    maxEndDate: null,
+    // 快捷时间选中的小时数
+    selectedHours: 0,
   },
 
   onLoad: function (options) {
@@ -26,252 +28,179 @@ Page({
     if (options.id) {
       this.setData({
         roomId: options.id,
-        roomName: options.roomName
+        roomName: options.roomName || '未选择场地'
       });
     }
   },
 
   onShow: function () {
-    var loadPickerData = datepicker.loadPickerData();
-    var getCurrentDate = datepicker.getCurrentDate();
-    var GetMultiIndex = datepicker.GetMultiIndex();
+    // 初始化日期时间
+    const now = new Date();
+    const currentTime = this.formatTime(now);
 
-    let year = parseInt(getCurrentDate.substring(0, 4));
-    let month = parseInt(getCurrentDate.substring(5, 7));
-    let day = parseInt(getCurrentDate.substring(8, 10));
-    let hour = parseInt(getCurrentDate.substring(11, 13));
-    let minute = parseInt(getCurrentDate.substring(14, 16));
+    // 开始时间：最小为当前时间，最大为7天后
+    const sevenDaysLater = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
 
     this.setData({
-      multiArray: loadPickerData,
-      multiIndex: GetMultiIndex,
-      multiEndIndex: GetMultiIndex,
-      startTime: getCurrentDate,
-      year: year,
-      month: month,
-      day: day,
-      hour: hour,
-      minute: minute
+      startTime: currentTime,
+      endTime: "选择结束时间",
+      startDate: now.getTime(),
+      endDate: null,
+      minDate: now.getTime(),
+      maxStartDate: sevenDaysLater.getTime(),
+      minEndDate: now.getTime(),
+      maxEndDate: sevenDaysLater.getTime(),
+      selectedHours: 0,
     });
   },
 
-  bindMultiPickerChange: function (e) {
-    this.setData({
-      multiEndIndex: e.detail.value
-    });
-
-    const index = this.data.multiIndex;
-    const year = this.data.multiArray[0][index[0]];
-    const month = this.data.multiArray[1][index[1]];
-    const day = this.data.multiArray[2][index[2]];
-    const hour = this.data.multiArray[3][index[3]];
-    const minute = this.data.multiArray[4][index[4]];
-
-    this.setData({
-      startTime: `${year.replace("年", "/")}${month.replace(
-        "月",
-        "/"
-      )}${day.replace("日", "")} ${hour.replace("时", "")}:${minute.replace(
-        "分",
-        ""
-      )}`,
-      year: year,
-      month: month,
-      day: day,
-      hour: hour,
-      minute: minute
-    });
-  },
-
-  bindMultiPickerChanges: function (e) {
-    this.setData({
-      multiEndIndex: e.detail.value
-    });
-
-    const index = this.data.multiIndex;
-    const year = this.data.multiArray[0][index[0]];
-    const month = this.data.multiArray[1][index[1]];
-    const day = this.data.multiArray[2][index[2]];
-    const hour = this.data.multiArray[3][index[3]];
-    const minute = this.data.multiArray[4][index[4]];
-
-    this.setData({
-      endTime: `${year.replace("年", "/")}${month.replace(
-        "月",
-        "/"
-      )}${day.replace("日", "")} ${hour.replace("时", "")}:${minute.replace(
-        "分",
-        ""
-      )}`,
-      year: year,
-      month: month,
-      day: day,
-      hour: hour,
-      minute: minute
-    });
-  },
-
-  bindMultiPickerColumnChange: function (e) {
-    let getCurrentDate = datepicker.getCurrentDate();
-    let currentYear = parseInt(getCurrentDate.substring(0, 4));
-    let currentMonth = parseInt(getCurrentDate.substring(5, 7));
-    let currentDay = parseInt(getCurrentDate.substring(8, 10));
-    let currentHour = parseInt(getCurrentDate.substring(11, 13));
-    let currentMinute = parseInt(getCurrentDate.substring(14, 16));
-
-    var data = {
-      multiArray: this.data.multiArray,
-      multiIndex: this.data.multiIndex
-    };
-    data.multiIndex[e.detail.column] = e.detail.value;
-
-    let monthArr, dayArr, hourArr, minuteArr;
-
-    switch (e.detail.column) {
-      case 0: // 修改年份列
-        let yearSelected = parseInt(
-          this.data.multiArray[e.detail.column][e.detail.value]
-        );
-        this.setData({
-          year: yearSelected
-        });
-        if (yearSelected == currentYear) {
-          var loadPickerData = datepicker.loadPickerData();
-          this.setData({
-            multiArray: loadPickerData,
-            multiIndex: [0, 0, 0, 0, 0]
-          });
-        } else {
-          monthArr = datepicker.loadMonths(1, 12);
-          dayArr = datepicker.loadDays(yearSelected, 1, 1);
-          hourArr = datepicker.loadHours(0, 23);
-          minuteArr = datepicker.loadMinutes(0, 59);
-          this.setData({
-            ["multiArray[1]"]: monthArr,
-            ["multiArray[2]"]: dayArr,
-            ["multiArray[3]"]: hourArr,
-            ["multiArray[4]"]: minuteArr,
-            multiIndex: [e.detail.value, 0, 0, 0, 0]
-          });
-        }
-        break;
-      case 1: // 修改月份列
-        let mon = parseInt(
-          this.data.multiArray[e.detail.column][e.detail.value]
-        );
-        this.setData({
-          month: mon
-        });
-        if (this.data.year == currentYear && mon == currentMonth) {
-          dayArr = datepicker.loadDays(currentYear, mon, currentDay);
-        } else {
-          dayArr = datepicker.loadDays(this.data.year, mon, 1);
-        }
-        hourArr = datepicker.loadHours(0, 23);
-        minuteArr = datepicker.loadMinutes(0, 59);
-        this.setData({
-          ["multiArray[2]"]: dayArr,
-          ["multiArray[3]"]: hourArr,
-          ["multiArray[4]"]: minuteArr,
-          multiIndex: [this.data.multiIndex[0], e.detail.value, 0, 0, 0]
-        });
-        break;
-      case 2: // 修改日
-        let dd = parseInt(
-          this.data.multiArray[e.detail.column][e.detail.value]
-        );
-        this.setData({
-          day: dd
-        });
-        if (
-          dd == currentDay &&
-          this.data.year == currentYear &&
-          this.data.month == currentMonth
-        ) {
-          hourArr = datepicker.loadHours(currentHour, 24);
-          minuteArr = datepicker.loadMinutes(currentMinute, 59);
-        } else {
-          hourArr = datepicker.loadHours(0, 24);
-          minuteArr = datepicker.loadMinutes(0, 59);
-        }
-        this.setData({
-          ["multiArray[3]"]: hourArr,
-          ["multiArray[4]"]: minuteArr,
-          multiIndex: [
-            this.data.multiIndex[0],
-            this.data.multiIndex[1],
-            e.detail.value,
-            0,
-            this.data.multiIndex[4]
-          ]
-        });
-        break;
-      case 3: // 修改时
-        let hh = parseInt(
-          this.data.multiArray[e.detail.column][e.detail.value]
-        );
-        let currentMinuteIndex = this.data.multiIndex[4];
-        this.setData({
-          hour: hh
-        });
-        if (
-          hh == currentHour &&
-          this.data.year == currentYear &&
-          this.data.month == currentMonth &&
-          this.data.day == currentDay
-        ) {
-          minuteArr = datepicker.loadMinutes(currentMinute, 59);
-        } else {
-          minuteArr = datepicker.loadMinutes(0, 59);
-        }
-        this.setData({
-          ["multiArray[4]"]: minuteArr,
-          multiIndex: [
-            this.data.multiIndex[0],
-            this.data.multiIndex[1],
-            this.data.multiIndex[2],
-            e.detail.value,
-            currentMinuteIndex
-          ]
-        });
-        break;
-      case 4: // 修改分
-        let mi = parseInt(
-          this.data.multiArray[e.detail.column][e.detail.value]
-        );
-        this.setData({
-          minute: mi,
-          multiIndex: [
-            this.data.multiIndex[0],
-            this.data.multiIndex[1],
-            this.data.multiIndex[2],
-            this.data.multiIndex[3],
-            e.detail.value
-          ]
-        });
-        break;
+  // 格式化时间为 YYYY/MM/DD HH:mm
+  formatTime: function(date) {
+    if (typeof date === 'number') {
+      date = new Date(date);
     }
-    console.log(this.data.multiArray);
+    var year = date.getFullYear();
+    var month = (date.getMonth() + 1).toString().padStart(2, '0');
+    var day = date.getDate().toString().padStart(2, '0');
+    var hour = date.getHours().toString().padStart(2, '0');
+    var minute = date.getMinutes().toString().padStart(2, '0');
+    return `${year}/${month}/${day} ${hour}:${minute}`;
   },
 
-  bindMultiPickerColumnChanges: function (e) {
-    this.bindMultiPickerColumnChange(e);
-  },
-
-  inputName: function (e) {
-    this.setData({
-      name: e.detail.value
-    });
-  },
-
-  inputPhone: function (e) {
+  // 手机号输入
+  onPhoneInput: function(e) {
     this.setData({
       phone: e.detail.value
     });
   },
 
+  // 金额输入
+  onMoneyInput: function(e) {
+    this.setData({
+      money: e.detail.value
+    });
+  },
+
+  // 点击开始时间单元格
+  onStartTimeTap: function() {
+    this.setData({
+      showStartTimePicker: true
+    });
+  },
+
+  // 确认开始时间
+  onStartTimeConfirm: function(e) {
+    console.log('开始时间确认:', e.detail);
+    // 获取时间戳（兼容不同版本的 Vant）
+    let selectedDate = e.detail;
+    if (e.detail && typeof e.detail === 'object') {
+      selectedDate = e.detail.value;
+    }
+    if (typeof selectedDate === 'string') {
+      selectedDate = Number(selectedDate);
+    }
+    if (!selectedDate || isNaN(selectedDate)) {
+      console.error('时间戳无效:', e.detail);
+      return;
+    }
+
+    const timeStr = this.formatTime(selectedDate);
+    console.log('格式化后的时间:', timeStr);
+
+    // 更新开始时间
+    this.setData({
+      startTime: timeStr,
+      startDate: selectedDate,
+      showStartTimePicker: false,
+      minEndDate: selectedDate,
+      selectedHours: 0,
+    });
+
+    // 如果结束时间早于开始时间，自动调整
+    if (this.data.endDate && this.data.endDate < selectedDate) {
+      this.setData({
+        endDate: selectedDate,
+        endTime: timeStr
+      });
+    }
+  },
+
+  // 点击结束时间单元格
+  onEndTimeTap: function() {
+    this.setData({
+      showEndTimePicker: true
+    });
+  },
+
+  // 确认结束时间
+  onEndTimeConfirm: function(e) {
+    console.log('结束时间确认:', e.detail);
+    // 获取时间戳（兼容不同版本的 Vant）
+    let selectedDate = e.detail;
+    if (e.detail && typeof e.detail === 'object') {
+      selectedDate = e.detail.value;
+    }
+    if (typeof selectedDate === 'string') {
+      selectedDate = Number(selectedDate);
+    }
+    if (!selectedDate || isNaN(selectedDate)) {
+      console.error('时间戳无效:', e.detail);
+      return;
+    }
+
+    const timeStr = this.formatTime(selectedDate);
+    console.log('格式化后的时间:', timeStr);
+
+    // 结束时间必须晚于开始时间
+    if (this.data.startDate && selectedDate < this.data.startDate) {
+      wx.showModal({
+        content: "结束时间不能早于开始时间",
+        showCancel: false
+      });
+      return;
+    }
+
+    this.setData({
+      endTime: timeStr,
+      endDate: selectedDate,
+      showEndTimePicker: false,
+      selectedHours: 0,
+    });
+  },
+
+  // 快捷时间选择
+  setQuickTime: function(e) {
+    const hours = parseInt(e.currentTarget.dataset.hours);
+    if (!this.data.startDate) {
+      wx.showModal({
+        content: "请先选择开始时间",
+        showCancel: false
+      });
+      return;
+    }
+
+    const startTime = new Date(this.data.startDate);
+    const endTime = new Date(startTime.getTime() + hours * 60 * 60 * 1000);
+
+    // 检查是否超过7天限制
+    const maxEndTime = new Date(this.data.startDate + 7 * 24 * 60 * 60 * 1000);
+    if (endTime > maxEndTime) {
+      wx.showModal({
+        content: "结束时间不能超过开始时间7天后",
+        showCancel: false
+      });
+      return;
+    }
+
+    this.setData({
+      endDate: endTime.getTime(),
+      endTime: this.formatTime(endTime),
+      selectedHours: hours,
+    });
+  },
+
   // 提交
-  submit() {
+  submit: function() {
     var that = this;
 
     if (that.data.endTime == "选择结束时间") {
@@ -315,7 +244,7 @@ Page({
             icon: "success"
           });
           wx.navigateBack({
-            delta: 1 // 返回的页面数，这里表示返回上一页
+            delta: 1
           });
         } else {
           wx.showModal({
@@ -327,10 +256,11 @@ Page({
       function fail(info) { }
     );
   },
-  changeStatisticsStatus: function () {
-    let that = this
+
+  changeStatisticsStatus: function() {
+    let that = this;
     that.setData({
       statistics: !that.data.statistics
-    })
+    });
   },
 });

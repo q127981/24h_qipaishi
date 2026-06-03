@@ -35,6 +35,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    this.getXiaLaListAdmin();
     this.getuserinfo();
    
   },
@@ -121,13 +122,13 @@ Page({
             that.setData({
               stores: stores,
             })
-            if(stores){
-              if(!that.data.storeId){
-                that.setData({
-                  storeId: stores[1].value
-                })
-              }
-            }
+            // if(stores){
+            //   if(!that.data.storeId){
+            //     that.setData({
+            //       storeId: stores[1].value
+            //     })
+            //   }
+            // }
           } else {
             wx.showModal({
               content: info.msg,
@@ -361,7 +362,7 @@ Page({
             that.setData({
               userinfo: info.data,
             })
-            that.getXiaLaListAdmin();
+            // that.getXiaLaListAdmin();
           }
         },
         function fail(info) {
