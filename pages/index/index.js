@@ -151,9 +151,7 @@ Page({
       that.getStoreInfodata();
       that.getDoorListdata();
     });
-    that.setData({
-      popshow: true
-    })
+   
   },
   popClose: function () {
     this.setData({ popshow: false })
@@ -523,6 +521,13 @@ Page({
                   storeEnvImg: arr
                 });
               }
+              const noticeImgEmpty = !info.data.noticeImg || info.data.noticeImg.length === 0;
+              const noticeEmpty = !info.data.notice || info.data.notice.length === 0;
+              if (noticeImgEmpty && noticeEmpty) {
+                that.setData({ popshow: false });
+              }else{
+                that.setData({ popshow: true });
+              }
               if (null != info.data.bannerImg && info.data.bannerImg.length > 0) {
                 var arr = info.data.bannerImg.split(",");
                 that.setData({
@@ -684,7 +689,8 @@ Page({
         function success(info) {
           console.info('订单信息===');
           if (info.code === 0 && info.data) {
-            //有订单  调用开门
+            //有订单  调用开门 先开大门
+            that.openStoreDoor(info.data);
             let startTime = new Date(info.data.startTime);
             if (info.data.status == 0 && startTime > Date.now()) {
               wx.showModal({
@@ -820,6 +826,33 @@ Page({
             title: "操作成功",
             icon: 'success'
           })
+        } else {
+          wx.showModal({
+            title: "提示",
+            content: info.msg,
+            showCancel: false,
+          })
+        }
+      },
+      function fail(info) {
+      }
+    )
+  },
+  openStoreDoor: function (data) {
+    let that = this;
+    //开房间门
+    console.log('开大门');
+    http.request(
+      "/member/order/openStoreDoor?orderKey=" + data.orderKey,
+      "1",
+      "post", {
+      // "orderKey":that.data.orderKey,
+    },
+      app.globalData.userDatatoken.accessToken,
+      "提交中...",
+      function success(info) {
+        if (info.code == 0) {
+          
         } else {
           wx.showModal({
             title: "提示",

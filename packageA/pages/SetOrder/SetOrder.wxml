@@ -41,7 +41,7 @@
                 </iconfont>
                 <view class="title">
                   <span class="name">{{item.storeName}}</span> -
-                  {{item.roomName}}({{item.roomType===1?'小包':item.roomType===2?'中包':item.roomType===3?'大包':item.roomType===4?'豪包':item.roomType===5?'商务包':item.roomType===6?'斯洛克':item.roomType===7?'中式黑八':'美式球桌'}})
+                  {{item.roomName}}({{item.roomType===1?'小包':item.roomType===2?'中包':item.roomType===3?'大包':item.roomType===4?'豪包':item.roomType===5?'商务包':item.roomType===6?'斯洛克':item.roomType===7?'黑八':'美式球桌'}})
                 </view>
               </li>
             </ul>
@@ -154,7 +154,7 @@
     </view>
     <view class="item">
       <label>当前房间：</label>
-      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':orderInfo.roomType===3?'大包':orderInfo.roomType===4?'豪包':orderInfo.roomType===5?'商务包':orderInfo.roomType===6?'斯洛克':orderInfo.roomType===7?'中式黑八':'美式球桌'}}）</text>
+      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':orderInfo.roomType===3?'大包':orderInfo.roomType===4?'豪包':orderInfo.roomType===5?'商务包':orderInfo.roomType===6?'斯洛克':orderInfo.roomType===7?'黑八':'美式球桌'}}）</text>
     </view>
     <view class="item">
       <label>开始时间：</label><text>{{orderInfo.startTime}}</text>
@@ -211,7 +211,7 @@
     </view>
     <view class="item">
       <label>当前房间：</label>
-      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':orderInfo.roomType===3?'大包':orderInfo.roomType===4?'豪包':orderInfo.roomType===5?'商务包':orderInfo.roomType===6?'斯洛克':orderInfo.roomType===7?'中式黑八':'美式球桌'}}）</text>
+      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':orderInfo.roomType===3?'大包':orderInfo.roomType===4?'豪包':orderInfo.roomType===5?'商务包':orderInfo.roomType===6?'斯洛克':orderInfo.roomType===7?'黑八':'美式球桌'}}）</text>
     </view>
     <view class="item">
       <label>开始时间：</label><text>{{orderInfo.startTime}}</text>
@@ -233,7 +233,7 @@
     </view>
     <view class="item">
       <label>当前位置：</label>
-      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':orderInfo.roomType===3?'大包':orderInfo.roomType===4?'豪包':orderInfo.roomType===5?'商务包':orderInfo.roomType===6?'斯洛克':orderInfo.roomType===7?'中式黑八':'美式球桌'}}）</text>
+      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':orderInfo.roomType===3?'大包':orderInfo.roomType===4?'豪包':orderInfo.roomType===5?'商务包':orderInfo.roomType===6?'斯洛克':orderInfo.roomType===7?'黑八':'美式球桌'}}）</text>
     </view>
     <view class="item">
       <label>开始时间：</label><text>{{orderInfo.startTime}}</text>
@@ -254,7 +254,7 @@
     </view>
     <view class="item">
       <label>当前房间：</label>
-      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':orderInfo.roomType===3?'大包':orderInfo.roomType===4?'豪包':orderInfo.roomType===5?'商务包':orderInfo.roomType===6?'斯洛克':orderInfo.roomType===7?'中式黑八':'美式球桌'}}）</text>
+      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':orderInfo.roomType===3?'大包':orderInfo.roomType===4?'豪包':orderInfo.roomType===5?'商务包':orderInfo.roomType===6?'斯洛克':orderInfo.roomType===7?'黑八':'美式球桌'}}）</text>
     </view>
     <view class="item">
       <label>开始时间：</label><text>{{orderInfo.startTime}}</text>
@@ -276,7 +276,7 @@
     </view>
     <view class="item">
       <label>当前位置：</label>
-      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':orderInfo.roomType===3?'大包':orderInfo.roomType===4?'豪包':orderInfo.roomType===5?'商务包':orderInfo.roomType===6?'斯洛克':orderInfo.roomType===7?'中式黑八':'美式球桌'}}）</text>
+      <text>{{orderInfo.roomName}}（{{orderInfo.roomType===1?'小包':orderInfo.roomType===2?'中包':orderInfo.roomType===3?'大包':orderInfo.roomType===4?'豪包':orderInfo.roomType===5?'商务包':orderInfo.roomType===6?'斯洛克':orderInfo.roomType===7?'黑八':'美式球桌'}}）</text>
     </view>
     <view class="item">
       <label>开始时间：</label><text>{{orderInfo.startTime}}</text>

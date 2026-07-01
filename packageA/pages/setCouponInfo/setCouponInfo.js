@@ -22,7 +22,7 @@ Page({
     stores: [],
     roomType: '',
     rooms: [{id:null,name:'不限制'},{id:1,name:'小包'},{id:2,name:'中包'},{id:3,name:'大包'},{id:4,name:'豪包'},{id:5,name:'商务包'}
-    ,{id:6,name:'斯洛克'},{id:7,name:'中式黑八'},{id:8,name:'‌美式球桌'}],
+    ,{id:6,name:'斯洛克'},{id:7,name:'黑八'},{id:8,name:'‌美式球桌'}],
     minUsePrice: '',
     price: '',
     expriceTime: '',

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "在线预订订单",
+  "usingComponents": {
+    "van-icon": "/miniprogram_npm/@vant/weapp/icon/index"
+  }
+}

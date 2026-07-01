@@ -1,0 +1,217 @@
+<!--packageA/pages/tuangou/mtPackage.wxml-->
+<view class="page">
+
+  <!-- 顶部 -->
+  <view class="topbar">
+    <view class="topbar-title">美团团购</view>
+    <view class="topbar-sub">共 {{list.length}} 个套餐</view>
+    <view class="topbar-add" bindtap="openCreateDialog">
+      <van-icon name="plus" size="24rpx" />
+      <text>新增套餐</text>
+    </view>
+  </view>
+
+  <!-- 顶部警示 -->
+  <view class="warn">
+    <view class="warn-icon">!</view>
+    <view class="warn-text">
+      <text class="warn-title">添加套餐后无法下架</text>
+      <text class="warn-sub">下架需联系美团销售操作</text>
+    </view>
+  </view>
+
+  <!-- 列表 -->
+  <view class="list" wx:if="{{list.length > 0}}">
+    <view class="pkg-card" wx:for="{{list}}" wx:key="id" wx:for-item="pkg">
+
+      <!-- 头部：模式 + ID + 编辑 -->
+      <view class="pkg-head">
+        <view class="pkg-id">
+          <view class="badge {{pkg.timeSelectType == 1 ? 'badge-blue' : 'badge-green'}}">
+            {{pkg.timeSelectType == 1 ? '包段模式' : '进场模式'}}
+          </view>
+          <text class="pkg-id-num">美团团购ID {{pkg.dealGroupId}}</text>
+        </view>
+        <view class="pkg-edit" data-id="{{pkg.id}}" data-index="{{index}}" bindtap="openEditDialog">
+          <text>编辑</text>
+          <van-icon name="arrow" size="22rpx" />
+        </view>
+      </view>
+
+      <view class="pkg-cell">
+        <text class="cell-lbl">可用时间</text>
+        <text class="cell-val cell-val-bold">{{pkg.timeRangeText}}</text>
+      </view>
+
+      <view class="pkg-cell">
+        <text class="cell-lbl">包间类型</text>
+        <view class="cell-tags">
+          <text class="cell-tag" wx:for="{{pkg.roomTypeNames}}" wx:key="*this">{{item}}</text>
+        </view>
+      </view>
+
+      <view class="pkg-cell pkg-cell-last">
+        <text class="cell-lbl">可用星期</text>
+        <view class="cell-tags">
+          <text class="cell-tag cell-tag-blue" wx:for="{{pkg.enableWeekShorts}}" wx:key="*this">{{item}}</text>
+          <text class="cell-tag cell-tag-red" wx:if="{{pkg.holidayShorts}}">禁 {{pkg.holidayShorts}}</text>
+        </view>
+      </view>
+
+    </view>
+  </view>
+
+  <!-- 空态 -->
+  <view class="empty" wx:else>
+    <view class="empty-icon">∅</view>
+    <text class="empty-title">{{loaded ? '暂无套餐' : '加载中…'}}</text>
+    <text class="empty-sub" wx:if="{{loaded}}">点击右上角「新增套餐」开始配置</text>
+  </view>
+
+  <!-- ================================================
+       新增 / 编辑 弹窗
+       ================================================ -->
+  <van-popup show="{{dialogVisible}}" round closeable position="bottom"
+    close-icon-position="top-right"
+    custom-style="border-radius: 28rpx 28rpx 0 0;"
+    bind:close="closeDialog">
+    <view class="dialog">
+
+      <view class="dialog-head">
+        <text class="dialog-title">{{editMode ? '编辑套餐' : '新增套餐'}}</text>
+        <text class="dialog-sub">{{editMode ? '修改已关联的预订规则' : '将美团团购与门店包间进行关联'}}</text>
+      </view>
+
+      <scroll-view scroll-y class="dialog-scroll">
+
+        <!-- 美团团购ID -->
+        <view class="section">
+          <view class="section-label">
+            <text class="req">*</text>
+            <text>美团团购ID</text>
+            <text class="section-hint">美团后台获取</text>
+          </view>
+          <view class="section-body">
+            <van-field type="digit" value="{{form.dealGroupIdStr}}"
+              placeholder="请输入数字 ID"
+              maxlength="20" bind:change="onDealGroupIdChange"
+              custom-class="clean-field" />
+          </view>
+        </view>
+
+        <!-- 包间类型 -->
+        <view class="section">
+          <view class="section-label">
+            <text class="req">*</text>
+            <text>包间类型</text>
+          </view>
+          <view class="section-body">
+            <view class="chips">
+              <view wx:for="{{roomTypeOptions}}" wx:key="value"
+                class="chip {{ form.roomTypeIdsMap[item.value] ? 'chip-on' : '' }}"
+                data-value="{{item.value}}" catchtap="onRoomTypeToggle">{{item.label}}</view>
+            </view>
+          </view>
+        </view>
+
+        <!-- 可用时间 -->
+        <view class="section">
+          <view class="section-label">
+            <text class="req">*</text>
+            <text>可用时间</text>
+            <text class="section-hint">0 ~ 23 时</text>
+          </view>
+          <view class="section-body">
+            <view class="time-row">
+              <view class="time-box">
+                <text class="time-lbl">开始</text>
+                <picker mode="selector" range="{{hourOptions}}" value="{{form.startHour}}"
+                  bindchange="onStartHourChange">
+                  <view class="time-val">{{form.startHour}}<text class="unit">时</text></view>
+                </picker>
+              </view>
+              <text class="time-sep">—</text>
+              <view class="time-box">
+                <text class="time-lbl">结束</text>
+                <picker mode="selector" range="{{hourOptions}}" value="{{form.endHour}}"
+                  bindchange="onEndHourChange">
+                  <view class="time-val">{{form.endHour}}<text class="unit">时</text></view>
+                </picker>
+              </view>
+            </view>
+            <view class="section-tip">开始 = 结束代表 24小时可用；开始 > 结束代表跨天，比如18-2时</view>
+          </view>
+        </view>
+
+        <!-- 时段模式 -->
+        <view class="section">
+          <view class="section-label">
+            <text class="req">*</text>
+            <text>时段模式</text>
+          </view>
+          <view class="section-body">
+            <view class="mode-list">
+              <view class="mode-item {{ form.timeSelectType == 1 && !forceMode2 ? 'mode-on' : '' }}"
+                data-mode="1" catchtap="onModeToggle">
+                <view class="mode-radio {{ form.timeSelectType == 1 && !forceMode2 ? 'radio-on' : '' }}"></view>
+                <view class="mode-text">
+                  <text class="mode-name">包段模式</text>
+                  <text class="mode-desc">比如设置18时结束，下单4小时的套餐，无论几点开始，强制18时结束，时长不足4小时也允许下单</text>
+                </view>
+              </view>
+              <view class="mode-item {{ form.timeSelectType == 2 || forceMode2 ? 'mode-on' : '' }}"
+                data-mode="2" catchtap="onModeToggle">
+                <view class="mode-radio {{ form.timeSelectType == 2 || forceMode2 ? 'radio-on' : '' }}"></view>
+                <view class="mode-text">
+                  <text class="mode-name">进场模式</text>
+                  <text class="mode-desc">比如设置18时结束，下单选4小时的套餐，无论几点开始，可以消费满4小时，结束时间不受限制</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+
+        <!-- 可用星期 -->
+        <view class="section">
+          <view class="section-label">
+            <text class="req">*</text>
+            <text>可用星期</text>
+          </view>
+          <view class="section-body">
+            <view class="chips">
+              <view wx:for="{{weekOptions}}" wx:key="value"
+                class="chip {{ form.enableWeekMap[item.value] ? 'chip-on' : '' }}"
+                data-value="{{item.value}}" catchtap="onWeekToggle">{{item.label}}</view>
+            </view>
+          </view>
+        </view>
+
+        <!-- 不可订日期 -->
+        <view class="section">
+          <view class="section-label">
+            <text>不可订特殊日期（选择后这些日期不能用）</text>
+            <text class="section-hint">可选</text>
+          </view>
+          <view class="section-body">
+            <view class="chips">
+              <view wx:for="{{holidayOptions}}" wx:key="value"
+                class="chip {{ form.holidaysMap[item.value] ? 'chip-on' : '' }}"
+                data-value="{{item.value}}" catchtap="onHolidayToggle">{{item.label}}</view>
+            </view>
+          </view>
+        </view>
+
+      </scroll-view>
+
+      <!-- 底部 -->
+      <view class="dialog-foot">
+        <view class="foot-cancel" bindtap="closeDialog">取消</view>
+        <view class="foot-confirm {{confirmLoading ? 'is-loading' : ''}}" bindtap="onSave">
+          <text>{{confirmLoading ? '保存中…' : '保存'}}</text>
+        </view>
+      </view>
+
+    </view>
+  </van-popup>
+
+</view>

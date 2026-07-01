@@ -1,0 +1,543 @@
+/* ============================================================
+   页面（iOS grouped list）
+   ============================================================ */
+.page {
+  min-height: 100vh;
+  background: #F2F2F7;
+  padding: 0 0 48rpx;
+}
+
+/* ============================================================
+   顶部导航（iOS Large Title 风）
+   ============================================================ */
+.topbar {
+  background: #F2F2F7;
+  padding: 24rpx 32rpx 18rpx;
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 6rpx 16rpx;
+}
+
+.topbar-title {
+  font-size: 44rpx;
+  font-weight: 800;
+  color: #1C1C1E;
+  letter-spacing: -1rpx;
+  line-height: 1.1;
+  margin-right: auto;
+}
+
+.topbar-sub {
+  font-size: 24rpx;
+  color: #8E8E93;
+  padding-bottom: 8rpx;
+  letter-spacing: 0.2rpx;
+}
+
+.topbar-add {
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+  height: 56rpx;
+  padding: 0 22rpx;
+  background: #007AFF;
+  color: #FFFFFF;
+  border-radius: 14rpx;
+  font-size: 26rpx;
+  font-weight: 600;
+}
+
+.topbar-add:active { opacity: 0.7; }
+
+/* ============================================================
+   顶部警示（iOS 警示卡）
+   ============================================================ */
+.warn {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+  background: #FFF8E1;
+  border-radius: 14rpx;
+  padding: 18rpx 22rpx;
+  margin: 0 16rpx 16rpx;
+}
+
+.warn-icon {
+  flex-shrink: 0;
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  background: #FF9500;
+  color: #FFFFFF;
+  font-size: 28rpx;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: -apple-system, "SF Pro Display", sans-serif;
+  line-height: 1;
+}
+
+.warn-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2rpx;
+}
+
+.warn-title {
+  font-size: 26rpx;
+  font-weight: 800;
+  color: #AD4E00;
+  letter-spacing: 0.2rpx;
+  line-height: 1.4;
+}
+
+.warn-sub {
+  font-size: 22rpx;
+  color: #B86A1F;
+  line-height: 1.4;
+}
+
+/* ============================================================
+   套餐列表（iOS 设置式分组）
+   ============================================================ */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+  padding: 0 16rpx;
+}
+
+.pkg-card {
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 1rpx 0 rgba(0, 0, 0, 0.02);
+}
+
+/* 头部：徽章 + ID + 编辑 */
+.pkg-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18rpx 22rpx;
+  background: #FAFAFA;
+}
+
+.pkg-id {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.badge {
+  font-size: 21rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+  padding: 4rpx 14rpx;
+  border-radius: 6rpx;
+  letter-spacing: 0.5rpx;
+  line-height: 1.4;
+}
+
+.badge-blue  { background: #007AFF; }
+.badge-green { background: #34C759; }
+
+.pkg-id-num {
+  font-size: 26rpx;
+  font-weight: 700;
+  color: #1C1C1E;
+  letter-spacing: 0.3rpx;
+  font-family: -apple-system, "SF Pro Display", "Helvetica Neue", sans-serif;
+}
+
+.pkg-edit {
+  display: flex;
+  align-items: center;
+  gap: 2rpx;
+  font-size: 24rpx;
+  color: #007AFF;
+  font-weight: 500;
+}
+
+.pkg-edit:active { opacity: 0.5; }
+
+/* cell 行 */
+.pkg-cell {
+  display: flex;
+  align-items: center;
+  padding: 22rpx 22rpx;
+  border-top: 1rpx solid #F2F2F7;
+  min-height: 32rpx;
+}
+
+.pkg-cell-last { border-bottom: none; }
+
+.cell-lbl {
+  flex: 0 0 140rpx;
+  font-size: 26rpx;
+  color: #8E8E93;
+  letter-spacing: 0.2rpx;
+}
+
+.cell-val {
+  flex: 1;
+  font-size: 26rpx;
+  color: #1C1C1E;
+  text-align: right;
+  letter-spacing: 0.2rpx;
+}
+
+.cell-val-bold {
+  font-weight: 600;
+}
+
+.cell-tags {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8rpx;
+}
+
+.cell-tag {
+  font-size: 22rpx;
+  color: #1C1C1E;
+  background: #F2F2F7;
+  padding: 5rpx 14rpx;
+  border-radius: 6rpx;
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+.cell-tag-blue {
+  background: #E5F1FF;
+  color: #007AFF;
+}
+
+.cell-tag-red {
+  background: #FFE5E5;
+  color: #FF3B30;
+}
+
+/* ============================================================
+   空态
+   ============================================================ */
+.empty {
+  margin: 120rpx 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.empty-icon {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 22rpx;
+  background: #FFFFFF;
+  font-size: 56rpx;
+  color: #C7C7CC;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 300;
+}
+
+.empty-title {
+  font-size: 28rpx;
+  color: #8E8E93;
+  font-weight: 600;
+}
+
+.empty-sub {
+  font-size: 24rpx;
+  color: #C7C7CC;
+}
+
+/* ============================================================
+   弹窗（iOS Sheet）
+   ============================================================ */
+.dialog {
+  display: flex;
+  flex-direction: column;
+  max-height: 88vh;
+  overflow: hidden;
+  background: #F2F2F7;
+}
+
+.dialog-head {
+  padding: 22rpx 32rpx 18rpx;
+  background: #F2F2F7;
+  flex-shrink: 0;
+}
+
+.dialog-title {
+  display: block;
+  font-size: 36rpx;
+  font-weight: 800;
+  color: #1C1C1E;
+  letter-spacing: -0.5rpx;
+  margin-bottom: 2rpx;
+}
+
+.dialog-sub {
+  font-size: 24rpx;
+  color: #8E8E93;
+}
+
+.dialog-scroll {
+  flex: 1;
+  max-height: 60vh;
+  padding: 8rpx 16rpx 16rpx;
+  box-sizing: border-box;
+}
+
+/* ============================================================
+   表单分组（iOS Section）
+   ============================================================ */
+.section {
+  background: #FFFFFF;
+  border-radius: 12rpx;
+  padding: 6rpx 0;
+  margin-bottom: 18rpx;
+  overflow: hidden;
+}
+
+.section:last-child { margin-bottom: 0; }
+
+.section-label {
+  display: flex;
+  align-items: baseline;
+  gap: 4rpx;
+  font-size: 22rpx;
+  font-weight: 500;
+  color: #8E8E93;
+  margin: 14rpx 16rpx 10rpx;
+  letter-spacing: 0.3rpx;
+  text-transform: uppercase;
+}
+
+.req {
+  color: #FF3B30;
+  font-weight: 700;
+  font-size: 22rpx;
+}
+
+.section-hint {
+  margin-left: auto;
+  font-size: 20rpx;
+  font-weight: 400;
+  color: #C7C7CC;
+  text-transform: none;
+}
+
+.section-tip {
+  font-size: 22rpx;
+  color: #8E8E93;
+  line-height: 1.4;
+  padding: 10rpx 16rpx 6rpx;
+}
+
+/* 输入框 */
+.clean-field {
+  font-size: 28rpx !important;
+  font-weight: 500;
+  color: #1C1C1E !important;
+  background: #FFFFFF !important;
+  padding: 22rpx 16rpx !important;
+  box-sizing: border-box !important;
+}
+
+/* Chip 多选 */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+  padding: 16rpx;
+}
+
+.chip {
+  font-size: 24rpx;
+  color: #1C1C1E;
+  background: #F2F2F7;
+  border: 1rpx solid transparent;
+  border-radius: 8rpx;
+  padding: 9rpx 18rpx;
+  line-height: 1.3;
+  font-weight: 500;
+  transition: all 0.15s;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+.chip-on {
+  background: #007AFF;
+  color: #FFFFFF;
+  border-color: #007AFF;
+  font-weight: 600;
+}
+
+/* 时间选择 */
+.time-row {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+  padding: 16rpx;
+}
+
+.time-box {
+  flex: 1;
+  background: #F2F2F7;
+  border-radius: 10rpx;
+  padding: 14rpx 0;
+  text-align: center;
+}
+
+.time-lbl {
+  display: block;
+  font-size: 21rpx;
+  color: #AAA;
+  margin-bottom: 4rpx;
+  letter-spacing: 0.5rpx;
+}
+
+.time-val {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #1C1C1E;
+  line-height: 1.2;
+  font-family: -apple-system, "SF Pro Display", sans-serif;
+}
+
+.unit {
+  font-size: 20rpx;
+  font-weight: 400;
+  color: #8E8E93;
+  margin-left: 2rpx;
+}
+
+.time-sep {
+  font-size: 28rpx;
+  color: #C7C7CC;
+  font-weight: 300;
+  flex-shrink: 0;
+}
+
+/* 时段模式（iOS 单选列表） */
+.mode-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.mode-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14rpx;
+  padding: 18rpx 16rpx;
+  border-bottom: 1rpx solid #F2F2F7;
+  transition: background 0.15s;
+}
+
+.mode-item:last-child { border-bottom: none; }
+.mode-item.mode-on { background: #F8FBFF; }
+
+.mode-radio {
+  flex-shrink: 0;
+  width: 36rpx;
+  height: 36rpx;
+  border-radius: 50%;
+  border: 2rpx solid #C7C7CC;
+  background: #FFFFFF;
+  margin-top: 2rpx;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.mode-radio.radio-on {
+  border-color: #007AFF;
+  border-width: 2rpx;
+  background: #007AFF;
+}
+
+.mode-radio.radio-on::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  background: #FFFFFF;
+}
+
+.mode-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.mode-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1C1C1E;
+  letter-spacing: 0.2rpx;
+}
+
+.mode-desc {
+  font-size: 23rpx;
+  color: #8E8E93;
+  line-height: 1.4;
+}
+
+.mode-item.mode-on .mode-name { color: #007AFF; }
+
+/* ============================================================
+   底部
+   ============================================================ */
+.dialog-foot {
+  display: flex;
+  gap: 12rpx;
+  padding: 14rpx 16rpx 28rpx;
+  background: #F2F2F7;
+  flex-shrink: 0;
+}
+
+.foot-cancel {
+  flex: 1;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFFFFF;
+  border-radius: 14rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #007AFF;
+}
+
+.foot-cancel:active { background: #E5E5EA; }
+
+.foot-confirm {
+  flex: 2;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #007AFF;
+  border-radius: 14rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #FFFFFF;
+  transition: opacity 0.15s;
+}
+
+.foot-confirm:active { opacity: 0.7; }
+
+.foot-confirm.is-loading {
+  background: #8E8E93;
+}

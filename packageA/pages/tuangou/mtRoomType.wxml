@@ -1,0 +1,284 @@
+<!-- packageA/pages/tuangou/mtRoomType.wxml -->
+<view class="page">
+  <!-- 表格标题 -->
+  <view class="table-caption">美团包型包间管理</view>
+
+  <!-- 提示语 -->
+  <view class="list-tip">
+    <view class="list-tip-left">
+      <van-icon name="clock" size="24rpx" color="#8E8E93" />
+      <text>同步后约30秒生效，30秒内请勿重复同步</text>
+    </view>
+    <view class="list-tip-refresh" hover-class="list-tip-refresh--active" bindtap="onRefresh">
+      <van-icon name="replay" size="28rpx" color="#1989fa" />
+      <text>刷新</text>
+    </view>
+  </view>
+
+  <!-- 表格 -->
+  <view class="table-wrap">
+    <view class="table-header">
+      <text class="th th-type">包间类型</text>
+      <text class="th th-rooms">包间列表</text>
+      <text class="th th-action">操作</text>
+    </view>
+
+    <view class="table-empty" wx:if="{{list.length === 0}}">
+      <text class="table-empty-text">暂无数据</text>
+    </view>
+
+    <view class="table-body">
+      <view class="table-row" wx:for="{{list}}" wx:key="roomTypeId">
+        <view class="td td-type">
+          <text class="type-name">{{item.roomTypeStr}}</text>
+        </view>
+
+        <view class="td td-rooms">
+          <view wx:if="{{item.roomList && item.roomList.length > 0 && item.roomList.length === item.roomInfoList.length}}" class="status-badge status-synced">
+            <van-icon name="passed" size="22rpx" />
+            <text>已同步</text>
+          </view>
+          <view wx:elif="{{item.roomList && item.roomList.length > 0 && item.roomList.length !== item.roomInfoList.length}}" class="status-badge status-updated">
+            <van-icon name="warning" size="22rpx" />
+            <text>有更新</text>
+          </view>
+          <view class="room-list">
+            <text class="room-name" wx:for="{{item.roomInfoList}}" wx:key="roomId" wx:for-item="room">{{room.roomName}}</text>
+          </view>
+        </view>
+
+        <view class="td td-action">
+          <block wx:if="{{!item.roomTypeCode}}">
+            <van-button size="small" type="danger" round plain custom-class="btn-delete-small"
+              data-item="{{item}}" bind:click="onDelete">删除</van-button>
+          </block>
+          <block wx:elif="{{!item.roomList || item.roomList.length === 0}}">
+            <van-button size="small" type="primary" round plain custom-class="btn-sync-small"
+              data-item="{{item}}" bind:click="openSyncDialog">同步美团</van-button>
+          </block>
+          <block wx:else>
+            <van-button wx:if="{{item.roomList.length !== item.roomInfoList.length}}" size="small" type="primary" round plain custom-class="btn-sync-small"
+              data-item="{{item}}" bind:click="openSyncDialog">更新</van-button>
+            <van-button size="small" type="danger" round plain custom-class="btn-delete-small"
+              data-item="{{item}}" bind:click="onDelete">删除</van-button>
+          </block>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 同步表单弹窗 -->
+  <van-popup show="{{ syncDialogVisible }}" round closeable position="bottom"
+    close-icon-position="top-right" custom-style="border-radius: 24rpx 24rpx 0 0; max-height: 88vh;" bind:close="closeSyncDialog">
+    <view class="dialog">
+      <!-- 标题区 -->
+      <view class="dialog-header">
+        <view class="dialog-title">{{currentSyncItem.roomTypeStr}}</view>
+        <view class="dialog-subtitle">{{currentSyncItem.roomInfoList.length}} 个包间</view>
+      </view>
+
+      <!-- 滚动表单区（固定高度，内容溢出内部滚动） -->
+      <scroll-view scroll-y class="dialog-body">
+        <!-- 1. 门店类型 (单选) -->
+        <view class="form-card">
+          <view class="form-card-header">
+            <text class="form-required">*</text>
+            <text class="form-card-title">门店类型</text>
+          </view>
+          <view class="form-card-body form-radio-body">
+            <van-radio-group value="{{ form.roomClass }}" bind:change="onRoomClassChange">
+              <van-radio name="0" custom-class="radio-item">棋牌室</van-radio>
+              <van-radio name="2" custom-class="radio-item">自助KTV</van-radio>
+            </van-radio-group>
+          </view>
+        </view>
+
+        <!-- 2. 包型头图 (最多3张) -->
+        <view class="form-card">
+          <view class="form-card-header">
+            <text class="form-required">*</text>
+            <text class="form-card-title">包型头图</text>
+            <text class="form-card-extra">最多 3 张</text>
+          </view>
+          <view class="form-card-body">
+            <van-uploader file-list="{{ form.roomTypeImageUrlList }}" max-count="{{ 3 }}"
+              bind:after-read="afterImageRead" bind:delete="deleteImage" multiple="{{ true }}" accept="image"
+              custom-class="form-uploader">
+              <view class="uploader-trigger">
+                <van-icon name="photograph" size="36rpx" color="#bbb" />
+                <text class="uploader-trigger-text">上传图片</text>
+              </view>
+            </van-uploader>
+          </view>
+        </view>
+
+        <!-- 3. 棋牌室字段 (roomClass=0) -->
+        <block wx:if="{{ form.roomClass === '0' }}">
+          <!-- 包间面积 -->
+          <view class="form-card">
+            <view class="form-card-header">
+              <text class="form-required">*</text>
+              <text class="form-card-title">包间面积</text>
+              <text class="form-card-extra">1-99</text>
+            </view>
+            <view class="form-card-body">
+              <van-field type="number" value="{{ form.space }}" placeholder="请输入包间面积" maxlength="{{ 2 }}"
+                bind:change="onSpaceChange" custom-class="form-field" />
+            </view>
+          </view>
+
+          <!-- 是否有窗 -->
+          <view class="form-card">
+            <view class="form-card-header">
+              <text class="form-required">*</text>
+              <text class="form-card-title">是否有窗</text>
+            </view>
+            <view class="form-card-body form-radio-body">
+              <van-radio-group value="{{ form.hasWindow }}" bind:change="onHasWindowChange">
+                <van-radio name="0" custom-class="radio-item">否</van-radio>
+                <van-radio name="1" custom-class="radio-item">是</van-radio>
+                <van-radio name="2" custom-class="radio-item">部分有</van-radio>
+              </van-radio-group>
+            </view>
+          </view>
+
+          <!-- 是否有独立卫生间 -->
+          <view class="form-card">
+            <view class="form-card-header">
+              <text class="form-required">*</text>
+              <text class="form-card-title">是否有独立卫生间</text>
+            </view>
+            <view class="form-card-body form-radio-body">
+              <van-radio-group value="{{ form.hasIndependentWashRoom }}" bind:change="onHasWashRoomChange">
+                <van-radio name="0" custom-class="radio-item">否</van-radio>
+                <van-radio name="1" custom-class="radio-item">是</van-radio>
+                <van-radio name="2" custom-class="radio-item">部分有</van-radio>
+              </van-radio-group>
+            </view>
+          </view>
+
+          <!-- 桌椅类型（单选 + 自定义） -->
+          <view class="form-card">
+            <view class="form-card-header">
+              <text class="form-required">*</text>
+              <text class="form-card-title">桌椅类型</text>
+            </view>
+            <view class="form-card-body form-radio-body">
+              <van-radio-group value="{{ form.tableAndChairInformation }}" bind:change="onTableAndChairChange">
+                <van-radio name="老板椅" custom-class="radio-item">老板椅</van-radio>
+                <van-radio name="按摩椅" custom-class="radio-item">按摩椅</van-radio>
+                <van-radio name="榻榻米" custom-class="radio-item">榻榻米</van-radio>
+                <van-radio name="实木椅" custom-class="radio-item">实木椅</van-radio>
+                <van-radio name="自定义" custom-class="radio-item">+自定义</van-radio>
+              </van-radio-group>
+              <view class="custom-input-wrap" wx:if="{{ form.tableAndChairInformation === '自定义' }}">
+                <van-field type="text" value="{{ form.tableAndChairInformationCustom }}" placeholder="请输入桌椅类型（5字以内）" maxlength="{{ 5 }}"
+                  bind:change="onTableAndChairCustomChange" custom-class="form-field" />
+              </view>
+            </view>
+          </view>
+        </block>
+
+        <!-- 4. 自助KTV字段 (roomClass=2) -->
+        <block wx:if="{{ form.roomClass === '2' }}">
+        <!-- 最小/最大容纳人数（合并一行） -->
+        <view class="form-card">
+          <view class="form-card-header">
+            <text class="form-required">*</text>
+            <text class="form-card-title">容纳人数</text>
+          </view>
+          <view class="form-card-body form-count-body">
+            <view class="count-field-wrap">
+              <van-field type="number" value="{{ form.minCount }}" placeholder="最小" maxlength="{{ 2 }}"
+                bind:change="onMinCountChange" custom-class="form-field" />
+              <text class="count-separator">~</text>
+              <van-field type="number" value="{{ form.maxCount }}" placeholder="最大" maxlength="{{ 2 }}"
+                bind:change="onMaxCountChange" custom-class="form-field" />
+              <text class="count-unit">人</text>
+            </view>
+          </view>
+        </view>
+
+          <!-- 屏幕配置 -->
+          <view class="form-card">
+            <view class="form-card-header">
+              <text class="form-required">*</text>
+              <text class="form-card-title">屏幕配置</text>
+            </view>
+            <view class="form-card-body form-radio-body">
+              <van-radio-group value="{{ form.screenConfig }}" bind:change="onScreenConfigChange">
+                <van-radio name="一键投屏" custom-class="radio-item">一键投屏</van-radio>
+                <van-radio name="液晶屏" custom-class="radio-item">液晶屏</van-radio>
+                <van-radio name="四面屏" custom-class="radio-item">四面屏</van-radio>
+                <van-radio name="投影" custom-class="radio-item">投影</van-radio>
+                <van-radio name="激光电视" custom-class="radio-item">激光电视</van-radio>
+                <van-radio name="双翼屏" custom-class="radio-item">双翼屏</van-radio>
+                <van-radio name="三联屏" custom-class="radio-item">三联屏</van-radio>
+                <van-radio name="液晶提词器" custom-class="radio-item">液晶提词器</van-radio>
+              </van-radio-group>
+            </view>
+          </view>
+
+          <!-- 音响设备（单选 + 自定义） -->
+          <view class="form-card">
+            <view class="form-card-header">
+              <text class="form-required">*</text>
+              <text class="form-card-title">音响设备</text>
+            </view>
+            <view class="form-card-body form-radio-body">
+              <van-radio-group value="{{ form.audioEquipment }}" bind:change="onAudioEquipmentChange">
+                <van-radio name="BMB" custom-class="radio-item">BMB</van-radio>
+                <van-radio name="JBL" custom-class="radio-item">JBL</van-radio>
+                <van-radio name="马歇尔" custom-class="radio-item">马歇尔</van-radio>
+                <van-radio name="哈曼卡顿" custom-class="radio-item">哈曼卡顿</van-radio>
+                <van-radio name="雅马哈" custom-class="radio-item">雅马哈</van-radio>
+                <van-radio name="自定义" custom-class="radio-item">+自定义</van-radio>
+              </van-radio-group>
+              <view class="custom-input-wrap" wx:if="{{ form.audioEquipment === '自定义' }}">
+                <van-field type="text" value="{{ form.audioEquipmentCustom }}" placeholder="请输入音响设备名称（5字以内）" maxlength="{{ 5 }}"
+                  bind:change="onAudioEquipmentCustomChange" custom-class="form-field" />
+              </view>
+            </view>
+          </view>
+
+          <!-- 房间设施（多选 + 自定义） -->
+          <view class="form-card">
+            <view class="form-card-header">
+              <text class="form-required">*</text>
+              <text class="form-card-title">房间设施</text>
+            </view>
+            <view class="form-card-body form-radio-body">
+              <view class="facility-group">
+                <view class="facility-pill {{ form.fHasWindow ? 'checked' : '' }}" data-key="fHasWindow" data-val="有窗" catch:tap="onFacilityToggle">有窗</view>
+                <view class="facility-pill {{ form.fHasVentilation ? 'checked' : '' }}" data-key="fHasVentilation" data-val="新风系统" catch:tap="onFacilityToggle">新风系统</view>
+                <view class="facility-pill {{ form.fHasAC ? 'checked' : '' }}" data-key="fHasAC" data-val="空调" catch:tap="onFacilityToggle">空调</view>
+                <view class="facility-pill {{ form.fHasBathroom ? 'checked' : '' }}" data-key="fHasBathroom" data-val="独立卫生间" catch:tap="onFacilityToggle">独立卫生间</view>
+                <view class="facility-pill {{ form.fHasWIFI ? 'checked' : '' }}" data-key="fHasWIFI" data-val="WIFI" catch:tap="onFacilityToggle">WIFI</view>
+                <view class="facility-pill {{ form.fHasCustom ? 'checked' : '' }}" data-key="fHasCustom" data-val="自定义" catch:tap="onFacilityToggle">+自定义</view>
+              </view>
+              <view class="custom-input-wrap" wx:if="{{ form.fHasCustom }}">
+                <van-field type="text" value="{{ form.roomFacilitiesCustom }}" placeholder="请输入其他设施（5字以内）" maxlength="{{ 5 }}"
+                  bind:change="onRoomFacilitiesCustomChange" custom-class="form-field" />
+              </view>
+            </view>
+          </view>
+        </block>
+
+        <!-- 底部提示 -->
+        <view class="notice">
+          <van-icon name="info" size="24rpx" color="#fa8c16" />
+          <text class="notice-text">提交后将建立门店包型与美团的关联，请确认信息无误</text>
+        </view>
+      </scroll-view>
+
+      <!-- 底部操作按钮 -->
+      <view class="dialog-footer">
+        <view class="btn btn-cancel" bindtap="closeSyncDialog">取消</view>
+        <view class="btn btn-confirm {{confirmLoading ? 'is-loading' : ''}}" bindtap="onSubmitSync">
+          <view wx:if="{{confirmLoading}}" class="btn-spinner"></view>
+          <text>{{confirmLoading ? '同步中...' : '保存'}}</text>
+        </view>
+      </view>
+    </view>
+  </van-popup>
+</view>

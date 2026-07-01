@@ -1,0 +1,109 @@
+<!--packageA/pages/tuangou/yuding.wxml-->
+<view class="page">
+
+  <!-- 状态 Tab 筛选 -->
+  <view class="status-tabs">
+    <view
+      class="tab-item"
+      wx:for="{{ statusOptions }}"
+      wx:key="value"
+    >
+      <button
+        class="tab-btn {{ status === item.value ? 'active' : '' }}"
+        data-value="{{ item.value }}"
+        bindtap="onStatusChange"
+      >{{ item.text }}</button>
+    </view>
+  </view>
+
+  <!-- 列表区域 -->
+  <view class="list-container">
+    <block wx:if="{{ list.length }}">
+      <view class="card-list">
+        <view
+          class="card"
+          wx:for="{{ list }}"
+          wx:key="orderId"
+        >
+          <!-- 右上角状态标签 -->
+          <view class="card-status-badge badge-{{item.status}}">
+            {{ item.statusText }}
+          </view>
+
+          <!-- 头部：订单号 + 创建时间 -->
+          <view class="card-header">
+            <view class="order-id">{{ item.orderId }}</view>
+          </view>
+          <view class="card-create-time">创建时间 {{ item.createTime }}</view>
+
+          <!-- 分隔线 -->
+          <view class="card-divider"></view>
+
+          <!-- 信息区 -->
+          <view class="card-info">
+            <view class="info-row">
+              <text class="info-label">门店</text>
+              <text class="info-value">{{ item.storeName }}</text>
+            </view>
+            <view class="info-row">
+              <text class="info-label">房间</text>
+              <text class="info-value">{{ item.roomName }}</text>
+            </view>
+            <view class="info-row">
+              <text class="info-label">手机</text>
+              <text class="info-value">{{ item.mobile }}</text>
+              <view
+                class="phone-icon"
+                data-mobile="{{ item.mobile }}"
+                catchtap="onCallPhone"
+              >
+                <van-icon name="phone-o" size="28rpx" color="#07c160" />
+              </view>
+            </view>
+            <view class="info-row">
+              <text class="info-label">时间</text>
+              <text class="info-value highlight">{{ item.startTime }} 至 {{ item.endTime }}</text>
+            </view>
+          </view>
+
+          <!-- 底部操作区 -->
+          <view class="card-footer" wx:if="{{ item.status == 1 }}">
+            <button
+              class="action-btn btn-reject"
+              data-orderid="{{ item.orderId }}"
+              data-result="3"
+              catchtap="onAudit"
+            >拒绝退款</button>
+            <button
+              class="action-btn btn-approve"
+              data-orderid="{{ item.orderId }}"
+              data-result="2"
+              catchtap="onAudit"
+            >通过退款</button>
+          </view>
+          <view class="card-footer" wx:if="{{ item.status == 0 }}">
+            <button
+              class="action-btn btn-refund"
+              data-orderid="{{ item.orderId }}"
+              catchtap="onRefundYuding"
+            >主动退款订单</button>
+          </view>
+        </view>
+      </view>
+
+      <view wx:if="{{ canLoadMore }}" class="load-tip">上拉加载更多</view>
+      <view wx:if="{{ !canLoadMore && list.length > 5 }}" class="load-tip">— 已加载全部 —</view>
+    </block>
+
+    <!-- 无数据 -->
+    <block wx:else>
+      <view class="empty">
+        <view class="empty-icon">
+          <van-icon name="orders-o" size="80rpx" color="#ccc" />
+        </view>
+        <text class="empty-text">暂无预订订单</text>
+      </view>
+    </block>
+  </view>
+
+</view>

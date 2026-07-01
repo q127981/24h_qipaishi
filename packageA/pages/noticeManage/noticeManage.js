@@ -18,6 +18,7 @@ Page({
     readOnly: false,
     placeholder: '快来编辑吧~',
     storeInfo:'',
+    dataLoaded: false,
   },
 
   /**
@@ -26,7 +27,8 @@ Page({
   onLoad: function (options) {
     let that = this;
     that.setData({
-        storeId: options.storeId
+        storeId: options.storeId,
+        dataLoaded: false,
     })
     that.getData();
   },
@@ -104,7 +106,8 @@ Page({
           console.info(info);
           if (info.code == 0) {
             that.setData({
-                storeInfo: info.data
+                storeInfo: info.data,
+                dataLoaded: true,
             })
           }else{
             wx.showModal({
@@ -157,10 +160,29 @@ Page({
   clearBeforeEvent(){
     this.data.richText.clear();
   },
+  // 清空成功回调
+  clearSuccess(){
+    wx.showToast({
+      title: '已清空',
+      icon: 'success',
+      duration: 1500,
+    });
+  },
+  // 手动保存
+  saveContent(){
+    this.data.richText.getEditorContent();
+  },
   // 获取到富文本中的值
   getEditorContent(res){
     let { value } = res.detail;
-    let content = value.html
+    let content = value.html;
+    // 清除富文本编辑器产生的空标签
+    let trimmed = content.replace(/<p><br\s*\/?><\/p>/gi, '').replace(/<p>\s*<\/p>/gi, '').trim();
+    if (trimmed === '') {
+      content = '';
+    } else {
+      content = trimmed;
+    }
     this.data.storeInfo.notice = content
     if (app.globalData.isLogin) 
     {

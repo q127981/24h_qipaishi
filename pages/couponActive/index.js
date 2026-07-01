@@ -176,7 +176,7 @@ Page({
         roomTypeText = "斯洛克";
         break;
       case 7:
-        roomTypeText = "中式黑八";
+        roomTypeText = "黑八";
         break;
       case 8:
           roomTypeText = "美式球桌";

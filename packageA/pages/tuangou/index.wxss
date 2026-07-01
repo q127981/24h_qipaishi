@@ -1,0 +1,315 @@
+/* packageA/pages/tuangou/index.wxss */
+page {
+  background: linear-gradient(180deg, #FFF6E5 0%, #F5F6F8 35%);
+  min-height: 100vh;
+}
+
+.page {
+  padding: 24rpx 28rpx 40rpx;
+  box-sizing: border-box;
+}
+
+/* ==========================================
+   门店信息卡片
+   ========================================== */
+.store-card {
+  background: linear-gradient(135deg, #FFB300 0%, #FF8A00 100%);
+  border-radius: 24rpx;
+  padding: 36rpx 32rpx;
+  box-shadow: 0 6rpx 20rpx rgba(255, 138, 0, 0.25);
+  margin-bottom: 32rpx;
+}
+
+.store-card-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 18rpx;
+}
+
+.store-name {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 1rpx;
+}
+
+.store-card-id {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 999rpx;
+  color: rgb(126, 123, 123);
+  padding: 8rpx 20rpx;
+  align-self: flex-start;
+}
+
+.store-id-label {
+  font-size: 26rpx;
+  margin-right: 10rpx;
+}
+
+.store-id-value {
+  font-size: 26rpx;
+  font-weight: 600;
+}
+
+/* ==========================================
+   入口列表卡片
+   ========================================== */
+.entry-card {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 8rpx 0;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.06);
+}
+
+.entry-card-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #1a1a1a;
+  padding: 28rpx 32rpx 16rpx;
+  letter-spacing: 1rpx;
+  position: relative;
+}
+
+.entry-card-title::before {
+  content: "";
+  display: inline-block;
+  width: 8rpx;
+  height: 28rpx;
+  background: linear-gradient(180deg, #FF6B35, #ff9a6c);
+  border-radius: 4rpx;
+  margin-right: 14rpx;
+  vertical-align: middle;
+}
+
+/* ==========================================
+   入口项（一行一个，大尺寸）
+   ========================================== */
+.entry-item {
+  display: flex;
+  align-items: center;
+  padding: 36rpx 32rpx;
+  border-top: 1rpx solid #f2f2f2;
+  transition: background-color 0.2s;
+}
+
+.entry-item:active {
+  background-color: #f8f8f8;
+}
+
+.entry-item-last {
+  border-bottom: 1rpx solid #f2f2f2;
+}
+
+/* 编号圆形 — 各入口独立配色 */
+.entry-num {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 24rpx;
+  font-size: 40rpx;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 1rpx;
+  position: relative;
+}
+
+/* 四种渐变配色 */
+.entry-num-1 {
+  background: linear-gradient(135deg, #00C6FB 0%, #005BEA 100%);
+  box-shadow: 0 8rpx 20rpx rgba(0, 91, 234, 0.30);
+}
+.entry-num-2 {
+  background: linear-gradient(135deg, #FF8A00 0%, #FFC300 100%);
+  box-shadow: 0 8rpx 20rpx rgba(255, 140, 0, 0.30);
+}
+.entry-num-3 {
+  background: linear-gradient(135deg, #43E97B 0%, #18BB78 100%);
+  box-shadow: 0 8rpx 20rpx rgba(24, 187, 120, 0.30);
+}
+.entry-num-4 {
+  background: linear-gradient(135deg, #A18CD1 0%, #7B5DBD 100%);
+  box-shadow: 0 8rpx 20rpx rgba(123, 93, 189, 0.30);
+}
+
+.entry-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.entry-name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1a1a1a;
+  line-height: 1.3;
+  margin-bottom: 6rpx;
+}
+
+.entry-desc {
+  font-size: 24rpx;
+  color: #999;
+  line-height: 1.4;
+}
+
+/* ==========================================
+   底部提示
+   ========================================== */
+.footer-tip {
+  display: flex;
+  align-items: flex-start;
+  background: #FFF1E5;
+  border: 2rpx solid #FFB78A;
+  border-radius: 16rpx;
+  padding: 24rpx 28rpx;
+  margin-top: 32rpx;
+  box-shadow: 0 4rpx 12rpx rgba(255, 107, 53, 0.08);
+}
+
+.footer-tip-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: 14rpx;
+}
+
+.tip-line {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #C8431B;
+  line-height: 1.9;
+}
+
+.tip-line:not(:last-child) {
+  margin-bottom: 8rpx;
+}
+
+/* ==========================================
+   弹窗样式（与 tuangou.wxml 保持一致）
+   ========================================== */
+.dialog-content {
+  padding: 0 32rpx 48rpx;
+}
+
+.dialog-title {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #1a1a1a;
+  text-align: center;
+  padding: 40rpx 0 36rpx;
+  letter-spacing: 1rpx;
+}
+
+/* 规则区块 */
+.rule-section {
+  margin-bottom: 36rpx;
+}
+
+.rule-section-title {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4rpx;
+}
+
+.rule-section-desc {
+  display: block;
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 14rpx;
+}
+
+.rule-radio-group {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.rule-radio-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14rpx 0;
+  min-width: 96rpx;
+  border-radius: 10rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  background: #f5f5f5;
+  color: #888;
+  border: 2rpx solid #e8e8e8;
+  transition: all 0.2s;
+  flex: 1;
+}
+
+.rule-radio-item.rule-radio-active {
+  background: linear-gradient(135deg, #FF8A00 0%, #FFB300 100%);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 4rpx 12rpx rgba(255, 140, 0, 0.25);
+}
+
+.rule-radio-unit {
+  font-size: 26rpx;
+  color: #999;
+  flex-shrink: 0;
+  padding: 0 4rpx;
+}
+
+/* 规则提示 */
+.rule-tip {
+  display: flex;
+  align-items: center;
+  background: #FFF1E5;
+  border: 1rpx solid #FFB78A;
+  border-radius: 12rpx;
+  padding: 18rpx 24rpx;
+  margin-bottom: 32rpx;
+}
+
+.rule-tip-text {
+  flex: 1;
+  font-size: 24rpx;
+  font-weight: 500;
+  color: #C8431B;
+  margin-left: 10rpx;
+}
+
+/* 弹窗底部按钮 */
+.dialog-actions {
+  display: flex;
+  gap: 24rpx;
+  padding-top: 8rpx;
+}
+
+.btn-cancel {
+  flex: 1;
+  height: 88rpx;
+  line-height: 88rpx;
+  background: #f5f5f5;
+  border-radius: 44rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #666;
+  border: none;
+}
+
+.btn-save {
+  flex: 1;
+  height: 88rpx;
+  line-height: 88rpx;
+  background: linear-gradient(135deg, #FF8A00 0%, #FFB300 100%);
+  border-radius: 44rpx;
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #fff;
+  border: none;
+  box-shadow: 0 6rpx 16rpx rgba(255, 140, 0, 0.30);
+}

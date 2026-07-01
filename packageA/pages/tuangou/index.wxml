@@ -1,0 +1,132 @@
+<!--packageA/pages/tuangou/index.wxml-->
+<view class="page">
+  <!-- 顶部门店信息卡片 -->
+  <view class="store-card">
+    <view class="store-card-row">
+      <text class="store-name">{{storeName}}</text>
+    </view>
+    <view class="store-card-id">
+      <text class="store-id-label">门店ID</text>
+      <text class="store-id-value">{{storeId}}</text>
+    </view>
+  </view>
+
+  <!-- 入口列表 -->
+  <view class="entry-card">
+    <view class="entry-card-title">美团预订管理</view>
+
+    <navigator class="entry-item" url="../tuangou/yuding?storeId={{storeId}}">
+      <view class="entry-num entry-num-1">1</view>
+      <view class="entry-text">
+        <text class="entry-name">预订订单管理</text>
+        <text class="entry-desc">查看和处理美团预订订单</text>
+      </view>
+      <iconfont name="right" size="28" color="#bbb"></iconfont>
+    </navigator>
+
+    <view class="entry-item" bindtap="openShopruleDialog">
+      <view class="entry-num entry-num-2">2</view>
+      <view class="entry-text">
+        <text class="entry-name">设置预订规则</text>
+        <text class="entry-desc">配置提前预定/退订时间等规则</text>
+      </view>
+      <iconfont name="right" size="28" color="#bbb"></iconfont>
+    </view>
+
+    <view class="entry-item" bindtap="goMtRoomType">
+      <view class="entry-num entry-num-3">3</view>
+      <view class="entry-text">
+        <text class="entry-name">美团房型管理</text>
+        <text class="entry-desc">同步门店包型与包间到美团</text>
+      </view>
+      <iconfont name="right" size="28" color="#bbb"></iconfont>
+    </view>
+
+    <navigator class="entry-item entry-item-last" url="../tuangou/mtPackage?storeId={{storeId}}">
+      <view class="entry-num entry-num-4">4</view>
+      <view class="entry-text">
+        <text class="entry-name">预订套餐管理</text>
+        <text class="entry-desc">管理美团团购产品与套餐关联</text>
+      </view>
+      <iconfont name="right" size="28" color="#bbb"></iconfont>
+    </navigator>
+  </view>
+
+  <!-- 底部提示 -->
+  <view class="footer-tip">
+    <iconfont name="jinggao" size="32" color="#FF6B35"></iconfont>
+    <view class="footer-tip-text">
+      <text class="tip-line">1. 茶室分类不需要完成第2、3、4步，但需要在美团经营宝电脑端开通美团在线预定功能。</text>
+      <text class="tip-line">2. 棋牌室、自助KTV分类必须完成第2、3、4步，才能接入美团在线预定。</text>
+      <text class="tip-line">3. 门店是什么分类在美团经营宝APP确定。</text>
+      <text class="tip-line">4. 门店需开通高级版团购核销服务。</text>
+    </view>
+  </view>
+
+  <!-- ================================================
+       设置预订规则弹窗
+       ================================================ -->
+  <van-popup show="{{ shopruleDialogVisible }}" round closeable position="bottom" custom-style="border-radius: 32rpx 32rpx 0 0;" bind:close="closeShopruleDialog">
+    <view class="dialog-content">
+      <view class="dialog-title">设置预订规则</view>
+
+      <!-- 提前预定时间 -->
+      <view class="rule-section">
+        <text class="rule-section-title">提前预定时间</text>
+        <text class="rule-section-desc">用户必须提前多久预定</text>
+        <view class="rule-radio-group">
+          <view class="rule-radio-item {{advanceBookMinutes == 120 ? 'rule-radio-active' : ''}}" bindtap="onAdvanceBookChange" data-value="120">
+            <text>120</text>
+          </view>
+          <view class="rule-radio-item {{advanceBookMinutes == 60 ? 'rule-radio-active' : ''}}" bindtap="onAdvanceBookChange" data-value="60">
+            <text>60</text>
+          </view>
+          <view class="rule-radio-item {{advanceBookMinutes == 30 ? 'rule-radio-active' : ''}}" bindtap="onAdvanceBookChange" data-value="30">
+            <text>30</text>
+          </view>
+          <view class="rule-radio-item {{advanceBookMinutes == 15 ? 'rule-radio-active' : ''}}" bindtap="onAdvanceBookChange" data-value="15">
+            <text>15</text>
+          </view>
+          <view class="rule-radio-item {{advanceBookMinutes == 0 ? 'rule-radio-active' : ''}}" bindtap="onAdvanceBookChange" data-value="0">
+            <text>0</text>
+          </view>
+          <view class="rule-radio-unit">
+            <text>分钟</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 提前退订时间 -->
+      <view class="rule-section">
+        <text class="rule-section-title">提前退订时间</text>
+        <text class="rule-section-desc">订单开始前多久，用户可以随意退订</text>
+        <view class="rule-radio-group">
+          <view class="rule-radio-item {{advanceCancelMinutes == 60 ? 'rule-radio-active' : ''}}" bindtap="onAdvanceCancelChange" data-value="60">
+            <text>60</text>
+          </view>
+          <view class="rule-radio-item {{advanceCancelMinutes == 30 ? 'rule-radio-active' : ''}}" bindtap="onAdvanceCancelChange" data-value="30">
+            <text>30</text>
+          </view>
+          <view class="rule-radio-item {{advanceCancelMinutes == 0 ? 'rule-radio-active' : ''}}" bindtap="onAdvanceCancelChange" data-value="0">
+            <text>0</text>
+          </view>
+          <view class="rule-radio-unit">
+            <text>分钟</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 提示文字 -->
+      <view class="rule-tip">
+        <iconfont name="info" size="26" color="#FF6B35"></iconfont>
+        <text class="rule-tip-text">保存后请在美团经营宝查询结果，本平台不存储修改结果</text>
+      </view>
+
+      <!-- 操作按钮 -->
+      <view class="dialog-actions">
+        <button class="btn-cancel" bindtap="closeShopruleDialog">取消</button>
+        <button class="btn-save" bindtap="saveShoprule">保存</button>
+      </view>
+    </view>
+  </van-popup>
+</view>

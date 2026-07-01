@@ -128,7 +128,7 @@
                   <text>斯洛克</text>
                 </block>
                 <block wx:elif="{{item.type == 7}}">
-                  <text>中式黑八</text>
+                  <text>黑八</text>
                 </block>
                 <block wx:else>
                   <text>美式球桌</text>
@@ -449,7 +449,7 @@
                       <text>斯洛克</text>
                     </block>
                     <block wx:elif="{{item.type == 7}}">
-                      <text>中式黑八</text>
+                      <text>黑八</text>
                     </block>
                     <block wx:else>
                       <text>美式球桌</text>
@@ -642,7 +642,7 @@
                       <text>斯洛克</text>
                     </block>
                     <block wx:elif="{{item.type == 7}}">
-                      <text>中式黑八</text>
+                      <text>黑八</text>
                     </block>
                     <block wx:else>
                       <text>美式球桌</text>

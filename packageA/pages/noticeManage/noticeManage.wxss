@@ -1,0 +1,53 @@
+.container {
+  padding: 32rpx;
+  min-height: 100vh;
+  background: #f5f5f5;
+}
+
+.loading-mask {
+  height: 600rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-text {
+  color: #999;
+  font-size: 28rpx;
+}
+
+.action-bar {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24rpx;
+  gap: 24rpx;
+}
+
+.clear-btn {
+  flex: 1;
+  background: #fff;
+  color: #666;
+  border: 2rpx solid #ddd;
+  border-radius: 44rpx;
+  font-size: 30rpx;
+  padding: 0;
+  line-height: 2.5;
+}
+
+.clear-btn::after {
+  border: none;
+}
+
+.save-btn {
+  flex: 2;
+  background: #5aab6e;
+  color: #fff;
+  border-radius: 44rpx;
+  font-size: 30rpx;
+  padding: 0;
+  line-height: 2.5;
+}
+
+.save-btn::after {
+  border: none;
+}

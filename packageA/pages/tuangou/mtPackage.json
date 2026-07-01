@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "预订套餐管理",
+  "usingComponents": {
+    "van-icon": "/miniprogram_npm/@vant/weapp/icon/index",
+    "van-button": "/miniprogram_npm/@vant/weapp/button/index",
+    "van-field": "/miniprogram_npm/@vant/weapp/field/index",
+    "van-popup": "/miniprogram_npm/@vant/weapp/popup/index"
+  }
+}

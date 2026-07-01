@@ -207,7 +207,7 @@ Page({
     if (numbers.length === 0) {
       return [];
     }
-    const weekDays = ["不限", "小包", "中包", "大包", "豪包", "商务包", "斯洛克", "中式黑八", "‌美式球桌"];
+    const weekDays = ["不限", "小包", "中包", "大包", "豪包", "商务包", "斯洛克", "黑八", "‌美式球桌"];
     return numbers.map(num => weekDays[num]).join("、");
   },
   convertEnableRoomType(doorRoomList, enableRoom) {
@@ -313,6 +313,47 @@ Page({
         }
       }
     })
+  },
+  upMeituan(e){
+    var that = this;
+    let item = e.currentTarget.dataset.item;
+    wx.showModal({
+      title: '推送提示',
+      content: '将套餐绑定房型信息推送至美团预定平台，套餐必须按包间大小设置可用房型，且需要正确填写美团商品ID，否则将会影响美团预定功能！',
+      complete: (res) => {
+        if (res.cancel) {
+        }
+        if (res.confirm) {
+          http.request(
+            "/member/pkg/pushMeituan",
+            "1",
+            "post",
+            {
+              "pkgId":item.pkgId,
+              "storeId":item.storeId,
+              "mtId":item.mtId,
+              "roomType":item.roomType,
+              "enableTime":item.enableTime,
+              "enableWeek":item.enableWeek,
+            },
+            app.globalData.userDatatoken.accessToken,
+            "加载中...",
+            function success(info) {
+              if (info.code == 0 ) {
+                wx.showToast({
+                  title: '操作成功',
+                  icon: 'success',
+                  duration: 2000
+                })
+                that.getPkgList('refresh');
+              }
+            },
+            function fail(info) {}
+          );
+        }
+      }
+    })
+
   },
 
 })

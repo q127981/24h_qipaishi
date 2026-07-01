@@ -24,7 +24,7 @@ Page({
     checkedStates: Array(7).fill(false), // 初始未选中状态
     roomTypeCheckd: Array(5).fill(false),
     enableRoomCheck: [],
-    storesRoomList: [{ key: "1", value: "小包" }, { key: "2", value: "中包" }, { key: "3", value: "大包" }, { key: "4", value: "豪包" }, { key: "5", value: "商务包" }, { key: "6", value: "斯洛克" }, { key: "7", value: "中式黑八" }, { key: "8", value: "‌美式球桌" }], //用于储存限制房间数据
+    storesRoomList: [{ key: "1", value: "小包" }, { key: "2", value: "中包" }, { key: "3", value: "大包" }, { key: "4", value: "豪包" }, { key: "5", value: "商务包" }, { key: "6", value: "斯洛克" }, { key: "7", value: "黑八" }, { key: "8", value: "‌美式球桌" }], //用于储存限制房间数据
     item: {}, //回显数据
     price: '', //价格
     balanceBuy: false,//支持余额支付

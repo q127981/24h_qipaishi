@@ -91,7 +91,13 @@
         "pages/configLockWifi/index",
         "pages/setTemplate/index",
         "pages/payOrder/index",
-        "pages/lottery/index"
+        "pages/lottery/index",
+        "pages/tuangou/tuangou",
+        "pages/tuangou/yuding",
+        "pages/tuangou/index",
+        "pages/tuangou/mtRoomType",
+        "pages/tuangou/mtPackage",
+        "pages/verifyRecord/verifyRecord"
       ]
     },
     {

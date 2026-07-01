@@ -147,27 +147,18 @@
     <view class="control-box">
       <view class="top">团购营销</view>
       <view class="control">
-        <!-- todo 页面新增 -->
-        <view class="item" bind:tap="meituanScope" data-id="{{storeId}}">
-          <iconfont name="meituan" size="28"></iconfont>
-          <text>美团授权</text>
-        </view>
-        <!-- <navigator class="item" url="/packageA/pages/pushrule/pushrule?storeId={{storeId}}">
-          <iconfont name="meituan" size="28"></iconfont>
-          <text>预订配置</text>
-        </navigator> -->
-        <navigator class="item" url="/packageA/pages/ydCancel/index?storeId={{storeId}}">
-          <iconfont name="meituan" size="28"></iconfont>
-          <text>预订退款</text>
+        <navigator class="item" url="/packageA/pages/tuangou/tuangou?storeId={{storeId}}">
+          <image src="/img/tuangou1.png" style="width:95rpx;height:56rpx;" />
+          <text>团购授权</text>
         </navigator>
-        <view class="item" bind:tap="douyinScope" data-id="{{storeId}}">
-          <iconfont name="douyin" size="28"></iconfont>
-          <text>抖音授权</text>
-        </view>
-        <view class="item" bind:tap="setDouyinId" data-id="{{storeId}}">
-          <iconfont name="douyin" size="28"></iconfont>
-          <text>设置抖音ID</text>
-        </view>
+        <navigator class="item" url="/packageA/pages/tuangou/index?storeId={{storeId}}&storeName={{storeName}}">
+          <iconfont name="meituan" size="28"></iconfont>
+          <text>美团预定</text>
+        </navigator>
+        <navigator class="item" url="/packageA/pages/verifyRecord/verifyRecord?storeId={{storeId}}">
+          <iconfont name="dingdan1" size="28"></iconfont>
+          <text>验券记录</text>
+        </navigator>
       </view>
     </view>
    

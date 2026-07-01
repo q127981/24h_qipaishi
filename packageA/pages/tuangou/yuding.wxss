@@ -1,0 +1,241 @@
+/* packageA/pages/tuangou/yuding.wxss */
+@import "../task/task.wxss";
+
+/* ==========================================
+   页面容器
+   ========================================== */
+.page {
+  min-height: 100vh;
+  background: #f2f4f7;
+}
+
+/* ==========================================
+   状态 Tab 筛选栏
+   ========================================== */
+.status-tabs {
+  position: fixed;
+  top: 0;
+  z-index: 9;
+  width: 100%;
+  height: 92rpx;
+  display: flex;
+  align-items: center;
+  background: #fff;
+  padding: 0 12rpx;
+  box-sizing: border-box;
+  border-bottom: 1rpx solid #ebedf0;
+}
+
+.status-tabs .tab-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-tabs .tab-btn {
+  height: 60rpx;
+  line-height: 60rpx;
+  padding: 0 16rpx;
+  border-radius: 30rpx;
+  font-size: 26rpx;
+  color: #666;
+  background: transparent;
+  transition: all 0.2s;
+  border: none;
+}
+
+.status-tabs .tab-btn.active {
+  background: #07c160;
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ==========================================
+   列表容器
+   ========================================== */
+.list-container {
+  padding: 112rpx 20rpx 32rpx;
+}
+
+/* ==========================================
+   卡片列表
+   ========================================== */
+.card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18rpx;
+}
+
+.card {
+  background: #fff;
+  border-radius: 16rpx;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 2rpx 16rpx rgba(0, 0, 0, 0.05);
+}
+
+/* 右上角状态标签 */
+.card-status-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 8rpx 22rpx;
+  border-radius: 0 16rpx 0 20rpx;
+  font-size: 22rpx;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+  z-index: 3;
+  letter-spacing: 1rpx;
+}
+
+.badge-0 { background: linear-gradient(135deg, #07c160, #3ddc84); }
+.badge-1 { background: linear-gradient(135deg, #ff7b00, #ffa300); }
+.badge-2 { background: linear-gradient(135deg, #1b9dff, #54aaff); }
+.badge-3 { background: linear-gradient(135deg, #ff4d4f, #ff7875); }
+.badge-4 { background: linear-gradient(135deg, #8c8c8c, #a6a6a6); }
+
+/* 头部：订单号 */
+.card-header {
+  padding: 22rpx 24rpx 12rpx;
+  display: flex;
+  align-items: baseline;
+  gap: 24rpx;
+}
+
+.card-header .order-id {
+  font-size: 28rpx;
+  color: #1a1a1a;
+  font-weight: 700;
+  letter-spacing: 0.5rpx;
+}
+
+/* 创建时间 */
+.card-create-time {
+  padding: 0 24rpx 16rpx;
+  font-size: 22rpx;
+  color: #aab0b8;
+}
+
+/* 分隔线 */
+.card-divider {
+  height: 1rpx;
+  background: #f4f6f9;
+}
+
+/* 信息区 */
+.card-info {
+  padding: 18rpx 24rpx;
+}
+
+.card-info .info-row {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 14rpx;
+}
+
+.card-info .info-row:last-child {
+  margin-bottom: 0;
+}
+
+.card-info .info-label {
+  font-size: 24rpx;
+  color: #9ca6b0;
+  min-width: 84rpx;
+  flex-shrink: 0;
+  letter-spacing: 0.5rpx;
+}
+
+.card-info .info-value {
+  font-size: 26rpx;
+  color: #2a2a2a;
+}
+
+.phone-icon {
+  margin-left: 10rpx;
+  padding: 4rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-info .info-value.highlight {
+  color: #07c160;
+  font-weight: 600;
+}
+
+/* 底部操作区 */
+.card-footer {
+  padding: 18rpx 24rpx;
+  display: flex;
+  gap: 18rpx;
+  border-top: 1rpx solid #f4f6f9;
+}
+
+.card-footer .action-btn {
+  flex: 1;
+  height: 68rpx;
+  border-radius: 34rpx;
+  font-size: 27rpx;
+  border: none;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  letter-spacing: 1rpx;
+}
+
+.action-btn.btn-reject {
+  background: #fff;
+  color: #ff4d4f;
+  border: 2rpx solid #ff4d4f;
+}
+
+.action-btn.btn-approve {
+  background: linear-gradient(135deg, #07c160, #3ddc84);
+  color: #fff;
+}
+
+.action-btn.btn-refund {
+  background: linear-gradient(135deg, #ff7b00, #ffa300);
+  color: #fff;
+}
+
+/* ==========================================
+   空状态
+   ========================================== */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 160rpx 0;
+  gap: 24rpx;
+}
+
+.empty-icon {
+  width: 140rpx;
+  height: 140rpx;
+  background: #f4f6f9;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #aab0b8;
+}
+
+/* ==========================================
+   加载提示
+   ========================================== */
+.load-tip {
+  text-align: center;
+  font-size: 24rpx;
+  color: #aab0b8;
+  padding: 24rpx 0;
+}

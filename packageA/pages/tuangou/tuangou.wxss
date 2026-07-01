@@ -1,1 +1,716 @@
 /* packageA/pages/tuangou/tuangou.wxss */
+page {
+  background: #f0f2f5;
+}
+
+.page {
+  min-height: 100vh;
+  padding: 24rpx;
+  box-sizing: border-box;
+}
+
+/* ==========================================
+   状态横幅
+   ========================================== */
+.status-banner {
+  display: flex;
+  align-items: center;
+  padding: 28rpx 32rpx;
+  border-radius: 16rpx;
+  margin-bottom: 24rpx;
+}
+
+.status-active {
+  background: linear-gradient(135deg, #257438 0%, #40df85 100%);
+}
+
+.status-inactive {
+  background: linear-gradient(135deg, #ff9a00 0%, #ffb74d 100%);
+}
+
+.status-icon {
+  width: 88rpx;
+  height: 88rpx;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 20rpx;
+}
+
+.status-info {
+  flex: 1;
+}
+
+.status-title {
+  display: block;
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 4rpx;
+}
+
+.status-sub {
+  display: block;
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.status-sub-warn {
+  color: #ff4d4f !important;
+  font-weight: 700;
+}
+
+/* ==========================================
+   左右并排容器
+   ========================================== */
+.plan-row {
+  display: flex;
+  gap: 20rpx;
+  align-items: flex-start;
+}
+
+/* ==========================================
+   卡片
+   ========================================== */
+.plan-card {
+  flex: 1;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+}
+
+/* 版本标签 */
+.plan-tag {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12rpx;
+}
+
+.plan-tag text {
+  display: inline-block;
+  padding: 6rpx 28rpx;
+  border-radius: 20rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #fff;
+}
+
+.plan-basic .plan-tag text {
+  background: linear-gradient(135deg, #5AAB6E, #7ec89e);
+}
+
+.plan-pro .plan-tag text {
+  background: linear-gradient(135deg, #FF6B35, #ff9a6c);
+}
+
+/* 副标题 */
+.plan-title {
+  text-align: center;
+  font-size: 26rpx;
+  color: #888;
+  margin-bottom: 16rpx;
+}
+
+.plan-divider {
+  height: 1rpx;
+  background: #f0f0f0;
+  margin-bottom: 16rpx;
+}
+
+/* ==========================================
+   服务列表
+   ========================================== */
+.plan-services {
+  margin-bottom: 20rpx;
+}
+
+.service-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12rpx;
+  font-size: 26rpx;
+  color: #333;
+  line-height: 1.4;
+  font-weight: bold;
+}
+.service-item.highlight{
+  color: rgb(245, 0, 0);
+}
+
+.service-item:last-child {
+  margin-bottom: 0;
+}
+
+.service-item text {
+  margin-left: 10rpx;
+  flex: 1;
+}
+
+.service-item-disabled text {
+  color: #bbb;
+}
+
+/* ==========================================
+   按钮组
+   ========================================== */
+.plan-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.plan-btn {
+  width: 100%;
+  height: 88rpx;
+  border-radius: 44rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.plan-btn-outline {
+  border: 2rpx solid #5AAB6E;
+  color: #5AAB6E;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.plan-btn-solid {
+  background: linear-gradient(135deg, #FF6B35, #ff9a6c);
+  color: #fff;
+  border: none;
+}
+
+.btn-label {
+  font-size: 28rpx;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.btn-price {
+  font-size: 22rpx;
+  line-height: 1.2;
+  margin-top: 2rpx;
+  opacity: 0.85;
+}
+
+.button-click {
+  opacity: 0.7;
+  transform: scale(0.97);
+}
+
+/* ==========================================
+   按钮区域
+   ========================================== */
+.action-row {
+  margin-bottom: 16rpx;
+}
+
+.action-row:last-child {
+  margin-bottom: 0;
+}
+
+.action-row-split {
+  display: flex;
+  gap: 16rpx;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  border-radius: 44rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #fff;
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+}
+
+.action-btn::after {
+  border: none;
+}
+
+.action-btn-config {
+  width: 100%;
+  background: #000;
+}
+
+.action-btn-meituan {
+  flex: 1;
+  background: #fff;
+  border: rgb(189, 189, 189) solid 1rpx;
+  color: #000;
+  font-weight: bold;
+}
+
+.action-btn-douyin {
+  flex: 1;
+  background: #fff;
+  border: rgb(189, 189, 189) solid 1rpx;
+  color: #000;
+  font-weight: bold;
+}
+
+.action-btn text {
+  margin-left: 10rpx;
+}
+
+/* ==========================================
+   弹窗主体
+   ========================================== */
+.dialog-content {
+  padding: 40rpx 36rpx 56rpx;
+  background: #f5f6f8;
+  border-radius: 32rpx 32rpx 0 0;
+}
+
+.dialog-title {
+  text-align: center;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 36rpx;
+  letter-spacing: 2rpx;
+}
+
+/* ==========================================
+   配置弹窗 — 分区卡片
+   ========================================== */
+.section-card {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 28rpx 28rpx 8rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 16rpx rgba(0, 0, 0, 0.05);
+}
+
+.section-card-last {
+  margin-bottom: 36rpx;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.section-dot {
+  width: 8rpx;
+  height: 32rpx;
+  border-radius: 4rpx;
+  margin-right: 12rpx;
+  flex-shrink: 0;
+}
+
+.section-dot-orange {
+  background: linear-gradient(180deg, #FF6B35, #ff9a6c);
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+:global(.custom-field) {
+  padding: 0 !important;
+  background: #fafafa;
+  border-radius: 12rpx;
+}
+
+/* ==========================================
+   授权范围列表
+   ========================================== */
+.scope-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.scope-item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+  border-radius: 0;
+}
+
+.scope-item:last-child {
+  border-bottom: none;
+  padding-bottom: 8rpx;
+}
+
+.scope-info {
+  margin-left: 16rpx;
+  flex: 1;
+}
+
+.scope-label {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4rpx;
+}
+
+.scope-desc {
+  display: block;
+  font-size: 22rpx;
+  color: #999;
+  line-height: 1.4;
+}
+
+/* ==========================================
+   弹窗底部按钮
+   ========================================== */
+.dialog-actions {
+  display: flex;
+  gap: 20rpx;
+}
+
+.btn-cancel {
+  flex: 1;
+  height: 96rpx;
+  background: #f0f0f0;
+  color: #666;
+  font-size: 30rpx;
+  font-weight: 600;
+  border: none;
+  border-radius: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-cancel::after {
+  border: none;
+}
+
+.btn-save {
+  flex: 2;
+  height: 96rpx;
+  background: linear-gradient(135deg, #FF6B35, #ff9a6c);
+  color: #fff;
+  font-size: 30rpx;
+  font-weight: 600;
+  border: none;
+  border-radius: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-save::after {
+  border: none;
+}
+
+/* ==========================================
+   授权弹窗
+   ========================================== */
+.auth-tip {
+  display: flex;
+  align-items: center;
+  background: #fff0eb;
+  border-radius: 12rpx;
+  padding: 20rpx 24rpx;
+  margin-bottom: 24rpx;
+}
+
+.auth-tip text {
+  margin-left: 10rpx;
+  font-size: 24rpx;
+  color: #FF6B35;
+  line-height: 1.5;
+  flex: 1;
+}
+
+.auth-url-box {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 28rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+  word-break: break-all;
+}
+
+.auth-url-text {
+  font-size: 24rpx;
+  color: #555;
+  line-height: 1.8;
+}
+
+.btn-copy {
+  width: 100%;
+  height: 96rpx;
+  background: linear-gradient(135deg, #FF6B35, #ff9a6c);
+  color: #fff;
+  font-size: 30rpx;
+  font-weight: 600;
+  border: none;
+  border-radius: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16rpx;
+}
+
+.btn-copy::after {
+  border: none;
+}
+
+.btn-copy text {
+  margin-left: 10rpx;
+}
+
+.auth-hint {
+  text-align: center;
+  font-size: 22rpx;
+  color: #aaa;
+  margin-top: 4rpx;
+}
+
+/* ==========================================
+   帮助按钮
+   ========================================== */
+.help-btn {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  padding: 4rpx 20rpx;
+  background: #fff0eb;
+  border-radius: 20rpx;
+  border: 1rpx solid #ffd4c4;
+}
+
+.help-btn text {
+  font-size: 24rpx;
+  color: #FF6B35;
+  font-weight: 600;
+}
+
+/* ==========================================
+   授权范围胶囊（横排）
+   ========================================== */
+.scope-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  padding-bottom: 20rpx;
+}
+
+.scope-pill {
+  display: flex;
+  align-items: center;
+  padding: 12rpx 24rpx;
+  background: #f5f5f5;
+  border-radius: 32rpx;
+  border: 2rpx solid #e8e8e8;
+  font-size: 26rpx;
+  color: #666;
+  font-weight: 500;
+}
+
+.scope-pill text {
+  margin-left: 8rpx;
+}
+
+.scope-pill-active {
+  background: #fff0eb;
+  border-color: #FF6B35;
+  color: #FF6B35;
+  font-weight: 600;
+}
+
+/* ==========================================
+   授权范围标签（仅大字横排一行）
+   ========================================== */
+.scope-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  padding-bottom: 8rpx;
+}
+
+.scope-tag {
+  padding: 12rpx 32rpx;
+  background: #f5f5f5;
+  border-radius: 32rpx;
+  border: 2rpx solid #e8e8e8;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #666;
+}
+
+.scope-tag text {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.scope-tag-active {
+  background: #fff0eb;
+  border-color: #FF6B35;
+  color: #FF6B35;
+}
+
+.scope-tag-required {
+  border-color: #FF6B35;
+}
+
+.section-required {
+  font-size: 22rpx;
+  color: #FF6B35;
+  font-weight: 400;
+  margin-left: 8rpx;
+}
+
+/* ==========================================
+   授权警告提示
+   ========================================== */
+.auth-warning {
+  display: flex;
+  align-items: flex-start;
+  background: #fff1f0;
+  border: 1rpx solid #ffccc7;
+  border-radius: 12rpx;
+  padding: 16rpx 20rpx;
+  margin-bottom: 24rpx;
+}
+
+.auth-warning text {
+  margin-left: 10rpx;
+  font-size: 24rpx;
+  color: #ff4d4f;
+  font-weight: 600;
+  line-height: 1.6;
+  flex: 1;
+}
+
+/* ==========================================
+   URL 省略号（单行截断）
+   ========================================== */
+.auth-url-ellipsis {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: keep-all;
+}
+
+/* ==========================================
+   抖音帮助弹窗
+   ========================================== */
+.dy-help-img-box {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 16rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+
+.dy-help-img {
+  width: 100%;
+  display: block;
+}
+
+.dy-help-notice {
+  background: #fff1f0;
+  border: 1rpx solid #ffccc7;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin-bottom: 32rpx;
+}
+
+.dy-help-notice-title {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #ff4d4f;
+  margin-bottom: 16rpx;
+}
+
+.dy-help-notice-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12rpx;
+}
+
+.dy-help-notice-item:last-child {
+  margin-bottom: 0;
+}
+
+.dy-help-notice-item text {
+  margin-left: 10rpx;
+  font-size: 24rpx;
+  color: #7c3a00;
+  line-height: 1.6;
+  flex: 1;
+}
+
+.dy-help-red {
+  color: #ff4d4f !important;
+  font-weight: 700;
+}
+
+/* 内联问号图标 */
+.help-icon-inline {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8rpx;
+  padding: 4rpx 10rpx;
+  background: #f5f5f5;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+/* 计费说明列表 */
+.pricing-rule-list {
+  padding: 0 32rpx 32rpx;
+}
+
+.pricing-rule-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 24rpx;
+}
+
+.pricing-rule-item:last-child {
+  margin-bottom: 0;
+}
+
+.pricing-rule-num {
+  width: 36rpx;
+  height: 36rpx;
+  line-height: 36rpx;
+  text-align: center;
+  background: #FF6B35;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 22rpx;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-right: 16rpx;
+  margin-top: 2rpx;
+}
+
+.pricing-rule-text {
+  flex: 1;
+  font-size: 26rpx;
+  color: #333;
+  line-height: 1.7;
+}
+
+.pricing-highlight {
+  color: #FF6B35;
+  font-weight: 600;
+}
+

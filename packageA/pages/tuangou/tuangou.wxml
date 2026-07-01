@@ -1,2 +1,344 @@
 <!--packageA/pages/tuangou/tuangou.wxml-->
-<text>packageA/pages/tuangou/tuangou.wxml</text>
+<wxs src="../../../utils/magic.wxs" module="magic" />
+<view class="page">
+
+  <!-- 状态横幅 -->
+  <view class="status-banner {{statusType === 2 ? 'status-active' : 'status-inactive'}}">
+    <view class="status-icon">
+      <van-icon name="{{statusType === 2 ? 'checked' : 'warning-o'}}" size="40rpx" color="#fff" />
+    </view>
+    <view class="status-info">
+      <text class="status-title">{{statusText}}</text>
+      <block wx:if="{{statusType === 2}}">
+        <view class="status-sub {{isExpire ? 'status-sub-warn' : ''}}">基础版有效期至：{{expireDisplay}}</view>
+        <view class="status-sub {{info.tgApiCount ? '' : 'status-sub-warn'}}">高级版剩余次数：{{info ? info.tgApiCount : 0}} 次</view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 按钮区域：已开通时显示 -->
+  <block wx:if="{{statusType === 2}}">
+    <!-- 第一行：团购核销配置 -->
+    <view class="action-row">
+      <button class="action-btn action-btn-config" hover-class="button-click" bindtap="openConfigDialog">
+        <van-icon name="setting-o" size="36rpx" color="#fff" />
+        <text>团购核销配置</text>
+      </button>
+    </view>
+
+    <!-- 第二行：两个平台授权按钮 -->
+    <view class="action-row action-row-split">
+      <button class="action-btn action-btn-meituan" hover-class="button-click" bindtap="openAuthDialog" data-platform="1">
+        <iconfont name="meituan" size="30"></iconfont>
+        <text>美团平台授权</text>
+      </button>
+      <button class="action-btn action-btn-douyin" hover-class="button-click" bindtap="openAuthDialog" data-platform="2">
+        <iconfont name="douyin" size="30"></iconfont>
+        <text>抖音平台授权</text>
+      </button>
+    </view>
+  </block>
+
+  <!-- 版本选择区：左右并排 -->
+  <view class="plan-row">
+
+    <!-- 基础版 -->
+    <view class="plan-card plan-basic">
+      <view class="plan-tag">
+        <text>基础版</text>
+      </view>
+      <view class="plan-title">
+        <text>包月/年计费</text>
+        <view class="help-icon-inline" catchtap="openBasicPlanHelp">
+          <van-icon name="question-o" size="26rpx" color="#999" />
+        </view>
+      </view>
+      <view class="plan-divider"></view>
+      <view class="plan-services">
+        <view class="service-item">
+          <van-icon name="passed" size="28rpx" color="#52c41a" />
+          <text>抖音团购券核销</text>
+        </view>
+        <view class="service-item">
+          <van-icon name="passed" size="28rpx" color="#52c41a" />
+          <text>美团团购券核销</text>
+        </view>
+        <view class="service-item service-item-disabled">
+          <van-icon name="cross" size="28rpx" color="#999" />
+          <text>美团券退款通知</text>
+        </view>
+        <view class="service-item service-item-disabled">
+          <van-icon name="cross" size="28rpx" color="#999" />
+          <text>抖音券退款通知</text>
+        </view>
+        <view class="service-item service-item-disabled">
+          <van-icon name="cross" size="28rpx" color="#999" />
+          <text>美团茶馆在线预定</text>
+        </view>
+        <view class="service-item service-item-disabled">
+          <van-icon name="cross" size="28rpx" color="#999" />
+          <text>美团棋牌室在线预定</text>
+        </view>
+        <view class="service-item service-item-disabled">
+          <van-icon name="cross" size="28rpx" color="#999" />
+          <text>美团自助KTV在线预定</text>
+        </view>
+        <view class="service-item service-item-disabled">
+          <van-icon name="cross" size="28rpx" color="#999" />
+          <text>美团台球在线预定</text>
+        </view>
+      </view>
+      <view class="plan-actions">
+        <view class="plan-btn plan-btn-outline" hover-class="button-click" bindtap="openService" data-type="1">
+          <text class="btn-label">开通1个月</text>
+          <text class="btn-price">20元</text>
+        </view>
+        <view class="plan-btn plan-btn-outline" hover-class="button-click" bindtap="openService" data-type="2">
+          <text class="btn-label">开通1年</text>
+          <text class="btn-price">200元</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 高级版 -->
+    <view class="plan-card plan-pro">
+      <view class="plan-tag">
+        <text>高级版</text>
+      </view>
+      <view class="plan-title">
+        <text>每次0.1元计费</text>
+        <view class="help-icon-inline" catchtap="openPricingHelp">
+          <van-icon name="question-o" size="26rpx" color="#999" />
+        </view>
+      </view>
+      <view class="plan-divider"></view>
+      <view class="plan-services">
+        <view class="service-item">
+          <van-icon name="passed" size="28rpx" color="#52c41a" />
+          <text>抖音团购券核销</text>
+        </view>
+        <view class="service-item">
+          <van-icon name="passed" size="28rpx" color="#52c41a" />
+          <text>抖音券退款通知</text>
+        </view>
+        <view class="service-item">
+          <van-icon name="passed" size="28rpx" color="#52c41a" />
+          <text>美团团购券核销</text>
+        </view>
+        <view class="service-item">
+          <van-icon name="passed" size="28rpx" color="#52c41a" />
+          <text>美团券退款通知</text>
+        </view>
+        <view class="service-item">
+          <van-icon name="passed" size="28rpx" color="#52c41a" />
+          <text>美团茶馆在线预定</text>
+        </view>
+        <view class="service-item">
+          <van-icon name="passed" size="28rpx" color="#52c41a" />
+          <text>美团棋牌室在线预定</text>
+        </view>
+        <view class="service-item">
+          <van-icon name="passed" size="28rpx" color="#52c41a" />
+          <text>美团自助KTV在线预定</text>
+        </view>
+        <view class="service-item">
+          <van-icon name="passed" size="28rpx" color="#52c41a" />
+          <text>美团台球在线预定</text>
+        </view>
+      </view>
+      <view class="plan-actions">
+        <view class="plan-btn plan-btn-solid" hover-class="button-click" bindtap="openService" data-type="3">
+          <text class="btn-label">充值100次</text>
+          <text class="btn-price">10元</text>
+        </view>
+        <view class="plan-btn plan-btn-solid" hover-class="button-click" bindtap="openService" data-type="4">
+          <text class="btn-label">充值1000次</text>
+          <text class="btn-price">100元</text>
+        </view>
+      </view>
+    </view>
+
+  </view>
+
+  <!-- ================================================
+       团购核销配置弹窗
+       ================================================ -->
+  <van-popup show="{{ configDialogVisible }}" round closeable position="bottom" custom-style="border-radius: 32rpx 32rpx 0 0;" bind:close="closeConfigDialog">
+    <view class="dialog-content">
+      <view class="dialog-title">团购核销配置</view>
+
+      <!-- 抖音门店ID卡片 -->
+      <view class="section-card">
+        <view class="section-header">
+          <view class="section-dot section-dot-orange"></view>
+          <text class="section-title">抖音门店ID</text>
+          <view class="help-btn" bindtap="openDyHelp">
+            <text>帮助</text>
+          </view>
+        </view>
+        <van-field
+          value="{{ configDyShopUuid }}"
+          placeholder="请输入抖音门店ID"
+          border="{{ false }}"
+          custom-class="custom-field"
+          bind:change="onDyShopUuidChange"
+        />
+      </view>
+
+      <!-- 美团授权范围卡片 -->
+      <view class="section-card">
+        <view class="section-header">
+          <view class="section-dot section-dot-orange"></view>
+          <text class="section-title">美团授权范围</text>
+          <text class="section-required">（团购核销必选）</text>
+        </view>
+        <view class="scope-row">
+          <view class="scope-tag {{magic.includes(configMeituanScope, item.value) ? 'scope-tag-active' : ''}} {{item.value === 'tuangou' ? 'scope-tag-required' : ''}}" catchtap="toggleMeituanScope" data-value="{{item.value}}" wx:for="{{scopeOptions.meituan}}" wx:key="value">
+            <text>{{item.label}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 抖音授权范围卡片 -->
+      <view class="section-card section-card-last">
+        <view class="section-header">
+          <view class="section-dot section-dot-orange"></view>
+          <text class="section-title">抖音授权范围</text>
+          <text class="section-required">（团购核销必选）</text>
+        </view>
+        <view class="scope-row">
+          <view class="scope-tag {{magic.includes(configDouyinScope, item.value) ? 'scope-tag-active' : ''}} {{item.value === 'tuangou' ? 'scope-tag-required' : ''}}" catchtap="toggleDouyinScope" data-value="{{item.value}}" wx:for="{{scopeOptions.douyin}}" wx:key="value">
+            <text>{{item.label}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 操作按钮 -->
+      <view class="dialog-actions">
+        <button class="btn-cancel" bindtap="closeConfigDialog">取消</button>
+        <button class="btn-save" bindtap="saveConfig">保存配置</button>
+      </view>
+    </view>
+  </van-popup>
+
+  <!-- ================================================
+       美团授权弹窗
+       ================================================ -->
+  <van-popup show="{{ meituanAuthVisible }}" round closeable position="bottom" custom-style="border-radius: 32rpx 32rpx 0 0;" bind:close="closeMeituanAuth">
+    <view class="dialog-content">
+      <view class="dialog-title">美团平台授权</view>
+      <view class="auth-tip">
+        <van-icon name="info-o" size="32rpx" color="#FF6B35" />
+        <text>复制下方链接到浏览器打开，完成平台授权</text>
+      </view>
+      <view class="auth-url-box">
+        <text selectable="{{true}}" class="auth-url-text auth-url-ellipsis">{{ meituanAuthUrl }}</text>
+      </view>
+      <view class="auth-warning">
+        <van-icon name="warning-o" size="28rpx" color="#ff4d4f" />
+        <text>重要提醒：美团授权后必须返回到浏览器，直到浏览器出现授权成功！</text>
+      </view>
+      <button class="btn-copy" bindtap="copyMeituanUrl">
+        <van-icon name="orders-o" size="32rpx" color="#fff" />
+        <text>复制授权链接</text>
+      </button>
+    </view>
+  </van-popup>
+
+  <!-- ================================================
+       抖音授权弹窗
+       ================================================ -->
+  <van-popup show="{{ douyinAuthVisible }}" round closeable position="bottom" custom-style="border-radius: 32rpx 32rpx 0 0;" bind:close="closeDouyinAuth">
+    <view class="dialog-content">
+      <view class="dialog-title">抖音平台授权</view>
+      <view class="auth-tip">
+        <van-icon name="info-o" size="28rpx" color="#FF6B35" />
+        <text>复制下方链接到浏览器打开，完成平台授权</text>
+      </view>
+      <view class="auth-url-box">
+        <text selectable="{{true}}" class="auth-url-text auth-url-ellipsis">{{ douyinAuthUrl }}</text>
+      </view>
+      <view class="auth-warning">
+        <van-icon name="warning-o" size="28rpx" color="#ff4d4f" />
+        <text>重要提醒：抖音授权后，必须设置正确的抖音门店ID！</text>
+      </view>
+      <button class="btn-copy" bindtap="copyDouyinUrl">
+        <van-icon name="orders-o" size="32rpx" color="#fff" />
+        <text>复制授权链接</text>
+      </button>
+    </view>
+  </van-popup>
+
+  <!-- ================================================
+       基础版包月/年计费说明弹窗
+       ================================================ -->
+  <van-popup show="{{ basicPlanHelpVisible }}" round closeable position="bottom" custom-style="border-radius: 32rpx 32rpx 0 0;" bind:close="closeBasicPlanHelp">
+    <view class="dialog-content">
+      <view class="dialog-title">基础版说明</view>
+      <view class="dy-help-notice">
+        <view class="dy-help-notice-item">
+          <van-icon name="checked" size="28rpx" color="#52c41a" />
+          <text>有效期内无限次数的美团/抖音团购券核销。</text>
+        </view>
+        <view class="dy-help-notice-item">
+          <van-icon name="cross" size="28rpx" color="#ff4d4f" />
+          <text>不支持退款通知和美团在线预定。</text>
+        </view>
+      </view>
+      <button class="btn-save" bindtap="closeBasicPlanHelp">我知道了</button>
+    </view>
+  </van-popup>
+
+  <!-- ================================================
+       高级版计费说明弹窗
+       ================================================ -->
+  <van-popup show="{{ pricingHelpVisible }}" round closeable position="bottom" custom-style="border-radius: 32rpx 32rpx 0 0;" bind:close="closePricingHelp">
+    <view class="dialog-content">
+      <view class="dialog-title">高级版计费说明</view>
+      <view class="pricing-rule-list">
+        <view class="pricing-rule-item">
+          <view class="pricing-rule-num">1</view>
+          <view class="pricing-rule-text">美团/抖音<text class="pricing-highlight">团购券成功核销</text>时，扣减一次（只扣减核销成功）。</view>
+        </view>
+        <view class="pricing-rule-item">
+          <view class="pricing-rule-num">2</view>
+          <view class="pricing-rule-text">美团<text class="pricing-highlight">在线预定成功创建订单</text>时，扣减一次（只扣减预定成功）。</view>
+        </view>
+        <view class="pricing-rule-item">
+          <view class="pricing-rule-num">3</view>
+          <view class="pricing-rule-text">美团/抖音<text class="pricing-highlight">退款通知</text>免费通知，但需要高级版至少剩余1次额度。</view>
+        </view>
+        <view class="pricing-rule-item">
+          <view class="pricing-rule-num">4</view>
+          <view class="pricing-rule-text">核销成功会扣除一次，再撤销验券，次数不会返还。</view>
+        </view>
+      </view>
+      <button class="btn-save" bindtap="closePricingHelp">我知道了</button>
+    </view>
+  </van-popup>
+
+  <!-- ================================================
+       抖音帮助弹窗（内容来自 doorManage.wxml）
+       ================================================ -->
+  <van-popup show="{{ dyHelpVisible }}" round closeable position="bottom" custom-style="border-radius: 32rpx 32rpx 0 0;" bind:close="closeDyHelp">
+    <view class="dialog-content">
+      <view class="dialog-title">设置抖音ID</view>
+      <view class="dy-help-notice">
+        <view class="dy-help-notice-item">
+          <van-icon name="warning-o" size="28rpx" color="#ff4d4f" />
+          <text>重要提示：抖音授权完成后，必须设置抖音门店ID，否则无法核销！</text>
+        </view>
+        <view class="dy-help-notice-item">
+          <van-icon name="location-o" size="28rpx" color="#ff4d4f" />
+          <text>请在「抖音来客APP =》门店管理」中查看门店ID。</text>
+        </view>
+        <view class="dy-help-notice-item">
+          <van-icon name="cross" size="28rpx" color="#ff4d4f" />
+          <text class="dy-help-red">不是账户ID！不是账户ID！不是账户ID！</text>
+        </view>
+      </view>
+      <button class="btn-save" bindtap="closeDyHelp">我知道了</button>
+    </view>
+  </van-popup>
+
+</view>

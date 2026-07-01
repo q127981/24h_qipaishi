@@ -53,6 +53,21 @@ Page({
     scrollPosition: 0,
     select_pkg_index: -1,
     showQrModal: false,
+    // 团购续费
+    groupPayNo: '',
+    groupPayTitle: '',
+    groupPayHours: 0,
+    // 提前离店倒计时确认
+    stopOrderConfirmShow: false,
+    stopOrderConfirmContent: '',
+    stopOrderConfirmText: '5秒后确认',
+    stopOrderCountdown: 0,
+    stopOrderTimer: null,
+    stopOrderBeforeClose: null,
+    stopOrderConfirmClass: 'can-disable',
+    stopOrderConfirmColor: '#999',
+    stopOrderConfirmLoading: false,
+    groupPayError: '',
   },
 
   /**
@@ -184,10 +199,17 @@ Page({
   },
   modeChange(e) {
     const { index } = e.target.dataset;
+    const newPayType = +index === 2 ? 3 : 1;
     this.setData({
       modeIndex: +index,
-      payType: 1,
+      payType: newPayType,
       select_pkg_index: -1,
+      groupPayNo: '',
+      groupPayTitle: '',
+      groupPayHours: 0,
+      groupPayError: '',
+      couponId: '',
+      submit_couponInfo: {},
     });
     if (index == 0) {
       //小时模式
@@ -431,6 +453,7 @@ Page({
         //已登录
         that.setData({
           renewShow: true,
+          modeIndex: 0,
           couponId: '',
           submit_couponInfo: {},
           payTypes: [
@@ -443,6 +466,7 @@ Page({
         //未登录
         that.setData({
           renewShow: true,
+          modeIndex: 0,
           payTypes: [{ name: "微信支付", value: 1, checked: true }],
         });
       }
@@ -510,15 +534,54 @@ Page({
   SubmitOrderInfoData() {
     if (
       (this.data.modeIndex === 0 && !this.data.addTime) ||
-      (this.data.modeIndex === 1 && !this.data.pkgId)
+      (this.data.modeIndex === 1 && !this.data.pkgId) ||
+      (this.data.modeIndex === 2 && (!this.data.groupPayNo || !this.data.groupPayTitle))
     ) {
       wx.showToast({
-        title: this.data.modeIndex === 1 ? "请选择套餐" : "请选择增加时间",
+        title: this.data.modeIndex === 2
+          ? "请输入有效的团购券码"
+          : (this.data.modeIndex === 1 ? "请选择套餐" : "请选择增加时间"),
         icon: "none",
       });
       return false;
     }
     var that = this;
+    if (this.data.modeIndex === 2) {
+      // 团购续费：直接用券码延长订单时间，禁用优惠券
+      var renewParams = {
+        orderId: that.data.OrderInfodata.orderId,
+        orderNo: that.data.OrderInfodata.orderNo,
+        endTime: that.data.newTime,
+        payType: 3,
+        groupPayNo: that.data.groupPayNo,
+        couponId: null,
+      };
+      http.request(
+        "/member/order/renew",
+        "1",
+        "post",
+        renewParams,
+        app.globalData.userDatatoken.accessToken,
+        "续费中...",
+        function success(info) {
+          if (info.code == 0) {
+            wx.showToast({ title: '续费成功', icon: 'success' });
+            that.getOrderInfoData();
+            that.renewCancel();
+          } else {
+            wx.showModal({
+              title: "温馨提示",
+              content: info.msg,
+              showCancel: false,
+            });
+          }
+        },
+        function fail() {
+          wx.showToast({ title: '网络错误', icon: 'none' });
+        }
+      );
+      return;
+    }
     let wxpay = false;
     if (that.data.payType == 1) {
       wxpay = true;
@@ -717,7 +780,11 @@ Page({
       newTime: '',
       renewOrderNo: '',
       totalPay: 0,
-      payType: 1
+      payType: 1,
+      groupPayNo: '',
+      groupPayTitle: '',
+      groupPayHours: 0,
+      groupPayError: '',
     })
   },
   //取消成功
@@ -747,47 +814,95 @@ Page({
   stopOrder(e) {
     var that = this;
     var orderId = e.currentTarget.dataset.id;
-    let text = '';
+    let content = '';
     if (that.data.OrderInfodata.prePay) {
-      //预支付的订单  需要退费
-      text = '未消费金额及押金在订单结束5分钟后会自动退还，请问是否确认提前离店？'
+      content = '未消费金额及押金在订单结束5分钟后会自动退还，请问是否确认提前离店？';
     } else {
-      //非预付费订单
-      text = '提前离店不退费，会立即结束订单，已支付的押金5分钟后会自动退还，请问是否确认提前离店？'
+      content = '提前离店不退费，会立即结束订单，已支付的押金5分钟后会自动退还，请问是否确认提前离店？';
     }
-    wx.showModal({
-      title: '温馨提示',
-      content: text,
-      showCancel: true,
-      success(res) {
-        if (res.confirm) {
-          wx.showLoading({
-            title: '关台中...',
-          })
-          http.request(
-            "/member/order/closeOrder/" + orderId,
-            "1",
-            "post", {
-          },
-            app.globalData.userDatatoken.accessToken,
-            "",
-            function success(info) {
-              console.info('结束订单===');
-              wx.hideLoading();
-              if (info.code == 0) {
-                //刷新页面
-                that.getOrderInfoData();
-              } else {
-                wx.showModal({
-                  title: '温馨提示',
-                  content: info.msg,
-                  showCancel: false
-                })
-              }
-            })
+    if (that.data.stopOrderTimer) {
+      clearInterval(that.data.stopOrderTimer);
+    }
+    that.setData({
+      stopOrderConfirmContent: content,
+      stopOrderConfirmShow: true,
+      stopOrderCountdown: 5,
+      _pendingStopOrderId: orderId,
+      stopOrderConfirmText: '5秒后确认',
+      stopOrderConfirmColor: '#999',
+      stopOrderConfirmLoading: false,
+      stopOrderBeforeClose: that._stopOrderBeforeClose(),
+    });
+    that._startStopOrderCountdown();
+  },
+  _stopOrderBeforeClose() {
+    var that = this;
+    return function(action) {
+      if (action === 'confirm') {
+        if (that.data.stopOrderCountdown > 0 || that.data.stopOrderConfirmLoading) {
+          return false;
         }
+        that.setData({ stopOrderConfirmLoading: true, stopOrderConfirmShow: false });
+        wx.showLoading({ title: '关台中...' });
+        http.request(
+          "/member/order/closeOrder/" + that.data._pendingStopOrderId,
+          "1",
+          "post",
+          {},
+          app.globalData.userDatatoken.accessToken,
+          "",
+          function success(info) {
+            wx.hideLoading();
+            if (info.code == 0) {
+              that.getOrderInfoData();
+            } else {
+              wx.showModal({
+                title: '温馨提示',
+                content: info.msg,
+                showCancel: false,
+              });
+            }
+          },
+          function fail() {
+            wx.hideLoading();
+          }
+        );
+        return false;
       }
-    })
+      if (that.data.stopOrderTimer) {
+        clearInterval(that.data.stopOrderTimer);
+        that.setData({ stopOrderTimer: null, stopOrderCountdown: 0, stopOrderConfirmLoading: false });
+      }
+      return true;
+    };
+  },
+  _startStopOrderCountdown() {
+    var that = this;
+    if (that.data.stopOrderTimer) {
+      clearInterval(that.data.stopOrderTimer);
+    }
+    var timer = setInterval(function() {
+      var remaining = that.data.stopOrderCountdown - 1;
+      if (remaining <= 0) {
+        clearInterval(timer);
+        that.setData({
+          stopOrderCountdown: 0,
+          stopOrderConfirmText: '确认离店',
+          stopOrderConfirmColor: '#F73F4C',
+          stopOrderTimer: null,
+          stopOrderConfirmLoading: false,
+        });
+      } else {
+        that.setData({
+          stopOrderCountdown: remaining,
+          stopOrderConfirmText: remaining + '秒后确认',
+        });
+      }
+    }, 1000);
+    that.setData({ stopOrderTimer: timer });
+  },
+  stopOrderConfirm() {
+    // Handled by beforeClose callback in _stopOrderBeforeClose
   },
   //订单取消成功弹窗
   cancelConfirm() {
@@ -1280,6 +1395,9 @@ Page({
   // 去优惠券页面
   goCoupon() {
     var that = this;
+    if (that.data.modeIndex !== 0) {
+      return;
+    }
     if (!that.data.newTime) {
       wx.showToast({
         title: '请先选择时间',
@@ -1342,6 +1460,60 @@ Page({
         function fail(info) { }
       );
     }
+  },
+  onGroupPayNoInput(e) {
+    var that = this;
+    var code = e.detail.value;
+    that.setData({ groupPayNo: code, groupPayTitle: '', groupPayHours: 0, groupPayError: '' });
+    if (code && code.length >= 8) {
+      that._verifyGroupPayNo(code);
+    }
+  },
+  _verifyGroupPayNo(code) {
+    var that = this;
+    http.request(
+      "/member/order/preGroupNo",
+      "1",
+      "post",
+      { code: code, storeId: that.data.OrderInfodata.storeId },
+      app.globalData.userDatatoken.accessToken,
+      "验证中...",
+      function success(info) {
+        if (info.code == 0 && info.data) {
+          var hours = info.data.hours || 0;
+          if (hours === 99) {
+            hours = (that.data.roominfodata && that.data.roominfodata.txHour) || 0;
+          }
+          var newTime = Moment(that.data.OrderInfodata.endTime)
+            .add(hours, "hours")
+            .format("YYYY/MM/DD HH:mm");
+          that.setData({
+            groupPayTitle: info.data.title || '',
+            groupPayHours: hours,
+            groupPayError: '',
+            newTime: newTime,
+          });
+        } else {
+          that.setData({ groupPayTitle: '', groupPayHours: 0, groupPayError: info.msg || '券码无效' });
+        }
+      },
+      function fail() {
+        that.setData({ groupPayTitle: '', groupPayHours: 0, groupPayError: '验证失败' });
+      }
+    );
+  },
+  scanGroupBuyCode() {
+    var that = this;
+    wx.scanCode({
+      success: function(res) {
+        var code = res.result || '';
+        that.setData({ groupPayNo: code });
+        if (code) that._verifyGroupPayNo(code);
+      },
+      fail: function() {
+        wx.showToast({ title: '扫码失败', icon: 'none' });
+      }
+    });
   },
   showWifi() {
     this.setData({

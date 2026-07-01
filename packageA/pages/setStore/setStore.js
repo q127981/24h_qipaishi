@@ -267,6 +267,7 @@ Page({
   },
   goDoorManage:function(e){
     let storeInfo = e.currentTarget.dataset.info
+    let storeId = storeInfo.storeId
     wx.navigateTo({
         url: '/packageA/pages/doorManage/doorManage?storeInfo='+encodeURIComponent(JSON.stringify(storeInfo)),
       })

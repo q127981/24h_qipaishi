@@ -58,7 +58,7 @@
                 <text class="type">（斯洛克）</text>
               </block>
               <block wx:elif="{{item.type == 7}}">
-                <text class="type">（中式黑八）</text>
+                <text class="type">（黑八）</text>
               </block>
               <block wx:else>
                 <text class="type">（美式球桌）</text>

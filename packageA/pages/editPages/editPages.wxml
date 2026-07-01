@@ -16,7 +16,6 @@
       </view>
       <input name="pkg_name" class="input" placeholder="请输入" value="{{item.pkgName}}" />
     </view>
-
     <view class="form-item">
       <view class="label-container">
         <view class="label">套餐时长<text class="required">*</text></view>
@@ -37,13 +36,14 @@
       </view>
       <input name="mtId" class="input lt" placeholder="美团团购商品id" required type="number" value="{{item.mtId}}" />
     </view>
-    <view class="tip">注意：如果开通了美团预定，修改套餐规则后，一定要推送美团。否则美团预定的数据会不正确</view>
+    <view class="tip">在美团经营宝APP，商品管理=>复制ID</view>
     <view class="form-item">
       <view class="label-container">
         <text class="label">抖音团购商品id</text>
       </view>
       <input name="dyId" class="input lt" placeholder="抖音团购商品id" required type="number" value="{{item.dyId}}" />
     </view>
+    <view class="tip">在抖音来客APP，商品管理=>更多=>复制ID</view>
     <!-- <view class="form-item">
       <view class="label-container">
         <text class="label">快手团购商品id</text>

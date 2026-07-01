@@ -1,0 +1,508 @@
+/* packageA/pages/tuangou/mtRoomType.wxss */
+.page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f0f4f3 0%, #f7f9f8 40%, #ffffff 100%);
+  padding: 24rpx 28rpx 60rpx;
+}
+
+/* ========== 表格标题 ========== */
+.table-caption {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 28rpx;
+  padding: 24rpx 0;
+  border-radius: 18rpx;
+  background: linear-gradient(135deg, #3d8a4f 0%, #5AAB6E 60%, #6cc47f 100%);
+  box-shadow: 0 6rpx 20rpx rgba(61, 138, 79, 0.25);
+  letter-spacing: 1rpx;
+}
+
+/* ========== 列表顶部提示 ========== */
+.list-tip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12rpx;
+  font-size: 26rpx;
+  color: #1212d3;
+  background: #F2F2F7;
+  border-radius: 10rpx;
+  /* padding: 14rpx 18rpx; */
+  margin-bottom: 20rpx;
+  letter-spacing: 0.2rpx;
+}
+
+.list-tip-left {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  flex: 1;
+  min-width: 0;
+}
+
+.list-tip-refresh {
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+  padding: 6rpx 14rpx;
+  background: #ffffff;
+  border-radius: 24rpx;
+  font-size: 24rpx;
+  color: #1989fa;
+  flex-shrink: 0;
+}
+
+.list-tip-refresh--active {
+  opacity: 0.6;
+}
+
+/* ========== 表格容器 ========== */
+.table-wrap {
+  background: #ffffff;
+  border-radius: 18rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 18rpx rgba(0, 0, 0, 0.05), 0 0 0 1rpx rgba(0, 0, 0, 0.03);
+}
+
+/* 表头 */
+.table-header {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(180deg, #f9fbfa 0%, #f3f6f4 100%);
+  padding: 22rpx 20rpx;
+  border-bottom: 2rpx solid #e6ece8;
+}
+
+.th {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #3d4f42;
+  text-align: center;
+  letter-spacing: 0.5rpx;
+}
+
+.th-type {
+  flex: 0 0 180rpx;
+}
+
+.th-rooms {
+  flex: 1;
+  padding: 0 10rpx;
+}
+
+.th-action {
+  flex: 0 0 180rpx;
+}
+
+/* 空状态 */
+.table-empty {
+  padding: 90rpx 0;
+  text-align: center;
+}
+
+.table-empty-text {
+  font-size: 28rpx;
+  color: #bcc4be;
+  letter-spacing: 0.5rpx;
+}
+
+/* 数据行 */
+.table-body {
+  /* 数据行样式 */
+}
+
+.table-row {
+  display: flex;
+  align-items: center;
+  padding: 22rpx 20rpx;
+  border-bottom: 1rpx solid #f2f4f3;
+  background: #ffffff;
+  transition: background 0.15s ease;
+}
+
+.table-row:last-child {
+  border-bottom: none;
+}
+
+.table-row:active {
+  background: #f8faf9;
+}
+
+/* 单元格公共 */
+.td {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+}
+
+.td-type {
+  flex: 0 0 180rpx;
+}
+
+.td-rooms {
+  flex: 1;
+  padding: 0 10rpx;
+  align-items: flex-start;
+}
+
+.td-action {
+  flex: 0 0 180rpx;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  padding-top: 0;
+}
+
+/* 包间类型名称 */
+.type-name {
+  font-size: 28rpx;
+  color: #2c3a2f;
+  font-weight: 600;
+  word-break: break-all;
+  text-align: center;
+}
+
+/* 状态标签 */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6rpx;
+  padding: 6rpx 16rpx;
+  border-radius: 24rpx;
+  font-size: 22rpx;
+  margin-bottom: 12rpx;
+  letter-spacing: 0.3rpx;
+}
+
+.status-synced {
+  background: #e8f5ec;
+  color: #2e7d32;
+}
+
+.status-updated {
+  background: #fff4e5;
+  color: #d97706;
+}
+
+/* 包间名列表 — 横向紧凑 */
+.room-list {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 8rpx 10rpx;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+
+.room-name {
+  font-size: 22rpx;
+  color: #4a5a4e;
+  background: #f3f6f4;
+  padding: 4rpx 12rpx;
+  border-radius: 20rpx;
+  border: 1rpx solid #e6ece8;
+  line-height: 1.4;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 操作按钮 */
+.btn-sync-small {
+  font-size: 22rpx !important;
+  padding: 0 16rpx !important;
+  height: 52rpx !important;
+  line-height: 52rpx !important;
+  border-radius: 26rpx !important;
+}
+
+.btn-delete-small {
+  font-size: 22rpx !important;
+  padding: 0 16rpx !important;
+  height: 52rpx !important;
+  line-height: 52rpx !important;
+  border-radius: 26rpx !important;
+}
+
+/* ========== 弹窗 ========== */
+.dialog {
+  background: #f7f9f8;
+  display: flex;
+  flex-direction: column;
+  max-height: 82vh;
+  overflow: hidden;
+}
+
+/* 标题区 */
+.dialog-header {
+  padding: 26rpx 32rpx 20rpx;
+  background: #ffffff;
+  border-bottom: 1rpx solid #eef1f0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6rpx;
+}
+
+.dialog-title {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #1a2b1f;
+  letter-spacing: 0.3rpx;
+  text-align: center;
+}
+
+.dialog-subtitle {
+  font-size: 24rpx;
+  color: #9aa69d;
+  text-align: center;
+}
+
+/* 滚动区 */
+.dialog-body {
+  flex: 1;
+  max-height: 52vh;
+  padding: 20rpx 24rpx;
+  box-sizing: border-box;
+}
+
+/* ========== 表单卡片 ========== */
+.form-card {
+  background: #ffffff;
+  border-radius: 16rpx;
+  padding: 22rpx 24rpx;
+  margin-bottom: 18rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.03);
+  border: 1rpx solid #eef1f0;
+}
+
+.form-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  margin-bottom: 14rpx;
+}
+
+.form-required {
+  color: #ee0a24;
+  font-size: 26rpx;
+  line-height: 1;
+}
+
+.form-card-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #2c3a2f;
+}
+
+.form-card-extra {
+  margin-left: auto;
+  font-size: 22rpx;
+  color: #9aa69d;
+}
+
+.form-card-body {
+  /* 子元素 */
+}
+
+/* 单选 pill */
+.radio-item {
+  font-size: 24rpx !important;
+  color: #4a5a4e !important;
+}
+
+.form-radio-body .van-radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14rpx 20rpx;
+  justify-content: flex-start;
+}
+
+.form-radio-body .van-radio {
+  margin-right: 0 !important;
+  padding: 10rpx 22rpx !important;
+  background: #f3f6f4;
+  border-radius: 30rpx;
+  border: 2rpx solid transparent !important;
+  transition: all 0.15s ease;
+}
+
+.form-radio-body .van-radio--checked {
+  background: #e8f5ec !important;
+  border-color: #5AAB6E !important;
+  color: #2e7d32 !important;
+}
+
+/* 房间设施多选 pill 样式 */
+.facility-group {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 14rpx 20rpx !important;
+}
+
+.facility-pill {
+  font-size: 24rpx;
+  color: #4a5a4e;
+  padding: 10rpx 22rpx;
+  background: #f3f6f4;
+  border-radius: 30rpx;
+  border: 2rpx solid transparent;
+  transition: all 0.15s ease;
+  user-select: none;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+.facility-pill.checked {
+  background: #e8f5ec;
+  border-color: #5AAB6E;
+  color: #2e7d32;
+}
+
+/* 容纳人数一行两个输入 */
+.form-count-body .count-field-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.form-count-body .count-field-wrap .van-cell {
+  flex: 1;
+}
+
+.count-separator {
+  font-size: 28rpx;
+  color: #9aa69d;
+  flex-shrink: 0;
+  padding-bottom: 18rpx;
+}
+
+.count-unit {
+  font-size: 24rpx;
+  color: #9aa69d;
+  flex-shrink: 0;
+  padding-bottom: 18rpx;
+}
+.form-field {
+  background: #f7f8fa;
+  border-radius: 12rpx;
+  padding: 18rpx 22rpx !important;
+  font-size: 26rpx;
+  color: #2c3a2f;
+  border: 2rpx solid #eef1f0;
+}
+
+/* 自定义输入框包装 */
+.custom-input-wrap {
+  margin-top: 14rpx;
+}
+
+/* 上传器 */
+.form-uploader {
+  width: 100%;
+}
+
+.uploader-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8rpx;
+  width: 140rpx;
+  height: 140rpx;
+  background: #f7f8fa;
+  border-radius: 16rpx;
+  border: 2rpx dashed #d2d9d5;
+}
+
+.uploader-trigger-text {
+  font-size: 22rpx;
+  color: #9aa69d;
+}
+
+/* 提示 */
+.notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 10rpx;
+  padding: 16rpx 20rpx;
+  background: #fff8eb;
+  border-radius: 12rpx;
+  margin-top: 8rpx;
+  margin-bottom: 20rpx;
+  border: 1rpx solid #ffe7b3;
+}
+
+.notice-text {
+  flex: 1;
+  font-size: 22rpx;
+  color: #b87a00;
+  line-height: 1.5;
+}
+
+/* 底部按钮 */
+.dialog-footer {
+  display: flex;
+  gap: 18rpx;
+  padding: 18rpx 28rpx 40rpx;
+  background: #ffffff;
+  border-top: 1rpx solid #eef1f0;
+}
+
+.btn {
+  flex: 1;
+  height: 84rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 42rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  letter-spacing: 0.5rpx;
+  transition: opacity 0.2s ease, transform 0.1s ease;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-cancel {
+  background: #f3f6f4;
+  color: #4a5a4e;
+  border: 2rpx solid #e6ece8;
+}
+
+.btn-confirm {
+  background: linear-gradient(135deg, #5AAB6E 0%, #3d8a4f 100%);
+  color: #ffffff;
+  position: relative;
+  box-shadow: 0 6rpx 18rpx rgba(90, 171, 110, 0.3);
+  border: none;
+}
+
+.btn-confirm.is-loading {
+  opacity: 0.75;
+}
+
+.btn-spinner {
+  width: 28rpx;
+  height: 28rpx;
+  border: 3rpx solid rgba(255, 255, 255, 0.4);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  margin-right: 10rpx;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

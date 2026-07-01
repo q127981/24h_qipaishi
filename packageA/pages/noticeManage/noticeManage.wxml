@@ -1,21 +1,30 @@
 <view class="container">
-    <richText 
-  id='richText' 
-  readOnly='{{readOnly}}'
-  placeholder='{{placeholder}}' 
-  formatDate='YY-MM-DD HH:MM'
-  buttonTxt='保存'
-  html="{{storeInfo.notice}}"
-  bind:clearBeforeEvent='clearBeforeEvent'
-  bind:clearSuccess='clearSuccess'
-  bind:undo='undo'
-  bind:restore='restore'
-  bind:onEditorReady='onEditorReady' 
-  bind:bindfocus='bindfocus' 
-  bind:bindblur='bindblur' 
-  bind:bindinput='bindinput' 
-  bind:insertImageEvent='insertImageEvent' 
-  bind:getEditorContent='getEditorContent'></richText>
+    <view wx:if="{{!dataLoaded}}" class="loading-mask">
+      <text class="loading-text">加载中...</text>
+    </view>
+    <view wx:else>
+      <richText
+        id='richText'
+        readOnly='{{readOnly}}'
+        placeholder='{{placeholder}}'
+        formatDate='YY-MM-DD HH:MM'
+        buttonTxt='保存'
+        html="{{storeInfo.notice}}"
+        bind:clearBeforeEvent='clearBeforeEvent'
+        bind:clearSuccess='clearSuccess'
+        bind:undo='undo'
+        bind:restore='restore'
+        bind:onEditorReady='onEditorReady'
+        bind:bindfocus='bindfocus'
+        bind:bindblur='bindblur'
+        bind:bindinput='bindinput'
+        bind:insertImageEvent='insertImageEvent'
+        bind:getEditorContent='getEditorContent'></richText>
+      <view class="action-bar">
+        <button class="clear-btn" bindtap='clearBeforeEvent'>清空内容</button>
+        <button class="save-btn" bindtap='saveContent'>保存</button>
+      </view>
+    </view>
 
-  <view>提示：单图公共的图片尺寸为650x850</view>
+  <view>提示：单图片公告的图片尺寸为650x850</view>
 </view>

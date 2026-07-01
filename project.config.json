@@ -38,7 +38,8 @@
       "outputPath": ""
     },
     "ignoreUploadUnusedFiles": true,
-    "useStaticServer": false
+    "useStaticServer": false,
+    "condition": false
   },
   "compileType": "miniprogram",
   "condition": {},

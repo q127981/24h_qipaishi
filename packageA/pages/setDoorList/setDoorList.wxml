@@ -9,7 +9,7 @@
           <view class="name">
             {{item.roomId}}-
             {{item.roomName}}
-            <text class="type">（{{item.type===0?'特价包':item.type===1?'小包':item.type===2?'中包':item.type===3?'大包':item.type===4?'豪包':item.type===5?'商务包':item.type===6?'斯洛克':item.type===7?'中式黑八':'美式球桌'}}）</text>
+            <text class="type">（{{item.type===0?'特价包':item.type===1?'小包':item.type===2?'中包':item.type===3?'大包':item.type===4?'豪包':item.type===5?'商务包':item.type===6?'斯洛克':item.type===7?'黑八':'美式球桌'}}）</text>
           </view>
           <view class="price color-attention">￥{{item.price}}/小时</view>
         </view>

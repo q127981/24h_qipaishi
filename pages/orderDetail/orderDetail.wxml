@@ -24,7 +24,7 @@
     <!-- 订单详情 -->
     <view class="orderInfo">
       <view class="top">
-        <view class="tag">{{['未知','小包', '中包', '大包', '豪包', '商务包','斯洛克','中式黑八','美式球桌'][OrderInfodata.roomType]}}</view>
+        <view class="tag">{{['未知','小包', '中包', '大包', '豪包', '商务包','斯洛克','黑八','美式球桌'][OrderInfodata.roomType]}}</view>
         <text>{{OrderInfodata.roomName}}</text>
       </view>
       <view class="name">{{OrderInfodata.storeName}}</view>
@@ -130,7 +130,7 @@
           <view class="text">联系客服</view>
         </view>
       </view>
-      <view class="door" bind:tap="renewClick" wx:if="{{OrderInfodata.status === 1}}">
+      <view class="door" bind:tap="renewClick" wx:if="{{OrderInfodata.status === 0 ||OrderInfodata.status === 1}}">
         <view class="action">
           <iconfont name="yue" size="22" color="#5AAB6E"></iconfont>
           <view class="text">订单续费</view>
@@ -208,7 +208,7 @@
   <view class="dialog">
     <view class="item">
       <label>当前位置：</label>
-      <text>{{OrderInfodata.storeName}}（{{OrderInfodata.roomName}}（{{OrderInfodata.roomType==1?'小包':OrderInfodata.roomType==2?'中包':OrderInfodata.roomType==3?'大包':OrderInfodata.roomType==4?'豪包':OrderInfodata.roomType===5?'商务包':OrderInfodata.roomType===6?'斯洛克':OrderInfodata.roomType===7?'中式黑八':'美式球桌'}}）</text>
+      <text>{{OrderInfodata.storeName}}（{{OrderInfodata.roomName}}（{{OrderInfodata.roomType==1?'小包':OrderInfodata.roomType==2?'中包':OrderInfodata.roomType==3?'大包':OrderInfodata.roomType==4?'豪包':OrderInfodata.roomType===5?'商务包':OrderInfodata.roomType===6?'斯洛克':OrderInfodata.roomType===7?'黑八':'美式球桌'}}）</text>
     </view>
     <view class="item">
       <label>预约时间：</label>
@@ -252,7 +252,7 @@
         <text>{{OrderInfodata.storeName}} {{OrderInfodata.roomName}} （斯洛克）</text>
       </block>
       <block wx:elif="{{OrderInfodata.roomType == 7}}">
-        <text>{{OrderInfodata.storeName}} {{OrderInfodata.roomName}} （中式黑八）</text>
+        <text>{{OrderInfodata.storeName}} {{OrderInfodata.roomName}} （黑八）</text>
       </block>
       <block wx:else>
         <text>{{OrderInfodata.storeName}} {{OrderInfodata.roomName}} （美式球桌）</text>
@@ -374,6 +374,7 @@
     <view class="mode-slot" bind:tap="modeChange">
       <view data-index="0" class="{{ modeIndex === 0 ? 'active' : '' }}">小时续费</view>
       <view data-index="1" class="{{ modeIndex === 1 ? 'active' : '' }}">套餐续费</view>
+      <view data-index="2" class="{{ modeIndex === 2 ? 'active' : '' }}">团购续费</view>
     </view>
     <view wx:if="{{modeIndex === 0}}">
       <view class="line">
@@ -399,61 +400,81 @@
           </view>
         </view>
       </view>
-    </view>
-    <view class="line" wx:if="{{modeIndex === 0}}">
-      <label class="bold">优惠卡券：</label>
-      <view class="coupon" bindtap="goCoupon">
-        <block wx:if="{{submit_couponInfo.couponName}}">
-          <block wx:if="{{submit_couponInfo.type == 1}}">
-            <view class="price-coupon">
-              {{submit_couponInfo.couponName}}(抵扣{{submit_couponInfo.price}}小时)
-            </view>
-          </block>
-          <block wx:if="{{submit_couponInfo.type == 2}}">
-            <view class="price-coupon">
-              {{submit_couponInfo.couponName}}(满减{{submit_couponInfo.price}}元)
-            </view>
-          </block>
-          <block wx:if="{{submit_couponInfo.type == 3}}">
-            <view class="price-coupon">
-              {{submit_couponInfo.couponName}}(延长{{submit_couponInfo.price}}小时)
-            </view>
-          </block>
-        </block>
-        <block wx:else>
-          <block wx:if="{{couponCount>0}}">
-            <view class="price-coupon">{{couponCount}}张</view>
+      <view class="line" style="margin-top: 20rpx;">
+        <label class="bold">优惠卡券：</label>
+        <view class="coupon" bindtap="goCoupon">
+          <block wx:if="{{submit_couponInfo.couponName}}">
+            <block wx:if="{{submit_couponInfo.type == 1}}">
+              <view class="price-coupon">
+                {{submit_couponInfo.couponName}}(抵扣{{submit_couponInfo.price}}小时)
+              </view>
+            </block>
+            <block wx:if="{{submit_couponInfo.type == 2}}">
+              <view class="price-coupon">
+                {{submit_couponInfo.couponName}}(满减{{submit_couponInfo.price}}元)
+              </view>
+            </block>
+            <block wx:if="{{submit_couponInfo.type == 3}}">
+              <view class="price-coupon">
+                {{submit_couponInfo.couponName}}(延长{{submit_couponInfo.price}}小时)
+              </view>
+            </block>
           </block>
           <block wx:else>
-            <view class="price-coupon">暂无</view>
+            <block wx:if="{{couponCount>0}}">
+              <view class="price-coupon">{{couponCount}}张</view>
+            </block>
+            <block wx:else>
+              <view class="price-coupon">暂无</view>
+            </block>
           </block>
-        </block>
+        </view>
       </view>
     </view>
-    <scroll-view wx:if="{{modeIndex === 1 && pkgList.length>0}}" scroll-x class="mode" bindscroll="handleScroll" bindscrolltoupper="handleScrollStart">
-      <view class="mode-container">
-        <view class="item {{select_pkg_index == index?'active':''}}" bind:tap="selectPkgInfo" data-id="{{item.pkgId}}" wx:for="{{pkgList}}" wx:key="pkgList" data-index="{{index}}" data-hour="{{item.hours}}">
-          <view class="top">
-            <view class="left">
-              <text class="pkgName">{{item.pkgName}}</text>
+    <scroll-view wx:if="{{modeIndex === 1 && pkgList.length>0}}" scroll-y class="pkg-scroll" style="height: 400rpx;">
+      <view class="pkg-list">
+        <view
+          class="pkg-row {{select_pkg_index == index ? 'active' : ''}}"
+          bind:tap="selectPkgInfo"
+          data-id="{{item.pkgId}}"
+          wx:for="{{pkgList}}"
+          wx:key="pkgList"
+          data-index="{{index}}"
+          data-hour="{{item.hours}}">
+          <view class="pkg-row__left">
+            <view class="pkg-row__name">{{item.pkgName}}</view>
+            <view class="pkg-row__info">{{item.desc}}</view>
+            <view class="pkg-row__info">{{item.timeQuantum}}</view>
+            <view class="pkg-row__tags">
+              <text class="pkg-row__tag" wx:if="{{item.enableHoliday}}">节假日可用</text>
+              <text class="pkg-row__tag pkg-row__tag--orange" wx:if="{{item.balanceBuy}}">余额可付</text>
             </view>
-            <text class="price">¥ {{item.price}}</text>
           </view>
-          <view class="line"></view>
-          <view class="bottom">{{item.desc}}</view>
-          <view class="bottom">可用时段：{{item.timeQuantum}}</view>
-          <view class="pkgInfo">
-            <view class="bottom">{{item.balanceBuy?"可余额支付":"不支持余额支付"}}</view>
-            <view class="bottom">{{item.enableHoliday?"节假日可用":"节假日不可用"}}</view>
+          <view class="pkg-row__right">
+            <view class="pkg-row__price">
+              <text class="pkg-row__price-symbol">¥</text>
+              <text class="pkg-row__price-num">{{item.price}}</text>
+            </view>
+            <view class="pkg-row__hours">{{item.hours}}小时</view>
+            <view class="pkg-row__check" wx:if="{{select_pkg_index == index}}">
+              <iconfont name="check-circle" size="44" color="#fff"></iconfont>
+            </view>
           </view>
         </view>
       </view>
     </scroll-view>
-    <view class="progress" wx:if="{{modeIndex === 1 && pkgList.length>1}}">
-      <view class="progress-marker" style="left: {{scrollPosition+'%'}}; width: {{(100 / pkgList.length)+'%'}}"></view>
-    </view>
     <view class="divide-line"></view>
-    <view class="section orderPrice orderPay">
+    <!-- 团购续费 -->
+    <view wx:if="{{modeIndex === 2}}" class="tg-section">
+      <view class="tg-tip">使用美团、抖音等团购券续费</view>
+      <view class="tg-tip">团购券的名称需包含“续费/续时/加时”</view>
+      <view class="tgScan">
+        <input class="input" maxlength="35" placeholder="输入/粘贴团购券码" value="{{groupPayNo}}" bindinput="onGroupPayNoInput" />
+        <iconfont name="scan-qr-code" size="28" bind:tap="scanGroupBuyCode"></iconfont>
+      </view>
+      <view class="tgTitle {{groupPayError ? 'error' : ''}}" wx:if="{{groupPayTitle || groupPayError}}">{{groupPayError || groupPayTitle}}</view>
+    </view>
+    <view class="section orderPrice orderPay" wx:if="{{modeIndex !== 2}}">
       <view class="line">
         <text class="bold">支付方式：</text>
       </view>
@@ -483,10 +504,10 @@
           <radio style="opacity: 0;" value="{{item.value}}" checked="{{item.checked}}" />
         </label>
       </radio-group>
-      <view class="line">
-        <view class="btn" bind:tap="renewCancel">取消</view>
-        <view class="btn active" bind:tap="SubmitOrderInfoData">确认</view>
-      </view>
+    </view>
+    <view class="line btn-line">
+      <view class="btn" bind:tap="renewCancel">取消</view>
+      <view class="btn active" bind:tap="SubmitOrderInfoData">确认</view>
     </view>
   </view>
 </van-popup>
@@ -534,3 +555,22 @@
     <button class="close-btn" bindtap="closeModal">关闭</button>
   </view>
 </view>
+
+<!-- 提前离店确认弹窗 -->
+<van-dialog
+  use-slot
+  title="提前离店"
+  show="{{ stopOrderConfirmShow }}"
+  show-cancel-button
+  cancel-button-text="取消"
+  confirm-button-text="{{ stopOrderConfirmText }}"
+  confirm-button-color="{{ stopOrderConfirmColor }}"
+  before-close="{{ stopOrderBeforeClose }}"
+  bind:confirm="stopOrderConfirm">
+  <view class="stop-order-dialog">
+    <view class="stop-order-content">{{stopOrderConfirmContent}}</view>
+    <view class="stop-order-countdown" wx:if="{{stopOrderCountdown > 0}}">
+      <text class="countdown-num">{{stopOrderCountdown}}</text>
+    </view>
+  </view>
+</van-dialog>

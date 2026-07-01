@@ -1,0 +1,82 @@
+<!-- packageA/pages/verifyRecord/verifyRecord.wxml -->
+<view class="container">
+  <!-- 顶部筛选栏 -->
+  <view class="filter-bar">
+    <!-- 左侧：状态下拉 -->
+    <view class="filter-left">
+      <van-dropdown-menu active-color="{{mainColor}}">
+        <van-dropdown-item
+          value="{{ filterGroupPayType }}"
+          options="{{ platformOptions }}"
+          bind:change="onPlatformChange" />
+      </van-dropdown-menu>
+    </view>
+    <!-- 右侧：日期筛选 -->
+    <view class="filter-right">
+      <view class="date-chips">
+        <view
+          class="date-chip {{currentRange === 'today' ? 'active' : ''}}"
+          bindtap="selectDateRange"
+          data-range="today">今日</view>
+        <view
+          class="date-chip {{currentRange === 'yesterday' ? 'active' : ''}}"
+          bindtap="selectDateRange"
+          data-range="yesterday">昨日</view>
+        <view
+          class="date-chip {{currentRange === '7days' ? 'active' : ''}}"
+          bindtap="selectDateRange"
+          data-range="7days">7天</view>
+        <view
+          class="date-chip {{currentRange === 'custom' ? 'active' : ''}}"
+          bindtap="openDatePicker">自定义</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 列表 -->
+  <block wx:if="{{list.length}}">
+    <view class="record-list">
+      <view class="record-item" wx:for="{{list}}" wx:key="id">
+        <!-- 第一行：标题 + 平台标签 -->
+        <view class="item-row row-title">
+          <text class="item-name">{{item.groupName}}</text>
+          <view class="item-platform">
+            {{item.groupPayType==1?'美团':item.groupPayType==2?'抖音':'快手'}}
+          </view>
+        </view>
+        <!-- 第二行：券码 + 金额 -->
+        <view class="item-row row-detail">
+          <text class="item-label">券码</text>
+          <text class="item-code">{{item.groupNo}}</text>
+          <text class="item-price">¥{{item.groupPayPrice}}</text>
+          <view class="item-status {{getStatusClass(item.status)}}">
+            {{getStatusName(item.status)}}
+          </view>
+        </view>
+        <!-- 第三行：商品ID + 时间 -->
+        <view class="item-row row-meta">
+          <text class="item-shop-id" wx:if="{{item.groupShopId}}">商品ID: {{item.groupShopId}}</text>
+          <text class="item-time">{{item.createTime}}</text>
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{canLoadMore}}" class="load-more">加载更多...</view>
+    <view wx:else class="no-more">— 已加载全部 —</view>
+  </block>
+  <block wx:else>
+    <view class="nodata">
+      <iconfont name="liebiao" size="80"></iconfont>
+      <text>暂无验券记录</text>
+    </view>
+  </block>
+</view>
+
+<!-- 日期范围选择弹窗 -->
+<van-calendar
+  show="{{ dateShow }}"
+  type="range"
+  bind:close="onDateClose"
+  bind:confirm="onDateConfirm"
+  show-confirm="{{ false }}"
+  allow-same-day
+  min-date="{{ minDate }}" />

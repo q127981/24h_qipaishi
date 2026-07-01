@@ -747,83 +747,108 @@ switch {
   border-radius: 50%;
 }
 
-.mode {
+.pkg-scroll {
   width: 100%;
-  margin-top: 30rpx;
+  margin-top: 16rpx;
 }
 
-.mode-container {
-  display: flex;
-  flex-direction: row;
-  white-space: nowrap;
-  min-width: 100%;
+.pkg-list {
+  padding-right: 10rpx;
 }
 
-.mode .item {
-  width: 329rpx;
-  height: 160rpx;
-  border-radius: 17rpx 17rpx 17rpx 17rpx;
-  margin-right: 18rpx;
-  font-size: 20rpx;
-  padding: 10rpx 16rpx;
-  border: 2rpx solid var(--main-color);
-  color: var(--main-color);
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  flex: 0 0 auto;
-}
-
-.mode .item.active {
-  background: #5AAB6E;
-  color: #fff;
-}
-
-.mode .item .top {
+.pkg-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx 28rpx;
+  margin-bottom: 16rpx;
+  border: 2rpx solid #E8E8E8;
+  transition: all 0.2s;
 }
 
-.mode .item .top .left {
-  display: flex;
-  align-items: center;
+.pkg-row.active {
+  border-color: #5AAB6E;
+  background: linear-gradient(135deg, #E8F8ED 0%, #F0FFF4 100%);
 }
 
-.mode .item .top .left .pkgName {
-  font-size: 28rpx;
-  font-weight: 600;
-  width: 230rpx;
-  /* color: rgb(255, 0, 0); */
-  white-space: nowrap;
-  /* 确保文本在一行内显示 */
+.pkg-row__left {
+  flex: 1;
   overflow: hidden;
-  /* 隐藏超出容器的文本 */
 }
 
-.mode .item .line {
-  border-top: dashed 1rpx #D6D6D6;
-  height: 0rpx;
+.pkg-row__name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 8rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.mode .item .line.active {
-  border-top: dashed 1rpx #fff;
+.pkg-row__info {
+  font-size: 22rpx;
+  color: #888;
+  line-height: 1.5;
 }
 
-.mode .item .tag {
-  width: 80rpx;
-  height: 35rpx;
-  line-height: 35rpx;
-  background: #ED9823;
-  border-radius: 9rpx 9rpx 9rpx 9rpx;
+.pkg-row__tags {
+  display: flex;
+  gap: 10rpx;
+  margin-top: 10rpx;
+}
+
+.pkg-row__tag {
+  font-size: 20rpx;
   color: #fff;
-  text-align: center;
-  margin-right: 14rpx;
+  background: #5AAB6E;
+  padding: 4rpx 14rpx;
+  border-radius: 8rpx;
 }
 
-.mode .item .price {
-  font-size: 32rpx;
-  color: red;
+.pkg-row__tag--orange {
+  background: #f19b1a;
+}
+
+.pkg-row__right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 24rpx;
+  position: relative;
+}
+
+.pkg-row__price {
+  display: flex;
+  align-items: baseline;
+}
+
+.pkg-row__price-symbol {
+  font-size: 24rpx;
+  color: #F73F4C;
+  font-weight: 500;
+}
+
+.pkg-row__price-num {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #F73F4C;
+  line-height: 1;
+}
+
+.pkg-row__hours {
+  font-size: 22rpx;
+  color: #999;
+  margin-top: 6rpx;
+}
+
+.pkg-row__check {
+  position: absolute;
+  right: -10rpx;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .mode-time {
@@ -1481,4 +1506,79 @@ switch {
   box-shadow: 0 8rpx 18rpx var(--main-color);
   margin: 0 auto;
   display: block;
+}
+
+/* 团购续费区域 */
+.tg-section {
+  padding: 20rpx 0;
+}
+
+.tg-section .tg-tip {
+  font-size: 24rpx;
+  color: #817F7F;
+  margin-bottom: 20rpx;
+  text-align: center;
+}
+
+.tg-section .tgScan {
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 20rpx 30rpx;
+  align-items: center;
+  border: 2rpx solid #E8E8E8;
+}
+
+.tg-section .tgScan .input {
+  flex: 1;
+  font-size: 30rpx;
+  text-align: left;
+  color: #f19b1a;
+}
+
+.tg-section .tgTitle {
+  font-size: 26rpx;
+  color: #5AAB6E;
+  text-align: left;
+  margin-top: 16rpx;
+  padding-left: 10rpx;
+}
+
+.tg-section .tgTitle.error {
+  color: #F73F4C;
+}
+
+.btn-line {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20rpx;
+}
+
+/* 提前离店确认弹窗 */
+.stop-order-dialog {
+  padding: 30rpx 40rpx 20rpx;
+  text-align: center;
+}
+
+.stop-order-dialog .stop-order-content {
+  font-size: 32rpx;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 30rpx;
+  text-align: center;
+}
+
+.stop-order-dialog .stop-order-countdown {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10rpx;
+}
+
+.stop-order-dialog .countdown-num {
+  font-size: 80rpx;
+  font-weight: 700;
+  color: #F73F4C;
+  line-height: 1;
 }
