@@ -61,9 +61,7 @@
             <text style="font-size: 40rpx;color: red" wx:else>禁用</text>
           </view>
           <iconfont name="shanchu" size="28" bind:tap="deletePkg"  data-id="{{item.pkgId}}"></iconfont>
-          <button class="mtBtn" data-item="{{item}}" bindtap="upMeituan">
-          推送美团
-          </button>
+          
           <button class="enableBtn" data-item="{{item}}" bindtap="changeStatus">
             <text wx:if="{{item.enable}}">禁用</text>
             <text wx:else>启用</text>
