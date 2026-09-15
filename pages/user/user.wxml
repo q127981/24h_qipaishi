@@ -92,34 +92,31 @@
           <iconfont name="dingdan" size="32" color="#000"></iconfont>
           <text>预定订单</text>
         </navigator>
-        <navigator class="item" url="{{isLogin?'../productOrder/productOrder':'../login/login'}}">
+        <navigator class="item" url="{{isLogin?'/packageA/pages/productOrder/productOrder':'../login/login'}}">
           <iconfont name="shangpindingdan1" size="32" color="#000"></iconfont>
           <text>商品订单</text>
         </navigator>
-        <navigator class="item" url="{{isLogin?'../myBalance/myBalance':'../login/login'}}">
+        <navigator class="item" url="{{isLogin?'/packageA/pages/myBalance/myBalance':'../login/login'}}">
           <iconfont name="zhangdan" size="32" color="#000"></iconfont>
           <text>余额账单</text>
         </navigator>
-        <navigator class="item" url="../coupon/coupon">
-          <iconfont name="youhuiquan" size="32" color="#000"></iconfont>
-          <text>我的优惠券</text>
+        <navigator class="item" url="../game/index">
+          <iconfont name="rili" size="32" color="#000"></iconfont>
+          <text>计分工具</text>
         </navigator>
         <!-- <navigator class="item" url="/packageA/pages/myPackCard/index">
           <image src="../static/icon/pack.png"/>
           <text>包时卡</text>
         </navigator> -->
-        <navigator class="item" url="../yeepay/index" wx:if="{{isLogin}}">
+        <navigator class="item" url="/packageA/pages/yeepay/index" wx:if="{{isLogin}}">
           <iconfont name="youhuikaquan" size="32" color="#000"></iconfont>
           <text>收款账户</text>
         </navigator>
-        <navigator class="item" url="../help/help">
+        <navigator class="item" url="/packageA/pages/help/help">
           <iconfont name="changjianwentixiangguanwenti" size="32" color="#000"></iconfont>
           <text>常见问题</text>
         </navigator>
-         <navigator class="item" url="../searchOrder/index">
-          <iconfont name="sousuo" size="32" color="#000"></iconfont>
-          <text>订单查询</text>
-        </navigator>
+      
         <navigator class="item" url="../inventory/index" wx:if="{{isLogin}}">
           <iconfont name="huiyuanlibao" size="32" color="#000"></iconfont>
           <text>商品存取</text>
@@ -186,7 +183,7 @@
       </view>
     </block>
   </view>
-  <view class="version">版本:26.06.30</view>
+  <view class="version">版本:26.09.15</view>
 </view>
 
 <view wx:if="{{showExpireModal}}" class="expire-mask">

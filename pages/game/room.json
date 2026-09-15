@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "van-dialog": "@vant/weapp/dialog/index",
+    "van-popup": "@vant/weapp/popup/index",
+    "van-stepper": "@vant/weapp/stepper/index",
+    "van-button": "@vant/weapp/button/index",
+    "iconfont": "../../iconfont/iconfont"
+  },
+  "navigationBarTitleText": "对局详情"
+}

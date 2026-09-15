@@ -1,8 +1,6 @@
 {
   "pages": [
     "pages/doorList/doorList",
-    "pages/productOrder/productOrder",
-    "pages/productOrderInfo/productOrderInfo",
     "pages/index/index",
     "pages/shop/shop",
     "pages/doorSubmit/doorSubmit",
@@ -10,35 +8,28 @@
     "pages/doorSelect/doorSelect",
     "pages/user/user",
     "pages/join/join",
-    "pages/setUserInfo/setUserInfo",
-    "pages/setUserName/setUserName",
-    "pages/setUserPhone/setUserPhone",
     "pages/tuangou/tuangou",
-    "pages/myBalance/myBalance",
     "pages/getBalance/getBalance",
     "pages/orderDetail/orderDetail",
     "pages/changeDoor/changeDoor",
     "pages/orderSubmit/orderSubmit",
     "pages/coupon/coupon",
     "pages/doorDetail/doorDetail",
-    "pages/tencentMap/tencentMap",
-    "pages/help/help",
     "pages/recharge/recharge",
     "pages/orderList/orderList",
     "pages/location/location",
+    "pages/setUserInfo/setUserInfo",
     "pages/login/login",
     "pages/booking/booking",
-    "pages/placeOrder/placeOrder",
     "pages/roomRenew/roomRenew",
     "pages/map/map",
     "pages/pay/pay",
-    "pages/searchOrder/index",
-    "pages/yeepay/index",
-    "pages/yeepay/agreement",
     "pages/couponActive/index",
     "pages/inventory/index",
     "pages/coupon/lottery",
-    "pages/ktv/index"
+    "pages/ktv/index",
+    "pages/game/index",
+    "pages/game/room"
   ],
   "subpackages": [
     {
@@ -59,6 +50,7 @@
         "pages/setStoreInfo/setStoreInfo",
         "pages/setCouponInfo/setCouponInfo",
         "pages/SetOrder/SetOrder",
+        "pages/placeOrder/placeOrder",
         "pages/setDiscount/setDiscount",
         "pages/setDoorList/setDoorList",
         "pages/taskStatics/taskStatics",
@@ -95,8 +87,13 @@
         "pages/tuangou/tuangou",
         "pages/tuangou/yuding",
         "pages/tuangou/index",
+        "pages/yeepay/index",
         "pages/tuangou/mtRoomType",
         "pages/tuangou/mtPackage",
+        "pages/help/help",
+        "pages/myBalance/myBalance",
+        "pages/productOrder/productOrder",
+        "pages/productOrderInfo/productOrderInfo",
         "pages/verifyRecord/verifyRecord"
       ]
     },
@@ -126,8 +123,12 @@
   },
   "plugins": {
     "myPlugin": {
-      "version": "3.1.7",
+      "version": "3.3.0",
       "provider": "wx43d5971c94455481"
+    },
+    "WechatSI": {
+      "version": "0.3.10",
+      "provider": "wx069ba97219f66d99"
     }
   },
   "tabBar": {

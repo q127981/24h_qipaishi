@@ -1,28 +1,64 @@
 <!--pages/setUserInfo/setUserInfo.wxml-->
-<view class="container">
-  <view class="photo">
-    <view class="img">
-      <image src="{{userinfo.avatar?userinfo.avatar:'/logo.png'}}" mode="widthFix" />
-    </view>
-    <button hover-class="button-click" class="tip" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">点击更新头像</button>
+<view class="page">
+  <!-- 头像区：居中大圆 + 底部灰带"修改" -->
+  <view class="avatar-section">
+    <button class="avatar-btn" hover-class="none" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+      <image src="{{userinfo.avatar ? userinfo.avatar : '/logo.png'}}" class="avatar" mode="aspectFill" />
+      <view class="avatar-mask">
+        <text class="avatar-mask-text">修改</text>
+      </view>
+    </button>
   </view>
+
+  <!-- 信息列表：纯文字 + 分割线 + 右箭头 -->
   <view class="list">
-    <view class="item" bindtap="setUserName">
-      <view class="left">
-        <view class="label">昵称</view>
-        <text>{{userinfo.nickname}}</text>
+    <view class="item" hover-class="item-hover" hover-stay-time="80" bindtap="showNamePopup">
+      <view class="item-left">
+        <text class="item-label">昵称</text>
       </view>
-      <iconfont name="right"></iconfont>
+      <view class="item-right">
+        <text class="item-value ellipsis">{{userinfo.nickname || '未设置'}}</text>
+        <view class="item-edit-btn" hover-class="item-edit-btn-hover" catchtap="showNamePopup">修改</view>
+      </view>
     </view>
-    <view class="item">
-      <view class="left">
-        <view class="label">手机</view>
-        <text>{{userinfo.mobile}}</text>
+    <view class="divider"></view>
+    <view class="item item-disabled">
+      <view class="item-left">
+        <text class="item-label">手机号</text>
       </view>
-      <!-- <view class="btn" bindtap="setPhone">更换手机</view> -->
+      <view class="item-right">
+        <text class="item-value item-value-muted ellipsis">{{userinfo.mobile || '未绑定'}}</text>
+      </view>
     </view>
   </view>
-  <view class="bottom {{isIpx?'fix-iphonex-button':''}}">
-    <view class="btn theme-color-shadow theme-bg-primary" bindtap="exitLogin" style="color: #fff;">退出登录</view>
+
+  <!-- 退出登录：醒目的红底白字按钮 -->
+  <view class="bottom {{isIpx ? 'fix-iphonex-button' : ''}}">
+    <view class="logout-btn" hover-class="logout-hover" bindtap="exitLogin">退出登录</view>
+  </view>
+
+  <!-- 修改昵称弹窗 -->
+  <view class="popup-mask" wx:if="{{namePopupShow}}" bindtap="hideNamePopup">
+    <view class="popup" catchtap="">
+      <view class="popup-title">修改昵称</view>
+      <view class="popup-input-wrap">
+        <input
+          class="popup-input"
+          type="nickname"
+          value="{{nameInput}}"
+          placeholder="请输入新昵称"
+          placeholder-class="popup-placeholder"
+          maxlength="20"
+          focus="{{namePopupShow}}"
+          bindinput="onNameInput"
+          confirm-type="done"
+          bindconfirm="submitName"
+        />
+      </view>
+      <view class="popup-actions">
+        <view class="popup-btn popup-btn-cancel" hover-class="popup-btn-hover" bindtap="hideNamePopup">取消</view>
+        <view class="popup-btn popup-btn-confirm" hover-class="popup-btn-hover" bindtap="submitName">确定</view>
+      </view>
+    </view>
   </view>
 </view>

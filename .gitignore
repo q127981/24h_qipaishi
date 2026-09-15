@@ -2,3 +2,4 @@
 app.js
 app.json
 /pages/static/img/logo.png
+/node_modules/**

@@ -693,7 +693,7 @@ Page({
       showRoomOp: false
     })
     wx.navigateTo({
-      url: `/pages/placeOrder/placeOrder?id=${this.data.roomId}&roomName=${this.data.roomName}`
+      url: `/packageA/pages/placeOrder/placeOrder?id=${this.data.roomId}&roomName=${this.data.roomName}`
     })
 
   },

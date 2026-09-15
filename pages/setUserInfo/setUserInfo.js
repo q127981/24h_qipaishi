@@ -9,7 +9,9 @@ Page({
    */
   data: {
     userinfo:{},//用户信息
-    isIpx: app.globalData.isIpx?true:false
+    isIpx: app.globalData.isIpx?true:false,
+    namePopupShow: false,
+    nameInput: ''
   },
 
   /**
@@ -98,12 +100,62 @@ Page({
       photoShow: false
     })
   },
-  // 修改昵称
-  setUserName: function(){
+  // 修改昵称：弹窗
+  showNamePopup: function(){
     let name = this.data.userinfo.nickname ? this.data.userinfo.nickname : ''
-    wx.navigateTo({
-      url: '../setUserName/setUserName?name='+name,
+    this.setData({
+      namePopupShow: true,
+      nameInput: name
     })
+  },
+  hideNamePopup: function(){
+    this.setData({
+      namePopupShow: false,
+      nameInput: ''
+    })
+  },
+  onNameInput: function(e){
+    this.setData({
+      nameInput: e.detail.value
+    })
+  },
+  submitName: function(){
+    const name = (this.data.nameInput || '').trim()
+    if(!name){
+      wx.showToast({
+        title: '请填写昵称',
+        icon: 'none'
+      })
+      return
+    }
+    var that = this;
+    if (app.globalData.isLogin) {
+      http.request(
+        "/member/user/updateNickname?nickname="+encodeURIComponent(name),
+        "1",
+        "post", {
+          "nickname": name
+        },
+        app.globalData.userDatatoken.accessToken,
+        "上传中...",
+        function success(info) {
+          if (info.code == 0) {
+            wx.showToast({
+              title: '修改成功',
+              icon: 'success'
+            })
+            that.hideNamePopup()
+            that.getuserinfo()
+          }
+        },
+        function fail(info) {
+          wx.showToast({
+            title: '修改失败，请重试',
+            icon:'none'
+          })
+        }
+      )
+    }
   },
   // 修改手机号
   setPhone: function(){

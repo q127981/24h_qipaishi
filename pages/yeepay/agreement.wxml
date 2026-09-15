@@ -1,5 +1,0 @@
-<view class="container">
-  <scroll-view scroll-y class="scroll-box">
-    <rich-text nodes="{{content}}"></rich-text>
-  </scroll-view>
-</view>

@@ -1,0 +1,182 @@
+<!--pages/game/index.wxml-->
+<view class="page">
+
+  <!-- 顶部用户信息卡片 -->
+  <view class="user-card" bindtap="goModifyUserInfo">
+    <view class="avatar-wrap">
+      <image src="{{userinfo.avatar || '/logo.png'}}" class="avatar" mode="aspectFill" />
+    </view>
+    <view class="user-info">
+      <text class="nickname">{{userinfo.nickname || '点击登录'}}</text>
+      <!-- <text class="user-tip">仅供娱乐计分，不涉及金钱交易</text> -->
+      <text class="user-tip" bindtap="goModifyUserInfo">点击修改头像和昵称</text>
+    </view>
+    <iconfont name="right" size="18" color="rgba(255,255,255,0.7)" class="user-card-arrow"></iconfont>
+  </view>
+
+  <!-- 当前对局卡片 -->
+  <view class="section-card">
+    <view class="section-header">
+      <text class="section-title-text">当前对局</text>
+    </view>
+    <view class="card-body">
+      <view class="current-game" wx:if="{{myCurrentGame}}" bindtap="goCurrentGame">
+        <view class="cg-hero-row">
+          <view class="cg-id-wrap">
+            <text class="cg-id">ID {{myCurrentGame.keyNo}}</text>
+          </view>
+          <view class="cg-meta">
+            <text class="cg-mode-tag mode-multi" wx:if="{{myCurrentGame.mode == 0}}">多人计分</text>
+            <text class="cg-mode-tag mode-owner" wx:if="{{myCurrentGame.mode == 1}}">房主计分</text>
+            <text class="cg-mode-tag cg-mode-mult" wx:if="{{myCurrentGame.multiple > 1}}">{{myCurrentGame.multiple}}倍</text>
+            
+          </view>
+          <view class="cg-enter-btn">
+            <text>进入</text>
+          </view>
+        </view>
+      </view>
+      <view class="empty-card" wx:if="{{!myCurrentGame && hasMyUnsettledGame == 0}}">
+        <text class="empty-text">当前没有对局</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-row">
+    <view class="action-btn primary" bindtap="openCreateDialog">
+      <iconfont name="add" size="22" color="#fff"></iconfont>
+      <text>创建房间</text>
+    </view>
+    <view class="action-btn secondary" bindtap="joinByScan">
+      <iconfont name="scan-qr-code" size="22" color="#5AAB6E"></iconfont>
+      <text>扫码加入</text>
+    </view>
+  </view>
+
+  <!-- 对局记录 -->
+  <view class="section-title">对局记录</view>
+  <view class="record-list" wx:if="{{settledGames.length > 0}}">
+    <view class="record-item" wx:for="{{settledGames}}" wx:key="gameId">
+      <view class="record-main" catchtap="goSettledGame" data-gameid="{{item.gameId}}">
+        <view class="record-top">
+          <text class="record-keyno">房间 {{item.keyNo}}</text>
+          <text class="cg-mode-tag cg-mode-settled" wx:if="{{item.settlement == 1}}">已结算</text>
+          <text class="cg-mode-tag cg-mode-unsettled" wx:else>未结算</text>
+          <view class="record-top-right">
+            <text class="record-time">{{item.createTime}}</text>
+            <text class="hide-btn" catchtap="hideRecord" data-gameid="{{item.gameId}}">隐藏记录</text>
+          </view>
+        </view>
+        <view class="card" style="margin: 0;">
+          <view class="players-grid">
+            <view class="player-item"
+                  wx:for="{{item.users}}" wx:key="id" wx:for-item="u">
+              <view class="player-avatar-wrap">
+                <block wx:if="{{u.isGratuity == 1}}">
+                  <view class="player-avatar player-avatar-tea">
+                    <iconfont name="chashuijian" size="32"></iconfont>
+                  </view>
+                </block>
+                <block wx:else>
+                  <image src="{{u.avatar || '/logo.png'}}" class="player-avatar" mode="aspectFill" />
+                  <view class="rank-badge rank-{{u.rank}}" wx:if="{{u.rank > 0 && u.rank <= 3}}">{{u.rank}}</view>
+                </block>
+              </view>
+              <text class="player-name {{u.isGratuity == 1 ? 'player-name-tea' : ''}}">{{u.nickname}}</text>
+              <view class="player-score-wrap">
+                <label class="player-score {{u.isGratuity == 1 ? 'player-score-tea' : (u.score > 0 ? 'score-plus' : u.score < 0 ? 'score-minus' : '')}}">
+                  {{u.score > 0 ? '+' : ''}}{{u.score}}
+                </label>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="load-more" wx:if="{{hasMore}}" bindtap="loadSettledGames">加载更多</view>
+    <view class="load-more no-more" wx:if="{{!hasMore && settledGames.length > 0}}">— 没有更多了 —</view>
+  </view>
+  <view class="empty-records" wx:if="{{settledGames.length == 0 && !loading}}">
+    <text>暂无对局记录</text>
+  </view>
+
+</view>
+
+<!-- 创建房间弹窗 -->
+<van-popup show="{{createShow}}" round position="bottom" custom-style="padding: 24rpx 28rpx 40rpx;" bind:close="closeCreateDialog">
+  <view class="dialog-handle"></view>
+  <view class="dialog-title">创建房间</view>
+
+  <!-- 计分模式 + 说明合并一行 -->
+  <view class="form-row">
+    <text class="form-label">计分模式</text>
+    <view class="mode-btns">
+      <view class="mode-btn {{form.mode == 0 ? 'active' : ''}}" bindtap="onModeChange" data-mode="0">多人计分</view>
+      <view class="mode-btn {{form.mode == 1 ? 'active' : ''}}" bindtap="onModeChange" data-mode="1">房主计分</view>
+    </view>
+  </view>
+  <text class="form-desc">{{modeDesc}}</text>
+
+  <!-- 茶水费开关（开启表示允许在房间详情手动增减茶水费） -->
+  <view class="form-row">
+    <text class="form-label">茶水费</text>
+    <view class="row-right">
+      <switch checked="{{form.gratuityEnabled == 1}}" bindchange="onGratuitySwitch" color="#5AAB6E" class="card-switch" />
+    </view>
+  </view>
+  <text class="form-desc" wx:if="{{form.gratuityEnabled == 1}}">开启后，房间内可手动给每笔计分加上茶水费。</text>
+  <text class="form-desc" wx:else>关闭后，对局中不会产生茶水费相关计分。</text>
+
+  <!-- 分值倍率 -->
+  <view class="form-row">
+    <text class="form-label">分值倍率</text>
+    <view class="row-right">
+      <view class="stepper">
+        <view class="stepper-btn" bindtap="onMultipleMinus">−</view>
+        <text class="stepper-val">{{form.multiple}}</text>
+        <view class="stepper-btn" bindtap="onMultiplePlus">+</view>
+      </view>
+    </view>
+  </view>
+  <view class="multiple-presets">
+    <view class="multiple-preset {{form.multiple == 1 ? 'active' : ''}}" bindtap="onMultiplePreset" data-value="1">×1</view>
+    <view class="multiple-preset {{form.multiple == 2 ? 'active' : ''}}" bindtap="onMultiplePreset" data-value="2">×2</view>
+    <view class="multiple-preset {{form.multiple == 5 ? 'active' : ''}}" bindtap="onMultiplePreset" data-value="5">×5</view>
+    <view class="multiple-preset {{form.multiple == 10 ? 'active' : ''}}" bindtap="onMultiplePreset" data-value="10">×10</view>
+    <view class="multiple-preset {{form.multiple == 20 ? 'active' : ''}}" bindtap="onMultiplePreset" data-value="20">×20</view>
+  </view>
+
+  <view class="form-btns">
+    <view class="form-btn cancel" bindtap="closeCreateDialog">取消</view>
+    <view class="form-btn confirm" bindtap="submitCreate">立即创建</view>
+  </view>
+</van-popup>
+
+<!-- 创建成功弹窗 -->
+<van-popup show="{{shareShow}}" round closeable position="bottom" custom-style="padding: 30rpx 30rpx 50rpx;" bind:close="closeShareDialog">
+  <view class="dialog-handle"></view>
+  <view class="success-icon">
+    <iconfont name="check-circle" size="60" color="#5AAB6E"></iconfont>
+  </view>
+  <text class="dialog-title">房间创建成功</text>
+  <view class="create-qr-wrap">
+    <image wx:if="{{wxacodeUrl}}" src="{{wxacodeUrl}}" class="create-qr-img" mode="aspectFit" />
+    <view wx:else class="create-qr-placeholder">
+      <iconfont name="qr-code" size="60" color="#C7C7CC"></iconfont>
+    </view>
+  </view>
+  <view class="create-keyno-row">
+    <text class="create-keyno-lbl">房间号</text>
+    <text class="create-keyno-val">{{newGameKeyNo}}</text>
+  </view>
+  <view class="share-btns">
+    <button class="share-btn copy-btn" bindtap="copyKeyNo">复制房间号</button>
+    <button class="share-btn share-btn-wechat" open-type="share">微信分享</button>
+  </view>
+</van-popup>
+
+<!-- 完善头像昵称提示 -->
+<van-dialog use-slot show="{{avatarTipShow}}" title="提示" show-cancel-button confirm-button-text="去完善" bind:confirm="goCompleteUserInfo" bind:cancel="closeAvatarTip">
+  <view class="dialog-content">请先完善头像和昵称后再使用计分功能。</view>
+</van-dialog>

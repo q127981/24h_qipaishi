@@ -1,71 +1,289 @@
 /* pages/setUserInfo/setUserInfo.wxss */
-.container{
-  padding: 0 30rpx;
+page {
+  background: #f5f6f8;
+  font-family: -apple-system, "PingFang SC", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #1c1c1e;
 }
-.photo{
-  padding: 50rpx 0;
-  text-align: center;
-}
-.photo .img{
-  width: 200rpx;
-  height: 200rpx;
-  border-radius: 100%;
-  margin: 0 auto;
-  overflow: hidden;
-}
-.photo .img image{
-  width: 100%;
-  height: 100%;
-}
-.photo .tip{
-  color: #999;
-  font-size: 24rpx;
-  margin:  auto;
-  display: inline-block;
-  background: transparent;
-  padding: 0;
-}
-.list .item{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1rpx solid #ddd;
-  height: 100rpx;
-}
-.list .item .label{
-  color: #666;
-  width: 140rpx;
-}
-.list .item:last-child{
-  border: 0;
-}
-.list .item .left{
-  display: flex;
-  align-items: center;
-}
-.list .item .icon-right{
-  color: #999;
-  font-size: 40rpx;
-}
-.list .item .btn{
-  border: 1rpx solid #ddd;
-  border-radius: 30rpx;
-  font-size: 24rpx;
-  width: 165rpx;
-  line-height: 60rpx;
-  text-align: center;
-}
-.bottom{
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  padding: 30rpx;
+
+.page {
+  min-height: 100vh;
+  padding: 80rpx 0 220rpx;
   box-sizing: border-box;
 }
-.bottom .btn{
-  height: 90rpx;
+
+/* ========== 头像区：居中大圆 + 底部灰色覆盖条"修改" ========== */
+.avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 0 60rpx;
+}
+
+.avatar-btn {
+  position: relative;
+  width: 176rpx;
+  height: 176rpx;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  line-height: normal;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.avatar-btn::after {
+  border: none;
+}
+
+.avatar {
+  width: 176rpx;
+  height: 176rpx;
+  border-radius: 50%;
+  display: block;
+  background: #e5e5ea;
+}
+
+/* 底部灰色覆盖条：和头像同宽，下方圆角等于头像半径，完美贴合 */
+.avatar-mask {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 52rpx;
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: 0 0 88rpx 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.avatar-mask-text {
+  font-size: 24rpx;
+  color: #ffffff;
+  letter-spacing: 4rpx;
+  font-weight: 500;
+}
+
+.avatar-name {
+  margin-top: 28rpx;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #1c1c1e;
+  letter-spacing: 1rpx;
+  max-width: 80%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ========== 列表：白底 + 行内分隔线 + 箭头 ========== */
+.list {
+  margin: 0 32rpx;
+  background: #ffffff;
+  border-radius: 20rpx;
+  overflow: hidden;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 36rpx 32rpx;
+  transition: background 0.15s ease;
+}
+
+.item-hover {
+  background: #f7f9fb;
+}
+
+.item-disabled {
+  /* 不可修改 */
+}
+
+.item-left {
+  flex-shrink: 0;
+}
+
+.item-label {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #1c1c1e;
+}
+
+.item-right {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  flex: 1;
+  min-width: 0;
+  justify-content: flex-end;
+}
+
+.item-value {
+  font-size: 30rpx;
+  font-weight: 400;
+  color: #1c1c1e;
+  max-width: 480rpx;
+}
+
+.item-value-muted {
+  color: #8e8e93;
+}
+
+.item-arrow {
+  font-size: 40rpx;
+  color: #c7c7cc;
+  line-height: 1;
+  font-weight: 300;
+  margin-top: -2rpx;
+}
+
+.item-edit-btn {
+  flex-shrink: 0;
+  font-size: 24rpx;
+  color: #ffffff;
+  background: linear-gradient(135deg, #74c08a 0%, #5aab6e 100%);
+  border-radius: 999rpx;
+  padding: 10rpx 24rpx;
+  letter-spacing: 2rpx;
+  font-weight: 500;
+  line-height: 1.4;
+  transition: opacity 0.15s ease;
+}
+
+.item-edit-btn-hover {
+  opacity: 0.75;
+}
+
+.item-edit-btn-disabled {
+  color: #8e8e93;
+  background: #f2f2f7;
+  font-weight: 400;
+}
+
+.divider {
+  height: 1rpx;
+  background: #f2f2f7;
+  margin: 0 32rpx;
+}
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ========== 退出登录：醒目的红底白字按钮 ========== */
+.bottom {
+  position: fixed;
+  left: 32rpx;
+  right: 32rpx;
+  bottom: 60rpx;
+  z-index: 10;
+}
+
+.logout-btn {
+  height: 96rpx;
+  line-height: 96rpx;
   text-align: center;
-  line-height: 90rpx;
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff3b30 100%);
+  border-radius: 24rpx;
+  letter-spacing: 4rpx;
+  box-shadow: 0 8rpx 20rpx rgba(255, 59, 48, 0.32);
+}
+
+.logout-hover {
+  opacity: 0.88;
+  transform: translateY(1rpx);
+}
+
+.fix-iphonex-button {
+  bottom: calc(60rpx + env(safe-area-inset-bottom));
+}
+
+/* ========== 修改昵称弹窗 ========== */
+.popup-mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 64rpx;
+}
+
+.popup {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 24rpx;
+  overflow: hidden;
+  padding: 40rpx 40rpx 0;
+  box-sizing: border-box;
+  box-shadow: 0 16rpx 40rpx rgba(0, 0, 0, 0.18);
+}
+
+.popup-title {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #1c1c1e;
+  text-align: center;
+  letter-spacing: 2rpx;
+  margin-bottom: 32rpx;
+}
+
+.popup-input-wrap {
+  background: #f5f6f8;
   border-radius: 16rpx;
+  padding: 24rpx 28rpx;
+  margin-bottom: 36rpx;
+}
+
+.popup-input {
+  font-size: 30rpx;
+  color: #1c1c1e;
+  width: 100%;
+  height: 44rpx;
+  line-height: 44rpx;
+}
+
+.popup-placeholder {
+  color: #c7c7cc;
+  font-size: 30rpx;
+}
+
+.popup-actions {
+  display: flex;
+  border-top: 1rpx solid #f2f2f7;
+  margin: 0 -40rpx;
+}
+
+.popup-btn {
+  flex: 1;
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: center;
+  font-size: 30rpx;
+  font-weight: 600;
+  letter-spacing: 2rpx;
+  transition: background 0.15s ease;
+}
+
+.popup-btn-hover {
+  background: #f7f9fb;
+}
+
+.popup-btn-cancel {
+  color: #8e8e93;
+  border-right: 1rpx solid #f2f2f7;
+}
+
+.popup-btn-confirm {
+  color: #5aab6e;
+  font-weight: 700;
 }

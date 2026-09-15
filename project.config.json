@@ -39,7 +39,8 @@
     },
     "ignoreUploadUnusedFiles": true,
     "useStaticServer": false,
-    "condition": false
+    "condition": false,
+    "compileWorklet": false
   },
   "compileType": "miniprogram",
   "condition": {},

@@ -525,8 +525,20 @@ Page({
               const noticeEmpty = !info.data.notice || info.data.notice.length === 0;
               if (noticeImgEmpty && noticeEmpty) {
                 that.setData({ popshow: false });
-              }else{
-                that.setData({ popshow: true });
+              } else {
+                var date = new Date();
+                var year = date.getFullYear();
+                var month = date.getMonth() + 1;
+                var day = date.getDate();
+                var todayStr = [year, month, day].map(util1.formatNumber).join('-');
+                var storageKey = 'popshow_shown_' + that.data.storeId;
+                var cacheDate = wx.getStorageSync(storageKey);
+                if (cacheDate && cacheDate >= todayStr) {
+                  that.setData({ popshow: false });
+                } else {
+                  wx.setStorageSync(storageKey, todayStr);
+                  that.setData({ popshow: true });
+                }
               }
               if (null != info.data.bannerImg && info.data.bannerImg.length > 0) {
                 var arr = info.data.bannerImg.split(",");

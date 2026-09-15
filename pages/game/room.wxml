@@ -1,0 +1,259 @@
+<!-- pages/game/room.wxml -->
+<view class="page">
+  <scroll-view scroll-y class="page-scroll" enhanced bounces="{{false}}" refresher-enabled="{{true}}" refresher-threshold="80" refresher-triggered="{{refresherTriggered}}" bindrefresherrefresh="onPullDownRefresh">
+
+  
+
+    <!-- 快捷操作 -->
+    <view class="action-grid">
+      <view class="action-item" hover-class="action-hover" bindtap="showInvite">
+        <view class="action-icon action-blue">
+          <iconfont name="fenxiang" size="40" color="#007AFF"></iconfont>
+        </view>
+        <text class="action-text">邀请好友</text>
+      </view>
+      <view class="action-item" hover-class="action-hover" bindtap="goModifyUserInfo">
+        <view class="action-icon action-purple">
+          <iconfont name="xiugai" size="40" color="#5856D6"></iconfont>
+        </view>
+        <text class="action-text">修改信息</text>
+      </view>
+      <view class="action-item" hover-class="action-hover" bindtap="toggleVoice">
+        <view class="action-icon {{voiceEnabled == 1 ? 'action-green' : 'action-gray'}}">
+          <iconfont name="yue" size="40" color="{{voiceEnabled == 1 ? '#34C759' : '#8E8E93'}}"></iconfont>
+        </view>
+        <text class="action-text">{{voiceEnabled == 1 ? '语音开' : '语音关'}}</text>
+      </view>
+      <view class="action-item" hover-class="action-hover" bindtap="exitRoom">
+        <view class="action-icon action-red">
+          <iconfont name="guanbi" size="40" color="#FF3B30"></iconfont>
+        </view>
+        <text class="action-text">退出房间</text>
+      </view>
+    </view>
+  <!-- 房间信息卡片（单行紧凑版） -->
+  <view class="room-hero">
+      <view class="room-hero-row">
+        <text class="room-id">ID.{{keyNo}}</text>
+        <view class="room-meta">
+          <text class="room-meta-tag room-meta-mode">{{mode == 0 ? '多人计分' : '房主计分'}}</text>
+          <text class="room-meta-tag room-meta-mult">{{multiple}}倍</text>
+          <!-- <text class="room-meta-tag room-meta-settled" wx:if="{{settlement == 1}}">已结算</text> -->
+        </view>
+        <view class="settle-btn" wx:if="{{isOwner == 1 && settlement == 0}}" hover-class="btn-hover" bindtap="openSettle">
+          <text>结算</text>
+        </view>
+        <view class="settle-btn" wx:if="{{settlement == 1}}">
+          <text>已结算</text>
+        </view>
+      </view>
+    </view>
+    <!-- 声明 -->
+    <view class="notice-bar">
+      <text>本工具仅供娱乐计分，不涉及金钱，禁止用于非法行为</text>
+    </view>
+
+    <!-- 玩家列表 -->
+    <view class="card">
+      <view class="card-head">
+        <view class="card-title-wrap">
+          <text class="card-title">玩家</text>
+          <text class="card-sub">点击头像加分</text>
+        </view>
+        <view class="batch-btn" wx:if="{{settlement == 0 && (mode == 0 || isOwner == 1)}}" hover-class="batch-btn-h" bindtap="openBatchScore">
+          <text>批量加分</text>
+        </view>
+      </view>
+
+      <view class="players-grid">
+        <view
+          class="player-item {{u.isGratuity == 1 ? 'player-tea' : ''}} {{settlement == 1 ? 'player-disabled' : ''}} {{u.userId == currentUserId && !u.isGratuity ? 'player-self' : ''}}"
+          wx:for="{{users}}"
+          wx:key="id"
+          wx:for-item="u"
+          bindtap="onPlayerTap"
+          data-uid="{{u.userId}}"
+          data-nick="{{u.nickname}}"
+          data-avatar="{{u.avatar}}"
+          data-gratuity="{{u.isGratuity}}"
+        >
+          <view class="player-avatar-wrap">
+            <block wx:if="{{u.isGratuity == 1}}">
+              <view class="player-avatar player-avatar-tea">
+                <iconfont name="chashuijian" size="32"></iconfont>
+              </view>
+            </block>
+            <block wx:else>
+              <image src="{{u.avatar || '/logo.png'}}" class="player-avatar" mode="aspectFill" />
+              <view class="rank-badge rank-{{u.rank}}" wx:if="{{u.rank > 0 && u.rank <= 3}}">{{u.rank}}</view>
+              <view class="me-badge" wx:if="{{u.userId == currentUserId}}">我</view>
+            </block>
+          </view>
+          <text class="player-name {{u.isGratuity == 1 ? 'player-name-tea' : ''}}">{{u.nickname}}</text>
+          <view class="player-score-wrap">
+            <label class="player-score {{u.isGratuity == 1 ? 'player-score-tea' : (u.score > 0 ? 'score-plus' : u.score < 0 ? 'score-minus' : '')}}">
+              {{u.score > 0 ? '+' : ''}}{{u.score}}
+            </label>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 计分记录 -->
+    <view class="card">
+      <view class="card-head">
+        <view class="card-title-wrap">
+          <text class="card-title">计分记录</text>
+          <text class="card-sub">每分钟自动刷新</text>
+        </view>
+        <view class="refresh-btn" hover-class="batch-btn-h" bindtap="onRefreshRecords">刷新</view>
+      </view>
+
+      <view class="record-list" wx:if="{{records.length > 0}}">
+        <view class="record-row" wx:for="{{records}}" wx:key="id" wx:for-item="r">
+          <view class="record-dot"></view>
+          <view class="record-content">
+            <text class="record-time">{{r.timeText}}</text>
+            <rich-text class="record-desc" nodes="{{r.content}}"></rich-text>
+          </view>
+        </view>
+      </view>
+      <view class="record-loading" wx:if="{{recordsLoading}}">
+        <text>加载中...</text>
+      </view>
+      <view class="record-more-btn" wx:if="{{recordsNoMore && records.length > 0}}" bindtap="onLoadMoreRecords">
+        <text>没有更多了</text>
+      </view>
+      <view class="record-more-btn" wx:elif="{{!recordsNoMore && records.length > 0}}" bindtap="onLoadMoreRecords">
+        <text>点击加载更多</text>
+      </view>
+      <view class="record-empty" wx:if="{{records.length == 0 && !recordsLoading}}">
+        <text>暂无计分记录</text>
+      </view>
+    </view>
+
+    <view class="page-footer">房间号 · {{keyNo}}</view>
+  </scroll-view>
+</view>
+
+<!-- 邀请好友 -->
+<van-popup show="{{inviteShow}}" round closeable position="bottom" custom-style="padding:48rpx 32rpx 56rpx;" bind:close="closeInvite">
+  <view class="popup-invite">
+    <view class="popup-title">邀请加入</view>
+    <view class="qr-box">
+      <image wx:if="{{wxacodeUrl}}" src="{{wxacodeUrl}}" class="qr-img" mode="aspectFit" />
+      <view wx:else class="qr-placeholder">
+        <iconfont name="qr-code" size="80" color="#C7C7CC"></iconfont>
+      </view>
+    </view>
+    <text class="invite-tip">微信扫码加入房间</text>
+    <view class="popup-btns">
+      <button class="popup-btn popup-btn-light" bindtap="copyKeyNo">复制房间号</button>
+      <button class="popup-btn popup-btn-primary" open-type="share">微信分享</button>
+    </view>
+  </view>
+</van-popup>
+
+<!-- 修改信息：已废弃，点击头像直接跳转 setUserInfo 页面 -->
+
+<!-- 单人加分（复用批量弹窗，单个用户） -->
+<van-popup show="{{scoreShow}}" round closeable position="bottom" custom-style="padding:0;" bind:close="closeScore">
+  <view class="popup-batch">
+    <view class="batch-header">
+      <view class="popup-title">给「{{batchUsers[0].nickname}}」加分</view>
+      <text class="batch-tip" wx:if="{{batchUsers[0].isGratuity == 1}}">茶水费</text>
+      <text class="batch-tip" wx:else>点击快捷选项或输入自定义分值</text>
+    </view>
+    <scroll-view scroll-y class="batch-scroll">
+      <view class="batch-row {{batchUsers[0].isGratuity == 1 ? 'batch-row-tea' : ''}}"
+            wx:for="{{batchUsers}}" wx:key="userId" wx:for-item="bi">
+        <view class="batch-user">
+          <block wx:if="{{bi.isGratuity == 1}}">
+            <view class="batch-avatar batch-avatar-tea">
+              <iconfont name="chashuijian" size="30"></iconfont>
+            </view>
+          </block>
+          <block wx:else>
+            <image src="{{bi.avatar || '/logo.png'}}" class="batch-avatar" mode="aspectFill" />
+          </block>
+          <text class="batch-name">{{bi.nickname}}</text>
+        </view>
+        <view class="batch-controls">
+          <view class="batch-circles">
+            <view wx:for="{{quickPreset}}" wx:key="value" wx:for-item="pq"
+                  class="quick-btn {{bi.pendingScore == pq.value ? 'quick-btn-active' : ''}}"
+                  bindtap="onBatchDotTap" data-uid="{{bi.userId}}" data-score="{{pq.value}}">{{pq.value}}</view>
+          </view>
+          <input class="batch-input" type="digit" value="{{bi.pendingScore}}" placeholder="0"
+                 bindinput="onBatchInput" data-uid="{{bi.userId}}" />
+        </view>
+      </view>
+    </scroll-view>
+    <view class="batch-footer">
+      <view class="confirm-btn" bindtap="submitScore">确认加分</view>
+    </view>
+  </view>
+</van-popup>
+
+<!-- 批量加分 -->
+<van-popup show="{{batchScoreShow}}" round closeable position="bottom" custom-style="padding:0;" bind:close="closeBatchScore">
+  <view class="popup-batch">
+    <view class="batch-header">
+      <view class="popup-title">批量加分</view>
+      <text class="batch-tip">点击快捷选项或输入自定义分值</text>
+    </view>
+    <scroll-view scroll-y class="batch-scroll">
+      <view class="batch-row {{bi.isGratuity == 1 ? 'batch-row-tea' : ''}}"
+            wx:for="{{batchUsers}}" wx:key="userId" wx:for-item="bi">
+        <view class="batch-user">
+          <block wx:if="{{bi.isGratuity == 1}}">
+            <view class="batch-avatar batch-avatar-tea">
+              <iconfont name="chashuijian" size="30"></iconfont>
+            </view>
+          </block>
+          <block wx:else>
+            <image src="{{bi.avatar || '/logo.png'}}" class="batch-avatar" mode="aspectFill" />
+          </block>
+          <text class="batch-name">{{bi.nickname}}</text>
+        </view>
+        <view class="batch-controls">
+          <view class="batch-circles">
+            <view wx:for="{{quickPreset}}" wx:key="value" wx:for-item="pq"
+                  class="quick-btn {{bi.pendingScore == pq.value ? 'quick-btn-active' : ''}}"
+                  bindtap="onBatchDotTap" data-uid="{{bi.userId}}" data-score="{{pq.value}}">{{pq.value}}</view>
+          </view>
+          <input class="batch-input" type="digit" value="{{bi.pendingScore}}" placeholder="0"
+                 bindinput="onBatchInput" data-uid="{{bi.userId}}" />
+        </view>
+      </view>
+    </scroll-view>
+    <view class="batch-footer">
+      <view class="batch-sum">
+        <text class="batch-sum-label">本次合计</text>
+        <text class="batch-sum-value">- {{batchTotal}}</text>
+      </view>
+      <view class="confirm-btn" bindtap="submitBatchScore">确认批量加分</view>
+    </view>
+  </view>
+</van-popup>
+
+<!-- 结算确认 -->
+<van-dialog
+  use-slot
+  title="结算对局"
+  show="{{settleShow}}"
+  show-cancel-button
+  cancel-button-text="{{settleCountdown > 0 ? settleCountdown + '秒后可关闭' : '取消'}}"
+  cancel-button-color="{{settleCountdown > 0 ? '#C7C7CC' : '#333333'}}"
+  close-on-click-overlay="{{ false }}"
+  before-close="{{settleBeforeCloseFunction}}"
+  confirm-button-text="{{settleCountdown > 0 ? settleCountdown + '秒后可确认' : '确认结算'}}"
+  confirm-button-color="{{settleCountdown > 0 ? '#C7C7CC' : '#FF3B30'}}"
+  bind:confirm="onSettleConfirm"
+  bind:cancel="closeSettle"
+  bind:click-overlay="onSettleOverlayClick">
+  <view class="settle-box">
+    <text class="settle-tip">结算后无法继续计分，请确认</text>
+    <view class="settle-count" wx:if="{{settleCountdown > 0}}">{{settleCountdown}}</view>
+  </view>
+</van-dialog>
