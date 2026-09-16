@@ -34,17 +34,21 @@
   <!-- 房间信息卡片（单行紧凑版） -->
   <view class="room-hero">
       <view class="room-hero-row">
-        <text class="room-id">ID.{{keyNo}}</text>
-        <view class="room-meta">
-          <text class="room-meta-tag room-meta-mode">{{mode == 0 ? '多人计分' : '房主计分'}}</text>
-          <text class="room-meta-tag room-meta-mult">{{multiple}}倍</text>
-          <!-- <text class="room-meta-tag room-meta-settled" wx:if="{{settlement == 1}}">已结算</text> -->
+        <view class="room-hero-left">
+          <text class="room-id">ID.{{keyNo}}</text>
+          <view class="room-meta">
+            <text class="room-meta-tag room-meta-mode">{{mode == 0 ? '多人计分' : '房主计分'}}</text>
+            <text class="room-meta-tag room-meta-mult">{{multiple}}倍</text>
+            <!-- <text class="room-meta-tag room-meta-settled" wx:if="{{settlement == 1}}">已结算</text> -->
+          </view>
         </view>
-        <view class="settle-btn" wx:if="{{isOwner == 1 && settlement == 0}}" hover-class="btn-hover" bindtap="openSettle">
-          <text>结算</text>
-        </view>
-        <view class="settle-btn" wx:if="{{settlement == 1}}">
-          <text>已结算</text>
+        <view class="room-hero-right">
+          <view class="settle-btn" wx:if="{{isOwner == 1 && settlement == 0}}" hover-class="btn-hover" bindtap="openSettle">
+            <text>结算</text>
+          </view>
+          <view class="settle-btn settled" wx:if="{{settlement == 1}}">
+            <text>已结算</text>
+          </view>
         </view>
       </view>
     </view>
@@ -58,10 +62,10 @@
       <view class="card-head">
         <view class="card-title-wrap">
           <text class="card-title">玩家</text>
-          <text class="card-sub">点击头像加分</text>
+          <text class="card-sub">点击头像计分</text>
         </view>
         <view class="batch-btn" wx:if="{{settlement == 0 && (mode == 0 || isOwner == 1)}}" hover-class="batch-btn-h" bindtap="openBatchScore">
-          <text>批量加分</text>
+          <text>批量计分</text>
         </view>
       </view>
 
@@ -156,12 +160,13 @@
 
 <!-- 修改信息：已废弃，点击头像直接跳转 setUserInfo 页面 -->
 
-<!-- 单人加分（复用批量弹窗，单个用户） -->
+<!-- 单人加分弹窗：多人计分模式保持原交互；房主计分模式使用两个步进器（左减分 / 右加分） -->
 <van-popup show="{{scoreShow}}" round closeable position="bottom" custom-style="padding:0;" bind:close="closeScore">
   <view class="popup-batch">
     <view class="batch-header">
       <view class="popup-title">给「{{batchUsers[0].nickname}}」加分</view>
       <text class="batch-tip" wx:if="{{batchUsers[0].isGratuity == 1}}">茶水费</text>
+      <text class="batch-tip" wx:elif="{{mode == 1}}">倍率 {{multiple}} · 直接调整目标分数（-999 ~ +999）</text>
       <text class="batch-tip" wx:else>点击快捷选项或输入自定义分值</text>
     </view>
     <scroll-view scroll-y class="batch-scroll">
@@ -178,7 +183,9 @@
           </block>
           <text class="batch-name">{{bi.nickname}}</text>
         </view>
-        <view class="batch-controls">
+
+        <!-- 多人计分模式：原有快捷分值 + 自定义输入框 -->
+        <view class="batch-controls" wx:if="{{mode == 0}}">
           <view class="batch-circles">
             <view wx:for="{{quickPreset}}" wx:key="value" wx:for-item="pq"
                   class="quick-btn {{bi.pendingScore == pq.value ? 'quick-btn-active' : ''}}"
@@ -186,6 +193,25 @@
           </view>
           <input class="batch-input" type="digit" value="{{bi.pendingScore}}" placeholder="0"
                  bindinput="onBatchInput" data-uid="{{bi.userId}}" />
+        </view>
+
+        <!-- 房主计分模式：单个可输入步进器（范围 -999 ~ +999，步长 = 倍率） -->
+        <view class="stepper-single" wx:else>
+          <van-stepper
+            integer
+            min="-999"
+            max="999"
+            step="{{multiple}}"
+            value="{{bi.deltaScore || 0}}"
+            data-uid="{{bi.userId}}"
+            bind:change="onDeltaStepperChange"
+            custom-class="stepper-custom"
+            input-class="stepper-input-{{(bi.deltaScore || 0) > 0 ? 'plus' : (bi.deltaScore || 0) < 0 ? 'minus' : 'zero'}}"
+            input-width="120rpx"
+            button-size="72rpx"
+            show-plus="{{true}}"
+            show-minus="{{true}}"
+          />
         </view>
       </view>
     </scroll-view>
@@ -195,12 +221,13 @@
   </view>
 </van-popup>
 
-<!-- 批量加分 -->
+<!-- 批量加分：多人计分模式用快捷分值+输入框；房主计分模式用单个步进器（可正负） -->
 <van-popup show="{{batchScoreShow}}" round closeable position="bottom" custom-style="padding:0;" bind:close="closeBatchScore">
   <view class="popup-batch">
     <view class="batch-header">
       <view class="popup-title">批量加分</view>
-      <text class="batch-tip">点击快捷选项或输入自定义分值</text>
+      <text class="batch-tip" wx:if="{{mode == 1}}">倍率 {{multiple}} · 直接调整目标分数（-999 ~ +999）</text>
+      <text class="batch-tip" wx:else>点击快捷选项或输入自定义分值</text>
     </view>
     <scroll-view scroll-y class="batch-scroll">
       <view class="batch-row {{bi.isGratuity == 1 ? 'batch-row-tea' : ''}}"
@@ -216,7 +243,9 @@
           </block>
           <text class="batch-name">{{bi.nickname}}</text>
         </view>
-        <view class="batch-controls">
+
+        <!-- 多人计分模式：原快捷分值 + 自定义输入框 -->
+        <view class="batch-controls" wx:if="{{mode == 0}}">
           <view class="batch-circles">
             <view wx:for="{{quickPreset}}" wx:key="value" wx:for-item="pq"
                   class="quick-btn {{bi.pendingScore == pq.value ? 'quick-btn-active' : ''}}"
@@ -225,12 +254,31 @@
           <input class="batch-input" type="digit" value="{{bi.pendingScore}}" placeholder="0"
                  bindinput="onBatchInput" data-uid="{{bi.userId}}" />
         </view>
+
+        <!-- 房主计分模式：单个可正负步进器 -->
+        <view class="stepper-single" wx:else>
+          <van-stepper
+            integer
+            min="-999"
+            max="999"
+            step="{{multiple}}"
+            value="{{bi.deltaScore || 0}}"
+            data-uid="{{bi.userId}}"
+            bind:change="onDeltaStepperChange"
+            custom-class="stepper-custom"
+            input-class="stepper-input-{{(bi.deltaScore || 0) > 0 ? 'plus' : (bi.deltaScore || 0) < 0 ? 'minus' : 'zero'}}"
+            input-width="120rpx"
+            button-size="72rpx"
+            show-plus="{{true}}"
+            show-minus="{{true}}"
+          />
+        </view>
       </view>
     </scroll-view>
     <view class="batch-footer">
       <view class="batch-sum">
         <text class="batch-sum-label">本次合计</text>
-        <text class="batch-sum-value">- {{batchTotal}}</text>
+        <text class="batch-sum-value">{{batchTotal > 0 ? '+' : ''}}{{batchTotal}}</text>
       </view>
       <view class="confirm-btn" bindtap="submitBatchScore">确认批量加分</view>
     </view>

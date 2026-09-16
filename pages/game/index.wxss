@@ -139,9 +139,25 @@ page { background: #f4f5f7; }
 
 .cg-hero-row {
   display: flex;
+  align-items: stretch;
+  gap: 16rpx;
+  padding: 24rpx 28rpx;
+}
+
+.cg-hero-left {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12rpx;
+}
+
+.cg-hero-right {
+  flex-shrink: 0;
+  display: flex;
   align-items: center;
-  gap: 10rpx;
-  padding: 16rpx 20rpx;
+  justify-content: flex-end;
 }
 
 .cg-id-wrap {
@@ -158,7 +174,7 @@ page { background: #f4f5f7; }
 }
 
 .cg-id {
-  font-size: 28rpx;
+  font-size: 32rpx;
   font-weight: 800;
   color: #5aab6e;
   letter-spacing: 2rpx;
@@ -167,15 +183,14 @@ page { background: #f4f5f7; }
 .cg-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 6rpx;
-  flex: 1;
+  gap: 10rpx;
   align-items: center;
 }
 
 .cg-mode-tag {
   display: inline-flex;
   align-items: center;
-  padding: 3rpx 10rpx;
+  padding: 4rpx 12rpx;
   border-radius: 14rpx;
   font-size: 22rpx;
   font-weight: 600;
@@ -189,17 +204,30 @@ page { background: #f4f5f7; }
 .cg-mode-mult { color: #ff9500; background: rgba(255, 149, 0, 0.1); border-color: rgba(255, 149, 0, 0.3); }
 .cg-mode-settled { color: #34c759; background: rgba(52, 199, 89, 0.1); border-color: rgba(52, 199, 89, 0.3); }
 .cg-mode-unsettled { color: #ff9500; background: rgba(255, 149, 0, 0.1); border-color: rgba(255, 149, 0, 0.3); }
-.cg-mode-tea { padding: 3rpx 10rpx; }
 
 .cg-enter-btn {
-  flex-shrink: 0;
-  padding: 6rpx 18rpx;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120rpx;
+  height: 72rpx;
+  padding: 0 28rpx;
   background: linear-gradient(135deg, #5aab6e, #3d8f55);
   color: #fff;
-  font-size: 22rpx;
-  font-weight: 700;
-  border-radius: 18rpx;
+  font-size: 30rpx;
+  font-weight: 800;
+  letter-spacing: 2rpx;
+  border-radius: 36rpx;
+  box-shadow: 0 6rpx 18rpx rgba(90, 171, 110, 0.4);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
+
+.current-game:active .cg-enter-btn {
+  transform: scale(0.94);
+  box-shadow: 0 3rpx 10rpx rgba(90, 171, 110, 0.3);
+}
+.cg-mode-unsettled { color: #ff9500; background: rgba(255, 149, 0, 0.1); border-color: rgba(255, 149, 0, 0.3); }
+.cg-mode-tea { padding: 3rpx 10rpx; }
 
 .empty-card {
   display: flex;

@@ -22,17 +22,19 @@
     <view class="card-body">
       <view class="current-game" wx:if="{{myCurrentGame}}" bindtap="goCurrentGame">
         <view class="cg-hero-row">
-          <view class="cg-id-wrap">
+          <view class="cg-hero-left">
             <text class="cg-id">ID {{myCurrentGame.keyNo}}</text>
+            <view class="cg-meta">
+              <text class="cg-mode-tag mode-multi" wx:if="{{myCurrentGame.mode == 0}}">多人计分</text>
+              <text class="cg-mode-tag mode-owner" wx:if="{{myCurrentGame.mode == 1}}">房主计分</text>
+              <text class="cg-mode-tag cg-mode-mult" wx:if="{{myCurrentGame.multiple > 1}}">{{myCurrentGame.multiple}}倍</text>
+
+            </view>
           </view>
-          <view class="cg-meta">
-            <text class="cg-mode-tag mode-multi" wx:if="{{myCurrentGame.mode == 0}}">多人计分</text>
-            <text class="cg-mode-tag mode-owner" wx:if="{{myCurrentGame.mode == 1}}">房主计分</text>
-            <text class="cg-mode-tag cg-mode-mult" wx:if="{{myCurrentGame.multiple > 1}}">{{myCurrentGame.multiple}}倍</text>
-            
-          </view>
-          <view class="cg-enter-btn">
-            <text>进入</text>
+          <view class="cg-hero-right">
+            <view class="cg-enter-btn">
+              <text>进入</text>
+            </view>
           </view>
         </view>
       </view>

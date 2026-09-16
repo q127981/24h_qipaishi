@@ -13,16 +13,32 @@ page {
 /* 房间信息卡片（单行紧凑版） */
 .room-hero {
   margin: 24rpx 24rpx 0;
-  padding: 10rpx 24rpx;
+  padding: 24rpx 28rpx;
   background: linear-gradient(135deg, #eef8f1 0%, #daf0e2 100%);
-  border-radius: 16rpx;
+  border-radius: 20rpx;
   border: 1rpx solid #c0e8ce;
 }
 
 .room-hero-row {
   display: flex;
+  align-items: stretch;
+  gap: 16rpx;
+}
+
+.room-hero-left {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12rpx;
+}
+
+.room-hero-right {
+  flex-shrink: 0;
+  display: flex;
   align-items: center;
-  gap: 10rpx;
+  justify-content: flex-end;
 }
 
 .room-id-label {
@@ -33,7 +49,7 @@ page {
 }
 
 .room-id {
-  font-size: 30rpx;
+  font-size: 32rpx;
   font-weight: 800;
   color: #5aab6e;
   letter-spacing: 2rpx;
@@ -53,7 +69,7 @@ page {
 .room-meta-tag {
   padding: 3rpx 10rpx;
   border-radius: 14rpx;
-  font-size: 22rpx;
+  font-size: 24rpx;
   font-weight: 600;
   color: #5aab6e;
   background: rgba(90, 171, 110, 0.1);
@@ -80,19 +96,30 @@ page {
 .settle-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6rpx;
-  padding: 8rpx 18rpx;
-  border-radius: 24rpx;
-  background: linear-gradient(135deg, #5aab6e, #3d8f55);
+  justify-content: center;
+  min-width: 120rpx;
+  height: 60rpx;
+  padding: 0 28rpx;
+  border-radius: 30rpx;
+  background: linear-gradient(135deg, #ff3b30, #cc2e24);
   color: #fff;
-  font-size: 22rpx;
-  font-weight: 600;
+  font-size: 30rpx;
+  font-weight: 800;
+  letter-spacing: 2rpx;
+  box-shadow: 0 6rpx 18rpx rgba(255, 59, 48, 0.4);
   flex-shrink: 0;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.settle-btn:active {
+  transform: scale(0.94);
+  box-shadow: 0 3rpx 10rpx rgba(255, 59, 48, 0.3);
 }
 
 .settle-btn.settled {
-  background: rgba(255, 255, 255, 0.15);
-  opacity: 0.9;
+  background: #c7c7cc;
+  box-shadow: none;
+  opacity: 1;
 }
 
 .btn-hover { opacity: 0.8; }
@@ -696,6 +723,155 @@ page {
 }
 
 .confirm-btn:active { opacity: 0.85; }
+
+/* 房主计分模式：单个可正负步进器（行内靠右） */
+.stepper-single {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* van-stepper 根容器：去掉所有默认边框/背景/阴影 */
+.stepper-custom {
+  display: flex !important;
+  align-items: center;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+/* 加减按钮：圆形彩色大按钮 + 阴影 */
+.stepper-custom .van-stepper__minus,
+.stepper-custom .van-stepper__plus {
+  width: 72rpx !important;
+  height: 72rpx !important;
+  min-width: 72rpx !important;
+  min-height: 72rpx !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* 减按钮：蓝色系 */
+.stepper-custom .van-stepper__minus {
+  background: linear-gradient(135deg, #007aff, #0056cc) !important;
+  box-shadow: 0 4rpx 14rpx rgba(0, 122, 255, 0.4) !important;
+  color: #fff !important;
+}
+
+/* 减按钮：用 CSS 画 "-" 横线图标 */
+.stepper-custom .van-stepper__minus::before {
+  content: '';
+  display: block;
+  width: 28rpx;
+  height: 4rpx;
+  background: #fff;
+  border-radius: 2rpx;
+}
+
+/* 减按钮禁用态 */
+.stepper-custom .van-stepper__minus--disabled {
+  background: linear-gradient(135deg, #c7c7cc, #aeaeae) !important;
+  box-shadow: none !important;
+}
+
+/* 加按钮：红色系 */
+.stepper-custom .van-stepper__plus {
+  background: linear-gradient(135deg, #ff3b30, #cc2e24) !important;
+  box-shadow: 0 4rpx 14rpx rgba(255, 59, 48, 0.4) !important;
+  color: #fff !important;
+}
+
+/* 加按钮：用 CSS 画 "+" 十字图标 */
+.stepper-custom .van-stepper__plus::before {
+  content: '';
+  display: block;
+  width: 28rpx;
+  height: 4rpx;
+  background: #fff;
+  border-radius: 2rpx;
+  position: absolute;
+}
+
+.stepper-custom .van-stepper__plus::after {
+  content: '';
+  display: block;
+  width: 4rpx;
+  height: 28rpx;
+  background: #fff;
+  border-radius: 2rpx;
+  position: absolute;
+}
+
+/* 加按钮禁用态 */
+.stepper-custom .van-stepper__plus--disabled {
+  background: linear-gradient(135deg, #c7c7cc, #aeaeae) !important;
+  box-shadow: none !important;
+}
+
+/* 加号图标定位（van-stepper 的 plus 元素默认 position: relative） */
+.stepper-custom .van-stepper__plus {
+  position: relative;
+}
+
+/* 点击/按住态：缩小 + 阴影加深 */
+.stepper-custom .van-stepper__minus:not(.van-stepper__minus--disabled):active {
+  transform: scale(0.88);
+  box-shadow: 0 2rpx 8rpx rgba(0, 122, 255, 0.3) !important;
+}
+
+.stepper-custom .van-stepper__plus:not(.van-stepper__plus--disabled):active {
+  transform: scale(0.88);
+  box-shadow: 0 2rpx 8rpx rgba(255, 59, 48, 0.3) !important;
+}
+
+/* 输入框：大号、加粗、圆角，背景色随值变化 */
+.stepper-custom .van-stepper__input {
+  width: 120rpx !important;
+  height: 72rpx !important;
+  min-width: 120rpx !important;
+  font-size: 34rpx !important;
+  font-weight: 800 !important;
+  color: #636366 !important;
+  background: #f2f2f7 !important;
+  border: none !important;
+  border-radius: 16rpx !important;
+  text-align: center !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-shadow: inset 0 2rpx 6rpx rgba(0, 0, 0, 0.06) !important;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+/* 输入框：加分为红色系 */
+.stepper-custom .stepper-input-plus {
+  background: #fff1f0 !important;
+  color: #ff3b30 !important;
+  box-shadow: inset 0 0 0 2rpx rgba(255, 59, 48, 0.25), inset 0 2rpx 6rpx rgba(255, 59, 48, 0.08) !important;
+}
+
+/* 输入框：减分为蓝色系 */
+.stepper-custom .stepper-input-minus {
+  background: #eaf2ff !important;
+  color: #007aff !important;
+  box-shadow: inset 0 0 0 2rpx rgba(0, 122, 255, 0.25), inset 0 2rpx 6rpx rgba(0, 122, 255, 0.08) !important;
+}
+
+/* 输入框：零值为默认灰色 */
+.stepper-custom .stepper-input-zero {
+  background: #f2f2f7 !important;
+  color: #8e8e93 !important;
+}
+
+/* 隐藏原生 hover 态避免样式冲突 */
+.stepper-custom .van-stepper__minus,
+.stepper-custom .van-stepper__plus {
+  -webkit-tap-highlight-color: transparent;
+}
 
 /* 批量加分 */
 .popup-batch {

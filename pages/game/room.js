@@ -479,7 +479,9 @@ Page({
     });
   },
 
-  // == 单人加分（复用批量组件，单个用户） ==
+  // == 单人加分（共用一个弹窗，根据 mode 切换交互） ==
+  // mode == 0 多人计分：使用快捷分值 + 自定义输入，禁止给自己加分
+  // mode == 1 房主计分：使用两个步进器（左减分 / 右加分），允许给自己和所有人加减分
   onPlayerTap(e) {
     var ds = e.currentTarget.dataset || {};
     var uid = ds.uid;
@@ -493,29 +495,36 @@ Page({
     if (parseInt(this.data.mode) === 1 && !this.data.isOwner) {
       wx.showToast({ title: '仅房主可计分', icon: 'none' }); return;
     }
-    // 强制拦截：当前用户绝对不能给自己加分（茶水费除外）
-    // userId 一律从 currentUserInfo.id 取（/member/user/get 返回的字段就是 id，不是 userId）
     var myUid = (this.data.currentUserInfo && this.data.currentUserInfo.id) || null;
     if (myUid != null) myUid = String(myUid);
-    if (!isGratuity && myUid != null && String(uid) == myUid) {
+    // 多人计分模式：仍然禁止给自己加分（茶水费除外）
+    if (parseInt(this.data.mode) === 0 && !isGratuity && myUid != null && String(uid) == myUid) {
       wx.showToast({ title: '不可以给自己加分', icon: 'none' });
       return;
     }
-    var mult = this.data.multiple || 1;
+    var mode = parseInt(this.data.mode) || 0;
     var single = [{
       userId: String(uid),
       nickname: user.nickname || ds.nick || '玩家',
       avatar: user.avatar || ds.avatar || '',
       isGratuity: isGratuity,
       score: user.score || 0,
+      // 多人计分模式：保留原字段 pendingScore
       pendingScore: 0,
+      // 房主计分模式：单个步进器，值即目标分数变化量（正=加分，负=减分，0=不变）
+      deltaScore: 0,
     }];
+    var preset = [];
+    if (mode === 0) {
+      var mult = this.data.multiple || 1;
+      preset = [1, 2, 3, 4, 5, 6].map(function(n) { return { value: n * mult }; });
+    }
     this.setData({
       batchUsers: single,
       batchTotal: 0,
       scoreShow: true,
       scoreTarget: single[0],
-      quickPreset: [1, 2, 3, 4, 5, 6].map(function(n) { return { value: n * mult }; }),
+      quickPreset: preset,
     });
   },
 
@@ -523,15 +532,57 @@ Page({
     this.setData({ scoreShow: false, scoreTarget: null, batchUsers: [], batchTotal: 0 });
   },
 
-  // 复用的快捷选项和输入处理（复用批量 API）
+  // 多人计分模式下，单人弹窗复用批量弹窗的事件
   onScoreInput(e) {
-    // 单人弹窗复用 batchInput
     this.onBatchInput(e);
   },
 
   onScoreDotTap(e) {
-    // 单人弹窗复用 batchDot
     this.onBatchDotTap(e);
+  },
+
+  // 房主计分模式：单个步进器变化（值即目标分数变化量，范围 -999 ~ +999）
+  onDeltaStepperChange(e) {
+    var uid = String(e.currentTarget.dataset.uid);
+    var raw = parseInt(e.detail);
+    if (isNaN(raw)) raw = 0;
+    // 兜底限幅（van-stepper 自身已约束，这里再保险一次）
+    if (raw > 999) raw = 999;
+    if (raw < -999) raw = -999;
+    this._updateBatchUser(uid, { deltaScore: raw });
+  },
+
+  // 内部：更新 batchUsers 中某一行
+  _updateBatchUser(uid, patch) {
+    var updated = this.data.batchUsers.map(function(u) {
+      if (String(u.userId) == uid) {
+        var nu = Object.assign({}, u);
+        if (patch.deltaScore != null) nu.deltaScore = patch.deltaScore;
+        if (patch.pendingScore != null) nu.pendingScore = patch.pendingScore;
+        return nu;
+      }
+      return u;
+    });
+    this.setData({ batchUsers: updated });
+  },
+
+  // 房主计分模式：调用一次 /score，目标加减分由 scoreChange 正负值决定
+  _postScore(targetUserId, scoreChange, isGratuity) {
+    var that = this;
+    return new Promise(function(resolve) {
+      http.request(
+        "/member/scoreGame/score", "1", "post",
+        {
+          gameId: that.data.gameId,
+          targetUserId: String(targetUserId),
+          scoreChange: scoreChange,
+          isGratuity: isGratuity || 0,
+        },
+        app.globalData.userDatatoken.accessToken, "",
+        function(info) { resolve(info && info.code == 0); },
+        function() { resolve(false); }
+      );
+    });
   },
 
   submitScore() {
@@ -540,19 +591,46 @@ Page({
     if (!bi) return;
     var myUid = (that.data.currentUserInfo && that.data.currentUserInfo.id) || null;
     if (myUid) myUid = String(myUid);
+
+    if (parseInt(that.data.mode) === 1) {
+      // === 房主计分模式：单个步进器值即为目标分数变化量（正负皆可，0 无效） ===
+      // 重要：不再使用「目标+N / 操作人-N」的对称逻辑，只改变目标用户分数，操作人自己不变
+      var delta = parseInt(bi.deltaScore) || 0;
+      if (delta === 0) {
+        wx.showToast({ title: '请调整分值（正为加，负为减）', icon: 'none' });
+        return;
+      }
+      var nick = bi.nickname || '玩家';
+
+      wx.showLoading({ title: '提交中...', mask: true });
+      that._postScore(bi.userId, delta, bi.isGratuity || 0).then(function(ok) {
+        wx.hideLoading();
+        if (ok) {
+          wx.showToast({ title: '操作成功', icon: 'success' });
+          // TTS：根据正负播报
+          var abs = Math.abs(delta);
+          that._ttsSpeak([delta > 0 ? (nick + '加' + abs + '分') : (nick + '减' + abs + '分')]);
+          that.closeScore();
+          that.loadDetail();
+        } else {
+          wx.showToast({ title: '操作失败', icon: 'none' });
+        }
+      });
+      return;
+    }
+
+    // === 多人计分模式：保持原有交互不变 ===
     if (myUid && String(bi.userId) == myUid && !bi.isGratuity) {
       wx.showToast({ title: '不可以给自己加分', icon: 'none' }); return;
     }
     var finalScore = bi.pendingScore || 0;
     if (finalScore <= 0) { wx.showToast({ title: '请输入分值', icon: 'none' }); return; }
 
-    // 记录提交前自己分数（用于提交后验证扣分是否真的执行）
-    var myBefore = (this.data.users || []).find(function(u) {
+    var myBefore2 = (this.data.users || []).find(function(u) {
       return myUid && String(u.userId) == String(myUid);
     });
-    var myBeforeScore = myBefore ? myBefore.score : null;
+    var myBeforeScore2 = myBefore2 ? myBefore2.score : null;
 
-    // 后端 /score 已实现：目标加分 + 操作人自动扣分（茶水费不计），前端只调一次
     wx.showLoading({ title: '提交中...', mask: true });
     http.request(
       "/member/scoreGame/score", "1", "post",
@@ -562,24 +640,21 @@ Page({
         wx.hideLoading();
         if (info.code == 0) {
           wx.showToast({ title: '加分成功', icon: 'success' });
-          // TTS：直接用昵称 + 分值构造播报文本，不依赖后端 content 字段
-          var nick = bi.nickname || '玩家';
-          that._ttsSpeak([nick + '加' + finalScore + '分']);
+          var nick2 = bi.nickname || '玩家';
+          that._ttsSpeak([nick2 + '加' + finalScore + '分']);
           that.closeScore();
           that.loadDetail();
-          // 等待 600ms 确保后端事务已提交 + Redis 缓存已失效，再拉最新详情
           setTimeout(function() {
             that.loadDetail();
-            // 校验自己的分数是否真的扣了
             setTimeout(function() {
-              if (myBeforeScore == null) return;
+              if (myBeforeScore2 == null) return;
               var meNow = (that.data.users || []).find(function(u) {
                 return myUid && String(u.userId) == String(myUid);
               });
               if (meNow && !bi.isGratuity) {
-                var expected = myBeforeScore - finalScore;
+                var expected = myBeforeScore2 - finalScore;
                 if (meNow.score !== expected) {
-                  console.warn('[submitScore] 自己分数未正确扣减，before=' + myBeforeScore + ' now=' + meNow.score + ' expected=' + expected);
+                  console.warn('[submitScore] 自己分数未正确扣减，before=' + myBeforeScore2 + ' now=' + meNow.score + ' expected=' + expected);
                 }
               }
             }, 200);
@@ -610,11 +685,14 @@ Page({
       return;
     }
     var teaRow = (that.data.users || []).find(function(u) { return u.isGratuity == 1; });
+    // 房主计分模式：允许给所有人（含自己）加减分，因此不过滤自己
+    // 多人计分模式：保持原逻辑，过滤掉自己（茶水费始终保留）
+    var isOwnerMode = parseInt(that.data.mode) === 1;
     var list = (that.data.users || [])
       .filter(function(u) {
-        // 排除茶水费和当前用户自己（用字符串比较，避免数字/字符串类型不一致）
         if (u.isGratuity == 1) return false;
-        return String(u.userId) !== myUid;
+        if (!isOwnerMode) return String(u.userId) !== myUid;
+        return true;
       })
       .map(function(u) {
         return {
@@ -624,6 +702,7 @@ Page({
           isGratuity: 0,
           score: u.score || 0,
           pendingScore: 0,
+          deltaScore: 0,
         };
       });
     if (teaRow) {
@@ -634,18 +713,23 @@ Page({
         isGratuity: 1,
         score: teaRow.score || 0,
         pendingScore: 0,
+        deltaScore: 0,
       });
     }
     if (!list.length) {
       wx.showToast({ title: '暂无可加分的玩家', icon: 'none' });
       return;
     }
-    var mult = that.data.multiple || 1;
+    var preset = [];
+    if (!isOwnerMode) {
+      var mult = that.data.multiple || 1;
+      preset = [1, 2, 3, 4, 5, 6].map(function(n) { return { value: n * mult }; });
+    }
     this.setData({
       batchScoreShow: true,
       batchUsers: list,
       batchTotal: 0,
-      quickPreset: [1, 2, 3, 4, 5, 6].map(function(n) { return { value: n * mult }; }),
+      quickPreset: preset,
     });
   },
 
@@ -685,8 +769,17 @@ Page({
   },
 
   _calcBatchTotal() {
+    var that = this;
     var total = 0;
-    this.data.batchUsers.forEach(function(u) { total += (u.pendingScore || 0); });
+    var isOwnerMode = parseInt(that.data.mode) === 1;
+    that.data.batchUsers.forEach(function(u) {
+      // 房主计分模式用 deltaScore（可正可负），多人计分模式用 pendingScore（≥0）
+      if (isOwnerMode) {
+        total += (parseInt(u.deltaScore) || 0);
+      } else {
+        total += (u.pendingScore || 0);
+      }
+    });
     this.setData({ batchTotal: total });
   },
 
@@ -695,12 +788,22 @@ Page({
     var myUid = (that.data.currentUserInfo && that.data.currentUserInfo.id) || null;
     if (myUid) myUid = String(myUid);
     var myNickname = (that.data.currentUserInfo && that.data.currentUserInfo.nickname) || '我';
+    var isOwnerMode = parseInt(that.data.mode) === 1;
+
+    // 过滤出真正要提交的项：
+    // - 房主计分模式：deltaScore ≠ 0（正负皆可），允许包含自己
+    // - 多人计分模式：pendingScore > 0，过滤掉自己
     var tasks = (this.data.batchUsers || []).filter(function(u) {
-      // 二次过滤：排除自己 + pendingScore > 0
       var isSelf = myUid && String(u.userId) == myUid && !u.isGratuity;
+      if (isOwnerMode) {
+        return (parseInt(u.deltaScore) || 0) !== 0;
+      }
       return !isSelf && (u.pendingScore || 0) > 0;
     });
-    if (!tasks.length) { wx.showToast({ title: '请设置加分步数', icon: 'none' }); return; }
+    if (!tasks.length) {
+      wx.showToast({ title: isOwnerMode ? '请调整分值' : '请设置加分步数', icon: 'none' });
+      return;
+    }
 
     wx.showLoading({ title: '提交中...', mask: true });
 
@@ -710,10 +813,10 @@ Page({
     tasks.forEach(function(u) {
       chain = chain.then(function() {
         return new Promise(function(resolve) {
-          var finalScore = u.pendingScore || 0;
+          var delta = isOwnerMode ? (parseInt(u.deltaScore) || 0) : (u.pendingScore || 0);
           http.request(
             "/member/scoreGame/score", "1", "post",
-            { gameId: that.data.gameId, targetUserId: u.userId, scoreChange: finalScore, isGratuity: u.isGratuity || 0 },
+            { gameId: that.data.gameId, targetUserId: u.userId, scoreChange: delta, isGratuity: u.isGratuity || 0 },
             app.globalData.userDatatoken.accessToken, "",
             function(info) {
               if (info.code == 0) { success++; }
@@ -728,12 +831,12 @@ Page({
 
     chain.then(function() {
       wx.hideLoading();
-      if (success && !failed) wx.showToast({ title: '批量加分成功', icon: 'success' });
+      if (success && !failed) wx.showToast({ title: isOwnerMode ? '批量操作成功' : '批量加分成功', icon: 'success' });
       else if (success > 0) wx.showToast({ title: '部分失败', icon: 'none' });
       else wx.showToast({ title: '全部失败', icon: 'none' });
-      // TTS：播报操作人完成了批量加分
+      // TTS：播报操作人完成了批量操作（房主模式强调一下"调整"，多人模式保留原"批量加分"）
       if (success > 0) {
-        that._ttsSpeak([myNickname + '完成了批量加分']);
+        that._ttsSpeak([myNickname + (isOwnerMode ? '完成了批量调整' : '完成了批量加分')]);
       }
       if (success > 0) {
         that.closeBatchScore();
